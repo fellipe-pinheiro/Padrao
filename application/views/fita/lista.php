@@ -825,7 +825,6 @@ function formulario_submit(e) {
             alert('Erro ao Adicionar ou Editar');
         },
         complete:function(){
-            alert("complte");
             enable_button_salvar();
         }
     });
@@ -934,8 +933,8 @@ function disable_buttons() {
     $("#deletar").attr("disabled", true);
 }
 function disable_button_salvar(){
-    $("button[type='submit']").text('Salvando...');
-    $("button[type='submit']").attr('disabled', true);
+    $('.btnSubmit').text('Salvando...');
+    $('.btnSubmit').attr('disabled', true);
 }
 function enable_button_salvar() {
     $('.btnSubmit').text('Salvar');

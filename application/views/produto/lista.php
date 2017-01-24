@@ -8,32 +8,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="panel-body">
         <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
         <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-default" data-toggle="modal" href='#md_filtro'><span class="glyphicon glyphicon-search"></span></button>
-        <button type="button" class="btn btn-default btn-reset">Limpar Filtro</button>
-        <a class="btn btn-default" href="<?= base_url('produto_categoria') ?>">Categoria</a>
         <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>  
-        <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_produto" class="table display compact table-bordered " cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Categoria</th>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fbody">
-                    </tbody>
-                </table>
+        <hr>
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#tab_produto" aria-controls="tab_produto" role="tab" data-toggle="tab">Produto</a>
+                </li>
+                <li role="presentation">
+                    <a href="#tab_categoria" aria-controls="tab_categoria" role="tab" data-toggle="tab">Categoria</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="tab_produto">
+                    <div class="row">
+                        <div class="col-sm-12 table-responsive">
+                            <table id="tb_produto" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Categoria</th>
+                                        <th>Nome</th>
+                                        <th>Descrição</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="tab_categoria">
+                    <div class="row">
+                        <div class="col-sm-12 table-responsive">
+                            <table id="tb_categoria" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Descrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_form">
+<div class="modal fade" id="md_form_produto">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -54,11 +85,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-sm-10">
                         <select name="produto_categoria" id="produto_categoria" class="form-control" >
                             <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['produto_categoria'] as $key => $value) { 
+                            <?php foreach ($dados['produto_categoria'] as $key => $value) {
                                 ?>
-                                <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                <?php 
-                            } 
+                                <option value="<?= $value->id ?>"><?= $value->nome ?></option>
+                                <?php
+                            }
                             ?>
                         </select>
                         <span class="help-block"></span>
@@ -101,7 +132,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div class="modal fade" id="md_filtro">
+<div class="modal fade" id="md_form_categoria">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Categoria de produtos</h4>
+            </div>
+            <?= form_open("#", 'class="form-horizontal" id="form_categoria" role="form"') ?>
+            <div class="modal-body form">
+                <!--ID-->
+                <?= form_hidden('id') ?>
+
+                <!--Nome-->
+                <div class="form-group">
+                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                    <div class="col-sm-10">
+                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <!--Descrição-->
+                <div class="form-group">
+                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
+                    <div class="col-sm-10">
+                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+            </div>
+            <?= form_close() ?>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="md_filtro_produto">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,81 +180,117 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h4 class="modal-title">Filtro</h4>
             </div>
             <div class="modal-body">
-                <form id="form-filter" class="form-horizontal">
+                <form id="form-filter-produto" class="form-horizontal">
                     <div class="form-group">
-                        <label for="nome" class="col-sm-3 control-label">ID</label>
+                        <label for="filtro_categoria" class="col-sm-3 control-label">Categoria</label>
                         <div class="col-sm-9">
-                            <input type="number" min="0" class="form-control" id="filtro_produto_id" placeholder="ID">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nome" class="col-sm-3 control-label">Categoria</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="filtro_categoria" placeholder="Categoria">
+                            <select id="filtro_categoria" class="form-control selectpicker" data-live-search="true" autofocus="true">
+                                <option value="">Selecione</option>
+                                <?php foreach ($dados['produto_categoria'] as $key => $value) { 
+                                    ?>
+                                    <option value="<?=$value->nome?>"><?=$value->nome?></option>
+                                    <?php 
+                                } 
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="nome" class="col-sm-3 control-label">Produto</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="filtro_produto" placeholder="Produto">
+                            <select id="filtro_produto" class="form-control selectpicker" data-live-search="true">
+                                <option value="">Selecione</option>
+                                <?php foreach ($dados['produto'] as $key => $value) { 
+                                    ?>
+                                    <option value="<?=$value->nome?>"><?=$value->nome?></option>
+                                    <?php 
+                                } 
+                                ?>
+                            </select>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <button type="button" id="btn-filter" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
+                <button type="button" class="btn btn-default" onclick="filtro('produto','reset')">Limpar Filtro</button>
+                <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto','filtrar')">
+                    <span class="glyphicon glyphicon-filter"></span>
+                </button>
             </div>
         </div>
     </div>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
+<style>
+    .tab-pane{
+        margin-top: 30px;
+    }
+</style>
 <script type="text/javascript">
-    $(document).ready(function() {
-        tabela = $("#tabela_produto").DataTable({
+
+    var tb_produto;
+    var tb_categoria;
+    var tab_active;
+    var dataTable;
+    var md_form;
+    var modal_title;
+    var url_edit;
+    var save_method;
+    var url_add;
+    var url_update;
+    var form;
+
+    $(document).ready(function () {
+        tb_produto = $("#tb_produto").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
+                {
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
+                },
+                {
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                }
+                    ],
+                    fade: true
             },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+            {   
+                text: 'Filtro',
+                action: function () {
+                    $("#md_filtro_produto").modal('show');
+                }
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -193,52 +300,119 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ajax: {
                 url: "<?= base_url('produto/ajax_list') ?>",
                 type: "POST",
-                data: function ( data ) {
-                    data.filtro_produto_id = $('#filtro_produto_id').val();
+                data: function (data) {
                     data.filtro_categoria = $('#filtro_categoria').val();
                     data.filtro_produto = $('#filtro_produto').val();
                 },
             },
             columns: [
-            {data: "id","visible": true},
-            {data: "produto_categoria","visible": true},
-            {data: "nome","visible": true},
-            {data: "descricao","visible": true},
-            {data: "valor","visible": true},
+            {data: "id","visible": false},
+                {data: "produto_categoria", "visible": true},
+                {data: "nome", "visible": true},
+            {data: "descricao","visible": true,"orderable": false},
+            {data: "valor","visible": true,"orderable": false}
             ],
         });
-        // Resaltar a linha selecionada
-        $("#tabela_produto tbody").on("click", "tr", function () {
-            if ($(this).hasClass("selected")) {
-                $(this).removeClass("selected");
-                disable_buttons();
-            }
-            else {
-                tabela.$("tr.selected").removeClass("selected");
-                $(this).addClass("selected");
-                enable_buttons();
-            }
-        });
-        $('#btn-filter').click(function(){
-            tabela.ajax.reload(null,false);
-            $("#md_filtro").modal('hide');
-        });
+        if(!get_tab_active()){
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        $("a[href='#tab_produto']").click(function () {
 
-        $('.btn-reset').click(function(){
-            $('#form-filter')[0].reset();
-            tabela.ajax.reload(null,false);
+            tb_produto.ajax.reload(null, false);
         });
-        $("#adicionar").click(function(event) {
+        $("a[href='#tab_categoria']").click(function () {
+            if (!is_datatable_exists("#tb_categoria")) {
+                tb_categoria = $("#tb_categoria").DataTable({
+                    scrollX: true,
+                    scrollY:"500px",
+                    scrollCollapse: true,
+                    dom: 'lBfrtip',
+                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
+                    buttons: [
+                    {   
+                        extend:'colvis',
+                        text:'Visualizar colunas'
+                    },
+                    {
+                        extend: 'collection',
+                        text: 'Exportar',
+                        autoClose: true,
+                        buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        ],
+                        fade: true
+                    }
+                    ],
+                    language: {
+                        url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
+                    },
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "<?= base_url('produto_categoria/ajax_list') ?>",
+                        type: "POST"
+                    },
+                    columns: [
+                    {data: "id","visible": false},
+                    {data: "nome","visible": true},
+                    {data: "descricao","visible": true}
+                    ]
+                });
+            }else {
+                tb_categoria.ajax.reload(null, false);
+            }
+        });
+        //seleciona a linha da tabela
+        $("#tb_produto tbody").on("click", "tr", function () {
+            row_select(tb_produto,this);
+        });
+        $("#tb_categoria tbody").on("click", "tr", function () {
+            row_select(tb_categoria,this);
+        });
+        $("#adicionar").click(function (event) {
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
             reset_form();
 
             save_method = 'add';
             $("input[name='id']").val("");
-            $('.modal-title').text('Adicionar produto'); // Definir um titulo para o modal
-            $('#modal_form').modal('show'); // Abrir modal
+            $('.modal-title').text('Adicionar' + modal_title);
+            $(md_form).modal('show');
         });
         $("#editar").click(function () {
-            // Buscar ID da linha selecionada
-            var id = tabela.row(".selected").id();
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
+
+            var id = dataTable.row(".selected").id();
+
             if (!id) {
                 return;
             }
@@ -249,20 +423,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("input[name='id']").val(id);
             //Ajax Load data from ajax
             $.ajax({
-                url: "<?= base_url('produto/ajax_edit/') ?>" + id,
+                url: url_edit + id,
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
-                { 
-                    $.map(data.produto, function (value, index) {
-                        if($('[name="' + index + '"]').is("input, textarea")){
+                {   
+                    data = switch_data(tab_active,data);
+                    $.map(data, function (value, index) {
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
                             $('[name="' + index + '"]').val(value);
-                        }else if($('[name="' + index + '"]').is("select")){
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                        } else if ($('[name="' + index + '"]').is("select")) {
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });
-                    $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar produto');
+                    $(md_form).modal('show');
+                    $('.modal-title').text('Editar' + modal_title);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -271,19 +446,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         });
         $("#deletar").click(function () {
-
-            var id = tabela.row(".selected").id();
-            var nome = tabela.row(".selected").data().nome;
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
+            var id = dataTable.row(".selected").id();
+            var nome = dataTable.row(".selected").data().nome;
             if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
                 $.ajax({
-                    url: "<?= base_url('produto/ajax_delete/') ?>" + id,
+                    url: url_delete + id,
                     type: "POST",
                     dataType: "JSON",
                     success: function (data)
                     {
                         if (data.status) {
-                            reload_table();
-                        }else{
+                            reload_table(dataTable);
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -296,65 +474,152 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("#form_produto").submit(function (e) {
-            reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
-            var url;
-            if (save_method == 'add') {
-                url = "<?php echo site_url('produto/ajax_add') ?>";
-            } else {
-                url = "<?php echo site_url('produto/ajax_update') ?>";
-            }
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: $('#form_produto').serialize(),
-                dataType: "JSON",
-                success: function (data)
-                {
-                    if (data.status)
-                    {
-                        $('#modal_form').modal('hide');
-                        reload_table();
-                    }
-                    else
-                    {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Erro ao Adicionar ou Editar');
-                }
-            });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
-            reload_table();
-            e.preventDefault();
+
+            formulario_submit(e);
+        });
+        $("#form_categoria").submit(function (e) {
+
+            formulario_submit(e);
         });
     });
 
-function reload_table() {
-        tabela.ajax.reload(null, false); //reload datatable ajax
+function formulario_submit(e) {
+    if(!get_tab_active()){
+        console.log('Não foi possível carregar get_tab_active()');
+        return false;
     }
-    function reset_form() {
-        $('#form_produto')[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+    reset_errors();
+    disable_button_salvar();
+    var url_submit;
+    if (save_method == 'add') {
+        url_submit = url_add;
+    } else {
+        url_submit = url_update;
     }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+    $.ajax({
+        url: url_submit,
+        type: "POST",
+        data: $(form).serialize(),
+        dataType: "JSON",
+        success: function (data)
+        {
+            if (data.status)
+            {
+                $(md_form).modal('hide');
+                reload_table(dataTable);
+            }
+            else
+            {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Erro ao Adicionar ou Editar');
+        }
+    });
+    enable_button_salvar();
+    reload_table(dataTable);
+    e.preventDefault();
+}
+function get_tab_active() {
+    tab_active = $(".nav-tabs li.active a")[0].hash;
+    switch(tab_active) {
+        case '#tab_produto':
+        dataTable = tb_produto;
+        md_form = '#md_form_produto';
+        modal_title = ' produto';
+        url_edit = "<?= base_url('produto/ajax_edit/') ?>";
+        url_add = "<?php echo site_url('produto/ajax_add') ?>";
+        url_update = "<?php echo site_url('produto/ajax_update') ?>";
+        url_delete = "<?= base_url('produto/ajax_delete/') ?>";
+        form = '#form_produto';
+        return true;
+        break;
+        case '#tab_categoria':
+        dataTable = tb_categoria;
+        md_form = '#md_form_categoria';
+        modal_title = ' Categoria';
+        url_edit = "<?= base_url('produto_categoria/ajax_edit/') ?>";
+        url_add = "<?php echo site_url('produto_categoria/ajax_add') ?>";
+        url_update = "<?php echo site_url('produto_categoria/ajax_update') ?>";
+        url_delete = "<?= base_url('produto_categoria/ajax_delete/') ?>";
+        form = '#form_categoria';
+        return true;
+        break;
+        default:
+        return false;    
     }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
+}
+function switch_data(tab_active,data) {
+    switch(tab_active){
+        case '#tab_produto':
+        return data.produto;
+        break;
+        case '#tab_categoria':
+        return data.produto_categoria;
+        break;
     }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+}
+function row_select(table,tr) {
+    if ($(tr).hasClass("selected")) {
+        $(tr).removeClass("selected");
+        disable_buttons();
     }
+    else {
+        table.$("tr.selected").removeClass("selected");
+        $(tr).addClass("selected");
+        enable_buttons();
+    }
+}
+function reload_table(tabela) {
+
+    tabela.ajax.reload(null, false);
+}
+function reset_form() {
+    $(form)[0].reset();
+    $('.form-group').removeClass('has-error');
+    $('.help-block').empty();
+}
+function reset_errors() {
+    $('.form-group').removeClass('has-error');
+    $('.help-block').empty();
+}
+function enable_buttons() {
+    $("#editar").attr("disabled", false);
+    $("#deletar").attr("disabled", false);
+}
+function disable_buttons() {
+    $("#editar").attr("disabled", true);
+    $("#deletar").attr("disabled", true);
+}
+function disable_button_salvar(){
+    $('.btnSubmit').text('Salvando...');
+    $('.btnSubmit').attr('disabled', true);
+}
+function enable_button_salvar() {
+    $('.btnSubmit').text('Salvar');
+    $('.btnSubmit').attr('disabled', false);
+}
+function filtro(tabela,acao) {
+    if(!get_tab_active()){
+        console.log('Não foi possível carregar get_tab_active()');
+        return false;
+    }
+    if(acao === 'filtrar'){
+        dataTable.ajax.reload(null,false);
+        $("#md_filtro_produto").modal('hide');
+    }else if(acao === 'reset'){
+        $('#form-filter-produto')[0].reset();
+        $('#form-filter-produto ul>li.selected.active').removeClass('selected active');
+        //$($('#form-filter-produto ul li')[0]).addClass('selected active');
+        $(".filter-option").each(function(index, el) {
+            $(".filter-option").text("Selecione");
+        });
+        dataTable.ajax.reload(null,false);
+    }
+}
 </script>

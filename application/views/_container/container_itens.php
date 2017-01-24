@@ -81,7 +81,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="<?=$glyphicon?>"></span> <b>Papel</b></td>
 											<td><?=$container_papel->papel->nome?> : <?=$container_papel->gramatura?>g</td>
 											<td><?=$container_papel->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario($session_container->modelo,$session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario($session_container->modelo,$session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$session_container->quantidade)), 2, ",", ".") ?></span>
 											</td>
 											<td>
@@ -101,7 +101,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-align-justify"></span> <b><?=$container_papel->empastamento->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->empastamento->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_empastamento($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade),$container_papel->empastamento->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -112,7 +112,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-open-file"></span> <b><?=$container_papel->laminacao->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->laminacao->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_laminacao($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade),$container_papel->laminacao->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -123,7 +123,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-certificate"></span> <b><?=$container_papel->douracao->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->douracao->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_douracao($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_douracao($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_douracao($container_papel->calcula_valor_unitario_douracao($session_container->quantidade),$container_papel->douracao->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -134,7 +134,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-flash"></span> <b><?=$container_papel->corte_laser->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->corte_laser->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_corte_laser($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade),$container_papel->corte_laser->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -145,7 +145,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-object-align-bottom"></span> <b><?=$container_papel->relevo_seco->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->relevo_seco->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_relevo_seco($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade),$container_papel->relevo_seco->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -156,7 +156,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-th"></span> <b><?=$container_papel->corte_vinco->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->corte_vinco->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_corte_vinco($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade),$container_papel->corte_vinco->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -167,7 +167,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-unchecked"></span> <b><?=$container_papel->almofada->papel_acabamento->nome?></b></td>
 											<td></td>
 											<td><?=$container_papel->almofada->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_almofada($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_unitario_almofada($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_papel->calcula_valor_total_almofada($container_papel->calcula_valor_unitario_almofada($session_container->quantidade),$container_papel->almofada->quantidade), 2, ",", ".") ?></span></td>
 											<td></td>
 											<td></td>
@@ -187,7 +187,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
 											<td><?=$container_impressao->impressao->nome?> : <?=$container_impressao->impressao->impressao_area->nome?></td>
 											<td><?=$container_impressao->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></span>
 											</td>
 											<td>
@@ -216,7 +216,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-scissors"></span> <b>Acabamento</b></td>
 											<td><?=$container_acabamento->acabamento->nome?></td>
 											<td><?=$container_acabamento->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_acabamento->calcula_valor_unitario($session_container->quantidade), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_acabamento->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_acabamento->calcula_valor_total($container_acabamento->quantidade,$container_acabamento->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></span></td>
 											<td>
 												<button onclick="editar_acabamento_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_acabamento->acabamento->id?>,<?=$container_acabamento->quantidade?>,'<?=$container_acabamento->descricao?>')" id="" class="btn btn-default btn-sm">
@@ -244,7 +244,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-leaf"></span> <b>Acessório</b></td>
 											<td><?=$container_acessorio->acessorio->nome?></td>
 											<td><?=$container_acessorio->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_acessorio->calcula_valor_unitario(), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_acessorio->calcula_valor_unitario(), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_acessorio->calcula_valor_total($container_acessorio->quantidade,$container_acessorio->calcula_valor_unitario()), 2, ",", ".") ?></span></td>
 											<td>
 												<button onclick="editar_acessorio_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_acessorio->acessorio->id?>,<?=$container_acessorio->quantidade?>,'<?=$container_acessorio->descricao?>')" id="" class="btn btn-default btn-sm">
@@ -272,7 +272,7 @@ foreach ($arr as $key => $value) {
 											<td><span class="glyphicon glyphicon-tags"></span> <b>Fita</b></td>
 											<td><?=$container_fita->fita->fita_material->nome?>(<?=$container_fita->espessura?>mm) : <?=$container_fita->fita->fita_laco->nome?></td>
 											<td><?=$container_fita->quantidade?></td>
-											<td>R$ <span class="pull-right"><?= number_format($container_fita->calcula_valor_unitario(), 5, ",", ".") ?></span></td>
+											<td>R$ <span class="pull-right"><?= number_format($container_fita->calcula_valor_unitario(), 2, ",", ".") ?></span></td>
 											<td>R$ <span class="pull-right"><?= number_format($container_fita->calcula_valor_total($container_fita->quantidade,$container_fita->calcula_valor_unitario()), 2, ",", ".") ?></span></td>
 											<td>
 												<button onclick="editar_fita_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_fita->fita->id?>,<?=$container_fita->quantidade?>,'<?=$container_fita->descricao?>',<?=$container_fita->espessura?>)" id="" class="btn btn-default btn-sm">
