@@ -1,0 +1,16 @@
+@media screen {
+	header.onlyprint, footer.onlyprint{
+		display: none;
+	}
+}
+
+@media print {
+	header.onlyprint {
+		position: fixed;
+		top: 0;
+	}
+	footer.onlyprint {
+		position: fixed;
+		bottom: 0;
+	}
+}

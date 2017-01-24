@@ -1,0 +1,66 @@
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.affix + .container-fluid {
+    display:inline;
+    padding-top: 50px;
+}
+
+@media(min-width:767px) {
+    .navbar {
+        -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        transition: background .5s ease-in-out,padding .5s ease-in-out;
+    }
+    .top-nav-collapse {
+        padding: 0;
+    }
+}
+
+
+#header{
+    background: #ffffff;
+    background-image:url(../image/header-logo.png);
+    background-size: 200px 100%;
+}
+.section-header{
+    min-height: 193px;
+    font-size: 42px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff;
+    font-size: 50px;
+}
+.section-body{
+    min-height: 700px;
+}
+#introducao {
+    height:550px;
+}
+#outsourcing{
+    background-image: url(../image/outsourcing.png);
+    background-repeat: no-repeat;
+    background-size: auto,auto;
+}
+#outsourcing > div > div.row.section-header{
+    background-color: #0474bb;
+}
+#assistencia > div > div.row.section-header{
+    background-color: #0474bb;
+}
+#solucoes > div > div.row.section-header{
+    background-color: #0474bb;
+}
+#produtos > div > div.row.section-header{
+    background-color: #0474bb;
+}
+#institucional > div > div.row.section-header{
+    background-color: #0474bb;
+}
+#contato > div > div.row.section-header{
+    background-color: #0474bb;
+}

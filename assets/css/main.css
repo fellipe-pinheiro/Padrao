@@ -1,0 +1,18 @@
+/*formulário cliente*/
+.col_margin_left{
+	margin-left: 20px;
+}
+/*Orçamento*/
+.data_entrega{
+	display: none;
+	width: 110px;
+}
+.clickable{
+    cursor: pointer;   
+}
+/*Coloca um scroll no dropdown-menu*/
+.dropdown-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
