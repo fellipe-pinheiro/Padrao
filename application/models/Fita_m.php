@@ -199,4 +199,18 @@ class Fita_m extends CI_Model {
         return $object;
     }
 
+    public function get_espessura_json()
+    {
+        $arr = array(
+            '3'=>$this->valor_03mm,
+            '7'=>$this->valor_07mm,
+            '10'=>$this->valor_10mm,
+            '15'=>$this->valor_15mm,
+            '22'=>$this->valor_22mm,
+            '38'=>$this->valor_38mm,
+            '50'=>$this->valor_50mm,
+            '70'=>$this->valor_70mm,
+            );
+        return json_encode($arr);
+    }
 }

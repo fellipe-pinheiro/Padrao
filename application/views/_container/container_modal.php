@@ -20,7 +20,7 @@ $controller = $this->router->class;
 								<option value="" selected>Selecione</option>
 								<?php foreach ($dados['papel'] as $papel) {
 									?>
-									<option value="<?=$papel->id?>"><?=$papel->nome?></option>
+									<option data-gramatura='<?=$papel->papel_linha->get_object_json()?>' value="<?=$papel->id?>"><?=$papel->nome?></option>
 									<?php
 								}
 								?>
@@ -30,14 +30,16 @@ $controller = $this->router->class;
 						<div class="form-group col-sm-4">
 							<?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label')) ?>
 							<select name="gramatura" id="form_select_gramatura" class="form-control" required>
+								<option value="" selected="" disabled="disabled">Selecione</option>
 								<option value="80">80g</option>
 								<option value="120">120g</option>
 								<option value="180">170 / 180g</option>
-								<option value="250" selected="">240 / 250g</option>
+								<option value="250">240 / 250g</option>
 								<option value="300">300g</option>
 								<option value="350">350g</option>
 								<option value="400">400g</option>
 							</select>
+							<span class="help-block"></span>
 						</div>
 						<div class="form-group col-sm-12">
 							<div class="table-responsive">
@@ -371,7 +373,7 @@ $controller = $this->router->class;
 										?>
 										<?php if($fita_material->id == $fita->fita_material->id){
 											?>
-											<option value="<?=$fita->id?>"><?=$fita->fita_material->nome?> : <?=$fita->fita_laco->nome?></option>
+											<option data-espessura='<?=$fita->get_espessura_json();?>' value="<?=$fita->id?>"><?=$fita->fita_material->nome?> : <?=$fita->fita_laco->nome?></option>
 											<?php
 										}
 									}
@@ -387,7 +389,7 @@ $controller = $this->router->class;
 						<?= form_label('Espessura: ', 'espessura', array('class' => 'control-label')) ?>
 						<select name="espessura" id="form_select_espessura" class="form-control">
 							<!-- configurados no controller do convite -->
-							<option value="" selected="selected">Selecione</option>
+							<option value="" selected="selected" disabled="disabled">Selecione</option>
 							<option value="3"><?=$dados['fita_espessura']->esp_03mm?></option>
 							<option value="7"><?=$dados['fita_espessura']->esp_07mm?></option>
 							<option value="10"><?=$dados['fita_espessura']->esp_10mm?></option>

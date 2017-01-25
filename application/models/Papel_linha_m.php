@@ -185,4 +185,16 @@ class Papel_linha_m extends CI_Model {
         }
         return $object_lista;
     }
+    public function get_object_json(){
+        $arr = array(
+            "80" => $this->valor_80g,
+            "120" => $this->valor_120g,
+            "180" => $this->valor_180g,
+            "250" => $this->valor_250g,
+            "300" => $this->valor_300g,
+            "350" => $this->valor_350g,
+            "400" => $this->valor_400g,
+            );
+        return json_encode($arr);
+    }
 }

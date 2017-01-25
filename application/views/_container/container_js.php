@@ -74,6 +74,38 @@ $controller = $this->router->class;
 	}else{
 		console.log("controller não identificado");
 	}
+	$("#form_select_papel").change(function(){
+		var option = $(this).find('option:selected');
+		var gramatura = option.data("gramatura");
+		$("#form_select_gramatura").val('');
+		
+
+		$.each(gramatura, function(index, val) {
+			 if(val==0){
+			 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
+			 }else{
+			 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
+			 }
+		});
+
+	});
+	$("#form_select_fita").change(function(){
+		var option = $(this).find('option:selected');
+		var espessura = option.data("espessura");
+		$("#form_select_espessura").val('');
+
+		$.each(espessura, function(index, val) {
+			console.log("i: "+ index+" v:"+val);
+			console.log(val==0);
+
+			if(val==0){
+				$("#form_select_espessura option[value='"+index+"']").prop('disabled','disabled');
+			}else{
+				$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
+			}
+		});
+
+	});
 });
 	//Altera Itens
 	function alteraEmpastamento(){
@@ -679,6 +711,7 @@ $controller = $this->router->class;
 		});
 	}
 	function add_to_orcamento() {
+		disable_button_salvar();
 		$('.btnAddOrcamento').addClass('disabled');
 		console.log("Função: add_to_orcamento()");
 		if('<?=$controller?>' == "convite"){
@@ -698,7 +731,21 @@ $controller = $this->router->class;
 		.done(function(data) {
 			console.log("success");
 			if(data.status){
-				window.location.replace(redirect);
+				$.confirm({
+					title:'Salvando...',
+					content:'Deseja realmente salvar?',
+					confirmButton: 'Salvar',
+					cancelButton: 'Fechar',
+					confirm: function(){
+						window.location.replace(redirect);
+					},
+					cancel: function(){
+						$.alert({
+							title: '',
+							content: 'Operação cancelada com sucesso!',
+						});
+					}
+				});
 			}else{
 				if(data.location === 'mao_obra'){
 					$.confirm({
@@ -730,6 +777,7 @@ $controller = $this->router->class;
 		.always(function() {
 			console.log("complete");
 			$('.btnAddOrcamento').removeClass('disabled');
+			enable_button_salvar();
 		});
 	}
 	//Verifica se há um modelo e quantidade

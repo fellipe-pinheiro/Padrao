@@ -152,7 +152,6 @@ class Personalizado extends CI_Controller {
         }else{
             $this->session->orcamento->personalizado[] = $this->session->personalizado;
         }
-        $this->session->orcamento->personalizado[] = $this->session->personalizado;
         $this->session->unset_userdata('personalizado');
         redirect(base_url('orcamento'), 'auto');
     }
@@ -180,7 +179,7 @@ class Personalizado extends CI_Controller {
         $posicao = $this->uri->segment(3);
         $this->session->unset_userdata('personalizado');
         $this->__criar_personalizado();
-        $this->session->personalizado = $this->session->orcamento->personalizado[$posicao];
+        $this->session->personalizado = clone $this->session->orcamento->personalizado[$posicao];
         $this->session->personalizado->is_edicao = true;
         $this->session->personalizado->session_posicao = $posicao;
         redirect(base_url('personalizado'), 'auto');
@@ -303,12 +302,66 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_papel($owner,$papel,$quantidadePapel,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche);
         return $container;
     }
+    public function check_gramatura_valor(){
+        $this->form_validation->set_message('check_gramatura_valor','Gramatura não definida para este papel');
+
+        $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
+
+        switch ($this->input->post('gramatura')) {
+            case '80':
+                if($papel->papel_linha->valor_80g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '120':
+                if($papel->papel_linha->valor_120g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '180':
+                if($papel->papel_linha->valor_180g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '250':
+                if($papel->papel_linha->valor_250g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '300':
+                if($papel->papel_linha->valor_300g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '350':
+                if($papel->papel_linha->valor_80g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            case '400':
+                if($papel->papel_linha->valor_400g <= 0.00){
+                    return false;
+                }
+                return true;
+                break;
+            
+            default:
+                return false;
+                break;
+        }
+    }
     private function __validar_formulario_papel() {
         $data = array();
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('papel', 'Papel', 'required');
-        $this->form_validation->set_rules('gramatura', 'Gramatura', 'required');
+        $this->form_validation->set_rules('gramatura', 'Gramatura', 'required|callback_check_gramatura_valor');
         if(!empty($this->input->post('empastamento_adicionar'))){
             $this->form_validation->set_rules('empastamento_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
         }
