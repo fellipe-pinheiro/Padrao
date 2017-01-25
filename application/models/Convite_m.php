@@ -110,8 +110,9 @@ class Convite_m extends CI_Model {
 		return $this->calcula_mao_obra() * $this->quantidade;
 	}
 	public function calcula_custos_administrativos_unitario(){
-
-        return round(($this->calcula_unitario_parcial() /100) * $this->comissao,2);
+		$total = $this->calcula_unitario_parcial() / ( (100 - $this->comissao) / 100 );
+		$total = $total - $this->calcula_unitario_parcial();
+        return round($total,2);
     }
     public function calcula_custos_administrativos_total(){
 

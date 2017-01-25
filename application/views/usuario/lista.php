@@ -353,6 +353,7 @@ $view_data = $dados;
         $("#deletar").attr("disabled", true);
     }
     function reload_table() {
+        disable_buttons();
         table_usuario.ajax.reload(null, false); //reload datatable ajax
 
     }
