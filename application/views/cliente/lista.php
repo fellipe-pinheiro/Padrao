@@ -59,55 +59,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('cliente/cliente_modal'); ?>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tabela_cliente = $("#tabela_cliente").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], ['10 linhas', '25 linhas', '50 linhas', '100 linhas', "Todas"]],
             buttons: [
-            {
-                extend:'pageLength',
-            },
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'pageLength',
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ajax: {
                 url: "<?= base_url('cliente/ajax_list') ?>",
                 type: "POST",
-                data: function ( data ) {
+                data: function (data) {
                     data.filtro_id = $('#filtro_id').val();
                     data.filtro_email = $('#filtro_email').val();
                     data.filtro_nome = $('#filtro_nome').val();
@@ -130,66 +130,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
             },
             columns: [
-            {data: "id" , "visible": true},
-            {data: "nome" , "visible": true},
-            {data: "sobrenome" , "visible": true},
-            {data: "email" , "visible": true},
-            {data: "telefone" , "visible": true},
-            {data: "nome2" , "visible": false},
-            {data: "sobrenome2" , "visible": false},
-            {data: "email2" , "visible": false},
-            {data: "telefone2" , "visible": false},
-            {data: "rg" , "visible": true},
-            {data: "cpf" , "visible": true},
-            {data: "endereco" , "visible": false},
-            {data: "numero" , "visible": false},
-            {data: "complemento" , "visible": false},
-            {data: "estado" , "visible": false},
-            {data: "uf" , "visible": false},
-            {data: "bairro" , "visible": false},
-            {data: "cidade" , "visible": false},
-            {data: "cep" , "visible": false},
-            {data: "observacao" , "visible": false},
-            {data: "pessoa_tipo" , "visible": false},
-            {data: "razao_social" , "visible": true},
-            {data: "cnpj" , "visible": true},
-            {data: "ie" , "visible": false},
-            {data: "im" , "visible": false},
+                {data: "id", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "sobrenome", "visible": true},
+                {data: "email", "visible": true},
+                {data: "telefone", "visible": true},
+                {data: "nome2", "visible": false},
+                {data: "sobrenome2", "visible": false},
+                {data: "email2", "visible": false},
+                {data: "telefone2", "visible": false},
+                {data: "rg", "visible": true},
+                {data: "cpf", "visible": true},
+                {data: "endereco", "visible": false},
+                {data: "numero", "visible": false},
+                {data: "complemento", "visible": false},
+                {data: "estado", "visible": false},
+                {data: "uf", "visible": false},
+                {data: "bairro", "visible": false},
+                {data: "cidade", "visible": false},
+                {data: "cep", "visible": false},
+                {data: "observacao", "visible": false},
+                {data: "pessoa_tipo", "visible": false},
+                {data: "razao_social", "visible": true},
+                {data: "cnpj", "visible": true},
+                {data: "ie", "visible": false},
+                {data: "im", "visible": false},
             ]
         });
         //button filter event click
-        $('#btn-filter-cliente').click(function(){
+        $('#btn-filter-cliente').click(function () {
             //just reload table
-            tabela_cliente.ajax.reload(null,false);
+            tabela_cliente.ajax.reload(null, false);
             $("#md_filtro_cliente").modal('hide');
         });
         //button reset event click
-        $('.btn-reset').click(function(){
+        $('.btn-reset').click(function () {
             $('#form-filter-cliente')[0].reset();
             //just reload table
-            tabela_cliente.ajax.reload(null,false);
+            tabela_cliente.ajax.reload(null, false);
         });
-        $('#btn-profile').click(function(){
+        $('#btn-profile').click(function () {
             var id = tabela_cliente.row(".selected").id();
             if (!id) {
                 return;
             }
-            //$().redirect("<?=base_url('cliente/profile/')?>", {'id': id});
-            window.location.replace("<?=base_url('cliente/profile/')?>"+id);
+            //$().redirect("<?= base_url('cliente/profile/') ?>", {'id': id});
+            window.location.replace("<?= base_url('cliente/profile/') ?>" + id);
         });
         // Resaltar a linha selecionada
         $("#tabela_cliente tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
                 disable_buttons();
-            }
-            else {
+            } else {
                 tabela_cliente.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
                 enable_buttons();
             }
         });
-        $("#adicionar").click(function(event) {
+        $("#adicionar").click(function (event) {
             reset_form();
 
             save_method = 'add';
@@ -243,7 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         if (data.status) {
                             reload_table();
-                        }else{
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -256,9 +255,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("#form_cliente").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('cliente/ajax_add') ?>";
@@ -276,22 +274,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#md_form_cliente').modal('hide');
                         reload_table();
-                    }
-                    else
+                    } else
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
                             $('[name="' + index + '"]').next().text(value);
-                            var juridica = [ "razao_social", "cnpj", "ie", "im" ];
-                            var fisica = [ "nome", "sobrenome", "email", "telefone","nome2", "sobrenome2", "email2", "telefone2","rg","cpf" ];
-                            var endereco = ['endereco','numero','complemento','estado','uf','bairro','cidade','cep','observacao'];
-                            if($.inArray(index,fisica) !== -1){
+                            var juridica = ["razao_social", "cnpj", "ie", "im"];
+                            var fisica = ["nome", "sobrenome", "email", "telefone", "nome2", "sobrenome2", "email2", "telefone2", "rg", "cpf"];
+                            var endereco = ['endereco', 'numero', 'complemento', 'estado', 'uf', 'bairro', 'cidade', 'cep', 'observacao'];
+                            if ($.inArray(index, fisica) !== -1) {
                                 $('a[href="#fisica"]').children().addClass('glyphicon glyphicon-remove');
                             }
-                            if($.inArray(index,juridica) !== -1){
+                            if ($.inArray(index, juridica) !== -1) {
                                 $('a[href="#juridica"]').children().addClass('glyphicon glyphicon-remove');
                             }
-                            if($.inArray(index,endereco) !== -1){
+                            if ($.inArray(index, endereco) !== -1) {
                                 $('a[href="#endereco"]').children().addClass('glyphicon glyphicon-remove');
                             }
                         });
@@ -300,15 +297,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao Adicionar ou Editar');
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
             reload_table();
             e.preventDefault();
         });
     });
-function reload_table() {
+    function reload_table() {
         tabela_cliente.ajax.reload(null, false); //reload datatable ajax
     }
     function reset_form() {

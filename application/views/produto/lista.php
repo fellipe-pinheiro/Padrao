@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -186,11 +186,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-9">
                             <select id="filtro_categoria" class="form-control selectpicker" data-live-search="true" autofocus="true">
                                 <option value="">Selecione</option>
-                                <?php foreach ($dados['produto_categoria'] as $key => $value) { 
+                                <?php foreach ($dados['produto_categoria'] as $key => $value) {
                                     ?>
-                                    <option value="<?=$value->nome?>"><?=$value->nome?></option>
-                                    <?php 
-                                } 
+                                    <option value="<?= $value->nome ?>"><?= $value->nome ?></option>
+                                    <?php
+                                }
                                 ?>
                             </select>
                         </div>
@@ -200,11 +200,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-9">
                             <select id="filtro_produto" class="form-control selectpicker" data-live-search="true">
                                 <option value="">Selecione</option>
-                                <?php foreach ($dados['produto'] as $key => $value) { 
+                                <?php foreach ($dados['produto'] as $key => $value) {
                                     ?>
-                                    <option value="<?=$value->nome?>"><?=$value->nome?></option>
-                                    <?php 
-                                } 
+                                    <option value="<?= $value->nome ?>"><?= $value->nome ?></option>
+                                    <?php
+                                }
                                 ?>
                             </select>
                         </div>
@@ -213,8 +213,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default" onclick="filtro('produto','reset')">Limpar Filtro</button>
-                <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto','filtrar')">
+                <button type="button" class="btn btn-default" onclick="filtro('produto', 'reset')">Limpar Filtro</button>
+                <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto', 'filtrar')">
                     <span class="glyphicon glyphicon-filter"></span>
                 </button>
             </div>
@@ -281,15 +281,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             exportOptions: {
                                 columns: ':visible'
                             }
-                }
+                        }
                     ],
                     fade: true
-            },
-            {   
-                text: 'Filtro',
-                action: function () {
-                    $("#md_filtro_produto").modal('show');
-                }
+                },
+                {
+                    text: 'Filtro',
+                    action: function () {
+                        $("#md_filtro_produto").modal('show');
+                    }
                 }
             ],
             language: {
@@ -306,14 +306,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
             },
             columns: [
-            {data: "id","visible": false},
+                {data: "id", "visible": false},
                 {data: "produto_categoria", "visible": true},
                 {data: "nome", "visible": true},
-            {data: "descricao","visible": true,"orderable": false},
-            {data: "valor","visible": true,"orderable": false}
+                {data: "descricao", "visible": true, "orderable": false},
+                {data: "valor", "visible": true, "orderable": false}
             ],
         });
-        if(!get_tab_active()){
+        if (!get_tab_active()) {
             console.log('Não foi possível carregar get_tab_active()');
             return false;
         }
@@ -325,47 +325,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if (!is_datatable_exists("#tb_categoria")) {
                 tb_categoria = $("#tb_categoria").DataTable({
                     scrollX: true,
-                    scrollY:"500px",
+                    scrollY: "500px",
                     scrollCollapse: true,
                     dom: 'lBfrtip',
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas'
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
                         {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
+                            extend: 'colvis',
+                            text: 'Visualizar colunas'
                         },
                         {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        ],
-                        fade: true
-                    }
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                            ],
+                            fade: true
+                        }
                     ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -377,24 +377,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                    {data: "id","visible": false},
-                    {data: "nome","visible": true},
-                    {data: "descricao","visible": true}
+                        {data: "id", "visible": false},
+                        {data: "nome", "visible": true},
+                        {data: "descricao", "visible": true}
                     ]
                 });
-            }else {
+            } else {
                 tb_categoria.ajax.reload(null, false);
             }
         });
         //seleciona a linha da tabela
         $("#tb_produto tbody").on("click", "tr", function () {
-            row_select(tb_produto,this);
+            row_select(tb_produto, this);
         });
         $("#tb_categoria tbody").on("click", "tr", function () {
-            row_select(tb_categoria,this);
+            row_select(tb_categoria, this);
         });
         $("#adicionar").click(function (event) {
-            if(!get_tab_active()){
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -406,7 +406,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
-            if(!get_tab_active()){
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -427,8 +427,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
-                {   
-                    data = switch_data(tab_active,data);
+                {
+                    data = switch_data(tab_active, data);
                     $.map(data, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             $('[name="' + index + '"]').val(value);
@@ -446,7 +446,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         });
         $("#deletar").click(function () {
-            if(!get_tab_active()){
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -483,143 +483,143 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
 
-function formulario_submit(e) {
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
-    }
-    reset_errors();
-    disable_button_salvar();
-    var url_submit;
-    if (save_method == 'add') {
-        url_submit = url_add;
-    } else {
-        url_submit = url_update;
-    }
-    $.ajax({
-        url: url_submit,
-        type: "POST",
-        data: $(form).serialize(),
-        dataType: "JSON",
-        success: function (data)
-        {
-            if (data.status)
-            {
-                $(md_form).modal('hide');
-                reload_table(dataTable);
-            }
-            else
-            {
-                $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
-                });
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Erro ao Adicionar ou Editar');
+    function formulario_submit(e) {
+        disable_button_salvar();
+        if (!get_tab_active()) {
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
         }
-    });
-    enable_button_salvar();
-    reload_table(dataTable);
-    e.preventDefault();
-}
-function get_tab_active() {
-    tab_active = $(".nav-tabs li.active a")[0].hash;
-    switch(tab_active) {
-        case '#tab_produto':
-        dataTable = tb_produto;
-        md_form = '#md_form_produto';
-        modal_title = ' produto';
-        url_edit = "<?= base_url('produto/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('produto/ajax_add') ?>";
-        url_update = "<?php echo site_url('produto/ajax_update') ?>";
-        url_delete = "<?= base_url('produto/ajax_delete/') ?>";
-        form = '#form_produto';
-        return true;
-        break;
-        case '#tab_categoria':
-        dataTable = tb_categoria;
-        md_form = '#md_form_categoria';
-        modal_title = ' Categoria';
-        url_edit = "<?= base_url('produto_categoria/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('produto_categoria/ajax_add') ?>";
-        url_update = "<?php echo site_url('produto_categoria/ajax_update') ?>";
-        url_delete = "<?= base_url('produto_categoria/ajax_delete/') ?>";
-        form = '#form_categoria';
-        return true;
-        break;
-        default:
-        return false;    
-    }
-}
-function switch_data(tab_active,data) {
-    switch(tab_active){
-        case '#tab_produto':
-        return data.produto;
-        break;
-        case '#tab_categoria':
-        return data.produto_categoria;
-        break;
-    }
-}
-function row_select(table,tr) {
-    if ($(tr).hasClass("selected")) {
-        $(tr).removeClass("selected");
-        disable_buttons();
-    }
-    else {
-        table.$("tr.selected").removeClass("selected");
-        $(tr).addClass("selected");
-        enable_buttons();
-    }
-}
-function reload_table(tabela) {
-
-    tabela.ajax.reload(null, false);
-}
-function reset_form() {
-    $(form)[0].reset();
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function reset_errors() {
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function enable_buttons() {
-    $("#editar").attr("disabled", false);
-    $("#deletar").attr("disabled", false);
-}
-function disable_buttons() {
-    $("#editar").attr("disabled", true);
-    $("#deletar").attr("disabled", true);
-}
-function disable_button_salvar(){
-    $('.btnSubmit').text('Salvando...');
-    $('.btnSubmit').attr('disabled', true);
-}
-function enable_button_salvar() {
-    $('.btnSubmit').text('Salvar');
-    $('.btnSubmit').attr('disabled', false);
-}
-function filtro(tabela,acao) {
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
-    }
-    if(acao === 'filtrar'){
-        dataTable.ajax.reload(null,false);
-        $("#md_filtro_produto").modal('hide');
-    }else if(acao === 'reset'){
-        $('#form-filter-produto')[0].reset();
-        $('#form-filter-produto ul>li.selected.active').removeClass('selected active');
-        //$($('#form-filter-produto ul li')[0]).addClass('selected active');
-        $(".filter-option").each(function(index, el) {
-            $(".filter-option").text("Selecione");
+        reset_errors();
+        var url_submit;
+        if (save_method == 'add') {
+            url_submit = url_add;
+        } else {
+            url_submit = url_update;
+        }
+        $.ajax({
+            url: url_submit,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+            success: function (data)
+            {
+                if (data.status)
+                {
+                    $(md_form).modal('hide');
+                    reload_table(dataTable);
+                } else
+                {
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                        $('[name="' + index + '"]').next().text(value);
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Erro ao Adicionar ou Editar');
+            },
+            complete: function () {
+                enable_button_salvar();
+            }
         });
-        dataTable.ajax.reload(null,false);
+        reload_table(dataTable);
+        e.preventDefault();
     }
-}
+    function get_tab_active() {
+        tab_active = $(".nav-tabs li.active a")[0].hash;
+        switch (tab_active) {
+            case '#tab_produto':
+                dataTable = tb_produto;
+                md_form = '#md_form_produto';
+                modal_title = ' produto';
+                url_edit = "<?= base_url('produto/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('produto/ajax_add') ?>";
+                url_update = "<?php echo site_url('produto/ajax_update') ?>";
+                url_delete = "<?= base_url('produto/ajax_delete/') ?>";
+                form = '#form_produto';
+                return true;
+                break;
+            case '#tab_categoria':
+                dataTable = tb_categoria;
+                md_form = '#md_form_categoria';
+                modal_title = ' Categoria';
+                url_edit = "<?= base_url('produto_categoria/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('produto_categoria/ajax_add') ?>";
+                url_update = "<?php echo site_url('produto_categoria/ajax_update') ?>";
+                url_delete = "<?= base_url('produto_categoria/ajax_delete/') ?>";
+                form = '#form_categoria';
+                return true;
+                break;
+            default:
+                return false;
+        }
+    }
+    function switch_data(tab_active, data) {
+        switch (tab_active) {
+            case '#tab_produto':
+                return data.produto;
+                break;
+            case '#tab_categoria':
+                return data.produto_categoria;
+                break;
+        }
+    }
+    function row_select(table, tr) {
+        if ($(tr).hasClass("selected")) {
+            $(tr).removeClass("selected");
+            disable_buttons();
+        } else {
+            table.$("tr.selected").removeClass("selected");
+            $(tr).addClass("selected");
+            enable_buttons();
+        }
+    }
+    function reload_table(tabela) {
+
+        tabela.ajax.reload(null, false);
+    }
+    function reset_form() {
+        $(form)[0].reset();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function reset_errors() {
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function enable_buttons() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+    function disable_buttons() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
+    }
+    function disable_button_salvar() {
+        $('.btnSubmit').text('Salvando...');
+        $('.btnSubmit').attr('disabled', true);
+    }
+    function enable_button_salvar() {
+        $('.btnSubmit').text('Salvar');
+        $('.btnSubmit').attr('disabled', false);
+    }
+    function filtro(tabela, acao) {
+        if (!get_tab_active()) {
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        if (acao === 'filtrar') {
+            dataTable.ajax.reload(null, false);
+            $("#md_filtro_produto").modal('hide');
+        } else if (acao === 'reset') {
+            $('#form-filter-produto')[0].reset();
+            $('#form-filter-produto ul>li.selected.active').removeClass('selected active');
+            //$($('#form-filter-produto ul li')[0]).addClass('selected active');
+            $(".filter-option").each(function (index, el) {
+                $(".filter-option").text("Selecione");
+            });
+            dataTable.ajax.reload(null, false);
+        }
+    }
 </script>

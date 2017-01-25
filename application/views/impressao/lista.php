@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <a href="#tab_area" aria-controls="tab_area" role="tab" data-toggle="tab">Área de Impressão</a>
                 </li>
             </ul>
-            
+
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="tab_impressao">
@@ -94,11 +94,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-sm-10">
                         <select name="impressao_area" id="impressao_area" class="form-control" >
                             <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['impressao_area'] as $key => $value) { 
+                            <?php foreach ($dados['impressao_area'] as $key => $value) {
                                 ?>
-                                <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                <?php 
-                            } 
+                                <option value="<?= $value->id ?>"><?= $value->nome ?></option>
+                                <?php
+                            }
                             ?>
                         </select>
                         <span class="help-block"></span>
@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -192,94 +192,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_update;
     var form;
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         tb_impressao = $("#tb_impressao").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
-            ],
-            language: {
-                url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
-            },
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "<?= base_url('impressao/ajax_list') ?>",
-                type: "POST"
-            },
-            columns: [
-            {data: "id","visible": false},
-            {data: "nome","visible": true},
-            {data: "impressao_area","visible": true},
-            {data: "descricao","visible": false},
-            {data: "valor","visible": true},
-            ],
-        });
-        if(!get_tab_active()){
-            console.log('Não foi possível carregar get_tab_active()');
-            return false;
-        }
-        $("a[href='#tab_impressao']").click(function () {
-
-            tb_impressao.ajax.reload(null, false);
-        });
-        $("a[href='#tab_area']").click(function () {
-            if (!is_datatable_exists("#tb_area")) {
-                tb_area = $("#tb_area").DataTable({
-                    scrollX: true,
-                    scrollY:"500px",
-                    scrollCollapse: true,
-                    dom: 'lBfrtip',
-                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas'
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
                         {
                             extend: 'print',
                             exportOptions: {
@@ -304,9 +233,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 columns: ':visible'
                             }
                         },
-                        ],
-                        fade: true
-                    }
+                    ],
+                    fade: true
+                }
+            ],
+            language: {
+                url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
+            },
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "<?= base_url('impressao/ajax_list') ?>",
+                type: "POST"
+            },
+            columns: [
+                {data: "id", "visible": false},
+                {data: "nome", "visible": true},
+                {data: "impressao_area", "visible": true},
+                {data: "descricao", "visible": false},
+                {data: "valor", "visible": true},
+            ],
+        });
+        if (!get_tab_active()) {
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        $("a[href='#tab_impressao']").click(function () {
+
+            tb_impressao.ajax.reload(null, false);
+        });
+        $("a[href='#tab_area']").click(function () {
+            if (!is_datatable_exists("#tb_area")) {
+                tb_area = $("#tb_area").DataTable({
+                    scrollX: true,
+                    scrollY: "500px",
+                    scrollCollapse: true,
+                    dom: 'lBfrtip',
+                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
+                    buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Visualizar colunas'
+                        },
+                        {
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                            ],
+                            fade: true
+                        }
                     ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -318,24 +318,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                    {data: "id","visible": false},
-                    {data: "nome","visible": true},
-                    {data: "descricao","visible": true,"orderable": false}
+                        {data: "id", "visible": false},
+                        {data: "nome", "visible": true},
+                        {data: "descricao", "visible": true, "orderable": false}
                     ]
                 });
-            }else {
+            } else {
                 tb_area.ajax.reload(null, false);
             }
         });
         //seleciona a linha da tabela
         $("#tb_impressao tbody").on("click", "tr", function () {
-            row_select(tb_impressao,this);
+            row_select(tb_impressao, this);
         });
         $("#tb_area tbody").on("click", "tr", function () {
-            row_select(tb_area,this);
+            row_select(tb_area, this);
         });
-        $("#adicionar").click(function(event) {
-            if(!get_tab_active()){
+        $("#adicionar").click(function (event) {
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -347,7 +347,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
-            if(!get_tab_active()){
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -367,13 +367,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
-                {   
-                    data = switch_data(tab_active,data);
+                {
+                    data = switch_data(tab_active, data);
                     $.map(data, function (value, index) {
-                        if($('[name="' + index + '"]').is("input, textarea")){
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
                             $('[name="' + index + '"]').val(value);
-                        }else if($('[name="' + index + '"]').is("select")){
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                        } else if ($('[name="' + index + '"]').is("select")) {
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });
                     $(md_form).modal('show');
@@ -386,7 +386,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         });
         $("#deletar").click(function () {
-            if(!get_tab_active()){
+            if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
@@ -401,7 +401,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         if (data.status) {
                             reload_table(dataTable);
-                        }else{
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -419,128 +419,121 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#form_area").submit(function (e) {
             formulario_submit(e);
         });
-        $(".check_filter_dirty").change(function(event) {
+        $(".check_filter_dirty").change(function (event) {
             check_filter_dirty();
         });
     });
-function formulario_submit(e) {
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
-    }
-    reset_errors();
-    disable_button_salvar();
-    var url_submit;
-    if (save_method == 'add') {
-        url_submit = url_add;
-    } else {
-        url_submit = url_update;
-    }
-    $.ajax({
-        url: url_submit,
-        type: "POST",
-        data: $(form).serialize(),
-        dataType: "JSON",
-        success: function (data)
-        {
-            if (data.status)
-            {
-                $(md_form).modal('hide');
-                reload_table(dataTable);
-            }
-            else
-            {
-                $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
-                });
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Erro ao Adicionar ou Editar');
+    function formulario_submit(e) {
+        disable_button_salvar();
+        if (!get_tab_active()) {
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
         }
-    });
-    enable_button_salvar();
-    reload_table(dataTable);
-    e.preventDefault();
-}
-function get_tab_active() {
-    tab_active = $(".nav-tabs li.active a")[0].hash;
-    switch(tab_active) {
-        case '#tab_impressao':
-        dataTable = tb_impressao;
-        md_form = '#md_form_impressao';
-        modal_title = ' Impressão';
-        url_edit = "<?= base_url('impressao/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('impressao/ajax_add') ?>";
-        url_update = "<?php echo site_url('impressao/ajax_update') ?>";
-        url_delete = "<?= base_url('impressao/ajax_delete/') ?>";
-        form = '#form_impressao';
-        return true;
-        break;
-        case '#tab_area':
-        dataTable = tb_area;
-        md_form = '#md_form_area';
-        modal_title = ' Área de Impressão';
-        url_edit = "<?= base_url('impressao_area/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('impressao_area/ajax_add') ?>";
-        url_update = "<?php echo site_url('impressao_area/ajax_update') ?>";
-        url_delete = "<?= base_url('impressao_area/ajax_delete/') ?>";
-        form = '#form_area';
-        return true;
-        break;
-        default:
-        return false;    
+        reset_errors();
+        var url_submit;
+        if (save_method == 'add') {
+            url_submit = url_add;
+        } else {
+            url_submit = url_update;
+        }
+        $.ajax({
+            url: url_submit,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+            success: function (data)
+            {
+                if (data.status)
+                {
+                    $(md_form).modal('hide');
+                    reload_table(dataTable);
+                } else
+                {
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                        $('[name="' + index + '"]').next().text(value);
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Erro ao Adicionar ou Editar');
+            },
+            complete: function () {
+                enable_button_salvar();
+            }
+        });
+        enable_button_salvar();
+        reload_table(dataTable);
+        e.preventDefault();
     }
-}
-function switch_data(tab_active,data) {
-    switch(tab_active){
-        case '#tab_impressao':
-        return data.impressao;
-        break;
-        case '#tab_area':
-        return data.impressao_area;
-        break;
+    function get_tab_active() {
+        tab_active = $(".nav-tabs li.active a")[0].hash;
+        switch (tab_active) {
+            case '#tab_impressao':
+                dataTable = tb_impressao;
+                md_form = '#md_form_impressao';
+                modal_title = ' Impressão';
+                url_edit = "<?= base_url('impressao/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('impressao/ajax_add') ?>";
+                url_update = "<?php echo site_url('impressao/ajax_update') ?>";
+                url_delete = "<?= base_url('impressao/ajax_delete/') ?>";
+                form = '#form_impressao';
+                return true;
+                break;
+            case '#tab_area':
+                dataTable = tb_area;
+                md_form = '#md_form_area';
+                modal_title = ' Área de Impressão';
+                url_edit = "<?= base_url('impressao_area/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('impressao_area/ajax_add') ?>";
+                url_update = "<?php echo site_url('impressao_area/ajax_update') ?>";
+                url_delete = "<?= base_url('impressao_area/ajax_delete/') ?>";
+                form = '#form_area';
+                return true;
+                break;
+            default:
+                return false;
+        }
     }
-}
-function row_select(table,tr) {
-    if ($(tr).hasClass("selected")) {
-        $(tr).removeClass("selected");
-        disable_buttons();
+    function switch_data(tab_active, data) {
+        switch (tab_active) {
+            case '#tab_impressao':
+                return data.impressao;
+                break;
+            case '#tab_area':
+                return data.impressao_area;
+                break;
+        }
     }
-    else {
-        table.$("tr.selected").removeClass("selected");
-        $(tr).addClass("selected");
-        enable_buttons();
+    function row_select(table, tr) {
+        if ($(tr).hasClass("selected")) {
+            $(tr).removeClass("selected");
+            disable_buttons();
+        } else {
+            table.$("tr.selected").removeClass("selected");
+            $(tr).addClass("selected");
+            enable_buttons();
+        }
     }
-}
-function reload_table(tabela) {
-    tabela.ajax.reload(null, false);
-}
-function reset_form() {
-    $(form)[0].reset();
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function reset_errors() {
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function enable_buttons() {
-    $("#editar").attr("disabled", false);
-    $("#deletar").attr("disabled", false);
-}
-function disable_buttons() {
-    $("#editar").attr("disabled", true);
-    $("#deletar").attr("disabled", true);
-}
-function disable_button_salvar(){
-    $('.btnSubmit').text('Salvando...');
-    $('.btnSubmit').attr('disabled', true);
-}
-function enable_button_salvar() {
-    $('.btnSubmit').text('Salvar');
-    $('.btnSubmit').attr('disabled', false);
-}
+    function reload_table(tabela) {
+        tabela.ajax.reload(null, false);
+    }
+    function reset_form() {
+        $(form)[0].reset();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function reset_errors() {
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function enable_buttons() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+    function disable_buttons() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
+    }
 </script>

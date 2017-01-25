@@ -78,15 +78,10 @@ $banco_dados = 1;
 
 switch (EXECUCAO) {
   case 0: // Comunitário
-    $hostname = 'localhost';
-    $username = 'root';
-    $password = '';
-    $database = 'studio_cg';
-    
-    $hostname = 'studio_cg.mysql.dbaas.com.br';
-    $username = 'studio_cg';
-    $password = 'uninove10';
-    $database = 'studio_cg';
+    $hostname = '50.116.112.138';
+    $username = 'orcas394_db_dev';
+    $password = 'sDBdb_dev2017';
+    $database = 'orcas394_db_dev';
     break;
   case 1: // Produção
     $hostname = '50.116.112.138';

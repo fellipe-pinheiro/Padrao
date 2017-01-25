@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Comissão / BV (%): ', 'comissao', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input(array('name'=>'comissao','type'=>'number', 'id'=>'comissao', 'class'=>'form-control', 'placeholder'=>'Comissão em porcentagem. EX: 10'), '') ?>
+                        <?= form_input(array('name' => 'comissao', 'type' => 'number', 'id' => 'comissao', 'class' => 'form-control', 'placeholder' => 'Comissão em porcentagem. EX: 10'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -117,8 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" id="" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -127,50 +126,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('assessor/assessor_modal'); ?>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tabela_assessor = $("#tabela_assessor").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -181,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ajax: {
                 url: "<?= base_url('assessor/ajax_list') ?>",
                 type: "POST",
-                data: function ( data ) {
+                data: function (data) {
                     data.filtro_id = $('#filtro_assessor_id').val();
                     data.filtro_nome = $('#filtro_assessor_nome').val();
                     data.filtro_sobrenome = $('#filtro_assessor_sobrenome').val();
@@ -190,41 +189,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
             },
             columns: [
-            {data: "id","visible": true},
-            {data: "nome","visible": true},
-            {data: "sobrenome","visible": true},
-            {data: "empresa","visible": true},
-            {data: "telefone","visible": true},
-            {data: "email","visible": true},
-            {data: "comissao","visible": true},
-            {data: "descricao","visible": true},
+                {data: "id", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "sobrenome", "visible": true},
+                {data: "empresa", "visible": true},
+                {data: "telefone", "visible": true},
+                {data: "email", "visible": true},
+                {data: "comissao", "visible": true},
+                {data: "descricao", "visible": true},
             ]
         });
         //button filter event click
-        $('#btn-filter-assessor').click(function(){
+        $('#btn-filter-assessor').click(function () {
             //just reload table
-            tabela_assessor.ajax.reload(null,false);
+            tabela_assessor.ajax.reload(null, false);
             $("#md_filtro_assessor").modal('hide');
         });
         //button reset event click
-        $('.btn-reset').click(function(){
+        $('.btn-reset').click(function () {
             $('#form-filter-assessor')[0].reset();
             //just reload table
-            tabela_assessor.ajax.reload(null,false);
+            tabela_assessor.ajax.reload(null, false);
         });
         // Resaltar a linha selecionada
         $("#tabela_assessor tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected ")) {
                 $(this).removeClass("selected ");
                 disable_buttons();
-            }
-            else {
+            } else {
                 tabela_assessor.$("tr.selected ").removeClass("selected ");
                 $(this).addClass("selected ");
                 enable_buttons();
             }
         });
-        $("#adicionar").click(function(event) {
+        $("#adicionar").click(function (event) {
             reset_form();
 
             save_method = 'add';
@@ -277,7 +275,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         if (data.status) {
                             reload_table();
-                        }else{
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -290,9 +288,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("#form_assessor").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('assessor/ajax_add') ?>";
@@ -310,8 +307,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#modal_form').modal('hide');
                         reload_table();
-                    }
-                    else
+                    } else
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').parent().parent().addClass('has-error');
@@ -322,16 +318,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao Adicionar ou Editar');
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
             reload_table();
             e.preventDefault();
         });
     });
 
-function reload_table() {
+    function reload_table() {
         tabela_assessor.ajax.reload(null, false); //reload datatable ajax
     }
     function reset_form() {

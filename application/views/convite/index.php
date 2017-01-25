@@ -34,8 +34,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a onclick="convite_modal('inserir','','')" href="javascript:void(0)">Novo convite</a></li>
 							<li><a onclick="mao_obra_modal('inserir',<?=$mao_id?>)" href="javascript:void(0)"><?=$mao_txt ?> mão de obra</a></li>
 							<li><a onclick="descricao_modal()" href="javascript:void(0)">Adicionar descrição</a></li>
-							<li role="separator" class="divider"></li>
-							<li class="btnAddOrcamento"><a onclick="add_to_orcamento()" href="javascript:void(0)">Adicionar ao orçamento</a></li>
 						</ul>
 					</div>
 					<div class="table-responsive">
@@ -105,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_unitario(),2,',','.')?></span></th>
 									<th>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_total(),2,',','.')?></span></th>
 									<th></th>
-									<th></th>
+									<th><button onclick="add_to_orcamento()" type="button" class="btn btn-success btn-sm btnSubmit">Salvar</button></th>
 								</tr>
 							</tfoot>
 						</table>

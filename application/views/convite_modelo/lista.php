@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-    <h3 class="panel-title">Modelos de convites</h3>
+        <h3 class="panel-title">Modelos de convites</h3>
     </div>
     <div class="panel-body">
         <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'codigo','type'=>'text', 'id'=>'codigo', 'class'=>'form-control', 'placeholder'=>'Código'), '') ?>
+                        <?= form_input(array('name' => 'codigo', 'type' => 'text', 'id' => 'codigo', 'class' => 'form-control', 'placeholder' => 'Código'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Altura Final (mm): ', 'altura_final', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'altura_final','type'=>'number', 'id'=>'altura_final', 'class'=>'form-control', 'placeholder'=>'Altura Final  do convite pronto'), '') ?>
+                        <?= form_input(array('name' => 'altura_final', 'type' => 'number', 'id' => 'altura_final', 'class' => 'form-control', 'placeholder' => 'Altura Final  do convite pronto'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Largura Final (mm): ', 'largura_final', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'largura_final','type'=>'number', 'id'=>'largura_final', 'class'=>'form-control', 'placeholder'=>'Largura Final do convite pronto'), '') ?>
+                        <?= form_input(array('name' => 'largura_final', 'type' => 'number', 'id' => 'largura_final', 'class' => 'form-control', 'placeholder' => 'Largura Final do convite pronto'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Cartão Altura (mm): ', 'cartao_altura', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'cartao_altura','type'=>'number', 'id'=>'cartao_altura', 'class'=>'form-control', 'placeholder'=>'Cartão Altura'), '') ?>
+                        <?= form_input(array('name' => 'cartao_altura', 'type' => 'number', 'id' => 'cartao_altura', 'class' => 'form-control', 'placeholder' => 'Cartão Altura'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Cartão Largura (mm): ', 'cartao_largura', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'cartao_largura','type'=>'number', 'id'=>'cartao_largura', 'class'=>'form-control', 'placeholder'=>'Cartão Largura'), '') ?>
+                        <?= form_input(array('name' => 'cartao_largura', 'type' => 'number', 'id' => 'cartao_largura', 'class' => 'form-control', 'placeholder' => 'Cartão Largura'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Envelope Altura (mm): ', 'envelope_altura', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'envelope_altura','type'=>'number', 'id'=>'envelope_altura', 'class'=>'form-control', 'placeholder'=>'Envelope Altura'), '') ?>
+                        <?= form_input(array('name' => 'envelope_altura', 'type' => 'number', 'id' => 'envelope_altura', 'class' => 'form-control', 'placeholder' => 'Envelope Altura'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Envelope Largura (mm): ', 'envelope_largura', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'envelope_largura','type'=>'number', 'id'=>'envelope_largura', 'class'=>'form-control', 'placeholder'=>'Envelope Largura'), '') ?>
+                        <?= form_input(array('name' => 'envelope_largura', 'type' => 'number', 'id' => 'envelope_largura', 'class' => 'form-control', 'placeholder' => 'Envelope Largura'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Empastamento borda (mm): ', 'empastamento_borda', array('class' => 'control-label col-sm-4')) ?>
                     <div class="col-sm-8">
-                        <?= form_input(array('name'=>'empastamento_borda','type'=>'number', 'id'=>'empastamento_borda', 'class'=>'form-control', 'placeholder'=>'Empastamento borda (mm)'), '') ?>
+                        <?= form_input(array('name' => 'empastamento_borda', 'type' => 'number', 'id' => 'empastamento_borda', 'class' => 'form-control', 'placeholder' => 'Empastamento borda (mm)'), '') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-default" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -152,52 +152,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tabela = $("#tabela_convite_modelo").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -210,17 +210,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": true},
-            {data: "codigo","visible": true},
-            {data: "nome","visible": true},
-            {data: "altura_final","visible": true},
-            {data: "largura_final","visible": true},
-            {data: "cartao_altura","visible": true},
-            {data: "cartao_largura","visible": true},
-            {data: "envelope_altura","visible": true},
-            {data: "envelope_largura","visible": true},
-            {data: "empastamento_borda","visible": true},
-            {data: "descricao","visible": true}
+                {data: "id", "visible": false},
+                {data: "codigo", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "altura_final", "visible": true},
+                {data: "largura_final", "visible": true},
+                {data: "cartao_altura", "visible": true},
+                {data: "cartao_largura", "visible": true},
+                {data: "envelope_altura", "visible": true},
+                {data: "envelope_largura", "visible": true},
+                {data: "empastamento_borda", "visible": true},
+                {data: "descricao", "visible": false}
             ]
         });
         // Resaltar a linha selecionada
@@ -228,14 +228,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
                 disable_buttons();
-            }
-            else {
+            } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
                 enable_buttons();
             }
         });
-        $("#adicionar").click(function(event) {
+        $("#adicionar").click(function (event) {
             reset_form();
 
             save_method = 'add';
@@ -289,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         if (data.status) {
                             reload_table();
-                        }else{
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -302,9 +301,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("#form_convite_modelo").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('convite_modelo/ajax_add') ?>";
@@ -322,8 +320,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#modal_form').modal('hide');
                         reload_table();
-                    }
-                    else
+                    } else
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').parent().parent().addClass('has-error');
@@ -334,33 +331,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao Adicionar ou Editar');
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
             reload_table();
             e.preventDefault();
         });
     });
 
-function reload_table() {
-    tabela.ajax.reload(null, false);
-}
-function reset_form() {
-    $('#form_convite_modelo')[0].reset();
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function reset_errors() {
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function enable_buttons() {
-    $("#editar").attr("disabled", false);
-    $("#deletar").attr("disabled", false);
-}
-function disable_buttons() {
-    $("#editar").attr("disabled", true);
-    $("#deletar").attr("disabled", true);
-}
+    function reload_table() {
+        tabela.ajax.reload(null, false);
+    }
+    function reset_form() {
+        $('#form_convite_modelo')[0].reset();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function reset_errors() {
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+    function enable_buttons() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+    function disable_buttons() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
+    }
 </script>

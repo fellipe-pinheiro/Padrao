@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -62,21 +62,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tabela = $("#tabela_evento").DataTable({
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            }
+                {
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
+                }
             ],
             processing: true, //Feature control the processing indicator.
             serverSide: true, //Feature control DataTables' server-side processing mode.
@@ -86,8 +86,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": false},
-            {data: "nome","visible": true}
+                {data: "id", "visible": false},
+                {data: "nome", "visible": true}
             ]
         });
         // Resaltar a linha selecionada
@@ -95,14 +95,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
                 disable_buttons();
-            }
-            else {
+            } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
                 enable_buttons();
             }
         });
-        $("#adicionar").click(function(event) {
+        $("#adicionar").click(function (event) {
             reset_form();
 
             save_method = 'add';
@@ -152,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $.confirm({
                 title: 'Confirmação!',
                 content: 'O registro: ' + nome + ' será excluido.',
-                confirm: function(){
+                confirm: function () {
                     $.alert('Confirmado!');
                     $.ajax({
                         url: "<?= base_url('evento/ajax_delete/') ?>" + id,
@@ -162,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             if (data.status) {
                                 reload_table();
-                            }else{
+                            } else {
                                 $.alert({
                                     title: 'Alerta!',
                                     content: 'Não foi possível excluir o registro. Tente novamente.',
@@ -179,15 +178,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                 },
-                cancel: function(){
+                cancel: function () {
                     $.alert('Cancelado!')
                 }
             });
         });
         $("#form_evento").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('evento/ajax_add') ?>";
@@ -205,8 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#modal_form').modal('hide');
                         reload_table();
-                    }
-                    else
+                    } else
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').parent().parent().addClass('has-error');
@@ -220,6 +217,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         title: 'Alerta!',
                         content: 'Não foi possível Adicionar ou Editar o registro. Tente novamente.',
                     });
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
             $('#btnSubmit').text('Salvar');
@@ -229,7 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
 
-function reload_table() {
+    function reload_table() {
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
     function reset_form() {

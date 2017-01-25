@@ -182,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="#envelope" aria-controls="envelope" role="tab" data-toggle="tab">Envelope</a>
                         </li>
                     </ul>
-                
+
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="cartao">
                             <table id="tb_convite_cartao_detalhes" class="table table-condensed table-hover">
@@ -268,6 +268,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </thead>
                     <tbody>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>pedido</th>
+                            <th>cliente</th>
+                            <th>data_entrega</th>
+                            <th>qtd_pedido</th>
+                            <th>qtd_papel</th>
+                            <th>add</th>
+                            <th>sobras</th>
+                            <th>qtd_papel_total</th>
+                            <th>papel_categoria</th>
+                            <th>papel_linha</th>
+                            <th>papel</th>
+                            <th>gramatura</th>
+                            <th>folhas</th>
+                            <th>pap_inteiro_alt</th>
+                            <th>pap_inteiro_larg</th>
+                            <th>mod_codigo</th>
+                            <th>modelo_nome</th>
+                            <th>altura_final</th>
+                            <th>larguar_final</th>
+                            <th>formato</th>
+                            <th>empastamento_borda</th>
+                            <th>composicao</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
             <div class="modal-footer">
@@ -368,13 +394,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
                         </tbody>
                     </table>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-default" onclick="set_status(1)">Marcar status</button>
-                        <button type="button" class="btn btn-default" onclick="set_status(0)">Apagar status</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-default" onclick="set_status(1)">Marcar status</button>
+                    <button type="button" class="btn btn-default" onclick="set_status(0)">Apagar status</button>
                 </div>
             </div>
+        </div>
     </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
@@ -407,7 +434,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 style: 'multi'
             },
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
@@ -572,48 +599,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dados_dblclick = tb_calendario_convite.row(this).data();
             tb_convite_cartao_detalhes = $("#tb_convite_cartao_detalhes").DataTable({
                 scrollX: true,
-                scrollY:"500px",
+                scrollY: "500px",
                 scrollCollapse: true,
                 dom: 'lBfrtip',
                 paging: false,
                 lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                 buttons: [
-                {   
-                    extend:'colvis',
-                    text:'Visualizar colunas',
-                },
-                {
-                    extend: 'collection',
-                    text: 'Exportar',
-                    autoClose: true,
-                    buttons: [
                     {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
+                        extend: 'colvis',
+                        text: 'Visualizar colunas',
                     },
                     {
-                        extend: 'copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    {
-                        extend: 'excel',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    ],
-                    fade: true
-                }
+                        extend: 'collection',
+                        text: 'Exportar',
+                        autoClose: true,
+                        buttons: [
+                            {
+                                extend: 'print',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'copy',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                        ],
+                        fade: true
+                    }
                 ],
                 language: {
                     url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -629,15 +656,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                 },
                 columns: [
-                    {data: "pedido_id","visible": false, "orderable": false},
-                    {data: "orcamento_id","visible": false, "orderable": false},
-                    {data: "produto_id","visible": false, "orderable": false},
-                    {data: "item_id","visible": false, "orderable": false},
-                    {data: "grupo","visible": false, "orderable": false},
-                    {data: "item","visible": false, "orderable": false},
-                    {data: "material","visible": true, "orderable": false},
-                    {data: "quantidade","visible": true, "orderable": false},
-                    {data: "descricao","visible": true, "orderable": false},
+                    {data: "pedido_id", "visible": false, "orderable": false},
+                    {data: "orcamento_id", "visible": false, "orderable": false},
+                    {data: "produto_id", "visible": false, "orderable": false},
+                    {data: "item_id", "visible": false, "orderable": false},
+                    {data: "grupo", "visible": false, "orderable": false},
+                    {data: "item", "visible": false, "orderable": false},
+                    {data: "material", "visible": true, "orderable": false},
+                    {data: "quantidade", "visible": true, "orderable": false},
+                    {data: "descricao", "visible": true, "orderable": false},
                 ],
                 order: [[4, 'asc']],
                 drawCallback: function (settings) {
@@ -660,51 +687,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $('#tb_calendario_personalizado tbody').on('dblclick', 'tr', function () {
             dados_dblclick = tb_calendario_personalizado.row(this).data();
-            if ( ! $.fn.DataTable.isDataTable( '#tb_personalizado_detalhes' ) ) {
+            if (!$.fn.DataTable.isDataTable('#tb_personalizado_detalhes')) {
                 tb_personalizado_detalhes = $("#tb_personalizado_detalhes").DataTable({
                     scrollX: true,
-                    scrollY:"500px",
+                    scrollY: "500px",
                     scrollCollapse: true,
                     dom: 'lBfrtip',
                     paging: false,
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas',
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
                         {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
+                            extend: 'colvis',
+                            text: 'Visualizar colunas',
                         },
                         {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        ],
-                        fade: true
-                    }
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                            ],
+                            fade: true
+                        }
                     ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -720,15 +747,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                     },
                     columns: [
-                    {data: "pedido_id","visible": false, "orderable": false},
-                    {data: "orcamento_id","visible": false, "orderable": false},
-                    {data: "produto_id","visible": false, "orderable": false},
-                    {data: "item_id","visible": false, "orderable": false},
-                    {data: "grupo","visible": false, "orderable": false},
-                    {data: "item","visible": false, "orderable": false},
-                    {data: "material","visible": true, "orderable": false},
-                    {data: "quantidade","visible": true, "orderable": false},
-                    {data: "descricao","visible": true, "orderable": false},
+                        {data: "pedido_id", "visible": false, "orderable": false},
+                        {data: "orcamento_id", "visible": false, "orderable": false},
+                        {data: "produto_id", "visible": false, "orderable": false},
+                        {data: "item_id", "visible": false, "orderable": false},
+                        {data: "grupo", "visible": false, "orderable": false},
+                        {data: "item", "visible": false, "orderable": false},
+                        {data: "material", "visible": true, "orderable": false},
+                        {data: "quantidade", "visible": true, "orderable": false},
+                        {data: "descricao", "visible": true, "orderable": false},
                     ],
                     order: [[4, 'asc']],
                     drawCallback: function (settings) {
@@ -739,8 +766,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         api.column(4, {page: 'current'}).data().each(function (group, i) {
                             if (last !== group) {
                                 $(rows).eq(i).before(
-                                    '<tr class="group"><td colspan="23">' + group + '</td></tr>'
-                                    );
+                                        '<tr class="group"><td colspan="23">' + group + '</td></tr>'
+                                        );
 
                                 last = group;
                             }
@@ -764,7 +791,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         style: 'multi'
                     },
                     scrollX: true,
-                    scrollY:"500px",
+                    scrollY: "500px",
                     scrollCollapse: true,
                     dom: 'lBrtip',
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
@@ -922,7 +949,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         style: 'multi'
                     },
                     scrollX: true,
-                    scrollY:"500px",
+                    scrollY: "500px",
                     scrollCollapse: true,
                     dom: 'lBrtip',
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
@@ -1068,48 +1095,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if (!is_datatable_exists("#tb_convite_envelope_detalhes")) {
                 tb_convite_envelope_detalhes = $("#tb_convite_envelope_detalhes").DataTable({
                     scrollX: true,
-                    scrollY:"500px",
+                    scrollY: "500px",
                     scrollCollapse: true,
                     dom: 'lBfrtip',
                     paging: false,
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas',
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
                         {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
+                            extend: 'colvis',
+                            text: 'Visualizar colunas',
                         },
                         {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        ],
-                        fade: true
-                    }
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                            ],
+                            fade: true
+                        }
                     ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -1125,15 +1152,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                     },
                     columns: [
-                        {data: "pedido_id","visible": false, "orderable": false},
-                        {data: "orcamento_id","visible": false, "orderable": false},
-                        {data: "produto_id","visible": false, "orderable": false},
-                        {data: "item_id","visible": false, "orderable": false},
-                        {data: "grupo","visible": false, "orderable": false},
-                        {data: "item","visible": false, "orderable": false},
-                        {data: "material","visible": true, "orderable": false},
-                        {data: "quantidade","visible": true, "orderable": false},
-                        {data: "descricao","visible": true, "orderable": false},
+                        {data: "pedido_id", "visible": false, "orderable": false},
+                        {data: "orcamento_id", "visible": false, "orderable": false},
+                        {data: "produto_id", "visible": false, "orderable": false},
+                        {data: "item_id", "visible": false, "orderable": false},
+                        {data: "grupo", "visible": false, "orderable": false},
+                        {data: "item", "visible": false, "orderable": false},
+                        {data: "material", "visible": true, "orderable": false},
+                        {data: "quantidade", "visible": true, "orderable": false},
+                        {data: "descricao", "visible": true, "orderable": false},
                     ],
                     order: [[4, 'asc']],
                     drawCallback: function (settings) {
@@ -1182,27 +1209,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             $("#tab_convite_detalhes a[href='#cartao']").tab('show');
         });
-        $('#tb_papel_lista_convite tbody').on('change', 'tr', function(){
-            data = tb_papel_lista_convite.row( this ).data();
+        $('#tb_papel_lista_convite tbody').on('change', 'tr', function () {
+            data = tb_papel_lista_convite.row(this).data();
             data.add = $(this).children().closest('.add').children()[0].value;
-            tb_papel_lista_convite.row( this ).data( calcular_folhas(data) );
+            tb_papel_lista_convite.row(this).data(calcular_folhas(data));
         });
 
-        $('#tb_papel_lista_personalizado tbody').on('change', 'tr', function(){
-            data = tb_papel_lista_personalizado.row( this ).data();
-            data.add = $(this).children().closest('.add').children()[0].value;     
-            tb_papel_lista_personalizado.row( this ).data( calcular_folhas(data) );
+        $('#tb_papel_lista_personalizado tbody').on('change', 'tr', function () {
+            data = tb_papel_lista_personalizado.row(this).data();
+            data.add = $(this).children().closest('.add').children()[0].value;
+            tb_papel_lista_personalizado.row(this).data(calcular_folhas(data));
         });
     });
     function calcular_folhas(data) {
         data.add = Number(data.add);
-        data.sobras = Number(data.add);
-        data.qtd_pedido = Number(data.qtd_pedido);
         data.qtd_pedido = Number(data.qtd_pedido);
         data.formato = Number(data.formato);
         data.qtd_papel = Number(data.qtd_papel);
-        data.qtd_papel_total = data.qtd_pedido + data.sobras;
-        data.folhas = Math.ceil(( data.qtd_papel_total * data.qtd_papel ) / data.formato);
+        total_aux = data.qtd_pedido + data.add;
+        data.folhas = Math.ceil((total_aux * data.qtd_papel) / data.formato);
+        data.qtd_papel_total = (data.folhas * data.formato) / data.qtd_papel;
+        data.sobras = data.qtd_papel_total - data.qtd_pedido;
         return data;
     }
     function get_papel_lista_convite() {
@@ -1212,9 +1239,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
-            dom: 'lBrtip',
+            dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
                 {
@@ -1308,14 +1335,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "composicao", "visible": true}
             ],
             columnDefs: [{
-                targets: 5,
-                searchable:false,
-                orderable:true,
-                className: 'dt-body-center add',
-                render: function (data, type, full, meta){
-                     return '<input type="number" id="" name="" class="form-control" style="width:90px" min="0" step="1" value="' + $('<div/>').text(data).html() + '">';
-                }
-            }],
+                    targets: 5,
+                    searchable: false,
+                    orderable: true,
+                    className: 'dt-body-center add',
+                    render: function (data, type, full, meta) {
+                        return '<input type="number" id="" name="" class="form-control" style="width:90px" min="0" step="1" value="' + $('<div/>').text(data).html() + '">';
+                    }
+                }],
         });
         $("#md_papel_lista_convite").modal();
     }
@@ -1420,14 +1447,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "composicao", "visible": false}
             ],
             columnDefs: [{
-                targets: 5,
-                searchable:false,
-                orderable:true,
-                className: 'dt-body-center add',
-                render: function (data, type, full, meta){
-                     return '<input type="number" id="" name="" class="form-control" style="width:90px" min="0" step="1" value="' + $('<div/>').text(data).html() + '">';
-                }
-            }],
+                    targets: 5,
+                    searchable: false,
+                    orderable: true,
+                    className: 'dt-body-center add',
+                    render: function (data, type, full, meta) {
+                        return '<input type="number" id="" name="" class="form-control" style="width:90px" min="0" step="1" value="' + $('<div/>').text(data).html() + '">';
+                    }
+                }],
         });
         $("#md_papel_lista_personalizado").modal();
     }
@@ -1474,18 +1501,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 adicional_convite: JSON.stringify(adicional_convite)
             },
         })
-        .done(function (data) {
-            console.log("success");
-            console.log(data.convite);
-            console.log(data.adicional);
-            console.log(data.query);
-        })
-        .fail(function () {
-            console.log("error");
-        })
-        .always(function () {
-            console.log("complete");
-        });
+                .done(function (data) {
+                    console.log("success");
+                    console.log(data.convite);
+                    console.log(data.adicional);
+                    console.log(data.query);
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
     }
     function empty_rows_message() {
 

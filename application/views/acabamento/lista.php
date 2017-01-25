@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -137,9 +137,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": true},
+            {data: "id","visible": false},
             {data: "nome","visible": true},
-            {data: "descricao","visible": true},
+            {data: "descricao","visible": false},
             {data: "valor","visible": true}
             ]
         });
@@ -238,9 +238,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         });
         $("#form_acabamento").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('acabamento/ajax_add') ?>";
@@ -273,10 +272,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         title: 'Alerta!',
                         content: 'Não foi possível Adicionar ou Editar o registro. Tente novamente.',
                     });
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
             reload_table();
             e.preventDefault();
         });

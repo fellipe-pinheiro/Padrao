@@ -344,7 +344,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" id="btnSubmit" class="btn btn-success btnSubmit">Salvar</button>
+                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -404,7 +404,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -1049,12 +1049,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
 function formulario_submit(e) {
+    disable_button_salvar();
     if(!get_tab_active()){
         console.log('Não foi possível carregar get_tab_active()');
         return false;
     }
     reset_errors();
-    disable_button_salvar();
     var url_submit;
     if (save_method == 'add') {
         url_submit = url_add;
@@ -1084,9 +1084,11 @@ function formulario_submit(e) {
         error: function (jqXHR, textStatus, errorThrown)
         {
             alert('Erro ao Adicionar ou Editar');
-        }
+        },
+            complete: function () {
+                enable_button_salvar();
+            }
     });
-    enable_button_salvar();
     reload_table(dataTable);
     e.preventDefault();
 }
@@ -1188,14 +1190,6 @@ function enable_buttons() {
 function disable_buttons() {
     $("#editar").attr("disabled", true);
     $("#deletar").attr("disabled", true);
-}
-function disable_button_salvar(){
-    $('.btnSubmit').text('Salvando...');
-    $('.btnSubmit').attr('disabled', true);
-}
-function enable_button_salvar() {
-    $('.btnSubmit').text('Salvar');
-    $('.btnSubmit').attr('disabled', false);
 }
 function open_papel_acabamento_docs() {
 

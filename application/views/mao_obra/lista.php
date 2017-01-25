@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -81,50 +81,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tabela = $("#tabela_mao_obra").DataTable({
             scrollX: true,
-            scrollY:"500px",
+            scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -136,10 +136,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": true},
-            {data: "nome","visible": true},
-            {data: "descricao","visible": true},
-            {data: "valor","visible": true}
+                {data: "id", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "descricao", "visible": true},
+                {data: "valor", "visible": true}
             ]
         });
         // Resaltar a linha selecionada
@@ -147,14 +147,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
                 disable_buttons();
-            }
-            else {
+            } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
                 enable_buttons();
             }
         });
-        $("#adicionar").click(function(event) {
+        $("#adicionar").click(function (event) {
             reset_form();
 
             save_method = 'add';
@@ -208,7 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         if (data.status) {
                             reload_table();
-                        }else{
+                        } else {
                             alert("Erro ao excluir o registro");
                         }
 
@@ -221,9 +220,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("#form_mao_obra").submit(function (e) {
+            disable_button_salvar();
             reset_errors();
-            $('#btnSubmit').text('Salvando...');
-            $('#btnSubmit').attr('disabled', true);
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('mao_obra/ajax_add') ?>";
@@ -241,8 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $('#modal_form').modal('hide');
                         reload_table();
-                    }
-                    else
+                    } else
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').parent().parent().addClass('has-error');
@@ -253,16 +250,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao Adicionar ou Editar');
+                },
+                complete: function () {
+                    enable_button_salvar();
                 }
             });
-            $('#btnSubmit').text('Salvar');
-            $('#btnSubmit').attr('disabled', false);
             reload_table();
             e.preventDefault();
         });
     });
 
-function reload_table() {
+    function reload_table() {
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
     function reset_form() {

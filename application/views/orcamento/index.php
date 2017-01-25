@@ -554,7 +554,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-				<input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+				<button type="submit" class="btn btn-default btnSubmit">Salvar</button>
 			</div>
 			<?= form_close() ?>
 		</div>
@@ -1000,6 +1000,7 @@ function orcamento_cliente() {
                 extend:'colvis',
                 text:'Visualizar colunas'
             }],
+            order: [[0, 'desc']],
 			language: {
 				url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
 			},
@@ -1021,31 +1022,31 @@ function orcamento_cliente() {
             	},
             },
             columns: [
-            {data: "id" , "visible": true},
-            {data: "nome" , "visible": true},
-            {data: "sobrenome" , "visible": true},
-            {data: "email" , "visible": true},
-            {data: "telefone" , "visible": true},
-            {data: "nome2" , "visible": false},
-            {data: "sobrenome2" , "visible": false},
-            {data: "email2" , "visible": false},
-            {data: "telefone2" , "visible": false},
-            {data: "rg" , "visible": false},
-            {data: "cpf" , "visible": true},
-            {data: "endereco" , "visible": false},
-            {data: "numero" , "visible": false},
-            {data: "complemento" , "visible": false},
-            {data: "estado" , "visible": false},
-            {data: "uf" , "visible": false},
-            {data: "bairro" , "visible": false},
-            {data: "cidade" , "visible": false},
-            {data: "cep" , "visible": false},
-            {data: "observacao" , "visible": false},
-            {data: "pessoa_tipo" , "visible": false},
-            {data: "razao_social" , "visible": false},
-            {data: "cnpj" , "visible": false},
-            {data: "ie" , "visible": false},
-            {data: "im" , "visible": false},
+	            {data: "id" , "visible": true},
+	            {data: "nome" , "visible": true},
+	            {data: "sobrenome" , "visible": true},
+	            {data: "email" , "visible": true},
+	            {data: "telefone" , "visible": true},
+	            {data: "nome2" , "visible": false},
+	            {data: "sobrenome2" , "visible": false},
+	            {data: "email2" , "visible": false},
+	            {data: "telefone2" , "visible": false},
+	            {data: "rg" , "visible": false},
+	            {data: "cpf" , "visible": true},
+	            {data: "endereco" , "visible": false},
+	            {data: "numero" , "visible": false},
+	            {data: "complemento" , "visible": false},
+	            {data: "estado" , "visible": false},
+	            {data: "uf" , "visible": false},
+	            {data: "bairro" , "visible": false},
+	            {data: "cidade" , "visible": false},
+	            {data: "cep" , "visible": false},
+	            {data: "observacao" , "visible": false},
+	            {data: "pessoa_tipo" , "visible": false},
+	            {data: "razao_social" , "visible": false},
+	            {data: "cnpj" , "visible": false},
+	            {data: "ie" , "visible": false},
+	            {data: "im" , "visible": false},
             ]
         });
 	}else{

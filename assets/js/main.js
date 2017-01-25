@@ -130,6 +130,14 @@ function is_datatable_exists(dt_table) {
     }
     return false;
 }
+function disable_button_salvar(){
+    $('.btnSubmit').text('Salvando...');
+    $('.btnSubmit').attr('disabled', true);
+}
+function enable_button_salvar() {
+    $('.btnSubmit').text('Salvar');
+    $('.btnSubmit').attr('disabled', false);
+}
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {
