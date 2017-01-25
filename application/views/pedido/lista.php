@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button class="btn btn-default" data-toggle="modal" href='#md_filtro'><span class="glyphicon glyphicon-search"></span></button>
                 <button type="button" id="btn-reset" class="btn btn-default">Limpar Filtro</button>
                 <button class="btn btn-default" id="pdf">PDF</button>
-                <button class="btn btn-default" id="resumo">Resumo</button>
+                <!-- <button class="btn btn-default" id="resumo">Resumo</button> -->
             </div>
         </div>
         <hr>  

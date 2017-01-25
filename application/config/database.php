@@ -74,16 +74,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$banco_dados = 1;
-
 switch (EXECUCAO) {
-  case 0: // Comunitário
+  case 0: // Development
     $hostname = '50.116.112.138';
     $username = 'orcas394_db_dev';
     $password = 'sDBdb_dev2017';
     $database = 'orcas394_db_dev';
     break;
-  case 1: // Produção
+  case 1: // Production
     $hostname = '50.116.112.138';
     $username = 'orcas394_cgolin';
     $password = 'sDBcgolin2017';

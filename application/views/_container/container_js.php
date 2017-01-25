@@ -732,7 +732,7 @@ $controller = $this->router->class;
 			console.log("success");
 			if(data.status){
 				$.confirm({
-					title:'Salvando...',
+					title:'Preparando para salvar...',
 					content:'Deseja realmente salvar?',
 					confirmButton: 'Salvar',
 					cancelButton: 'Fechar',

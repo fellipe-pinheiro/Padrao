@@ -133,12 +133,16 @@ class Personalizado extends CI_Controller {
         exit(); 
     }
     private function __criar_personalizado(){
+        $comissao = 0;
+        if(!empty($this->session->orcamento->assessor->comissao)){
+            $comissao = $this->session->orcamento->assessor->comissao;
+        }
         $this->session->unset_userdata('personalizado');
         $this->session->personalizado = new Personalizado_m();
         $this->session->personalizado->personalizado = new Container_m();
         $this->session->personalizado->mao_obra = new Mao_obra_m();
         $this->session->personalizado->modelo = new Personalizado_modelo_m();
-        $this->session->personalizado->comissao = $this->session->orcamento->assessor->comissao;
+        $this->session->personalizado->comissao = $comissao;
     }
     //FINALIZAR: Personalizado   
     public function finalizar(){
@@ -304,56 +308,57 @@ class Personalizado extends CI_Controller {
     }
     public function check_gramatura_valor(){
         $this->form_validation->set_message('check_gramatura_valor','Gramatura não definida para este papel');
+        if($this->input->post('papel')){
+            $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
 
-        $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
-
-        switch ($this->input->post('gramatura')) {
-            case '80':
-                if($papel->papel_linha->valor_80g <= 0.00){
+            switch ($this->input->post('gramatura')) {
+                case '80':
+                    if($papel->papel_linha->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '120':
+                    if($papel->papel_linha->valor_120g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '180':
+                    if($papel->papel_linha->valor_180g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '250':
+                    if($papel->papel_linha->valor_250g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '300':
+                    if($papel->papel_linha->valor_300g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '350':
+                    if($papel->papel_linha->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '400':
+                    if($papel->papel_linha->valor_400g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                
+                default:
                     return false;
-                }
-                return true;
-                break;
-            case '120':
-                if($papel->papel_linha->valor_120g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '180':
-                if($papel->papel_linha->valor_180g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '250':
-                if($papel->papel_linha->valor_250g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '300':
-                if($papel->papel_linha->valor_300g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '350':
-                if($papel->papel_linha->valor_80g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '400':
-                if($papel->papel_linha->valor_400g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            
-            default:
-                return false;
-                break;
+                    break;
+            }
         }
     }
     private function __validar_formulario_papel() {
