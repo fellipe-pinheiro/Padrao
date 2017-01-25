@@ -64,9 +64,10 @@ class Container_produto_m extends CI_Model {
 
 		return $this->quantidade * $this->calcula_unitario();
 	}
-	public function calcula_custos_administrativos_unitario(){
-
-        return ($this->produto->valor /100) * $this->comissao;
+    public function calcula_custos_administrativos_unitario(){
+		$total = $this->produto->valor / ( (100 - $this->comissao) / 100 );
+		$total = $total - $this->produto->valor;
+        return round($total,2);
     }
 	private function __changeToObject($result_db = '') {
 		$object_lista = array();
