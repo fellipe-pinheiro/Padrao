@@ -541,12 +541,72 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_fita($owner,$this->input->post('fita'),$this->input->post('quantidade'),$this->input->post('descricao'),$this->input->post('espessura'));
         return $container;
     }
+    public function check_espessura_valor(){
+        $this->form_validation->set_message('check_espessura_valor','Espessura não definida para esta fita');
+        if($this->input->post('fita')){
+            $fita = $this->Fita_m->get_by_id($this->input->post('fita'));
+
+            switch ($this->input->post('espessura')) {
+                case '3':
+                    if($fita->valor_03mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '7':
+                    if($fita->valor_07mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '10':
+                    if($fita->valor_10mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '15':
+                    if($fita->valor_15mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '22':
+                    if($fita->valor_22mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '38':
+                    if($fita->valor_38mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '50':
+                    if($fita->valor_50mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '70':
+                    if($fita->valor_70mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
     private function __validar_formulario_fita(){
         $data = array();
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('fita', 'Acessório', 'required');
-        $this->form_validation->set_rules('espessura', 'Acessório', 'required');
+        $this->form_validation->set_rules('espessura', 'Acessório', 'required|callback_check_espessura_valor');
         $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
