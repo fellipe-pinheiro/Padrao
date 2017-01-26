@@ -627,7 +627,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label col-sm-3')) ?>
 						<div class="col-sm-9">
-							<input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker">
+							<input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" placeholder="1° Vencimento dd/mm/aaaa">
 							<span class="help-block"></span>
 						</div>
 					</div>
