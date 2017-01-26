@@ -804,45 +804,45 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#form_adicional_pedido").serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $("#md_adicional").modal('hide');
-                        $("#form_adicional_pedido")[0].reset();
-                        close_loadingModal();
-                        atualizar();
-                        $.confirm({
-                            title: "Adicional N° " + data.adicional_id,
-                            content: "<p>Seu pedido adicional foi criado com sucesso!</p>",
-                            confirmButton: 'PDF',
-                            cancelButton: 'Fechar',
-                            confirm: function () {
-                                window.open('<?= base_url('adicional/pdf/') ?>' + data.adicional_id, '_blank');
-                            },
-                            cancel: function () {
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $("#md_adicional").modal('hide');
+                $("#form_adicional_pedido")[0].reset();
+                close_loadingModal();
+                atualizar();
+                $.confirm({
+                    title: "Adicional N° " + data.adicional_id,
+                    content: "<p>Seu pedido adicional foi criado com sucesso!</p>",
+                    confirmButton: 'PDF',
+                    cancelButton: 'Fechar',
+                    confirm: function () {
+                        window.open('<?= base_url('adicional/pdf/') ?>' + data.adicional_id, '_blank');
+                    },
+                    cancel: function () {
 
-                            }
-                        })
-                    } else {
-                        close_loadingModal();
-                        $.alert({
-                            title: "Atenção!",
-                            content: "Alguns erros foram encontrados no formulário. Por favor corrija-os e envie novamente."
-                        });
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
                     }
                 })
-                .fail(function () {
-                    console.log("error");
-                    close_loadingModal();
-                })
-                .always(function () {
-                    enable_button_salvar();
-                    console.log("complete");
+            } else {
+                close_loadingModal();
+                $.alert({
+                    title: "Atenção!",
+                    content: "Alguns erros foram encontrados no formulário. Por favor corrija-os e envie novamente."
                 });
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+            close_loadingModal();
+        })
+        .always(function () {
+            enable_button_salvar();
+            console.log("complete");
+        });
     }
     function calcula_sub_total(valor_unitario, id_input_qtd, id_td_sub_total, id_input_valor_extra) {
         var total = 0;
@@ -896,8 +896,8 @@ $loja = $orcamento->loja;
     }
     function calcular_custos_adm(valor) {
         var custos_adm = 0;
-        custos_adm = parseFloat(valor / ( (100 - assessor_comissao) / 100 )).toFixed(5);
-	custos_adm = custos_adm - valor;
+        custos_adm = parseFloat(valor / ((100 - assessor_comissao) / 100)).toFixed(5);
+        custos_adm = custos_adm - valor;
         return custos_adm;
     }
     function modal_adicional() {
@@ -920,21 +920,21 @@ $loja = $orcamento->loja;
                         pedido_id: pedido_id
                     },
                 })
-                        .done(function (data) {
-                            console.log("success");
-                            if (data.status) {
-                                close_loadingModal();
-                                modal_cancelamento_item(owner, '', produto_id, 0, assessor_comissao, nome_produto, false, pedido_id, classe_itens, true);
-                            } else {
-                                $.alert('Não foi possível criar um orçamento com o cliente e o produto que deseja alterar. Faça o processo manualmente.')
-                            }
-                        })
-                        .fail(function () {
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
-                        });
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        close_loadingModal();
+                        modal_cancelamento_item(owner, '', produto_id, 0, assessor_comissao, nome_produto, false, pedido_id, classe_itens, true);
+                    } else {
+                        $.alert('Não foi possível criar um orçamento com o cliente e o produto que deseja alterar. Faça o processo manualmente.')
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
 
             },
             cancel: function () {
@@ -951,24 +951,24 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#" + form).serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $.alert("Data de entrega alterada com sucesso!");
-                        //atualizar();
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $.alert("Data de entrega alterada com sucesso!");
+                //atualizar();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
                 });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+        });
     }
     function alterar_data_entrega_adicional(owner, form, e) {
         e.preventDefault();
@@ -979,24 +979,24 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#" + form).serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $.alert("Data de entrega alterada com sucesso!");
-                        //atualizar();
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $.alert("Data de entrega alterada com sucesso!");
+                //atualizar();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
                 });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+        });
     }
     function modal_cancelar_pedido(cancelado) {
         if (cancelado) {
@@ -1097,27 +1097,27 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            close_loadingModal();
-                            console.log("success: pedido/ajax_cancelar_pedido()");
-                            if (data.status) {
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Pedido N° ' + id + ' cancelado com sucesso!');
-                                atualizar();
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            close_loadingModal();
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
+                .done(function (data) {
+                    close_loadingModal();
+                    console.log("success: pedido/ajax_cancelar_pedido()");
+                    if (data.status) {
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Pedido N° ' + id + ' cancelado com sucesso!');
+                        atualizar();
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    close_loadingModal();
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
             },
             cancel: function () {
                 $.alert('Ação cancelada.');
@@ -1138,27 +1138,27 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            close_loadingModal();
-                            console.log("success: pedido/ajax_cancelar_adicional()");
-                            if (data.status) {
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Adicional N° ' + id + ' cancelado com sucesso!');
-                                atualizar();
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            close_loadingModal();
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
+                .done(function (data) {
+                    close_loadingModal();
+                    console.log("success: pedido/ajax_cancelar_adicional()");
+                    if (data.status) {
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Adicional N° ' + id + ' cancelado com sucesso!');
+                        atualizar();
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    close_loadingModal();
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
             },
             cancel: function () {
                 $.alert('Ação cancelada.');
@@ -1185,28 +1185,28 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            console.log("success");
-                            if (data.status) {
-                                $("#form_cancelamento")[0].reset();
-                                close_loadingModal();
-                                atualizar();
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Produto cancelado com sucesso');
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
-                            enable_button_salvar();
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        $("#form_cancelamento")[0].reset();
+                        close_loadingModal();
+                        atualizar();
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Produto cancelado com sucesso');
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                    enable_button_salvar();
+                });
             },
             cancel: function () {
                 $("#md_cancelamento").modal('hide');
@@ -1222,36 +1222,36 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#form_cancelamento").serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $("#form_cancelamento")[0].reset();
-                        $("#md_cancelamento").modal('hide');
-                        close_loadingModal();
-                        $.confirm({
-                            title: 'Sucesso!',
-                            content: 'Deseja ir para a página do orçamento realizar as alterações?',
-                            confirm: function () {
-                                window.location.replace("<?= base_url('orcamento/index') ?>");
-                            },
-                            cancel: function () {
-                                atualizar();
-                            }
-                        });
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $("#form_cancelamento")[0].reset();
+                $("#md_cancelamento").modal('hide');
+                close_loadingModal();
+                $.confirm({
+                    title: 'Sucesso!',
+                    content: 'Deseja ir para a página do orçamento realizar as alterações?',
+                    confirm: function () {
+                        window.location.replace("<?= base_url('orcamento/index') ?>");
+                    },
+                    cancel: function () {
+                        atualizar();
                     }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
-                    enable_button_salvar();
                 });
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+            enable_button_salvar();
+        });
     }
     function atualizar() {
         //location.reload();
