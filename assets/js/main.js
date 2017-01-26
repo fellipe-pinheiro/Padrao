@@ -1,7 +1,10 @@
 $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
-	$('.calendar').calendar();
+	$('.calendar').calendar().setLanguage("pt");
+    $('.datetimepicker').datetimepicker({
+        format:'L'
+    });
 	// Fix Multiples Modals Scroll Issues
 	$('.modal').on("hidden.bs.modal", function (e) {
 		if($('.modal:visible').length)
@@ -38,7 +41,7 @@ $(document).ready(function() {
 	//CEP
 	$('.cep').mask('00000-000');
 	//DATA
-	$('.date').mask('00/00/0000');
+	//$('.date').mask('00/00/0000');
 	//Filtro do Controller do calendário
 	$(function() {
 		$(".buttons-collection").children().append('<i class="caret">');
