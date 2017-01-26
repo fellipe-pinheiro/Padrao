@@ -59,6 +59,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="<?= base_url('calendario/index') ?>">Entregas</a></li>
                         <li><a href="<?= base_url('calendario/producao') ?>">Produção</a></li>
+                        <li><a data-toggle="modal" href='#md_calendario'>Calendário</a></li>
                     </ul>
                 </li>
             </ul>
