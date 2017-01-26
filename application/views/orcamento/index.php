@@ -29,8 +29,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a></li>
 							<li><a onclick="orcamento_assessor('inserir','Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a></li>
 							<li><a onclick="orcamento_desconto('inserir',<?=$desconto?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a></li>
-
-							<li><a data-toggle="modal" href='#md_calendario'><span class="glyphicon glyphicon-calendar"></span> Calendário</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como orçamento</a></li>
 							<li><a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como pedido</a></li>
@@ -97,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td><?=$convite->modelo->nome?></td>
 									<td class="data_entrega form-group">
 										<form id="convite-<?=$key?>">
-											<input onchange="delivery_date('convite','#convite-<?=$key?>')" type="text" name="data_entrega-convite-<?=$key?>" class="form-control input-sm date" value="<?=$convite->data_entrega?>" placeholder="dd/mm/yyyy">
+											<input onblur="delivery_date('convite','#convite-<?=$key?>')" type="text" name="data_entrega-convite-<?=$key?>" class="form-control input-sm datetimepicker" value="<?=$convite->data_entrega?>" placeholder="dd/mm/yyyy">
 											<span class="help-block"></span>
 											<input type="hidden" name="posicao" id="posicao-<?=$key?>" class="form-control" value="<?=$key?>">
 										</form>
@@ -120,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td><?=$personalizado->modelo->nome?></td>
 									<td class="data_entrega form-group">
 										<form id="personalizado-<?=$key?>">
-											<input onchange="delivery_date('personalizado','#personalizado-<?=$key?>')" type="text" name="data_entrega-personalizado-<?=$key?>" class="form-control input-sm date" value="<?=$personalizado->data_entrega?>" placeholder="dd/mm/yyyy">
+											<input onblur="delivery_date('personalizado','#personalizado-<?=$key?>')" type="text" name="data_entrega-personalizado-<?=$key?>" class="form-control input-sm datetimepicker" value="<?=$personalizado->data_entrega?>" placeholder="dd/mm/yyyy">
 											<span class="help-block"></span>
 											<input type="hidden" name="posicao" id="posicao-<?=$key?>" class="form-control" value="<?=$key?>">
 										</form>
@@ -143,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td><?=$container->produto->nome?></td>
 									<td class="data_entrega form-group">
 										<form id="produto-<?=$key?>">
-											<input onchange="delivery_date('produto','#produto-<?=$key?>')" type="text" name="data_entrega-produto-<?=$key?>" class="form-control input-sm date" value="<?=$container->data_entrega?>" placeholder="dd/mm/yyyy">
+											<input onblur="delivery_date('produto','#produto-<?=$key?>')" type="text" name="data_entrega-produto-<?=$key?>" class="form-control input-sm datetimepicker" value="<?=$container->data_entrega?>" placeholder="dd/mm/yyyy">
 											<span class="help-block"></span>
 											<input type="hidden" name="posicao" id="posicao-<?=$key?>" class="form-control" value="<?=$key?>">
 										</form>
@@ -349,11 +347,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="col-sm-4">
 								<h4><i class="glyphicon glyphicon-calendar"></i> Data Evento*</h4>
-								<?php empty($this->session->orcamento->data_evento)? $data_evento = "": $data_evento = $this->session->orcamento->data_evento?>
+								<?php empty($this->session->orcamento->data_evento)? $data_evento = "": $data_evento = $this->session->orcamento->data_evento;
+								$data_evento = date("d/m/Y", strtotime($data_evento));
+								?>	
 								<div class="form-group">
-									<input type="date" name="data_evento" id="data_evento" class="form-control" value="<?=$data_evento?>">
+					                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?=$data_evento?>"/>
+									
 									<span class="help-block"></span>
-								</div>
+				                </div>
 							</div>
 						</div>
 						<hr>
@@ -626,7 +627,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label col-sm-3')) ?>
 						<div class="col-sm-9">
-							<input type="date" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control">
+							<input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker">
 							<span class="help-block"></span>
 						</div>
 					</div>
@@ -663,22 +664,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</form>
 </div>
-<div class="modal fade" id="md_calendario">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Calendário</h4>
-			</div>
-			<div class="modal-body">
-				<div id="calendario" data-provide="calendar">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-			</div>
-		</div>
-	</div>
-</div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script>
 
@@ -686,17 +671,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	var tabela_assessor;
 
 	$(document).ready(function() {
-		(function($){
-			$.fn.calendar.dates['pt'] = {
-				days: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
-				daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-				daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa"],
-				months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-				monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-				weekShort: 'S',
-				weekStart:0
-			};
-		}(jQuery));
 		//Verifica se o orçamento info já foi preechido
 		(function(){
 			session_orcamento_info(false);
