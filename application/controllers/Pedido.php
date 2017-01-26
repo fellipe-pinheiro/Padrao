@@ -298,9 +298,13 @@ class Pedido extends CI_Controller {
 
         //$custos_adm = round(($valor_total_pedido_adicional / 100) * $pedido->orcamento->assessor->comissao, 2); //$custos_adm não esta sendo utilizado, pois ja está embutido nos produtos
         $valor_total_pedido_adicional += -$adicional->desconto;
+        $valor_parcela = $this->__round_down($valor_total_pedido_adicional / $this->input->post('qtd_parcelas'));
         $num_total_parcelas = $this->input->post('qtd_parcelas');
+        $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
         for ($parcela = 1; $parcela <= $this->input->post('qtd_parcelas'); $parcela++) {
-            $cliente_conta = $this->__get_cliente_conta($parcela, $valor_total_pedido_adicional, "Parcela " . ($parcela) . "/" . $num_total_parcelas . " do Adicional Nº " . $pedido->id . "/" . $adicional->id, 1, $adicional->id);
+            
+            $descricao =  "Parcela " . ($parcela) . "/" . $num_total_parcelas . " do Adicional Nº " . $pedido->id . "/" . $adicional->id;
+            $cliente_conta = $this->__get_cliente_conta($parcela,$primeiro_vencimento, $valor_total_pedido_adicional, $valor_parcela, $descricao, 1, $adicional->id);
             $cliente_conta->pedido = $pedido->id;
             $cliente_conta->inserir();
         }
@@ -824,16 +828,20 @@ class Pedido extends CI_Controller {
         $this->__validar_formulario_forma_pagamento();
         $this->session->pedido->condicoes = $this->input->post('condicoes');
         $num_total_parcelas = $this->input->post('qtd_parcelas');
+        $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
+        $total_pedido = $this->session->orcamento->calcula_total();
+        $valor_parcela = $this->__round_down($total_pedido / $this->input->post('qtd_parcelas'));
 
         for ($parcela = 1; $parcela <= $num_total_parcelas; $parcela++) {
-            $cliente_conta = $this->__get_cliente_conta($parcela, $this->session->orcamento->calcula_total(), "Parcela " . ($parcela) . "/" . $num_total_parcelas, 0, null);
+            $descricao = "Parcela " . ($parcela) . "/" . $num_total_parcelas;
+            $cliente_conta = $this->__get_cliente_conta($parcela,$primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, 0, null);
             $this->session->pedido->cliente_conta[] = $cliente_conta;
         }
         print json_encode($data);
         exit();
     }
 
-    private function __get_cliente_conta($parcela, $total_pedido, $descricao, $adicional, $adicional_id) {
+    private function __get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela,$descricao, $adicional, $adicional_id) {
 
         $cliente_conta = new Cliente_conta_m();
         $cliente_conta->id = null;
@@ -841,10 +849,10 @@ class Pedido extends CI_Controller {
         $cliente_conta->pedido = null;
         $cliente_conta->data = date('Y-m-d H:i:s');
         $cliente_conta->n_parcela = $parcela;
-        $cliente_conta->primeiro_vencimento = $this->input->post('primeiro_vencimento');
+        $cliente_conta->primeiro_vencimento = $primeiro_vencimento;
         $cliente_conta->vencimento_dia = $this->input->post('vencimento_dia');
         $cliente_conta->forma_pagamento = $this->input->post('forma_pagamento');
-        $cliente_conta->valor = $this->__round_down($total_pedido / $this->input->post('qtd_parcelas'));
+        $cliente_conta->valor = $valor_parcela;
         $cliente_conta->vencimento = $cliente_conta->set_vencimento($parcela);
         $cliente_conta->debito = true;
         $cliente_conta->codigo_bancario = null;
