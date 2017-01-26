@@ -252,7 +252,7 @@ class Orcamento extends CI_Controller {
         $this->__validar_formulario_orcamento_info();
         $this->session->orcamento->loja = $this->Loja_m->get_by_id($this->input->post('loja'));
         $this->session->orcamento->evento = $this->input->post('evento');
-        $this->session->orcamento->data_evento = $this->input->post('data_evento');
+        $this->session->orcamento->data_evento = date_to_db($this->input->post('data_evento'));
         $this->session->orcamento->descricao = $this->input->post('descricao');
         print json_encode($data);
         exit();
