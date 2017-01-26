@@ -45,7 +45,6 @@ class Personalizado extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Personalizado';
         $data['personalizado_modelo'] = $this->Personalizado_modelo_m->get_list();
         $data['personalizado_categoria'] = $this->Personalizado_categoria_m->get_list();
         $data['papel'] = $this->Papel_m->get_list();

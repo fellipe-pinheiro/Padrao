@@ -29,6 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a></li>
 							<li><a onclick="orcamento_assessor('inserir','Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a></li>
 							<li><a onclick="orcamento_desconto('inserir',<?=$desconto?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a></li>
+
+							<li><a data-toggle="modal" href='#md_calendario'><span class="glyphicon glyphicon-calendar"></span> Calendário</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como orçamento</a></li>
 							<li><a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como pedido</a></li>
@@ -661,6 +663,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</form>
 </div>
+<div class="modal fade" id="md_calendario">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Calendário</h4>
+			</div>
+			<div class="modal-body">
+				<div id="calendario" data-provide="calendar">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+			</div>
+		</div>
+	</div>
+</div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script>
 
@@ -668,6 +686,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	var tabela_assessor;
 
 	$(document).ready(function() {
+		(function($){
+			$.fn.calendar.dates['pt'] = {
+				days: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+				daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+				daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa"],
+				months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+				monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+				weekShort: 'S',
+				weekStart:0
+			};
+		}(jQuery));
 		//Verifica se o orçamento info já foi preechido
 		(function(){
 			session_orcamento_info(false);

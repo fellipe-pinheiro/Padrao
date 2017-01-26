@@ -5,12 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
+				<h3 class="panel-title">Personalizado</h3>
 			</div>
 			<div class="panel-body">
-				<div class="alert" style="display: none">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				</div>
 				<!-- Personalizado MENU -->
 				<div class="main_panel">
 					<div class="dropdown">

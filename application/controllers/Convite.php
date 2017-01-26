@@ -43,7 +43,6 @@ class Convite extends CI_Controller {
         }
     }
     public function index() {
-        $data['titulo_painel'] = 'Convite';
         $data['convite_modelo'] = $this->Convite_modelo_m->get_list();
         $data['papel'] = $this->Papel_m->get_list();
         $data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();

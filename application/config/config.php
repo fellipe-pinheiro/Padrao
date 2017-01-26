@@ -26,6 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 switch (EXECUCAO) {
 	case 0: // Development
 		$config['base_url'] = 'http://orcasistemas.com.br/dev/';
+		//$config['base_url'] = 'http://localhost/cgolin/';
 		break;
 	case 1: // Production
 		$config['base_url'] = 'http://cgolin.orcasistemas.com.br/';
