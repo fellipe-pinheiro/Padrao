@@ -231,16 +231,78 @@ class Cliente_conta_m extends CI_Model {
         if ($parcela == 1 || empty($this->vencimento_dia)) {
             return $this->primeiro_vencimento;
         } else {
-            $date = date("Y-m-d", strtotime($this->primeiro_vencimento . " +" . ($parcela - 1) . " month"));
-            list($ano, $mes, $dia) = explode('-', $date);
-
-            $date = $ano . '-' . $mes . '-' . $this->vencimento_dia;
+            $date = $this->get_next_month();
             if ($this->__valid_date($date)) {
                 return $date;
             } else {
                 return $this->primeiro_vencimento;
             }
         }
+    }
+
+    private function get_next_month(){
+        $this->primeiro_vencimento;
+        $vencimento_dia = $this->vencimento_dia;
+        list($ano, $mes, $dia) = explode('-', $this->primeiro_vencimento);
+        $mes_aux = $mes + ($this->n_parcela - 1);
+
+        if($mes_aux % 12 == 0){
+            $teste = true;
+        }
+        if($mes_aux > 12){
+            $ano_aux = floor( $mes_aux / 12 );
+            $mes_aux = floor( $mes_aux % 12 );
+            if($mes_aux == 0){
+                $mes = '12';
+                $ano += $ano_aux - 1;
+            }else{
+                $ano += $ano_aux;
+            }
+        }
+        //month string
+        switch ($mes_aux) {
+            case 1:
+                $mes = '01';
+                break;
+            case 2:
+                $mes = '02';
+                break;
+            case 3:
+                $mes = '03';
+                break;
+            case 4:
+                $mes = '04';
+                break;
+            case 5:
+                $mes = '05';
+                break;
+            case 6:
+                $mes = '06';
+                break;
+            case 7:
+                $mes = '07';
+                break;
+            case 8:
+                $mes = '08';
+                break;
+            case 9:
+                $mes = '09';
+                break;
+            case 10:
+                $mes = '10';
+                break;
+            case 11:
+                $mes = '11';
+                break;
+            case 12:
+                $mes = '12';
+                break;
+            default:
+                // não colocar nada aqui
+                break;
+        }
+        $date = $ano . '-' . $mes . '-' . $vencimento_dia;
+        return $date;
     }
 
     public function calcula_debito() {
@@ -304,55 +366,5 @@ class Cliente_conta_m extends CI_Model {
         return $object_lista;
     }
 }
-/*
-//Variaveis $object->primeiro_vencimento e $object->vencimento_dia
-if($key === 0){
-$primeiro_vencimento = $value['vencimento'];
-list($ano, $mes, $dia) = explode("-", $value['vencimento']);
-}else{
-list($ano, $mes, $dia) = explode("-", $value['vencimento']);
-}
-$object->primeiro_vencimento = $primeiro_vencimento;
-$object->vencimento_dia = $dia;
-*/
-
-
-/*
-public function get_debitos(){
-$this->db->select('
-cc.id as cc_id,
-cc.usuario as cc_usuario,
-cc.pedido as cc_pedido,
-date_format(cc.data,"%d/%m/%Y") as cc_data,
-date_format(cc.vencimento,"%d/%m/%Y") as cc_vencimento,
-CONCAT("R$ ", format(cc.valor,2,"pt_BR")) as cc_valor,
-cc.forma_pagamento as cc_forma_pagamento,
-cc.descricao as cc_descricao,
-cc.debito as cc_debito,
-cc.n_parcela as cc_n_parcela,
-cc.codigo_bancario as cc_codigo_bancario,
-');
-$this->db->select('
-usr.first_name as usr_nome,
-usr.last_name as usr_sobrenome');
-$this->db->select('
-fpg.nome as fpg_nome');
-$this->db->select('
-ped.orcamento as ped_orcamento,
-orc.cliente as orc_cliente,
-cli.nome as cli_nome,
-cli.sobrenome as cli_sobrenome,
-cli.cpf as cli_cpf,
-cli.cnpj as cli_cnpj,
-cli.email as cli_email
-');
-$this->db->join('orcamento as orc', 'ped.orcamento = orc.id', 'left');
-$this->db->where('orc.cliente', $id_cliente);
-$this->db->order_by("ped.id","desc");
-$this->db->from('cliente_conta as cc');
-$query = $this->db->get();
-return $query->result();
-}
-*/
 /* End of file Cliente_conta_m.php */
 /* Location: ./application/models/Cliente_conta_m.php */
