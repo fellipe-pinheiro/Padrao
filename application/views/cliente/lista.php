@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>I.M</th>
                         </tr>
                     </thead>
-                    <tbody id="fbody">
+                    <tbody>
                     </tbody>
                 </table>
             </div>
@@ -65,11 +65,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             scrollY: "500px",
             scrollCollapse: true,
             dom: 'lBfrtip',
-            lengthMenu: [[10, 25, 50, 100, -1], ['10 linhas', '25 linhas', '50 linhas', '100 linhas', "Todas"]],
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-                {
-                    extend: 'pageLength',
-                },
                 {
                     extend: 'colvis',
                     text: 'Visualizar colunas'
