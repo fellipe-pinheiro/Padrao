@@ -671,10 +671,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var tabela_assessor;
 
     $(document).ready(function () {
-    	//Executa o evento change do datetimepicker
-    	$(".datetimepicker").on("dp.change", function (e) {
+        apply_this_document_ready();
+    });
+    function apply_this_document_ready() {
+        $('.datetimepicker').datetimepicker({
+            format:'L'
+        });
+        //Executa o evento change do datetimepicker
+        $(".datetimepicker").on("dp.change", function (e) {
             $(e.target).trigger("change");
         });
+        $("#input_cep").blur(carregaCep);
         //Verifica se o orçamento info já foi preechido
         (function () {
             session_orcamento_info(false);
@@ -832,7 +839,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#deletar").attr("disabled", true);
         }
         /*FIM: dataTable CRUD*/
-    });
+    }
     function reset_form_crud() {
         $('#form_cliente')[0].reset();
         $('.form-group').removeClass('has-error');
@@ -1746,6 +1753,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             close_loadingModal();
             $('#orcamento_info').html($('#orcamento_info', data).html());
             $('#painel_principal').html($('#painel_principal', data).html());
+            apply_this_document_ready();
         });
     }
     function call_loadingModal(msg = "") {

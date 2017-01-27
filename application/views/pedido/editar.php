@@ -625,18 +625,6 @@ $loja = $orcamento->loja;
                                                     <span class="help-block"></span>
                                                 </td>
                                             </tr>
-                                            <!-- //comentado pela mudança nos cálculos 19/01/2017
-                                            <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>Custos admin.</td>
-                                                    <td id="tr--adicional-custos_adm"></td>
-                                            </tr> -->
                                             <tr>
                                                 <th></th>
                                                 <th></th>
@@ -782,20 +770,7 @@ $loja = $orcamento->loja;
         $(".caracteres_descricao").text(caracteresRestantes);
     });
     $(document).ready(function () {
-        desabilita_produto_cancelado();
-        disable_button_adicional();
-        $(".caracteres_descricao").text(caracteres_descricao);
-        $('#input-adicional-desconto').attr("disabled", true);
-        $.each($("#form_adicional_pedido input"), function (index, value) {
-            if (value.type != 'checkbox') {
-                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
-            }
-        });
-        $("#div_informacoes_complementares").hide();
-        $("#div_forma_pagamento").hide();
-        $(".datetimepicker").on("dp.change", function (e) {
-            $(e.target).trigger("change");
-        });
+        apply_this_document_ready();
     });
     function criar_adicional_pedido() {
         disable_button_salvar();
@@ -867,25 +842,16 @@ $loja = $orcamento->loja;
     function calcular_total() {
         var total = 0;
         var desconto = 0;
-        //comentado pela mudança nos cálculos 19/01/2017
-        //var custos_adm = 0; //não esta sendo utilizado
 
         $.each($(".td-sub_total"), function (index, value) {
             total += numberFormat($(".td-sub_total")[index].innerText);
         });
 
         desconto = $("#input-adicional-desconto").val();
-        //comentado pela mudança nos cálculos 19/01/2017
-        //custos_adm = calcular_custos_adm(total); //não esta sendo utilizado
-        //custos_adm = Number(parseFloat(custos_adm).toFixed(2)); //não esta sendo utilizado
 
         total += -desconto;
         total = parseFloat(total).toFixed(2);
         total = total.replace(".", ",");
-        //comentado pela mudança nos cálculos 19/01/2017
-        //custos_adm = parseFloat(custos_adm).toFixed(2); //não esta sendo utilizado
-        //custos_adm = custos_adm.replace(".",","); //não esta sendo utilizado
-        //$("#tr--adicional-custos_adm").html("R$ " + custos_adm); //não esta sendo utilizado
         $("#th-adicional-total_a_pagar").html("R$ " + total);
         atualiza_quantidade_parcelas();
     }
@@ -958,7 +924,7 @@ $loja = $orcamento->loja;
             console.log("success");
             if (data.status) {
                 $.alert("Data de entrega alterada com sucesso!");
-                //atualizar();
+                atualizar();
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
@@ -986,7 +952,7 @@ $loja = $orcamento->loja;
             console.log("success");
             if (data.status) {
                 $.alert("Data de entrega alterada com sucesso!");
-                //atualizar();
+                atualizar();
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
@@ -1279,6 +1245,7 @@ $loja = $orcamento->loja;
             console.log("complete: atualizar()");
             desabilita_produto_cancelado();
             close_loadingModal();
+            apply_this_document_ready();
         });
     }
     function desabilita_produto_cancelado() {
@@ -1378,7 +1345,6 @@ $loja = $orcamento->loja;
         $.each($('.td-sub_total'), function (index, value) {
             $($(".td-sub_total")[index]).html("");
         });
-        //$("#tr--adicional-custos_adm").html("");
         $("#th-adicional-total_a_pagar").html("");
     }
     function call_loadingModal(msg = "") {
@@ -1408,4 +1374,26 @@ $loja = $orcamento->loja;
             $("#vencimento_dia").attr("disabled", false);
         }
     });
+    function apply_this_document_ready() {
+        desabilita_produto_cancelado();
+        disable_button_adicional();
+        $(".caracteres_descricao").text(caracteres_descricao);
+        $('#input-adicional-desconto').attr("disabled", true);
+        $.each($("#form_adicional_pedido input"), function (index, value) {
+            if (value.type != 'checkbox') {
+                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
+            }
+        });
+        $("#div_informacoes_complementares").hide();
+        $("#div_forma_pagamento").hide();
+        $('.datetimepicker').datetimepicker({
+            format:'L'
+        });
+        $(".datetimepicker").on("dp.change", function (e) {
+            $(e.target).trigger("change");
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+        $(':checkbox').checkboxpicker();
+    }
 </script>
