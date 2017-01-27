@@ -34,7 +34,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <?= form_label('*Pessoa: ', 'pessoa_tipo', array('class' => 'control-label')) ?>
-                                            <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control input-sm">
+                                            <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control input-sm" autofocus="true">
                                                 <option value="" selected>Selecione</option>
                                                 <option value="fisica">Física</option>
                                                 <option value="juridica">Jurídica</option>
@@ -181,8 +181,8 @@
                                     <!--Endereco-->
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <?= form_label('Endereço: ', 'endereco', array('class' => 'control-label ')) ?>
-                                            <?= form_input('endereco', '', 'id="endereco" class="form-control input-sm" placeholder="Endereço"') ?>
+                                            <label for="endereco" class="control-label">Endereço</label>
+                                            <input type="text" name="endereco" id="input_endereco" class="form-control input-sm" title="endereco" placeholder="Endereço">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                     <div class="col_margin_left col-sm-3">
                                         <div class="form-group">
                                             <?= form_label('Bairro: ', 'bairro', array('class' => 'control-label ')) ?>
-                                            <?= form_input('bairro', '', 'id="bairro" class="form-control input-sm" placeholder="Bairro"') ?>
+                                            <?= form_input('bairro', '', 'id="input_bairro" class="form-control input-sm" placeholder="Bairro"') ?>
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <?= form_label('Cidade: ', 'cidade', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cidade', '', 'id="cidade" class="form-control input-sm" placeholder="Cidade"') ?>
+                                            <?= form_input('cidade', '', 'id="input_cidade" class="form-control input-sm" placeholder="Cidade"') ?>
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                                     <div class="col_margin_left col-sm-3">
                                         <div class="form-group">
                                             <?= form_label('Estado: ', 'estado', array('class' => 'control-label ')) ?>
-                                            <input list="dl_estado" id="estado" name="estado" class="form-control input-sm"/>
+                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control input-sm"/>
                                             <datalist id="dl_estado">
                                                 <?php foreach ($dados['estados'] as $estado): ?>
                                                     <option value="<?=$estado?>"></option>
@@ -238,7 +238,7 @@
                                     <div class="col_margin_left col-sm-1">
                                         <div class="form-group">
                                             <?= form_label('UF: ', 'uf', array('class' => 'control-label ')) ?>
-                                            <input list="dl_uf" name="uf" class="form-control input-sm"/>
+                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control input-sm"/>
                                             <datalist id="dl_uf">
                                                 <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                     <option value="<?=$uf?>"></option>
@@ -251,7 +251,7 @@
                                     <div class="col_margin_left col-sm-3">
                                         <div class="form-group">
                                             <?= form_label('Cep: ', 'cep', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cep', '', 'id="cep" class="form-control input-sm cep" placeholder="Cep"') ?>
+                                            <?= form_input('cep', '', 'id="input_cep" class="form-control input-sm cep" placeholder="Cep"') ?>
                                             <span class="help-block"></span>
                                         </div>
                                     </div>

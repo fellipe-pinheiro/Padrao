@@ -302,6 +302,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             reload_table();
             e.preventDefault();
         });
+        $("#input_cep").blur(carregaCep);
     });
     function reload_table() {
         tabela_cliente.ajax.reload(null, false); //reload datatable ajax
