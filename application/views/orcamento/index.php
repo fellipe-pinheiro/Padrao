@@ -348,8 +348,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <h4><i class="glyphicon glyphicon-calendar"></i> Data Evento*</h4>
                                 <?php
-                                empty($this->session->orcamento->data_evento) ? $data_evento = "" : $data_evento = $this->session->orcamento->data_evento;
-                                $data_evento = date("d/m/Y", strtotime($data_evento));
+                                empty($this->session->orcamento->data_evento) ? $data_evento = "" : $data_evento = date("d/m/Y", strtotime($this->session->orcamento->data_evento));
                                 ?>	
                                 <div class="form-group">
                                     <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>"/>
