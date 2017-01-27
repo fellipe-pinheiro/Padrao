@@ -32,23 +32,23 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="filtro_data_entrega" class="control-label"><i class="glyphicon"></i>Data de entrega</label>
-								<input type="text" class="form-control input-sm date" id="filtro_data_entrega" placeholder="dd/mm/aaaa">
+								<input type="text" class="form-control input-sm datetimepicker" id="filtro_data_entrega" placeholder="dd/mm/aaaa">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="filtro_data_inicio" class="control-label"><i class="glyphicon"></i>Entre datas entrega</label>
 								<div class="input-group">
-									<input type="text" class="form-control input-sm date" id="filtro_data_inicio" placeholder="De: dd/mm/aaaa">
+									<input type="text" class="form-control input-sm datetimepicker" id="filtro_data_inicio" placeholder="De: dd/mm/aaaa">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></span>
-									<input type="text" class="form-control input-sm date" id="filtro_data_final" placeholder="Até dd/mm/aaaa">
+									<input type="text" class="form-control input-sm datetimepicker" id="filtro_data_final" placeholder="Até dd/mm/aaaa">
 								</div>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="filtro_data_evento" class="control-label"><i class="glyphicon"></i>Data do evento</label>
-								<input type="text" class="form-control input-sm date" id="filtro_data_evento" placeholder="dd/mm/aaaa">
+								<input type="text" class="form-control input-sm datetimepicker" id="filtro_data_evento" placeholder="dd/mm/aaaa">
 							</div>
 						</div>
 					</div>
