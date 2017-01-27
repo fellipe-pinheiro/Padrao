@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td><?= $convite->modelo->nome ?></td>
                                     <td class="data_entrega form-group">
                                         <form id="convite-<?= $key ?>">
-                                            <input onblur="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                            <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
                                             <span class="help-block"></span>
                                             <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                         </form>
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td><?= $personalizado->modelo->nome ?></td>
                                     <td class="data_entrega form-group">
                                         <form id="personalizado-<?= $key ?>">
-                                            <input onblur="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                            <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
                                             <span class="help-block"></span>
                                             <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                         </form>
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td><?= $container->produto->nome ?></td>
                                     <td class="data_entrega form-group">
                                         <form id="produto-<?= $key ?>">
-                                            <input onblur="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                            <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
                                             <span class="help-block"></span>
                                             <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                         </form>
@@ -672,6 +672,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var tabela_assessor;
 
     $(document).ready(function () {
+    	//Executa o evento change do datetimepicker
+    	$(".datetimepicker").on("dp.change", function (e) {
+            $(e.target).trigger("change");
+        });
         //Verifica se o orçamento info já foi preechido
         (function () {
             session_orcamento_info(false);

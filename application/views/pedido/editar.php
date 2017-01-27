@@ -114,7 +114,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $convite->modelo->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="convite-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-convite-<?= $key ?>" id="data_entrega-convite-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onblur="alterar_data_entrega('convite', 'convite-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-convite-<?= $key ?>" id="data_entrega-convite-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega('convite', 'convite-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-convite-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $convite->id ?>">
@@ -144,7 +144,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $personalizado->modelo->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="personalizado-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-personalizado-<?= $key ?>" id="data_entrega-personalizado-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onblur="alterar_data_entrega('personalizado', 'personalizado-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-personalizado-<?= $key ?>" id="data_entrega-personalizado-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega('personalizado', 'personalizado-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-personalizado-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $personalizado->id ?>">
@@ -174,7 +174,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $container->produto->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="produto-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-produto-<?= $key ?>" id="data_entrega-produto-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onblur="alterar_data_entrega('produto', 'produto-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-produto-<?= $key ?>" id="data_entrega-produto-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega('produto', 'produto-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-produto-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $container->id ?>">
@@ -278,7 +278,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $convite->objeto->modelo->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="convite-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onblur="alterar_data_entrega_adicional('convite', 'convite-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega_adicional('convite', 'convite-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $convite->id ?>">
@@ -307,7 +307,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $personalizado->objeto->modelo->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onblur="alterar_data_entrega_adicional('personalizado', 'personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega_adicional('personalizado', 'personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $personalizado->id ?>">
@@ -337,7 +337,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $container->objeto->produto->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="produto-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onblur="alterar_data_entrega_adicional('produto', 'produto-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega_adicional('produto', 'produto-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $container->id ?>">
@@ -793,6 +793,9 @@ $loja = $orcamento->loja;
         });
         $("#div_informacoes_complementares").hide();
         $("#div_forma_pagamento").hide();
+        $(".datetimepicker").on("dp.change", function (e) {
+            $(e.target).trigger("change");
+        });
     });
     function criar_adicional_pedido() {
         disable_button_salvar();
