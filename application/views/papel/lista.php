@@ -418,7 +418,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h4 class="modal-title">Documentação</h4>
             </div>
             <div class="modal-body">
-                <p>Configurar a tabela conforme a tabela da documentação. Deverá ter o mesmo ID e mesmo Código</p>
+                <p>Configurar a tabela conforme a tabela da documentação. Cada item deverá ter o mesmo código desta tabela</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
