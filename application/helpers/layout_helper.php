@@ -20,7 +20,7 @@ function init_layout() {
     set_layout('conteudo', "Não foi carregado nenhum conteudo na variavel Sistema->layout['conteudo']");
 
     //CSS
-    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar','jquery-confirm','jquery.loadingModal.min','main','bootstrap-year-calendar.min','bootstrap-datetimepicker.min')), FALSE);
+    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar','jquery-confirm','jquery.loadingModal.min','main','bootstrap-year-calendar.min','bootstrap-datetimepicker.min','font-awesome.min')), FALSE);
     set_layout('header', load_css(array('bootstrap-select'), 'assets/js/bootstrap-select/css'), FALSE);
     //JS
     set_layout('header', load_js(array('jquery.min', 'bootstrap.min', 'ie10-viewport-bug-workaround')), FALSE);
