@@ -1,8 +1,8 @@
-   <!-- FOOTER -->
-   <footer>
-      <!-- top-link-block -->
-      <span id="top-link-block" class="hidden">
-       <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+<!-- FOOTER -->
+<footer style="margin-top: 330px;">
+   <!-- top-link-block -->
+   <span id="top-link-block" class="hidden">
+      <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
          <i class="glyphicon glyphicon-chevron-up"></i>Topo
       </a>
    </span>
