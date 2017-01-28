@@ -4,54 +4,76 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row" id="painel_principal">
     <!-- Carrinho -->
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Orçamento</h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-md-2">
-                <div class="btn-group-vertical" role="group" aria-label="...">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-cog"></i> Opções
-                            <span class="caret" ></span>
+        <div class="panel-body" style="padding-right: 0px; padding-left: 0px; padding-top: 0px;">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php
-                            empty($this->session->orcamento->descricao) ? $descricao = '' : $descricao = $this->session->orcamento->descricao;
-                            empty($this->session->orcamento->desconto) ? $desconto = "''" : $desconto = $this->session->orcamento->desconto;
-                            $pedido = $this->session->pedido;
-                            ?>
-                            <li class="dropdown-header">Orçamento</li>
-                            <li><a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a></li>
-                            <li><a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Opções do orçamento</li>
-                            <li><a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a></li>
-                            <li><a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a></li>
-                            <li><a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como orçamento</a></li>
-                            <li><a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar como pedido</a></li>
-                        </ul>
+                        <a onclick="session_orcamento_info()" class="navbar-brand" href="javascript:void(0)">Orçamento</a>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            Produtos
-                            <span class="caret" ></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="<?= base_url('convite') ?>"><i class="glyphicon glyphicon-plus"></i> Convite</a></li>
-                            <li><a href="<?= base_url('personalizado') ?>"><i class="glyphicon glyphicon-plus"></i> Personalizado</a></li>
-                            <li><a onclick="produto_modal('inserir', '', '', '', '', '')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Produto</a></li>
+                    
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <?php
+                                    empty($this->session->orcamento->descricao) ? $descricao = '' : $descricao = $this->session->orcamento->descricao;
+                                    empty($this->session->orcamento->desconto) ? $desconto = "''" : $desconto = $this->session->orcamento->desconto;
+                                    $pedido = $this->session->pedido;
+                                    ?>
+                                    <li class="dropdown-header">Orçamento</li>
+                                    <li><a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a></li>
+                                    <li><a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Opções do orçamento</li>
+                                    <li><a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a></li>
+                                    <li><a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a></li>
+                                    <li><a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i> Produtos <b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="<?= base_url('convite') ?>"><i class="glyphicon glyphicon-envelope"></i> Convite</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= base_url('personalizado') ?>"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="produto_modal('inserir', '', '', '', '', '')" href="javascript:void(0)"><i class="glyphicon glyphicon-gift"></i> Produto
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-save"></i> Salvar <b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-save"></i> Salvar como orçamento</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-open"></i> Salvar como pedido</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-10">
+            </nav>
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="col-sm-1">
-                        <button onclick="session_orcamento_info()" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-info-sign"></i></button>
-                    </div>
                     <div class="col-sm-3">
                         <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
                         <?= form_input('', $this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
@@ -60,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?= form_label('E-mail:', '', array('class' => 'control-label')) ?>
                         <?= form_input('', $this->session->orcamento->cliente->email, 'readonly class="form-control input-sm"') ?>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
                         <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
                     </div>
@@ -961,10 +983,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 scrollX: true,
                 dom: 'lBfrtip',
                 buttons: [
-                    {
-                        extend: 'colvis',
-                        text: 'Visualizar colunas'
-                    }],
+                {
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
+                }],
                 language: {
                     url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
                 },
@@ -982,14 +1004,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                 },
                 columns: [
-                    {data: "id", "visible": true},
-                    {data: "nome", "visible": true},
-                    {data: "sobrenome", "visible": true},
-                    {data: "empresa", "visible": true},
-                    {data: "telefone", "visible": true},
-                    {data: "email", "visible": true},
-                    {data: "comissao", "visible": false},
-                    {data: "descricao", "visible": true},
+                {data: "id", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "sobrenome", "visible": true},
+                {data: "empresa", "visible": true},
+                {data: "telefone", "visible": true},
+                {data: "email", "visible": true},
+                {data: "comissao", "visible": false},
+                {data: "descricao", "visible": true},
                 ]
             });
         }
@@ -1005,10 +1027,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 scrollX: true,
                 dom: 'lBfrtip',
                 buttons: [
-                    {
-                        extend: 'colvis',
-                        text: 'Visualizar colunas'
-                    }],
+                {
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
+                }],
                 order: [[0, 'desc']],
                 language: {
                     url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -1031,31 +1053,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                 },
                 columns: [
-                    {data: "id", "visible": true},
-                    {data: "nome", "visible": true},
-                    {data: "sobrenome", "visible": true},
-                    {data: "email", "visible": true},
-                    {data: "telefone", "visible": true},
-                    {data: "nome2", "visible": false},
-                    {data: "sobrenome2", "visible": false},
-                    {data: "email2", "visible": false},
-                    {data: "telefone2", "visible": false},
-                    {data: "rg", "visible": false},
-                    {data: "cpf", "visible": true},
-                    {data: "endereco", "visible": false},
-                    {data: "numero", "visible": false},
-                    {data: "complemento", "visible": false},
-                    {data: "estado", "visible": false},
-                    {data: "uf", "visible": false},
-                    {data: "bairro", "visible": false},
-                    {data: "cidade", "visible": false},
-                    {data: "cep", "visible": false},
-                    {data: "observacao", "visible": false},
-                    {data: "pessoa_tipo", "visible": false},
-                    {data: "razao_social", "visible": false},
-                    {data: "cnpj", "visible": false},
-                    {data: "ie", "visible": false},
-                    {data: "im", "visible": false},
+                {data: "id", "visible": true},
+                {data: "nome", "visible": true},
+                {data: "sobrenome", "visible": true},
+                {data: "email", "visible": true},
+                {data: "telefone", "visible": true},
+                {data: "nome2", "visible": false},
+                {data: "sobrenome2", "visible": false},
+                {data: "email2", "visible": false},
+                {data: "telefone2", "visible": false},
+                {data: "rg", "visible": false},
+                {data: "cpf", "visible": true},
+                {data: "endereco", "visible": false},
+                {data: "numero", "visible": false},
+                {data: "complemento", "visible": false},
+                {data: "estado", "visible": false},
+                {data: "uf", "visible": false},
+                {data: "bairro", "visible": false},
+                {data: "cidade", "visible": false},
+                {data: "cep", "visible": false},
+                {data: "observacao", "visible": false},
+                {data: "pessoa_tipo", "visible": false},
+                {data: "razao_social", "visible": false},
+                {data: "cnpj", "visible": false},
+                {data: "ie", "visible": false},
+                {data: "im", "visible": false},
                 ]
             });
         } else {
@@ -1067,7 +1089,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         pre_submit('#form_orcamento_info', '<?= base_url('orcamento/ajax_session_orcamento_info') ?>', '#md_orcamento_info');
         if (modal_open) {
             $('#md_orcamento_info').modal();
-    }
+        }
     }
     function session_cliente_inserir(id) {
         $.ajax({
@@ -1656,120 +1678,120 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     }
 //AJAX
-    /*Variaveis globais para o ajax*/
-    var form_ajax;
-    var url_ajax;
-    var modal_ajax;
-    function pre_submit(form, url, modal) {
-        console.log('pre_submit');
-        form_ajax = form;
-        url_ajax = url;
-        modal_ajax = modal;
-    }
+/*Variaveis globais para o ajax*/
+var form_ajax;
+var url_ajax;
+var modal_ajax;
+function pre_submit(form, url, modal) {
+    console.log('pre_submit');
+    form_ajax = form;
+    url_ajax = url;
+    modal_ajax = modal;
+}
 //Adiciona ou Edita produto
-    $(".form_ajax").submit(function (e) {
-        console.log('Função: $(".form_ajax")');
-        disable_button();
-        reset_errors();
-        var form = form_ajax;
-        var url = url_ajax;
-        var modal = modal_ajax;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: $(form).serialize(),
-            dataType: "JSON",
-        }).done(function (data) {
-            console.log('success: $(".form_ajax")');
-            if (data.status) {
-                $(modal).modal('hide');
-                reload_table();
-            } else {
-                $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
-                });
-            }
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log('error: $(".form_ajax")');
-            console.log(textStatus);
-            $.alert({
-                title: 'Atenção!',
-                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+$(".form_ajax").submit(function (e) {
+    console.log('Função: $(".form_ajax")');
+    disable_button();
+    reset_errors();
+    var form = form_ajax;
+    var url = url_ajax;
+    var modal = modal_ajax;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: $(form).serialize(),
+        dataType: "JSON",
+    }).done(function (data) {
+        console.log('success: $(".form_ajax")');
+        if (data.status) {
+            $(modal).modal('hide');
+            reload_table();
+        } else {
+            $.map(data.form_validation, function (value, index) {
+                $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                $('[name="' + index + '"]').next().text(value);
             });
-	        })
-	        .always(function () {
-	            enable_button();
-	        });
-	        e.preventDefault();
-    });
-    function main_excluir(url) {
-        console.log("Função: main_excluir()");
-
-        $.confirm({
-            title: 'Confirmação',
-            content: 'Deseja realmente excluir?',
-            confirm: function () {
-                call_loadingModal();
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    dataType: 'json',
-                })
-                .done(function (data) {
-                    console.log("success: main_excluir()");
-                })
-                .fail(function () {
-                    console.log("error:  main_excluir()");
-                })
-                .always(function (data) {
-                    console.log("complete: main_excluir()");
-                    reload_table();
-                });
-            },
-            cancel: function () {
-                $.alert({
-                    title: '',
-                    content: 'A operação foi cancelada!',
-                });
-            }
-        });
-    }
-    function reload_table() {
-        console.log("Função: reload_table()");
-        $.ajax({
-            url: '<?= base_url('orcamento') ?>',
-            type: 'POST',
-            dataType: 'html',
-        })
-        .done(function (data) {
-            console.log("success: reload_table()");
-        })
-        .fail(function () {
-            console.log("error:reload_table()");
-        })
-        .always(function (data) {
-            console.log("complete:reload_table()");
-            close_loadingModal();
-            $('#orcamento_info').html($('#orcamento_info', data).html());
-            $('#painel_principal').html($('#painel_principal', data).html());
-            apply_this_document_ready();
-        });
-    }
-    function call_loadingModal(msg = "") {
-        if (msg === "") {
-            msg = "Processando os dados..."
         }
-        $('body').loadingModal({
-            position: 'auto',
-            text: msg,
-            color: '#fff',
-            opacity: '0.7',
-            backgroundColor: 'rgb(0,0,0)',
-            animation: 'threeBounce'
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('error: $(".form_ajax")');
+        console.log(textStatus);
+        $.alert({
+            title: 'Atenção!',
+            content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
         });
+    })
+    .always(function () {
+       enable_button();
+   });
+    e.preventDefault();
+});
+function main_excluir(url) {
+    console.log("Função: main_excluir()");
+
+    $.confirm({
+        title: 'Confirmação',
+        content: 'Deseja realmente excluir?',
+        confirm: function () {
+            call_loadingModal();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+            })
+            .done(function (data) {
+                console.log("success: main_excluir()");
+            })
+            .fail(function () {
+                console.log("error:  main_excluir()");
+            })
+            .always(function (data) {
+                console.log("complete: main_excluir()");
+                reload_table();
+            });
+        },
+        cancel: function () {
+            $.alert({
+                title: '',
+                content: 'A operação foi cancelada!',
+            });
+        }
+    });
+}
+function reload_table() {
+    console.log("Função: reload_table()");
+    $.ajax({
+        url: '<?= base_url('orcamento') ?>',
+        type: 'POST',
+        dataType: 'html',
+    })
+    .done(function (data) {
+        console.log("success: reload_table()");
+    })
+    .fail(function () {
+        console.log("error:reload_table()");
+    })
+    .always(function (data) {
+        console.log("complete:reload_table()");
+        close_loadingModal();
+        $('#orcamento_info').html($('#orcamento_info', data).html());
+        $('#painel_principal').html($('#painel_principal', data).html());
+        apply_this_document_ready();
+    });
+}
+function call_loadingModal(msg = "") {
+    if (msg === "") {
+        msg = "Processando os dados..."
     }
-    function close_loadingModal() {
+    $('body').loadingModal({
+        position: 'auto',
+        text: msg,
+        color: '#fff',
+        opacity: '0.7',
+        backgroundColor: 'rgb(0,0,0)',
+        animation: 'threeBounce'
+    });
+}
+function close_loadingModal() {
         // hide the loading modal
         $('body').loadingModal('hide');
         // destroy the plugin
