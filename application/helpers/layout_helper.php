@@ -16,6 +16,7 @@ function init_layout() {
     set_layout('menu', load_content('template/menu/menu'));
     set_layout('breadcrumb', load_content('template/breadcrumb/breadcrumb'));
     set_layout('calendario', load_content('template/calendario/calendario'));
+    set_layout('footer', load_content('template/footer/footer'));
     set_layout('conteudo', "Não foi carregado nenhum conteudo na variavel Sistema->layout['conteudo']");
 
     //CSS

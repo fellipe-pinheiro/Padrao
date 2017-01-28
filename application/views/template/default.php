@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row">
                 {conteudo}
                 {calendario}
+                {footer}
             </div>
         </div>
     </body>
