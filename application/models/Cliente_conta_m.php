@@ -246,9 +246,6 @@ class Cliente_conta_m extends CI_Model {
         list($ano, $mes, $dia) = explode('-', $this->primeiro_vencimento);
         $mes_aux = $mes + ($this->n_parcela - 1);
 
-        if($mes_aux % 12 == 0){
-            $teste = true;
-        }
         if($mes_aux > 12){
             $ano_aux = floor( $mes_aux / 12 );
             $mes_aux = floor( $mes_aux % 12 );

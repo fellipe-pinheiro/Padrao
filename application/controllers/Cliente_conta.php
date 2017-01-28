@@ -60,20 +60,6 @@ class Cliente_conta extends CI_Controller {
         restrito_logado();
     }
     
-    // public function index() {
-    //     $data['titulo_painel'] = 'Transações';
-    //     $data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
-    //     set_layout('conteudo', load_content('cliente_conta/lista', $data));
-    //     load_layout();
-    // }
-
-    // public function transacoes() {
-    //     $data['titulo_painel'] = 'Transações';
-    //     $data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
-    //     set_layout('conteudo', load_content('cliente_conta/transacoes', $data));
-    //     load_layout();
-    // }
-    
     public function pagamento(){
         $id = $this->uri->segment(3); //número do pedido
         $data['pedido_debitos'] = $this->Cliente_conta_m->get_by_pedido($id,true,false);

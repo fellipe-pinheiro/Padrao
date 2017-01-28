@@ -154,9 +154,6 @@ $adicionais = empty($dados['adicionais'])? $adicionais = array() : $adicionais =
 															<span class="caret"></span>
 														</button>
 														<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-															<!--li>
-																<a href="<?=base_url('pedido/resumo/'.$pedido->ped_id)?>" target="__blank">Resumo</a>
-															</li-->
 															<li>
 																<a href="<?=base_url('pedido/pdf/'.$pedido->ped_id)?>" target="__blank">PDF</a>
 															</li>
