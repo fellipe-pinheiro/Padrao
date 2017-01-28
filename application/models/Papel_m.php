@@ -80,8 +80,8 @@ class Papel_m extends CI_Model {
         $this->_get_datatables_query();
         if ($_POST['length'] != -1) {
             $this->db->limit($_POST['length'], $_POST['start']);
-            $this->__join();
         }
+        $this->__join();
         $query = $this->db->get();
         return $query->result();
     }
