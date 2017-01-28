@@ -2,9 +2,9 @@ $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
 	$('.calendar').calendar().setLanguage("pt");
-    $('.datetimepicker').datetimepicker({
-        format:'L'
-    });
+	$('.datetimepicker').datetimepicker({
+		format:'L'
+	});
 	// Fix Multiples Modals Scroll Issues
 	$('.modal').on("hidden.bs.modal", function (e) {
 		if($('.modal:visible').length)
@@ -47,6 +47,13 @@ $(document).ready(function() {
 		$(".buttons-collection").children().append('<i class="caret">');
 		$(".form-filter .form-group").css("margin-left","-5px").css("margin-right","-5px");
 	});
+	/*Footer: Back to top link span*/
+	if ( ($(window).height() + 100) < $(document).height() ) {
+		$('#top-link-block').removeClass('hidden').affix({
+        // how far to scroll down before link "slides" into view
+        offset: {top:10}
+    	});
+	}
 });
 $(document).on('click', '.panel-heading span.clickable', function(e){
 	var $this = $(this);
@@ -128,39 +135,39 @@ function check_filter_dirty() {
 	});
 }
 function is_datatable_exists(dt_table) {
-    if($.fn.DataTable.isDataTable( dt_table )){
-        return true;
-    }
-    return false;
+	if($.fn.DataTable.isDataTable( dt_table )){
+		return true;
+	}
+	return false;
 }
 function disable_button_salvar(){
-    $('.btnSubmit').text('Salvando...');
-    $('.btnSubmit').attr('disabled', true);
+	$('.btnSubmit').text('Salvando...');
+	$('.btnSubmit').attr('disabled', true);
 }
 function enable_button_salvar() {
-    $('.btnSubmit').text('Salvar');
-    $('.btnSubmit').attr('disabled', false);
+	$('.btnSubmit').text('Salvar');
+	$('.btnSubmit').attr('disabled', false);
 }
 function carregaCep(){
-    var cep = $("#input_cep").val();
-    if(cep.length != 9){
-        console.log('cep inválido');
-        return false;
-    }
-    cep = cep.replace("-", "");
-    var url_valor = "http://correiosapi.apphb.com/cep/" + cep;
-    var estados = $("#input_estado").data("estado");
-    $.ajax({
-        url: url_valor,
-        type: 'POST',
-        dataType: 'jsonp',
-        crossDomain: true,
-        contentType: "application/json",
-        statusCode: {
-            200: function(data) {
-            $("#input_endereco").val(data.tipoDeLogradouro + " " + data.logradouro);
-            $("#input_bairro").val(data.bairro);
-            $("#input_cidade").val(data.cidade);
+	var cep = $("#input_cep").val();
+	if(cep.length != 9){
+		console.log('cep inválido');
+		return false;
+	}
+	cep = cep.replace("-", "");
+	var url_valor = "http://correiosapi.apphb.com/cep/" + cep;
+	var estados = $("#input_estado").data("estado");
+	$.ajax({
+		url: url_valor,
+		type: 'POST',
+		dataType: 'jsonp',
+		crossDomain: true,
+		contentType: "application/json",
+		statusCode: {
+			200: function(data) {
+				$("#input_endereco").val(data.tipoDeLogradouro + " " + data.logradouro);
+				$("#input_bairro").val(data.bairro);
+				$("#input_cidade").val(data.cidade);
             $("#input_estado").val(estados[data.estado]);// Estado
             $("#input_uf").val(data.estado); } // UF
             ,400: function(msg) { console.log(msg);  } // Bad Request
@@ -168,15 +175,15 @@ function carregaCep(){
             ,0: function(msg) { console.log(msg)}
         }
     })
-    .done(function() {
-        console.log("success");
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        console.log("error");
-    })
-    .always(function() {
-        console.log("complete");
-    });
+	.done(function() {
+		console.log("success");
+	})
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
 }
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
