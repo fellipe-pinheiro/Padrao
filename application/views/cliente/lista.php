@@ -2,56 +2,97 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">  
-            <div class="col-md-12">
-                <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-                <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-                <button class="btn btn-default" data-toggle="modal" href='#md_filtro_cliente'><span class="glyphicon glyphicon-search"></span></button>
-                <button type="button" id="" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <button type="button" id="btn-profile" class="btn btn-default">Profile</button>
-                <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Cliente</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a data-toggle="modal" href='#md_filtro_cliente'><i class="glyphicon glyphicon-filter"></i> Filtrar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="btn-reset">
+                            <a href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="btn-profile"><i class="glyphicon glyphicon-user"></i> Perfil</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <hr>  
+        </nav>
         <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_cliente" class="table display compact table-bordered " cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Sobrenome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Nome2</th>
-                            <th>Sobrenome2</th>
-                            <th>Email2</th>
-                            <th>Telefone2</th>
-                            <th>Rg</th>
-                            <th>Cpf</th>
-                            <th>Endereço</th>
-                            <th>Número</th>
-                            <th>Complemento</th>
-                            <th>Estado</th>
-                            <th>UF</th>
-                            <th>Bairro</th>
-                            <th>Cidade</th>
-                            <th>Cep</th>
-                            <th>Observacao</th>
-                            <th>Pessoa</th>
-                            <th>Razão Social</th>
-                            <th>CNPJ</th>
-                            <th>I.E</th>
-                            <th>I.M</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <div class="col-sm-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_cliente" class="table display compact table-bordered " cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Sobrenome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Nome2</th>
+                                <th>Sobrenome2</th>
+                                <th>Email2</th>
+                                <th>Telefone2</th>
+                                <th>Rg</th>
+                                <th>Cpf</th>
+                                <th>Endereço</th>
+                                <th>Número</th>
+                                <th>Complemento</th>
+                                <th>Estado</th>
+                                <th>UF</th>
+                                <th>Bairro</th>
+                                <th>Cidade</th>
+                                <th>Cep</th>
+                                <th>Observacao</th>
+                                <th>Pessoa</th>
+                                <th>Razão Social</th>
+                                <th>CNPJ</th>
+                                <th>I.E</th>
+                                <th>I.M</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

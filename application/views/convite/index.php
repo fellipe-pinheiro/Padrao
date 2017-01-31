@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-			<div class="panel-body" style="padding-right: 0px; padding-left: 0px; padding-top: 0px;">
+			<div class="panel-body panel-nav">
 				<nav class="navbar navbar-default navbar-static-top" role="navigation">
 	                <div class="container-fluid">
 	                    <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                            <span class="icon-bar"></span>
 	                            <span class="icon-bar"></span>
 	                        </button>
-	                        <a class="navbar-brand" href="javascript:void(0)"><i class="glyphicon glyphicon-envelope"></i> Convite</a>
+	                        <div class="navbar-brand" ><i class="glyphicon glyphicon-envelope"></i> Convite</div>
 	                    </div>
 	                    
 	                    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -80,8 +80,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td>Convite</td>
 										<td><?=$this->session->convite->modelo->codigo?></td>
 										<td><?=$this->session->convite->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_convite(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_convite_sub_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_convite(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_convite_sub_total(),2,',','.')?></td>
 										<td><a onclick="convite_modal('editar',<?=$this->session->convite->modelo->id?>,<?=$this->session->convite->quantidade?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
 										<td><a onclick="excluir_convite()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
@@ -94,8 +94,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td>Mão de obra</td>
 										<td></td>
 										<td><?=$this->session->convite->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_mao_obra(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_mao_obra_sub_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_mao_obra(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_mao_obra_sub_total(),2,',','.')?></td>
 										<td><a onclick="mao_obra_modal('editar',<?=$this->session->convite->mao_obra->id?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
 										<td><a onclick="excluir_mao_obra()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
@@ -108,8 +108,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td>Custos Administrativos</td>
 										<td></td>
 										<td><?=$this->session->convite->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_custos_administrativos_unitario(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_custos_administrativos_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_custos_administrativos_unitario(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->convite->calcula_custos_administrativos_total(),2,',','.')?></td>
 										<td></td>
 										<td></td>
 									</tr>
@@ -123,8 +123,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Total</th>
 									<th></th>
 									<th><?=$this->session->convite->quantidade?></th>
-									<th>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_unitario(),2,',','.')?></span></th>
-									<th>R$ <span class="pull-right"><?=number_format($this->session->convite->calcula_total(),2,',','.')?></span></th>
+									<th>R$ <?=number_format($this->session->convite->calcula_unitario(),2,',','.')?></th>
+									<th>R$ <?=number_format($this->session->convite->calcula_total(),2,',','.')?></th>
 									<th></th>
 									<th></th>
 								</tr>

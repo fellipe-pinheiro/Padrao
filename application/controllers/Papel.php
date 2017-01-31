@@ -16,7 +16,6 @@ class Papel extends CI_Controller {
     }
 
     public function index() {
-        $data["papel"] = empty($this->Papel_m->get_list())? $data["papel"] = array() : $data["papel"] = $this->Papel_m->get_list();
         $data["papel_linha"] = $this->Papel_linha_m->get_list();
         $data["papel_dimensao"] = $this->Papel_dimensao_m->get_list();
         $data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();

@@ -2,39 +2,85 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-	</div>
-	<div class="panel-body">
-		<a href="<?=base_url('orcamento')?>" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></a>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-default" data-toggle="modal" href='#md_filtro'><span class="glyphicon glyphicon-search"></span></button>
-        <button type="button" id="btn-reset" class="btn btn-default">Limpar Filtro</button>
-        <button class="btn btn-default" id="pdf">PDF</button>
-        <hr>  
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Lista de orçamentos</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="<?=base_url('orcamento')?>"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a data-toggle="modal" href='#md_filtro'><i class="glyphicon glyphicon-filter"></i> Filtrar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="btn-reset">
+                            <a href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_orcamento" class="table display compact table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>orc_id</th>
-                            <th>cliente</th>
-                            <th>data_orc</th>
-                            <th>data_evento</th>
-                            <th>email</th>
-                            <th>tel</th>
-                            <th>cpf</th>
-                            <th>cnpj</th>
-                            <th>razao_social</th>
-                            <th>cli_pessoa</th>
-                            <th>evento</th>
-                            <th>unidade</th>
-                            <th>descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fbody">
-                    </tbody>
-                </table>
+            <div class="col-sm-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_orcamento" class="table display compact table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>orc_id</th>
+                                <th>cliente</th>
+                                <th>data_orc</th>
+                                <th>data_evento</th>
+                                <th>email</th>
+                                <th>tel</th>
+                                <th>cpf</th>
+                                <th>cnpj</th>
+                                <th>razao_social</th>
+                                <th>cli_pessoa</th>
+                                <th>evento</th>
+                                <th>unidade</th>
+                                <th>descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -118,7 +164,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" id="btn-filter" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
+                <button type="button" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
+                <button type="button" id="btn-filter" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
             </div>
         </div>
     </div>
@@ -191,7 +238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#md_filtro").modal('hide');
         });
         //button reset event click
-        $('#btn-reset').click(function(){
+        $('.btn-reset').click(function(){
             $('#form-filter')[0].reset();
             //just reload table
             tabela.ajax.reload(null,false);
@@ -218,13 +265,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#modal_form').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
-            call_loadingModal('Carregando...');
             // Buscar ID da linha selecionada
             var id = tabela.row(".selected").id();
             if (!id) {
             	return;
             }
-
+            call_loadingModal('Carregando...');
             $.ajax({
             	url: "<?=base_url('orcamento/ajax_get_session_orcamento')?>",
             	type: 'POST',

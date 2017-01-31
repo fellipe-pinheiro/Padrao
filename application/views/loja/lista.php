@@ -2,42 +2,75 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>  
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <p class="navbar-brand" href="javascript:void(0)">Lojas</p>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_loja" class="table display compact table-bordered " cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Unidade</th>
-                            <th>Razão Social</th>
-                            <th>CNPJ</th>
-                            <th>I.E</th>
-                            <th>I.M</th>
-                            <th>Telefone</th>
-                            <th>Telefone2</th>
-                            <th>Telefone3</th>
-                            <th>Email</th>
-                            <th>Endereço</th>
-                            <th>Número</th>
-                            <th>Complemento</th>
-                            <th>Estado</th>
-                            <th>UF</th>
-                            <th>Bairro</th>
-                            <th>Cidade</th>
-                            <th>CEP</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fbody">
-                    </tbody>
-                </table>
+            <div class="col-md-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_loja" class="table display compact table-bordered " cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Unidade</th>
+                                <th>Razão Social</th>
+                                <th>CNPJ</th>
+                                <th>I.E</th>
+                                <th>I.M</th>
+                                <th>Telefone</th>
+                                <th>Telefone2</th>
+                                <th>Telefone3</th>
+                                <th>Email</th>
+                                <th>Endereço</th>
+                                <th>Número</th>
+                                <th>Complemento</th>
+                                <th>Estado</th>
+                                <th>UF</th>
+                                <th>Bairro</th>
+                                <th>Cidade</th>
+                                <th>CEP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fbody">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -143,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Endereço: ', 'endereco', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input('endereco', '', 'id="endereco" class="form-control" placeholder="Logradouro"') ?>
+                        <?= form_input('endereco', '', 'id="input_endereco" class="form-control" placeholder="Logradouro"') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -170,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Estado: ', 'estado', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <input list="dl_estado" id="estado" name="estado" class="form-control"/>
+                        <input list="dl_estado" id="input_estado" name="estado" class="form-control" data-estado='<?=$dados['estados_json']?>'/>
                         <datalist id="dl_estado">
                             <?php foreach ($dados['estados'] as $estado): ?>
                                 <option value="<?= $estado ?>"></option>
@@ -184,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('UF: ', 'uf', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <input list="dl_uf" name="uf" class="form-control"/>
+                        <input list="dl_uf" name="uf" id="input_uf" class="form-control"/>
                         <datalist id="dl_uf">
                             <?php foreach ($dados['estados'] as $uf => $estado): ?>
                                 <option value="<?= $uf ?>"></option>
@@ -198,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Bairro: ', 'bairro', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input('bairro', '', 'id="bairro" class="form-control" placeholder="Bairro"') ?>
+                        <?= form_input('bairro', '', 'id="input_bairro" class="form-control" placeholder="Bairro"') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -207,7 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Cidade: ', 'cidade', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input('cidade', '', 'id="cidade" class="form-control" placeholder="Cidade"') ?>
+                        <?= form_input('cidade', '', 'id="input_cidade" class="form-control" placeholder="Cidade"') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -216,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Cep: ', 'cep', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input('cep', '', 'id="cep" class="form-control cep" placeholder="Cep"') ?>
+                        <?= form_input('cep', '', 'id="input_cep" class="form-control cep" placeholder="Cep"') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -446,6 +479,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             reload_table();
             e.preventDefault();
         });
+        $("#input_cep").blur(carregaCep);
     });
 
     function reload_table() {

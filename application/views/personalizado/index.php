@@ -12,7 +12,7 @@ if(empty($mao_obra->id)){
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-			<div class="panel-body" style="padding-right: 0px; padding-left: 0px; padding-top: 0px;">
+			<div class="panel-body panel-nav">
 				<nav class="navbar navbar-default navbar-static-top" role="navigation">
 	                <div class="container-fluid">
 	                    <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +23,7 @@ if(empty($mao_obra->id)){
 	                            <span class="icon-bar"></span>
 	                            <span class="icon-bar"></span>
 	                        </button>
-	                        <a class="navbar-brand" href="javascript:void(0)"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</a>
+	                        <div class="navbar-brand"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</div>
 	                    </div>
 	                    
 	                    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -79,8 +79,8 @@ if(empty($mao_obra->id)){
 										<td><?=$this->session->personalizado->modelo->personalizado_categoria->nome?></td>
 										<td><?=$this->session->personalizado->modelo->codigo?></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->modelo->valor,2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->modelo->valor * $this->session->personalizado->quantidade,2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->personalizado->modelo->valor,2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->personalizado->modelo->valor * $this->session->personalizado->quantidade,2,',','.')?></td>
 										<td><a onclick="personalizado_modal('editar',<?=$this->session->personalizado->modelo->id?>,<?=$this->session->personalizado->quantidade?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
 										<td><a onclick="excluir_personalizado()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
@@ -93,8 +93,8 @@ if(empty($mao_obra->id)){
 										<td>Itens do personalizado</td>
 										<td></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_personalizado(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_personalizado_sub_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_personalizado(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_personalizado_sub_total(),2,',','.')?></td>
 										<td></td>
 										<td><a onclick="excluir_itens_personalizado()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
@@ -110,8 +110,8 @@ if(empty($mao_obra->id)){
 										<td>Mão de obra</td>
 										<td></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_mao_obra(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_mao_obra_sub_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_mao_obra(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_mao_obra_sub_total(),2,',','.')?></td>
 										<td><a onclick="mao_obra_modal('editar',<?=$this->session->personalizado->mao_obra->id?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
 										<td><a onclick="excluir_mao_obra()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
@@ -124,8 +124,8 @@ if(empty($mao_obra->id)){
 										<td>Custos Administrativos</td>
 										<td></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_custos_administrativos_unitario(),2,',','.')?></span></td>
-										<td>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_custos_administrativos_total(),2,',','.')?></span></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_custos_administrativos_unitario(),2,',','.')?></td>
+										<td>R$ <?=number_format($this->session->personalizado->calcula_custos_administrativos_total(),2,',','.')?></td>
 										<td></td>
 										<td></td>
 									</tr>
@@ -139,8 +139,8 @@ if(empty($mao_obra->id)){
 									<th></th>
 									<th></th>
 									<th><?=$this->session->personalizado->quantidade?></th>
-									<th>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_unitario(),2,',','.')?></span></th>
-									<th>R$ <span class="pull-right"><?=number_format($this->session->personalizado->calcula_total(),2,',','.')?></span></th>
+									<th>R$ <?=number_format($this->session->personalizado->calcula_unitario(),2,',','.')?></th>
+									<th>R$ <?=number_format($this->session->personalizado->calcula_total(),2,',','.')?></th>
 									<th></th>
 									<th></th>
 								</tr>

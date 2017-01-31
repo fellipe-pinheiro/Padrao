@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row" id="painel_principal">
     <!-- Carrinho -->
     <div class="panel panel-default">
-        <div class="panel-body" style="padding-right: 0px; padding-left: 0px; padding-top: 0px;">
+        <div class="panel-body panel-nav">
             <nav class="navbar navbar-default navbar-static-top" role="navigation">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -15,11 +15,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a onclick="session_orcamento_info()" class="navbar-brand" href="javascript:void(0)">Orçamento</a>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <div class="navbar-brand" href="javascript:void(0)">Orçamento</div>
+                            </li>
+                        </ul>
                     </div>
                     
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>
@@ -30,13 +34,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     $pedido = $this->session->pedido;
                                     ?>
                                     <li class="dropdown-header">Orçamento</li>
-                                    <li><a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a></li>
-                                    <li><a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a></li>
+                                    <li>
+                                        <a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="session_orcamento_info()" href="javascript:void(0)"><i class="glyphicon glyphicon-info-sign"></i> Informações</a>
+                                    </li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Opções do orçamento</li>
-                                    <li><a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a></li>
-                                    <li><a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a></li>
-                                    <li><a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a></li>
+                                    <li>
+                                        <a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -123,8 +140,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </form>
                                     </td>
                                     <td><?= $convite->quantidade ?></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></span></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($convite->calcula_total(), 2, ',', '.') ?></span></td>
+                                    <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
+                                    <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
                                     <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
                                     <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
                                 </tr>
@@ -146,8 +163,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </form>
                                     </td>
                                     <td><?= $personalizado->quantidade ?></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></span></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></span></td>
+                                    <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
+                                    <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
                                     <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
                                     <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
                                 </tr>
@@ -169,8 +186,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </form>
                                     </td>
                                     <td><?= $container->quantidade ?></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($container->calcula_unitario(), 2, ',', '.') ?></span></td>
-                                    <td>R$ <span class="pull-right"><?= number_format($container->calcula_total(), 2, ',', '.') ?></span></td>
+                                    <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
+                                    <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
                                     <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
                                     <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
@@ -190,7 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td class="data_entrega"></td>
                                     <td></td>
                                     <td>Desconto</td>
-                                    <td>R$ <span class="pull-right"><?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></span></td>
+                                    <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
                                     <td><a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
                                     <td><a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
@@ -204,7 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th class="data_entrega"></th>
                                 <th></th>
                                 <th>Total a pagar</th>
-                                <th>R$ <span class="pull-right"><?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></span></th>
+                                <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -262,7 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </form>
@@ -448,7 +465,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
@@ -603,7 +620,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </form>
@@ -705,11 +722,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#input_cep").blur(carregaCep);
         //Verifica se o orçamento info já foi preechido
-        (function () {
-            session_orcamento_info(false);
-            is_empty_orcamento_info(false);
-            is_set_delivery_date();
-        })();
+        session_orcamento_info(false);
+        is_empty_orcamento_info(false);
+        is_set_delivery_date();
         $('#form_orcamento_info').on('submit', function (e) {
 
             is_empty_orcamento_cliente(false);
@@ -1652,19 +1667,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url = '<?= base_url('orcamento/pdf/') ?>' + id;
                     item = "Orçamento";
                 }
-                $.confirm({
+                $.alert({
                     title: item + " N° " + id,
                     content: "<p>Seu " + item + " foi criado com sucesso!</p>",
                     confirmButton: 'PDF',
-                    cancelButton: 'Fechar',
                     confirm: function () {
                         window.open(url, '_blank');
                     },
-                    cancel: function () {
-                        $("#md_orcamento_info").modal('show');
-                    }
-
-                })
+                });
                 reload_table();
             }
         })

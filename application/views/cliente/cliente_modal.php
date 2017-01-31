@@ -334,8 +334,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" id="" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <button type="button" id="btn-filter-cliente" class="btn btn-default">Filtrar</button>
+                <button type="button" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
+                <button type="button" id="btn-filter-cliente" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
             </div>
         </div>
     </div>

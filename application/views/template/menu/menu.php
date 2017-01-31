@@ -57,7 +57,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Calendário<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?= base_url('calendario/index') ?>"><i class="fa fa-truck" aria-hidden="true"></i> Entregas</a></li>
+                        <li><a href="<?= base_url('calendario/entrega') ?>"><i class="fa fa-truck" aria-hidden="true"></i> Entregas</a></li>
                         <li><a href="<?= base_url('calendario/producao') ?>"><i class="fa fa-gavel" aria-hidden="true"></i> Produção</a></li>
                         <li><a data-toggle="modal" href='#md_calendario'><i class="fa fa-calendar" aria-hidden="true"></i> Calendário</a></li>
                     </ul>

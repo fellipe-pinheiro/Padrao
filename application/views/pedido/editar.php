@@ -789,17 +789,13 @@ $loja = $orcamento->loja;
                 $("#form_adicional_pedido")[0].reset();
                 close_loadingModal();
                 atualizar();
-                $.confirm({
+                $.alert({
                     title: "Adicional N° " + data.adicional_id,
                     content: "<p>Seu pedido adicional foi criado com sucesso!</p>",
                     confirmButton: 'PDF',
-                    cancelButton: 'Fechar',
                     confirm: function () {
                         window.open('<?= base_url('adicional/pdf/') ?>' + data.adicional_id, '_blank');
                     },
-                    cancel: function () {
-
-                    }
                 })
             } else {
                 close_loadingModal();
@@ -1366,14 +1362,7 @@ $loja = $orcamento->loja;
         // destroy the plugin
         $('body').loadingModal('destroy');
     }
-    $("#qtd_parcelas").click(function (event) {
-        if ($("#qtd_parcelas").val() == 1) {
-            $("#vencimento_dia").attr("disabled", true);
-            $("#vencimento_dia option[value='']").prop("selected", true);
-        } else {
-            $("#vencimento_dia").attr("disabled", false);
-        }
-    });
+    
     function apply_this_document_ready() {
         desabilita_produto_cancelado();
         disable_button_adicional();
@@ -1395,5 +1384,13 @@ $loja = $orcamento->loja;
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
         $(':checkbox').checkboxpicker();
+        $("#qtd_parcelas").click(function (event) {
+            if ($("#qtd_parcelas").val() == 1) {
+                $("#vencimento_dia").attr("disabled", true);
+                $("#vencimento_dia option[value='']").prop("selected", true);
+            } else {
+                $("#vencimento_dia").attr("disabled", false);
+            }
+        });
     }
 </script>

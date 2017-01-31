@@ -43,10 +43,10 @@ class Calendario extends CI_Controller {
         restrito_logado();
     }
 
-    public function index() {
+    public function entrega() {
         $data['lojas'] = $this->Loja_m->get_list();
         set_layout('titulo', 'Calendário | Entrega', true);
-        set_layout('conteudo', load_content('calendario/index', $data));
+        set_layout('conteudo', load_content('calendario/entrega', $data));
         load_layout();
     }
 
@@ -54,30 +54,6 @@ class Calendario extends CI_Controller {
         $data['lojas'] = $this->Loja_m->get_list();
         set_layout('titulo', 'Calendário | Produção', true);
         set_layout('conteudo', load_content('calendario/producao', $data));
-        load_layout();
-    }
-
-    public function calendar() {
-        $eventos = array(
-            3 => 'http://example.com/news/article/2006/06/03/',
-            7 => 'http://example.com/news/article/2006/06/07/',
-            13 => 'http://example.com/news/article/2006/06/13/',
-            26 => 'http://example.com/news/article/2006/06/26/'
-            );
-        $data['calendario'] = $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4), $eventos);
-        set_layout('conteudo', load_content('calendario/calendar', $data));
-        load_layout();
-    }
-
-    public function calendario2() {
-        $data = null;
-        set_layout('conteudo', load_content('calendario/calendario2', $data));
-        load_layout();
-    }
-
-    public function calendario3() {
-        $data = null;
-        set_layout('conteudo', load_content('calendario/calendario3', $data));
         load_layout();
     }
 
@@ -135,6 +111,7 @@ class Calendario extends CI_Controller {
         $str = $arr["usuario"] . " " . date("d/m/Y H:i:s", strtotime($arr["data"]));
         return $str;
     }
+
     private function get_table($produto){
         switch ($produto) {
             case 'convite':

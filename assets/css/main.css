@@ -16,3 +16,13 @@
     max-height: 300px;
     overflow-x: hidden;
 }
+/*Painel com nav*/
+.panel-nav{
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #000;
+    background-color: #e7e7e7;
+}

@@ -17,11 +17,10 @@ class Papel_linha_m extends CI_Model {
     var $valor_400g;
     // Ajax 
     var $table = 'papel_linha as pl';
-    var $column_order = array('id', 'pc.nome', 'pl.nome','pl.valor_80g','pl.valor_120g','pl.valor_180g','pl.valor_250g','pl.valor_300g','pl.valor_350g','pl.valor_400g','descricao'); //set column field database for datatable orderable
-    var $column_search = array('pl.nome', 'pc.nome'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('pl.id'=>'asc'); // default order 
+    var $column_order = array('id', 'pc.nome', 'pl.nome','pl.valor_80g','pl.valor_120g','pl.valor_180g','pl.valor_250g','pl.valor_300g','pl.valor_350g','pl.valor_400g','descricao');
+    var $column_search = array('pl.nome', 'pc.nome');
+    var $order = array('pl.id'=>'asc');
 
-    // Ajax Nao alterar
     private function _get_datatables_query() {
         if($this->input->post('filtro_catalogo')){
             $this->db->like('pc.nome', $this->input->post('filtro_catalogo'));
@@ -55,7 +54,7 @@ class Papel_linha_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
         $this->_get_datatables_query();
         if ($_POST['length'] != -1)
@@ -64,14 +63,14 @@ class Papel_linha_m extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
         $this->_get_datatables_query();
         $this->db->join('papel_catalogo as pc', 'pl.papel_catalogo = pc.id', 'left');
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -81,7 +80,7 @@ class Papel_linha_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel_linha');
-        $result =  $this->Papel_linha_m->__changeToObject($result->result_array());
+        $result =  $this->Papel_linha_m->changeToObject($result->result_array());
         return $result[0];
     }
 
@@ -89,11 +88,9 @@ class Papel_linha_m extends CI_Model {
         if (!empty($id)) {
             $this->db->where('id', $id);
             $this->db->limit(1);
-            $result = $this->db->get('papel_linha');
-        } else {
-            $result = $this->db->get('papel_linha');
         }
-        return $this->Papel_linha_m->__changeToObject($result->result_array());
+        $result = $this->db->get('papel_linha');
+        return $this->Papel_linha_m->changeToObject($result->result_array());
     }
 
     public function inserir(Papel_linha_m $objeto) {
@@ -164,7 +161,7 @@ class Papel_linha_m extends CI_Model {
         }
     }
 
-    function __changeToObject($result_db = '') {
+    private function changeToObject($result_db = '') {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_linha_m();
@@ -185,6 +182,7 @@ class Papel_linha_m extends CI_Model {
         }
         return $object_lista;
     }
+
     public function get_object_json(){
         $arr = array(
             "80" => $this->valor_80g,
