@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                <div class="container-fluid">
 	                    <!-- Brand and toggle get grouped for better mobile display -->
 	                    <div class="navbar-header">
-	                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-convite">
 	                            <span class="sr-only">Toggle navigation</span>
 	                            <span class="icon-bar"></span>
 	                            <span class="icon-bar"></span>
@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    </div>
 	                    
 	                    <!-- Collect the nav links, forms, and other content for toggling -->
-	                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+	                    <div class="collapse navbar-collapse navbar-convite">
 	                        <ul class="nav navbar-nav">
 	                            <li class="dropdown">
 	                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>

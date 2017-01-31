@@ -158,8 +158,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Altura</th>
-                                            <th>Largura</th>
+                                            <th>Altura (mm)</th>
+                                            <th>Largura (mm)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
