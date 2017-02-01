@@ -8,6 +8,7 @@ class Papel_linha extends CI_Controller {
         parent::__construct();
         $this->load->model('Papel_linha_m');
         $this->load->model('Papel_catalogo_m');
+        $this->load->model('Papel_dimensao_m');
         init_layout();
         set_layout('titulo', 'Papel linha', FALSE);
         restrito_logado();
@@ -31,6 +32,9 @@ class Papel_linha extends CI_Controller {
                 'id' => $item->id,
                 'nome' => $item->pl_nome,
                 'papel_catalogo' => $item->pc_nome,
+                'cor' => $item->pl_cor,
+                'altura' => $item->pd_altura,
+                'largura' => $item->pd_largura,
                 'valor_80g' => $item->pl_valor_80g,
                 'valor_120g' => $item->pl_valor_120g,
                 'valor_180g' => $item->pl_valor_180g,
@@ -47,6 +51,7 @@ class Papel_linha extends CI_Controller {
             "recordsTotal" => $this->Papel_linha_m->count_all(),
             "recordsFiltered" => $this->Papel_linha_m->count_filtered(),
             "data" => $data,
+            "sql"=>$this->db->last_query()
             );
         //output to json format
         print json_encode($output);
@@ -98,6 +103,8 @@ class Papel_linha extends CI_Controller {
         $objeto->nome = $this->input->post('nome');
         $objeto->papel_catalogo = $this->input->post('papel_catalogo');
         $objeto->descricao = $this->input->post('descricao');
+        $objeto->cor = $this->input->post('cor');
+        $objeto->papel_dimensao = $this->input->post('papel_dimensao');
         $objeto->valor_80g = $this->input->post('valor_80g');
         $objeto->valor_120g = $this->input->post('valor_120g');
         $objeto->valor_180g = $this->input->post('valor_180g');
@@ -114,6 +121,8 @@ class Papel_linha extends CI_Controller {
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('papel_catalogo', 'Papel catalogo', 'trim|required');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_rules('cor', 'Cor', 'trim|required');
+        $this->form_validation->set_rules('papel_dimensao', 'Papel dimensão', 'trim|required');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor_80g', 'valor_80g', 'trim|required|callback_decimal_positive');
         $this->form_validation->set_rules('valor_120g', 'valor_120g', 'trim|required|callback_decimal_positive');

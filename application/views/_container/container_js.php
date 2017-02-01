@@ -81,11 +81,11 @@ $controller = $this->router->class;
 			
 
 			$.each(gramatura, function(index, val) {
-				 if(val==0){
-				 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
-				 }else{
-				 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
-				 }
+				if(val==0){
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
+				}else{
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
+				}
 			});
 		});
 		$("#form_select_fita").change(function(){
@@ -103,6 +103,21 @@ $controller = $this->router->class;
 					$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
 				}
 			});
+		});
+
+		// Filtrar os papeis por catalogo
+		$("#form_select_catalogo").change(function(event) {
+			$('#form_select_papel').selectpicker('destroy');
+			$("#form_select_papel option").hide();
+			
+			var option = $(this).find('option:selected');
+			var value = option.val();
+			if(value){
+				$("#form_select_papel option[data-catalogo="+ value +"]").show();
+			}
+			$('#form_select_papel').selectpicker('render');
+			$('#form_select_papel').selectpicker('refresh');
+
 		});
 	});
 	//Altera Itens

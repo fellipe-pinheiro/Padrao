@@ -45,9 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#tab_papel" aria-controls="tab_papel" role="tab" data-toggle="tab">Papel</a>
-                    </li>
-                    <li role="presentation">
                         <a href="#tab_papel_linha" aria-controls="tab_papel_linha" role="tab" data-toggle="tab">Linha</a>
                     </li>
                     <li role="presentation">
@@ -62,35 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="tab_papel">
-                        <div class="row">
-                            <div class="col-sm-12 table-responsive">
-                                <table id="tb_papel" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Catálogo</th>
-                                            <th>Linha</th>
-                                            <th>Papel</th>
-                                            <th>Altura</th>
-                                            <th>Largura</th>
-                                            <th>Val_80g</th>
-                                            <th>Val_120g</th>
-                                            <th>Val_180g</th>
-                                            <th>Val_250g</th>
-                                            <th>Val_300g</th>
-                                            <th>Val_350g</th>
-                                            <th>Val_400g</th>
-                                            <th>Descrição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_papel_linha">
+                    <div role="tabpanel" class="tab-pane active" id="tab_papel_linha">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
                                 <table id="tb_linha" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -99,6 +68,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Catálogo</th>
                                             <th>Linha</th>
+                                            <th>Cor</th>
+                                            <th>Altura</th>
+                                            <th>Largura</th>
                                             <th>Val_80g</th>
                                             <th>Val_120g</th>
                                             <th>Val_180g</th>
@@ -173,83 +145,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div class="modal fade" id="md_papel">
-    <?= form_open("#", 'class="form-horizontal" id="form_papel" role="form"') ?>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">papel</h4>
-                </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Papel Linha-->
-                    <div class="form-group">
-                        <?= form_label('Linha: ', 'papel_linha', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="papel_linha" id="papel_linha" class="form-control" >
-                                <option value="" selected disabled>Selecione</option>
-                                <?php
-                                foreach ($dados['papel_linha'] as $key => $value) {
-                                    ?>
-                                    <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Papel Dimensao-->
-                    <div class="form-group">
-                        <?= form_label('Dimensão: ', 'papel_dimensao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="papel_dimensao" id="papel_dimensao" class="form-control" >
-                                <option value="" selected disabled>Selecione</option>
-                                <?php
-                                foreach ($dados['papel_dimensao'] as $key => $value) {
-                                    ?>
-                                    <option value="<?=$value->id?>"><?=$value->altura?> x <?=$value->largura?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-                </div>
-            </div>
-        </div>
-    <?= form_close() ?>
-</div>
 <div class="modal fade" id="md_linha">
     <?= form_open("#", 'class="form-horizontal" id="form_linha" role="form"') ?>
         <div class="modal-dialog" role="document">
@@ -264,15 +159,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="modal-body form">
                     <!--ID-->
                     <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Linha: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" autofocus class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
                     <!--Papel Catálogo-->
                     <div class="form-group">
                         <?= form_label('Papel Catálogo: ', 'papel_catalogo', array('class' => 'control-label col-sm-2')) ?>
@@ -284,6 +170,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <option value="<?= $value->id ?>"><?= $value->nome ?></option>
                                     <?php 
                                 } 
+                                ?>
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Nome-->
+                    <div class="form-group">
+                        <?= form_label('Linha: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('nome', '', 'id="nome" autofocus class="form-control" placeholder="Nome"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Cor-->
+                    <div class="form-group">
+                        <?= form_label('Cor: ', 'cor', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('cor', '', 'id="cor" autofocus class="form-control" placeholder="Cor"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Papel Dimensao-->
+                    <div class="form-group">
+                        <?= form_label('Dimensão: ', 'papel_dimensao', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <select name="papel_dimensao" id="papel_dimensao" class="form-control" >
+                                <option value="" selected disabled>Selecione</option>
+                                <?php
+                                foreach ($dados['papel_dimensao'] as $key => $value) {
+                                    ?>
+                                    <option value="<?=$value->id?>"><?=$value->altura?> x <?=$value->largura?></option>
+                                    <?php
+                                }
                                 ?>
                             </select>
                             <span class="help-block"></span>
@@ -571,64 +490,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div class="modal fade" id="md_filtro_papel">
-    <form id="form-filter-papel" class="form-horizontal form-filter">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Filtro</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="papel-filtro_catalogo" class="control-label"> Catálogo</label>
-                        <select id="papel-filtro_catalogo" class="form-control selectpicker" data-live-search="true" autofocus="true">
-                            <option value="">Selecione</option>
-                            <?php foreach ($dados['papel_catalogo'] as $key => $value) { 
-                                ?>
-                                <option value="<?= $value->nome ?>"><?= $value->nome ?></option>
-                                <?php 
-                            } 
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_linha" class="control-label"> Linha</label>
-                        <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
-                            <option value="">Selecione</option>
-                            <?php
-                            foreach ($dados['papel_linha'] as $key => $value) {
-                                ?>
-                                <option value="<?=$value->nome?>"><?=$value->nome?></option>
-                                <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
-                        <input type="text" name="" id="papel-filtro_papel" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_papel_altura" class="control-label"> Papel Altura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_papel_altura" placeholder="Papel Altura">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_papel_largura" class="control-label"> Papel Largura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_papel_largura" placeholder="Papel Largura">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="filtro('papel','reset')">Limpar Filtro</button>
-                    <button type="button" class="btn btn-default" onclick="filtro('papel','filtrar')">
-                        <span class="glyphicon glyphicon-filter"></span>
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 <div class="modal fade" id="md_filtro_papel_linha">
     <form id="form-filter-papel_linha" class="form-horizontal form-filter">
         <div class="modal-dialog modal-sm">
@@ -691,7 +552,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </style>
 <script type="text/javascript">
 
-    var tb_papel;
     var tb_linha;
     var tb_catalogo;
     var tb_acabamento;
@@ -707,7 +567,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var form;
 
     $(document).ready(function() {
-        tb_papel = $("#tb_papel").DataTable({
+        tb_linha = $("#tb_linha").DataTable({
             scrollX: true,
             scrollY:"500px",
             scrollCollapse: true,
@@ -725,7 +585,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     buttons: [
                         {
                             extend: 'print',
-                            orientation: 'landscape',
                             exportOptions: {
                                 columns: ':visible'
                             }
@@ -744,7 +603,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                         {
                             extend: 'pdfHtml5',
-                            orientation: 'landscape',
                             exportOptions: {
                                 columns: ':visible'
                             }
@@ -755,7 +613,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {   
                     text: 'Filtro',
                     action: function () {
-                        $("#md_filtro_papel").modal('show');
+                        $("#md_filtro_papel_linha").modal('show');
                     }
                 }
             ],
@@ -765,23 +623,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             processing: true,
             serverSide: true,
             ajax: {
-                url: "<?= base_url('papel/ajax_list') ?>",
+                url: "<?= base_url('papel_linha/ajax_list') ?>",
                 type: "POST",
                 data: function ( data ) {
-                    data.filtro_catalogo = $('#papel-filtro_catalogo').val();
-                    data.filtro_linha = $('#papel-filtro_linha').val();
-                    data.filtro_papel = $('#papel-filtro_papel').val();
-                    data.filtro_papel_altura = $('#papel-filtro_papel_altura').val();
-                    data.filtro_papel_largura = $('#papel-filtro_papel_largura').val();
+                    data.filtro_catalogo = $('#papel_linha-filtro_catalogo').val();
+                    data.filtro_linha = $('#papel_linha-filtro_linha').val();
                 },
             },
             columns: [
-                {data: "id","visible": false},
+                {data: "id","visible": true,"visible": false},
                 {data: "papel_catalogo","visible": true},
-                {data: "papel_linha","visible": true},
                 {data: "nome","visible": true},
-                {data: "pd_altura","visible": true,"orderable": false},
-                {data: "pd_largura","visible": true,"orderable": false},
+                {data: "cor","visible": true},
+                {data: "altura","visible": true},
+                {data: "largura","visible": true},
                 {data: "valor_80g","visible": true,"orderable": false},
                 {data: "valor_120g","visible": true,"orderable": false},
                 {data: "valor_180g","visible": true,"orderable": false},
@@ -791,97 +646,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "valor_400g","visible": true,"orderable": false},
                 {data: "descricao","visible": false,"orderable": false},
             ],
+            order: [[1, 'asc']],
         });
         if(!get_tab_active()){
             console.log('Não foi possível carregar get_tab_active()');
             return false;
         }
-        $("a[href='#tab_papel']").click(function () {
-
-            tb_papel.ajax.reload(null, false);
-        });
         $("a[href='#tab_papel_linha']").click(function () {
-            if (!is_datatable_exists("#tb_linha")) {
-                tb_linha = $("#tb_linha").DataTable({
-                    scrollX: true,
-                    scrollY:"500px",
-                    scrollCollapse: true,
-                    dom: 'lBfrtip',
-                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
-                    buttons: [
-                        {   
-                            extend:'colvis',
-                            text:'Visualizar colunas'
-                        },
-                        {
-                            extend: 'collection',
-                            text: 'Exportar',
-                            autoClose: true,
-                            buttons: [
-                                {
-                                    extend: 'print',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'copy',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excel',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'pdfHtml5',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                            ],
-                            fade: true
-                        },
-                        {   
-                            text: 'Filtro',
-                            action: function () {
-                                $("#md_filtro_papel_linha").modal('show');
-                            }
-                        }
-                    ],
-                    language: {
-                        url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
-                    },
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "<?= base_url('papel_linha/ajax_list') ?>",
-                        type: "POST",
-                        data: function ( data ) {
-                            data.filtro_catalogo = $('#papel_linha-filtro_catalogo').val();
-                            data.filtro_linha = $('#papel_linha-filtro_linha').val();
-                        },
-                    },
-                    columns: [
-                    {data: "id","visible": true,"visible": false},
-                    {data: "papel_catalogo","visible": true},
-                    {data: "nome","visible": true},
-                    {data: "valor_80g","visible": true,"orderable": false},
-                    {data: "valor_120g","visible": true,"orderable": false},
-                    {data: "valor_180g","visible": true,"orderable": false},
-                    {data: "valor_250g","visible": true,"orderable": false},
-                    {data: "valor_300g","visible": true,"orderable": false},
-                    {data: "valor_350g","visible": true,"orderable": false},
-                    {data: "valor_400g","visible": true,"orderable": false},
-                    {data: "descricao","visible": false,"orderable": false},
-                    ]
-                });
-            }else {
-                tb_linha.ajax.reload(null, false);
-            }
+
+            tb_linha.ajax.reload(null, false);
         });
         $("a[href='#tab_papel_catalogo']").click(function () {
             if (!is_datatable_exists("#tb_catalogo")) {
@@ -1087,9 +860,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         //seleciona a linha da tabela
-        $("#tb_papel tbody").on("click", "tr", function () {
-            row_select(tb_papel,this);
-        });
         $("#tb_linha tbody").on("click", "tr", function () {
             row_select(tb_linha,this);            
         });
@@ -1181,10 +951,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-        $("#form_papel").submit(function (e) {
-
-            formulario_submit(e);
-        });
         $("#form_linha").submit(function (e) {
 
             formulario_submit(e);
@@ -1254,17 +1020,6 @@ function formulario_submit(e) {
 function get_tab_active() {
     tab_active = $(".nav-tabs li.active a")[0].hash;
     switch(tab_active) {
-        case '#tab_papel':
-            dataTable = tb_papel;
-            md_form = '#md_papel';
-            modal_title = ' Papel';
-            url_edit = "<?= base_url('papel/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel/ajax_update') ?>";
-            url_delete = "<?= base_url('papel/ajax_delete/') ?>";
-            form = '#form_papel';
-            return true;
-            break;
         case '#tab_papel_linha':
             dataTable = tb_linha;
             md_form = '#md_linha';
@@ -1315,9 +1070,6 @@ function get_tab_active() {
 }
 function switch_data(tab_active,data) {
     switch(tab_active){
-        case '#tab_papel':
-            return data.papel;
-            break;
         case '#tab_papel_linha':
             return data.papel_linha;
             break;
@@ -1375,21 +1127,11 @@ function filtro(tabela,acao) {
     }
     if(acao === 'filtrar'){
         dataTable.ajax.reload(null,false);
-        if(tabela === 'papel'){
-            $("#md_filtro_papel").modal('hide');
-        }else{
-            $("#md_filtro_papel_linha").modal('hide');
-        }
+        $("#md_filtro_papel_linha").modal('hide');
     }else if(acao === 'reset'){
-        if(tabela === 'papel'){
-            $('#form-filter-papel')[0].reset();
-            $('#form-filter-papel ul>li.selected.active').removeClass('selected active');
-            //$($('#form-filter-papel ul li')[0]).addClass('selected active');
-        }else{
-            $('#form-filter-papel_linha')[0].reset();
-            $('#form-filter-papel_linha ul>li.selected.active').removeClass('selected active');
-            //$($('#form-filter-papel_linha ul li')[0]).addClass('selected active');
-        }
+        $('#form-filter-papel_linha')[0].reset();
+        $('#form-filter-papel_linha ul>li.selected.active').removeClass('selected active');
+        //$($('#form-filter-papel_linha ul li')[0]).addClass('selected active');
         $(".filter-option").each(function(index, el) {
             $(".filter-option").text("Selecione");
         });

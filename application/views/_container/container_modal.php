@@ -14,13 +14,26 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<div class="container-fluid">
 						<?=form_input(array('type'=>'hidden','name'=>'owner','id'=>'md_papel_container_owner'));  ?>
-						<div class="form-group col-sm-8">
-							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
-							<select name="papel" id="form_select_papel" class="form-control selectpicker" data-live-search="true" autofocus="true">
+						<div class="form-group col-sm-4">
+							<?= form_label('Catalogo: ', 'form_select_catalogo', array('class' => 'control-label')) ?>
+							<select id="form_select_catalogo" class="form-control selectpicker" data-live-search="true" autofocus="true">
 								<option value="" selected>Selecione</option>
-								<?php foreach ($dados['papel'] as $papel) {
+								<?php foreach ( $dados['papel_catalogo'] as $catalogo) {
 									?>
-									<option data-gramatura='<?=$papel->papel_linha->get_object_json()?>' value="<?=$papel->id?>"><?=$papel->nome?></option>
+									<option value="<?=$catalogo->id?>"><?=$catalogo->nome ?></option>
+									<?php
+								}
+								?>
+							</select>
+							<span class="help-block"></span>
+						</div>
+						<div class="form-group col-sm-4">
+							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
+							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel" data-live-search="true">
+								<option value="" selected>Selecione</option>
+								<?php foreach ($dados['papel_linha'] as $papel_linha) {
+									?>
+									<option data-gramatura='<?=$papel_linha->get_object_json()?>' data-catalogo="<?=$papel_linha->papel_catalogo->id?>" value="<?=$papel_linha->id?>"><?=$papel_linha->papel_catalogo->nome." - ".$papel_linha->nome." - ".$papel_linha->cor?></option>
 									<?php
 								}
 								?>

@@ -123,27 +123,14 @@ class Teste extends CI_Controller {
     }
 
     public function t1() {
-        print '<link rel="stylesheet" href="' . base_url("assets/css/font-awesome.min.css") . '">';
-        print '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-<span class="sr-only">Loading...</span>
-
-<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-<span class="">Loading...</span>
-
-<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-<span class="sr-only">Loading...</span>
-
-<i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
-<span class="sr-only">Loading...</span>
-
-<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-<span class="sr-only">Loading...</span>';
-        print "<hr>";
-        print '<i class="fa fa-camera-retro fa-lg"></i> fa-lg
-<i class="fa fa-camera-retro fa-2x"></i> fa-2x
-<i class="fa fa-camera-retro fa-3x"></i> fa-3x
-<i class="fa fa-camera-retro fa-4x"></i> fa-4x
-<i class="fa fa-camera-retro fa-5x"></i> fa-5x';
+        print "<pre>";
+        // $this->db->where('id', '7');
+        // $this->db->limit(1);
+        // $result = $this->db->get('papel_linha');
+        // var_dump($result->result_array());
+        // die();
+        $papel_linha = $this->Papel_linha_m->get_by_id(7);
+        var_dump($papel_linha);
     }
 
 }
