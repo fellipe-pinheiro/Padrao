@@ -14,7 +14,7 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<div class="container-fluid">
 						<?=form_input(array('type'=>'hidden','name'=>'owner','id'=>'md_papel_container_owner'));  ?>
-						<div class="form-group col-sm-4">
+						<!--div class="form-group col-sm-4">
 							<?= form_label('Catalogo: ', 'form_select_catalogo', array('class' => 'control-label')) ?>
 							<select id="form_select_catalogo" class="form-control selectpicker" data-live-search="true" autofocus="true">
 								<option value="" selected>Selecione</option>
@@ -26,8 +26,8 @@ $controller = $this->router->class;
 								?>
 							</select>
 							<span class="help-block"></span>
-						</div>
-						<div class="form-group col-sm-4">
+						</div-->
+						<!--div class="form-group col-sm-4">
 							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
 							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel" data-live-search="true">
 								<option value="" selected>Selecione</option>
@@ -39,7 +39,7 @@ $controller = $this->router->class;
 								?>
 							</select>
 							<span class="help-block"></span>
-						</div>
+						</div-->
 						<div class="form-group col-sm-4">
 							<?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label')) ?>
 							<select name="gramatura" id="form_select_gramatura" class="form-control" required>

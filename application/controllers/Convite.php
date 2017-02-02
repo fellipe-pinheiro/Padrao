@@ -22,7 +22,7 @@ class Convite extends CI_Controller {
         //Carrego a materia prima para compor convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
+        //$this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -44,10 +44,11 @@ class Convite extends CI_Controller {
     }
     public function index() {
         $data['convite_modelo'] = $this->Convite_modelo_m->get_list();
-        $data['papel_linha'] = $this->Papel_linha_m->get_list();
+        //$data['papel'] = $this->Papel_m->get_list();
+        //$data['papel_linha'] = $this->Papel_linha_m->get_list();
         //var_dump($data['papel_linha'][0]->get_list_to_select());
         //die();
-        $data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();
+        //$data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();
         $data['impressao'] = $this->Impressao_m->get_list();
         $data['impressao_area'] = $this->Impressao_area_m->get_list();
         $data['acabamento'] = $this->Acabamento_m->get_list();
