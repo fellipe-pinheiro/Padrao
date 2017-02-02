@@ -78,18 +78,16 @@ class Papel_acabamento_m extends CI_Model {
         return $result[0];
     }    
 
-    public function get_list($id = '') {
+    public function get_list($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             $this->db->limit(1);
-            $result = $this->db->get('papel_acabamento');
-        } else {
-            $result = $this->db->get('papel_acabamento');
         }
+        $result = $this->db->get('papel_acabamento');
         return $this->Papel_acabamento_m->_changeToObject($result->result_array());
     }
 
-    public function inserir(Papel_acabamento_m $objeto) {
+    public function inserir($objeto) {
         if (!empty($objeto)) {
             $dados = array(
                 'id' => $objeto->id,
@@ -99,54 +97,41 @@ class Papel_acabamento_m extends CI_Model {
                 'valor' => str_replace(',', '.', $objeto->valor)
                 );
             if ($this->db->insert('papel_acabamento', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public function editar(Papel_acabamento_m $objeto) {
+    public function editar($objeto) {
         if (!empty($objeto->id)) {
             $dados = array(
                 'id' => $objeto->id,
                 //Comentado para o usuário não excluir
                 //'nome' => $objeto->nome,
                 //'codigo' => $objeto->codigo,
-                //'descricao' => $objeto->descricao,
+                'descricao' => $objeto->descricao,
                 'valor' => str_replace(',', '.', $objeto->valor)
                 );
             $this->db->where('id', $objeto->id);
             if ($this->db->update('papel_acabamento', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('papel_acabamento')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    function _changeToObject($result_db = '') {
+    function _changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_acabamento_m();

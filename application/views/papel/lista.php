@@ -45,30 +45,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#tab_papel_linha" aria-controls="tab_papel_linha" role="tab" data-toggle="tab">Linha</a>
+                        <a href="#tab_papel" aria-controls="tab_papel" role="tab" data-toggle="tab">Papel</a>
                     </li>
                     <li role="presentation">
-                        <a href="#tab_papel_catalogo" aria-controls="tab_papel_catalogo" role="tab" data-toggle="tab">Catalogo</a>
+                        <a href="#tab_linha" aria-controls="tab_linha" role="tab" data-toggle="tab">Linha</a>
                     </li>
                     <li role="presentation">
-                        <a href="#tab_papel_acabamento" aria-controls="tab_papel_acabamento" role="tab" data-toggle="tab">Acabamento</a>
+                        <a href="#tab_acabamento" aria-controls="tab_acabamento" role="tab" data-toggle="tab">Acabamento</a>
                     </li>
                     <li role="presentation">
-                        <a href="#tab_papel_dimensao" aria-controls="tab_papel_dimensao" role="tab" data-toggle="tab">Dimensão</a>
+                        <a href="#tab_dimensao" aria-controls="tab_dimensao" role="tab" data-toggle="tab">Dimensão</a>
                     </li>
                 </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="tab_papel_linha">
+                    <div role="tabpanel" class="tab-pane active" id="tab_papel">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
-                                <table id="tb_linha" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                <table id="tb_papel" class="table display compact table-bordered " cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Catálogo</th>
                                             <th>Linha</th>
-                                            <th>Cor</th>
+                                            <th>Papel</th>
                                             <th>Altura</th>
                                             <th>Largura</th>
                                             <th>Val_80g</th>
@@ -81,16 +80,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Descrição</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="fbody">
+                                    <tbody>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_papel_catalogo">
+                    <div role="tabpanel" class="tab-pane" id="tab_linha">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
-                                <table id="tb_catalogo" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                <table id="tb_linha" class="table display compact table-bordered " cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -104,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_papel_acabamento">
+                    <div role="tabpanel" class="tab-pane" id="tab_acabamento">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
                                 <table id="tb_acabamento" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -123,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_papel_dimensao">
+                    <div role="tabpanel" class="tab-pane" id="tab_dimensao">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
                                 <table id="tb_dimensao" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -145,8 +144,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div class="modal fade" id="md_linha">
-    <?= form_open("#", 'class="form-horizontal" id="form_linha" role="form"') ?>
+<div class="modal fade" id="md_papel">
+    <?= form_open("#", 'class="form-horizontal" id="form_papel" role="form"') ?>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -154,18 +153,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Papel linha</h4>
+                    <h4 class="modal-title">Papel</h4>
                 </div>
                 <div class="modal-body form">
                     <!--ID-->
                     <?= form_hidden('id') ?>
-                    <!--Papel Catálogo-->
+                    <!--Papel Linha-->
                     <div class="form-group">
-                        <?= form_label('Papel Catálogo: ', 'papel_catalogo', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Linha: ', 'papel_linha', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select name="papel_catalogo" id="papel_catalogo" class="form-control" >
-                                <option disabled selected>Selecione</option>
-                                <?php foreach ($dados['papel_catalogo'] as $key => $value) { 
+                            <select name="papel_linha" id="papel_linha" class="form-control selectpicker show-tick" data-live-search="true" autofocus="">
+                                <option value="" disabled selected>Selecione</option>
+                                <?php foreach ($dados['papel_linha'] as $key => $value) { 
                                     ?>
                                     <option value="<?= $value->id ?>"><?= $value->nome ?></option>
                                     <?php 
@@ -177,17 +176,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <!--Nome-->
                     <div class="form-group">
-                        <?= form_label('Linha: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" autofocus class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Cor-->
-                    <div class="form-group">
-                        <?= form_label('Cor: ', 'cor', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('cor', '', 'id="cor" autofocus class="form-control" placeholder="Cor"') ?>
+                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -282,8 +273,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     <?= form_close() ?>
 </div>
-<div class="modal fade" id="md_catalogo">
-    <?= form_open("#", 'class="form-horizontal" id="form_catalogo" role="form"') ?>
+<div class="modal fade" id="md_linha">
+    <?= form_open("#", 'class="form-horizontal" id="form_linha" role="form"') ?>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -291,7 +282,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Catalogo de papéis</h4>
+                    <h4 class="modal-title">Linha</h4>
                 </div>
                 <div class="modal-body form">
                     <!--ID-->
@@ -359,7 +350,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição" disabled="true"') ?>
+                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -490,8 +481,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div class="modal fade" id="md_filtro_papel_linha">
-    <form id="form-filter-papel_linha" class="form-horizontal form-filter">
+<div class="modal fade" id="md_filtro_papel">
+    <form id="form-filter-papel" class="form-horizontal form-filter">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -500,20 +491,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="papel_linha-filtro_catalogo" class="control-label"> Catálogo</label>
-                        <select id="papel_linha-filtro_catalogo" class="form-control selectpicker" data-live-search="true" autofocus="true">
-                            <option value="">Selecione</option>
-                            <?php foreach ($dados['papel_catalogo'] as $key => $value) { 
-                                ?>
-                                <option value="<?= $value->nome ?>"><?= $value->nome ?></option>
-                                <?php 
-                            } 
-                            ?>
-                        </select>
+                        <label for="papel-filtro_papel" class="control-label"> Catálogo</label>
+                        <input type="text" id="papel-filtro_papel" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="papel_linha-filtro_linha" class="control-label"> Linha</label>
-                        <select id="papel_linha-filtro_linha" class="form-control selectpicker" data-live-search="true">
+                        <label for="papel-filtro_linha" class="control-label"> Linha</label>
+                        <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
                             <option value="">Selecione</option>
                             <?php
                             foreach ($dados['papel_linha'] as $key => $value) {
@@ -552,8 +535,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </style>
 <script type="text/javascript">
 
+    var tb_papel;
     var tb_linha;
-    var tb_catalogo;
     var tb_acabamento;
     var tb_dimensao;
     var tab_active;
@@ -567,7 +550,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var form;
 
     $(document).ready(function() {
-        tb_linha = $("#tb_linha").DataTable({
+        tb_papel = $("#tb_papel").DataTable({
             scrollX: true,
             scrollY:"500px",
             scrollCollapse: true,
@@ -613,7 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {   
                     text: 'Filtro',
                     action: function () {
-                        $("#md_filtro_papel_linha").modal('show');
+                        $("#md_filtro_papel").modal('show');
                     }
                 }
             ],
@@ -623,28 +606,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             processing: true,
             serverSide: true,
             ajax: {
-                url: "<?= base_url('papel_linha/ajax_list') ?>",
+                url: "<?= base_url('papel/ajax_list') ?>",
                 type: "POST",
                 data: function ( data ) {
-                    data.filtro_catalogo = $('#papel_linha-filtro_catalogo').val();
-                    data.filtro_linha = $('#papel_linha-filtro_linha').val();
+                    //data.filtro_catalogo = $('#papel-filtro_papel').val();
+                    //data.filtro_linha = $('#papel-filtro_linha').val();
                 },
             },
             columns: [
-                {data: "id","visible": true,"visible": false},
-                {data: "papel_catalogo","visible": true},
-                {data: "nome","visible": true},
-                {data: "cor","visible": true},
-                {data: "altura","visible": true},
-                {data: "largura","visible": true},
-                {data: "valor_80g","visible": true,"orderable": false},
-                {data: "valor_120g","visible": true,"orderable": false},
-                {data: "valor_180g","visible": true,"orderable": false},
-                {data: "valor_250g","visible": true,"orderable": false},
-                {data: "valor_300g","visible": true,"orderable": false},
-                {data: "valor_350g","visible": true,"orderable": false},
-                {data: "valor_400g","visible": true,"orderable": false},
-                {data: "descricao","visible": false,"orderable": false},
+                {data: "id","visible": false},
+                {data: "pl_nome","visible": true},
+                {data: "p_nome","visible": true},
+                {data: "pd_altura","visible": true,"orderable": false},
+                {data: "pd_largura","visible": true,"orderable": false},
+                {data: "p_valor_80g","visible": true,"orderable": false},
+                {data: "p_valor_120g","visible": true,"orderable": false},
+                {data: "p_valor_180g","visible": true,"orderable": false},
+                {data: "p_valor_250g","visible": true,"orderable": false},
+                {data: "p_valor_300g","visible": true,"orderable": false},
+                {data: "p_valor_350g","visible": true,"orderable": false},
+                {data: "p_valor_400g","visible": true,"orderable": false},
+                {data: "p_descricao","visible": false,"orderable": false},
             ],
             order: [[1, 'asc']],
         });
@@ -652,13 +634,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log('Não foi possível carregar get_tab_active()');
             return false;
         }
-        $("a[href='#tab_papel_linha']").click(function () {
+        $("a[href='#tab_papel']").click(function () {
 
-            tb_linha.ajax.reload(null, false);
+            tb_papel.ajax.reload(null, false);
         });
-        $("a[href='#tab_papel_catalogo']").click(function () {
-            if (!is_datatable_exists("#tb_catalogo")) {
-                tb_catalogo = $("#tb_catalogo").DataTable({
+        $("a[href='#tab_linha']").click(function () {
+            if (!is_datatable_exists("#tb_linha")) {
+                tb_linha = $("#tb_linha").DataTable({
                     scrollX: true,
                     scrollY:"500px",
                     scrollCollapse: true,
@@ -708,7 +690,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "<?= base_url('papel_catalogo/ajax_list') ?>",
+                        url: "<?= base_url('papel_linha/ajax_list') ?>",
                         type: "POST"
                     },
                     columns: [
@@ -718,10 +700,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     ]
                 });
             }else {
-                tb_catalogo.ajax.reload(null, false);
+                tb_linha.ajax.reload(null, false);
             }
         });
-        $("a[href='#tab_papel_acabamento']").click(function () {
+        $("a[href='#tab_acabamento']").click(function () {
             if (!is_datatable_exists("#tb_acabamento")) {
                 tb_acabamento = $("#tb_acabamento").DataTable({
                     scrollX: true,
@@ -794,7 +776,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 tb_acabamento.ajax.reload(null, false);
             }
         });
-        $("a[href='#tab_papel_dimensao']").click(function () {
+        $("a[href='#tab_dimensao']").click(function () {
             if (!is_datatable_exists("#tb_dimensao")) {
                 tb_dimensao = $("#tb_dimensao").DataTable({
                     scrollX: true,
@@ -860,11 +842,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         //seleciona a linha da tabela
+        $("#tb_papel tbody").on("click", "tr", function () {
+            row_select(tb_papel,this);            
+        });
         $("#tb_linha tbody").on("click", "tr", function () {
             row_select(tb_linha,this);            
-        });
-        $("#tb_catalogo tbody").on("click", "tr", function () {
-            row_select(tb_catalogo,this);            
         });
         $("#tb_acabamento tbody").on("click", "tr", function () {
             row_select(tb_acabamento,this);            
@@ -951,19 +933,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-        $("#form_linha").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_catalogo").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_acabamento").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_dimensao").submit(function (e) {
+        $("form").submit(function (e) {
 
             formulario_submit(e);
         });
@@ -1001,8 +971,8 @@ function formulario_submit(e) {
             else
             {
                 $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         },
@@ -1020,10 +990,21 @@ function formulario_submit(e) {
 function get_tab_active() {
     tab_active = $(".nav-tabs li.active a")[0].hash;
     switch(tab_active) {
-        case '#tab_papel_linha':
+        case '#tab_papel':
+            dataTable = tb_papel;
+            md_form = '#md_papel';
+            modal_title = ' Papel';
+            url_edit = "<?= base_url('papel/ajax_edit/') ?>";
+            url_add = "<?php echo site_url('papel/ajax_add') ?>";
+            url_update = "<?php echo site_url('papel/ajax_update') ?>";
+            url_delete = "<?= base_url('papel/ajax_delete/') ?>";
+            form = '#form_papel';
+            return true;
+            break;
+        case '#tab_linha':
             dataTable = tb_linha;
             md_form = '#md_linha';
-            modal_title = ' Papel Linha';
+            modal_title = ' Linha';
             url_edit = "<?= base_url('papel_linha/ajax_edit/') ?>";
             url_add = "<?php echo site_url('papel_linha/ajax_add') ?>";
             url_update = "<?php echo site_url('papel_linha/ajax_update') ?>";
@@ -1031,18 +1012,7 @@ function get_tab_active() {
             form = '#form_linha';
             return true;
             break;
-        case '#tab_papel_catalogo':
-            dataTable = tb_catalogo;
-            md_form = '#md_catalogo';
-            modal_title = ' Papel Catalogo';
-            url_edit = "<?= base_url('papel_catalogo/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel_catalogo/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel_catalogo/ajax_update') ?>";
-            url_delete = "<?= base_url('papel_catalogo/ajax_delete/') ?>";
-            form = '#form_catalogo';
-            return true;
-            break;
-        case '#tab_papel_acabamento':
+        case '#tab_acabamento':
             dataTable = tb_acabamento;
             md_form = '#md_acabamento';
             modal_title = ' Papel Acabamento';
@@ -1053,7 +1023,7 @@ function get_tab_active() {
             form = '#form_acabamento';
             return true;
             break;
-        case '#tab_papel_dimensao':
+        case '#tab_dimensao':
             dataTable = tb_dimensao;
             md_form = '#md_dimensao';
             modal_title = ' Papel Dimensão';
@@ -1070,16 +1040,16 @@ function get_tab_active() {
 }
 function switch_data(tab_active,data) {
     switch(tab_active){
-        case '#tab_papel_linha':
-            return data.papel_linha;
+        case '#tab_papel':
+            return data.papel;
             break;
-        case '#tab_papel_catalogo':
-            return data.papel_catalogo;
+        case '#tab_linha':
+            return data.linha;
             break;
-        case '#tab_papel_acabamento':
+        case '#tab_acabamento':
             return data.papel_acabamento;
             break;
-        case '#tab_papel_dimensao':
+        case '#tab_dimensao':
             return data.papel_dimensao;
             break;
     }
@@ -1103,6 +1073,8 @@ function reset_form() {
     $(form)[0].reset();
     $('.form-group').removeClass('has-error');
     $('.help-block').empty();
+    //$(".filter-option").text("");
+    $('.selectpicker').selectpicker('val', '');
 }
 function reset_errors() {
     $('.form-group').removeClass('has-error');
@@ -1127,7 +1099,7 @@ function filtro(tabela,acao) {
     }
     if(acao === 'filtrar'){
         dataTable.ajax.reload(null,false);
-        $("#md_filtro_papel_linha").modal('hide');
+        $("#md_filtro_papel").modal('hide');
     }else if(acao === 'reset'){
         $('#form-filter-papel_linha')[0].reset();
         $('#form-filter-papel_linha ul>li.selected.active').removeClass('selected active');

@@ -46,9 +46,9 @@ class Papel_acabamento extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
+        $this->validar_formulario(false);
         $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $objeto = $this->get_post();
         if ( $this->Papel_acabamento_m->inserir($objeto)) {
             print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
         } else {
@@ -65,10 +65,10 @@ class Papel_acabamento extends CI_Controller {
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
+        $this->validar_formulario(true);
         $id = $this->input->post('id');
         if ($id) {
-            $objeto = $this->_get_post();
+            $objeto = $this->get_post();
 
             if ($this->Papel_acabamento_m->editar($objeto)) {
                 print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
@@ -85,7 +85,7 @@ class Papel_acabamento extends CI_Controller {
         print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
     }
 
-    private function _get_post() {
+    private function get_post() {
         $objeto = new Papel_acabamento_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -95,10 +95,10 @@ class Papel_acabamento extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario($update) {
         $data = array();
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Papel_acabamento_m->get_by_id($this->input->post('id'));
             if($this->input->post('codigo') != $object->codigo){
                 $is_unique =  '|is_unique[papel_acabamento.codigo]';
@@ -113,9 +113,8 @@ class Papel_acabamento extends CI_Controller {
         //$this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         //$this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
         //$this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|callback_check_white_spaces'.$is_unique);
-        //$this->form_validation->set_rules('descricao', 'Descrição', 'trim');
-        $this->form_validation->set_message('decimal', 'O campo deve conter um número decimal separado por ponto ou vírgula Ex: 9,99');
-        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal');
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_rules('valor', 'Valor', 'trim|required');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

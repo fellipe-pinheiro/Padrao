@@ -6,115 +6,80 @@ class Papel_m extends CI_Model {
 
     var $id;
     var $nome;
-    var $papel_linha;
-    var $papel_dimensao;
+    var $papel_linha; // Object Papel_linha_m()
+    var $papel_dimensao; // Object Papel_dimensao_m()
+    var $valor_80g;
+    var $valor_120g;
+    var $valor_180g;
+    var $valor_250g;
+    var $valor_300g;
+    var $valor_350g;
+    var $valor_400g;
     var $descricao;
-    
-    var $table = 'papel as p';
-    var $column_order = array('id', 'pc.nome', 'pl.nome', 'p.nome', 'pd.altura', 'pd.largura', 'pl.valor_80g', 'pl.valor_120g', 'pl.valor_180g', 'pl.valor_250g', 'pl.valor_300g', 'pl.valor_350g', 'pl.valor_400g');
-    var $column_search = array('p.nome', 'pl.nome', 'pc.nome');
-    var $order = array('p.id' => 'asc');
+    // Ajax 
+    var $table = 'v_papel';
+    var $column_order = array('id','pl_nome','p_nome','pd_altura','pd_largura','p_valor_80g','p_valor_120g','p_valor_180g','p_valor_250g','p_valor_300g','p_valor_350g','p_valor_400g','p_descricao',);
+    var $column_search = array('pl_nome','p_nome','pd_altura','pd_largura','p_descricao',);
+    var $order = array('p.nome'=>'asc');
 
-    // Ajax Nao alterar
     private function _get_datatables_query() {
-        if ($this->input->post('filtro_catalogo')) {
-            $this->db->like('pc.nome', $this->input->post('filtro_catalogo'));
+        if($this->input->post('filtro_catalogo')){
+            //$this->db->like('pl.nome', $this->input->post('filtro_catalogo'));
         }
-        if ($this->input->post('filtro_linha')) {
-            $this->db->like('pl.nome', $this->input->post('filtro_linha'));
+        if($this->input->post('filtro_linha')){
+            //$this->db->like('p.nome', $this->input->post('filtro_linha'));
         }
-        if ($this->input->post('filtro_papel')) {
-            $this->db->like('p.nome', $this->input->post('filtro_papel'));
-        }
-        if ($this->input->post('filtro_papel_altura')) {
-            $this->db->where('pd.altura', $this->input->post('filtro_papel_altura'));
-        }
-        if ($this->input->post('filtro_papel_largura')) {
-            $this->db->where('pd.largura', $this->input->post('filtro_papel_largura'));
-        }
-        $this->db->select('
-            p.id,
-            p.nome as p_nome,
-            p.descricao as p_descricao,
-            p.papel_linha,
-            p.papel_dimensao,
-            pd.altura as pd_altura,
-            pd.largura as pd_largura,
-            pl.nome as pl_nome,
-            pc.nome as pc_nome,
-            CONCAT("R$ ", format(pl.valor_80g,2,"pt_BR")) as pl_valor_80g,
-            CONCAT("R$ ", format(pl.valor_120g,2,"pt_BR")) as pl_valor_120g,
-            CONCAT("R$ ", format(pl.valor_180g,2,"pt_BR")) as pl_valor_180g,
-            CONCAT("R$ ", format(pl.valor_250g,2,"pt_BR")) as pl_valor_250g,
-            CONCAT("R$ ", format(pl.valor_300g,2,"pt_BR")) as pl_valor_300g,
-            CONCAT("R$ ", format(pl.valor_350g,2,"pt_BR")) as pl_valor_350g,
-            CONCAT("R$ ", format(pl.valor_400g,2,"pt_BR")) as pl_valor_400g');
         $this->db->from($this->table);
         $i = 0;
 
-        foreach ($this->column_search as $item) { // loop column 
-            if ($_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+        foreach ($this->column_search as $item) {
+            if ($_POST['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
+                }
+                $i++;
             }
-            $i++;
-        }
 
-        if (isset($_POST['order'])) { // here order processing
+        if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-
-    // Ajax Nao alterar
+    
     public function get_datatables() {
         $this->_get_datatables_query();
-        if ($_POST['length'] != -1) {
+        if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
-        }
-        $this->__join();
         $query = $this->db->get();
         return $query->result();
     }
-
-    // Ajax Nao alterar
+    
     public function count_filtered() {
         $this->_get_datatables_query();
-        $this->__join();
         $query = $this->db->get();
         return $query->num_rows();
     }
-
-    public function __join() {
-        $this->db->join('papel_linha as pl', 'p.papel_linha = pl.id', 'left');
-        $this->db->join('papel_catalogo as pc', 'pl.papel_catalogo = pc.id', 'left');
-        $this->db->join('papel_dimensao as pd', 'p.papel_dimensao = pd.id', 'left');
-    }
-
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
-    public function get_by_id($id) {
+    public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel');
-        if ($result->num_rows() > 0) {
-            $result = $this->Papel_m->__changeToObject($result->result_array());
-            return $result[0];
-        }
-        return false;
+        $result =  $this->Papel_m->changeToObject($result->result_array());
+        return $result[0];
     }
 
     public function get_list($id = '') {
@@ -123,12 +88,21 @@ class Papel_m extends CI_Model {
             $this->db->limit(1);
         }
         $result = $this->db->get('papel');
-        return $this->Papel_m->__changeToObject($result->result_array());
+        return $this->Papel_m->changeToObject($result->result_array());
     }
 
-    public function inserir(Papel_m $objeto) {
+    public function get_list_to_select(){
+        $arr = array();
+        $papel_catalogo = $this->Papel_catalogo_m->get_list();
+        foreach ($papel_catalogo as $catalogo) {
+            $arr[$catalogo->nome] = "$catalogo->nome $$this->nome $$this->cor";
+        }
+        return $arr;
+    }
+
+    public function inserir($objeto) {
         if (!empty($objeto)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('papel', $dados)) {
                 return $this->db->insert_id();
             }
@@ -136,24 +110,31 @@ class Papel_m extends CI_Model {
         return false;
     }
 
-    public function editar(Papel_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->__get_dados($objeto);
+    public function editar($objeto) {
+        if ( !empty($objeto->id) ) {
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
-            if ($this->db->update('papel', $dados)) {
+            if ( $this->db->update('papel', $dados) ) {
                 return true;
             }
         }
         return false;
     }
 
-    public function __get_dados(Papel_m $objeto) {
+    private function get_dados($objeto){
         $dados = array(
             'id' => $objeto->id,
-            'nome' => $objeto->nome,
             'papel_linha' => $objeto->papel_linha,
+            'nome' => $objeto->nome,
             'papel_dimensao' => $objeto->papel_dimensao,
-            'descricao' => $objeto->descricao,
+            'valor_80g' => str_replace(',', '.', $objeto->valor_80g),
+            'valor_120g' => str_replace(',', '.', $objeto->valor_120g),
+            'valor_180g' => str_replace(',', '.', $objeto->valor_180g),
+            'valor_250g' => str_replace(',', '.', $objeto->valor_250g),
+            'valor_300g' => str_replace(',', '.', $objeto->valor_300g),
+            'valor_350g' => str_replace(',', '.', $objeto->valor_350g),
+            'valor_400g' => str_replace(',', '.', $objeto->valor_400g),
+            'descricao' => $objeto->descricao
         );
         return $dados;
     }
@@ -168,40 +149,38 @@ class Papel_m extends CI_Model {
         return false;
     }
 
-    //CHANGE_TO_OBJECT 
-    private function __changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_m();
             $object->id = $value['id'];
+            $object->papel_linha = $this->Papel_linha_m->get_by_id($value['papel_linha']);
             $object->nome = $value['nome'];
+            $object->papel_dimensao = $this->Papel_dimensao_m->get_by_id($value['papel_dimensao']);
+            $object->valor_80g = $value['valor_80g'];
+            $object->valor_120g = $value['valor_120g'];
+            $object->valor_180g = $value['valor_180g'];
+            $object->valor_250g = $value['valor_250g'];
+            $object->valor_300g = $value['valor_300g'];
+            $object->valor_350g = $value['valor_350g'];
+            $object->valor_400g = $value['valor_400g'];
             $object->descricao = $value['descricao'];
-            $object->papel_linha = $this->Papel_m->__get_papel_linha($value['papel_linha']); //retorna o objeto: [papel_linha] e seta a variavel
-            $object->papel_dimensao = $this->Papel_m->__get_papel_dimensao($value['papel_dimensao']); //retorna o objeto: [papel_dimensao] e seta a variavel
             $object_lista[] = $object;
         }
         return $object_lista;
     }
 
-    /*
-      Devido a um problema de fazer mais do que 2 ou mais foreach dentro da funcção: function __changeToObject($result_db = '')
-      separei nas funções __get_item que retorna um objeto da classe
-     */
-
-    //Retorna um objeto do tipo Papel_linha_m
-    private function __get_papel_linha($id) {
-        foreach ($this->Papel_linha_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
-    }
-
-    //Retorna um objeto do tipo Papel_dimensao_m
-    private function __get_papel_dimensao($id) {
-        foreach ($this->Papel_dimensao_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
+    public function get_object_json(){
+        $arr = array(
+            "80" => $this->valor_80g,
+            "120" => $this->valor_120g,
+            "180" => $this->valor_180g,
+            "250" => $this->valor_250g,
+            "300" => $this->valor_300g,
+            "350" => $this->valor_350g,
+            "400" => $this->valor_400g,
+            );
+        return json_encode($arr);
     }
 
 }

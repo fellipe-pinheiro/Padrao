@@ -112,9 +112,9 @@ class Fita_m extends CI_Model {
         return $this->Fita_m->_changeToObject($result->result_array());
     }
 
-    public function inserir(Fita_m $objeto) {
+    public function inserir($objeto) {
         if (!empty($objeto)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('fita', $dados)) {
                 return $this->db->insert_id();
             }
@@ -122,9 +122,9 @@ class Fita_m extends CI_Model {
         return false;
     }
 
-    public function editar(Fita_m $objeto) {
+    public function editar($objeto) {
         if (!empty($objeto->id)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('fita', $dados)) {
                 return true;
@@ -132,7 +132,7 @@ class Fita_m extends CI_Model {
         }
         return false;
     }
-    private function __get_dados(Fita_m $objeto){
+    private function get_dados($objeto){
         $dados = array(
             'id' => $objeto->id,
             'fita_laco' => $objeto->fita_laco,
