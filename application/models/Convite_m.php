@@ -49,7 +49,7 @@ class Convite_m extends CI_Model {
 		$this->db->where('orcamento',$id);
 		$result = $this->db->get('orcamento_convite');
 		if($result->num_rows() > 0){
-			return $this->Convite_m->__changeToObject($result->result_array());
+			return $this->Convite_m->changeToObject($result->result_array());
 		}
 		return array();
 	}
@@ -58,7 +58,7 @@ class Convite_m extends CI_Model {
 		$this->db->limit(1);
 		$result = $this->db->get('orcamento_convite');
 		if($result->num_rows() > 0){
-			$result =  $this->Convite_m->__changeToObject($result->result_array());
+			$result =  $this->Convite_m->changeToObject($result->result_array());
 			return $result[0];
 		}
 		return false;
@@ -118,7 +118,7 @@ class Convite_m extends CI_Model {
 
         return $this->calcula_custos_administrativos_unitario() * $this->quantidade;
     }
-	private function __changeToObject($result_db = '') {
+	private function changeToObject($result_db) {
 		$object_lista = array();
 		foreach ($result_db as $key => $value) {
 			$this->db->where('id',$value['convite']);
@@ -134,14 +134,14 @@ class Convite_m extends CI_Model {
 			$object->mao_obra->valor = $value['mao_obra_valor'];
 			$object->quantidade = $value['quantidade'];
 			$object->descricao = $value['descricao'];
-			$object->data_entrega = $this->__format_date($value['data_entrega']);
+			$object->data_entrega = $this->format_date($value['data_entrega']);
 			$object->cancelado = $value['cancelado'];
 			$object->comissao = $value['comissao'];
 			$object_lista[] = $object;
 		}
 		return $object_lista;
 	}
-	private function __format_date($date){
+	private function format_date($date){
 		if(!empty($date)){
 			list($ano,$mes,$dia) = explode('-', $date);
 			return $date = $dia.'/'.$mes.'/'.$ano;

@@ -14,13 +14,26 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<div class="container-fluid">
 						<?=form_input(array('type'=>'hidden','name'=>'owner','id'=>'md_papel_container_owner'));  ?>
-						<div class="form-group col-sm-8">
-							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
-							<select name="papel" id="form_select_papel" class="form-control selectpicker" data-live-search="true" autofocus="true">
+						<div class="form-group col-sm-4">
+							<?= form_label('Filtrar pela Linha: ', 'form_select_linha', array('class' => 'control-label')) ?>
+							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus="true">
 								<option value="" selected>Selecione</option>
+								<?php foreach ( $dados['linha'] as $linha) {
+									?>
+									<option value="<?=$linha->id?>"><?=$linha->nome ?></option>
+									<?php
+								}
+								?>
+							</select>
+							<span class="help-block"></span>
+						</div>
+						<div class="form-group col-sm-4">
+							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
+							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel show-tick" data-live-search="true">
+								<option data-papel="''" value="" selected>Selecione</option>
 								<?php foreach ($dados['papel'] as $papel) {
 									?>
-									<option data-gramatura='<?=$papel->papel_linha->get_object_json()?>' value="<?=$papel->id?>"><?=$papel->nome?></option>
+									<option data-gramatura='<?=$papel->get_object_json()?>' data-papel="<?=$papel->papel_linha->id?>" value="<?=$papel->id?>" data-subtext="<?=$papel->papel_linha->nome?>"><?=$papel->nome?></option>
 									<?php
 								}
 								?>
@@ -46,143 +59,143 @@ $controller = $this->router->class;
 								<table class="table table-hover">
 									<tr>
 										<th>Acabamento</th>
-										<th>Qtd</th>
-										<th>Minutos</th>
-										<th>S / N</th>
+										<th>Quantidade</th>
+										<th>Qts min/peça?</th>
+										<th>Adicionar Serviço?</th>
 										<th>Cobrar Serviço ?</th>
 										<th>Cobrar Faca / Clichê ?</th>
 									</tr>
 									<tbody>
 										<tr>
 											<td>Empastamento</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="empastamento_quantidade" id="empastamento_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="empastamento_quantidade" id="empastamento_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'empastamento_adicionar','type'=>'checkbox','id'=>'empastamento_adicionar'), '1', '');?>
+											<input type="checkbox" name="empastamento_adicionar" id="empastamento_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'empastamento_cobrar','type'=>'checkbox','id'=>'empastamento_cobrar'), '1', '');?>
+												<input type="checkbox" name="empastamento_cobrar" id="empastamento_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
 										<tr>
 											<td>Laminação</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="laminacao_quantidade" id="laminacao_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="laminacao_quantidade" id="laminacao_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'laminacao_adicionar','type'=>'checkbox','id'=>'laminacao_adicionar'), '1', '');?>
+												<input type="checkbox" name="laminacao_adicionar" id="laminacao_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'laminacao_cobrar','type'=>'checkbox','id'=>'laminacao_cobrar'), '1', '');?>
+												<input type="checkbox" name="laminacao_cobrar" id="laminacao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
 										<tr>
 											<td>Douração</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="douracao_quantidade" id="douracao_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="douracao_quantidade" id="douracao_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'douracao_adicionar','type'=>'checkbox','id'=>'douracao_adicionar'), '1', '');?>
+												<input type="checkbox" name="douracao_adicionar" id="douracao_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'douracao_cobrar','type'=>'checkbox','id'=>'douracao_cobrar'), '1', '');?>
+												<input type="checkbox" name="douracao_cobrar" id="douracao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
 										<tr>
 											<td>Corte Laser</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="corte_laser_quantidade" id="corte_laser_quantidade" class="form-control" value="" step="1">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td class="col-sm-2">
-												<div class="form-group">
-													<input type="number" name="corte_laser_minutos" id="corte_laser_minutos" class="form-control" value="" step="1">
+													<input type="number" name="corte_laser_quantidade" id="corte_laser_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>
-												<?=form_input(array('name'=>'corte_laser_adicionar','type'=>'checkbox','id'=>'corte_laser_adicionar'), '1', '');?>
+												<div class="form-group">
+													<input type="number" name="corte_laser_minutos" id="corte_laser_minutos" class="form-control input-sm" value="" step="1">
+													<span class="help-block"></span>
+												</div>
 											</td>
 											<td>
-												<?=form_input(array('name'=>'corte_laser_cobrar','type'=>'checkbox','id'=>'corte_laser_cobrar'), '1', '');?>
+												<input type="checkbox" name="corte_laser_adicionar" id="corte_laser_adicionar" class="form-control input-sm" value="1">
+											</td>
+											<td>
+												<input type="checkbox" name="corte_laser_cobrar" id="corte_laser_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
 										<tr>
 											<td>Relevo Seco</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="relevo_seco_quantidade" id="relevo_seco_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="relevo_seco_quantidade" id="relevo_seco_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'relevo_seco_adicionar','type'=>'checkbox','id'=>'relevo_seco_adicionar'), '1', '');?>
+												<input type="checkbox" name="relevo_seco_adicionar" id="relevo_seco_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'relevo_seco_cobrar','type'=>'checkbox','id'=>'relevo_seco_cobrar'), '1', '');?>
+												<input type="checkbox" name="relevo_seco_cobrar" id="relevo_seco_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'relevo_seco_cobrar_faca_cliche','type'=>'checkbox','id'=>'relevo_seco_cobrar_faca_cliche'), '1', '');?>	
+												<input type="checkbox" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 
 										</tr>
 										<tr>
 											<td>Corte Vinco</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="corte_vinco_quantidade" id="corte_vinco_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="corte_vinco_quantidade" id="corte_vinco_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'corte_vinco_adicionar','type'=>'checkbox','id'=>'corte_vinco_adicionar'), '1', '');?>
+												<input type="checkbox" name="corte_vinco_adicionar" id="corte_vinco_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'corte_vinco_cobrar','type'=>'checkbox','id'=>'corte_vinco_cobrar'), '1', '');?>
+												<input type="checkbox" name="corte_vinco_cobrar" id="corte_vinco_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'corte_vinco_cobrar_faca_cliche','type'=>'checkbox','id'=>'corte_vinco_cobrar_faca_cliche'), '1', '');?>
+												<input type="checkbox" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 
 										</tr>
 										<tr>
 											<td>Almofada</td>
-											<td class="col-sm-2">
+											<td>
 												<div class="form-group">
-													<input type="number" name="almofada_quantidade" id="almofada_quantidade" class="form-control" value="" step="1">
+													<input type="number" name="almofada_quantidade" id="almofada_quantidade" class="form-control input-sm" value="" step="1">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>N / A</td>
 											<td>
-												<?=form_input(array('name'=>'almofada_adicionar','type'=>'checkbox','id'=>'almofada_adicionar'), '1', '');?>
+												<input type="checkbox" name="almofada_adicionar" id="almofada_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'almofada_cobrar','type'=>'checkbox','id'=>'almofada_cobrar'), '1', '');?>
+												<input type="checkbox" name="almofada_cobrar" id="almofada_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<?=form_input(array('name'=>'almofada_cobrar_faca_cliche','type'=>'checkbox','id'=>'almofada_cobrar_faca_cliche'), '1', '');?>
+												<input type="checkbox" name="almofada_cobrar_faca_cliche" id="almofada_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 										</tr>
 									</tbody>

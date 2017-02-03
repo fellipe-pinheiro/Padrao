@@ -81,11 +81,11 @@ $controller = $this->router->class;
 			
 
 			$.each(gramatura, function(index, val) {
-				 if(val==0){
-				 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
-				 }else{
-				 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
-				 }
+				if(val==0){
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
+				}else{
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
+				}
 			});
 		});
 		$("#form_select_fita").change(function(){
@@ -103,6 +103,23 @@ $controller = $this->router->class;
 					$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
 				}
 			});
+		});
+
+		// Filtrar os papeis por linha
+		$("#form_select_linha").change(function(event) {
+			$('#form_select_papel').selectpicker('val', '');
+			$('#form_select_papel').selectpicker('destroy');
+			$("#form_select_papel option").hide();
+			
+			var option = $(this).find('option:selected');
+			var value = option.val();
+			if(value){
+				$("#form_select_papel option[data-papel="+ value +"]").show();
+			}else{
+				$("#form_select_papel option").show();
+			}
+			$('#form_select_papel').selectpicker('render');
+			$('#form_select_papel').selectpicker('refresh');
 		});
 	});
 	//Altera Itens
@@ -263,7 +280,7 @@ $controller = $this->router->class;
 	function editar_papel_modal(owner,posicao,id_papel,nome_papel,gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
 		$("#form_select_gramatura option[value=" + gramatura + "]").prop("selected", true);
-		$(".filter-option").text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
+		$($('#form_md_papel').find(".filter-option")[1]).text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
 		$("#md_papel_container_owner").val(owner);
 
 		/*====================================================================================*/
@@ -464,6 +481,7 @@ $controller = $this->router->class;
 		corteVincoOff();
 		almofadaOff();
 		$(".filter-option").text("");
+		selectpicker_clear();
 		reset_form("#form_md_papel");
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 	}
@@ -618,6 +636,7 @@ $controller = $this->router->class;
 			if (data.status){
 				$(modal).modal('hide');
 				reload_table(owner,data.msg);
+				selectpicker_clear();
 			}
 			else{
 				$.map(data.form_validation, function (value, index) {
@@ -639,6 +658,17 @@ $controller = $this->router->class;
 		});
 		e.preventDefault();
 	});
+	function selectpicker_clear() {
+		// MODAL PAPEL: 
+		//Seleciona vazio
+		$("#form_select_linha").selectpicker('val', '');
+		//Limpa o filtro e select do papel
+		$('#form_select_papel').selectpicker('destroy');
+		$("#form_select_papel option").show();
+		$('#form_select_papel').selectpicker('render');
+		$('#form_select_papel').selectpicker('refresh');
+		$('#form_select_papel').selectpicker('val', '');
+	}
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
 	function excluir_item_posicao(url,owner,posicao) {
 		console.log('Função: excluir_item_posicao()');

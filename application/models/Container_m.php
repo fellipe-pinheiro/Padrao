@@ -145,10 +145,8 @@ class Container_m extends CI_Model {
 
 	public function get_papel($owner,$id,$quantidade,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche){
         //busca o papel pelo id
-		$result = $this->Papel_m->get_list($id);
-		$papel_objeto = $result[0];
 		$container_papel = new Container_papel_m();
-		$container_papel->papel = $papel_objeto;
+		$container_papel->papel = $this->Papel_m->get_by_id($id);
 		$container_papel->quantidade = $quantidade;
 		$container_papel->gramatura = $gramatura;
 		$container_papel->owner = $owner;
