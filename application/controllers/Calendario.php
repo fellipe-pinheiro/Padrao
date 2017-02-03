@@ -27,7 +27,6 @@ class Calendario extends CI_Controller {
         //Carrego a materia prima para compor convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -228,7 +227,6 @@ class Calendario extends CI_Controller {
                 'papel_id' => $item->papel_id,
                 'papel' => $item->papel,
                 'papel_linha' => $item->papel_linha,
-                'papel_categoria' => $item->papel_categoria,
                 'pap_inteiro_alt' => $item->pap_inteiro_alt,
                 'pap_inteiro_larg' => $item->pap_inteiro_larg,
                 'modelo_codigo' => $item->modelo_codigo,

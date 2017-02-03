@@ -250,7 +250,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>add</th>
                             <th>sobras</th>
                             <th>qtd_papel_total</th>
-                            <th>papel_categoria</th>
                             <th>papel_linha</th>
                             <th>papel</th>
                             <th>gramatura</th>
@@ -278,7 +277,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>add</th>
                             <th>sobras</th>
                             <th>qtd_papel_total</th>
-                            <th>papel_categoria</th>
                             <th>papel_linha</th>
                             <th>papel</th>
                             <th>gramatura</th>
@@ -321,7 +319,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>add</th>
                             <th>sobras</th>
                             <th>qtd_papel_total</th>
-                            <th>papel_categoria</th>
                             <th>papel_linha</th>
                             <th>papel</th>
                             <th>gramatura</th>
@@ -1283,12 +1280,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     fade: true
                 }
             ],
-            order: [[11, 'asc']],
+            order: [[10, 'asc']],
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({page: 'current'}).nodes();
                 var last = null;
-                api.column(11, {page: 'current'}).data().each(function (group, i) {
+                api.column(10, {page: 'current'}).data().each(function (group, i) {
                     if (last !== group) {
                         $(rows).eq(i).before(
                                 '<tr class="group"><td colspan="26">' + group + ' g</td></tr>'
@@ -1319,7 +1316,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "add", "visible": true, "orderable": false},
                 {data: "sobras", "visible": true, "orderable": false},
                 {data: "qtd_papel_total", "visible": true, "orderable": false},
-                {data: "papel_categoria", "visible": false},
                 {data: "papel_linha", "visible": false},
                 {data: "papel", "visible": true},
                 {data: "gramatura", "visible": true},
@@ -1395,12 +1391,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     fade: true
                 }
             ],
-            order: [[11, 'asc']],
+            order: [[10, 'asc']],
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({page: 'current'}).nodes();
                 var last = null;
-                api.column(11, {page: 'current'}).data().each(function (group, i) {
+                api.column(10, {page: 'current'}).data().each(function (group, i) {
                     if (last !== group) {
                         $(rows).eq(i).before(
                                 '<tr class="group"><td colspan="26">' + group + ' g</td></tr>'
@@ -1431,7 +1427,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "add", "visible": true, "orderable": false},
                 {data: "sobras", "visible": true, "orderable": false},
                 {data: "qtd_papel_total", "visible": true, "orderable": false},
-                {data: "papel_categoria", "visible": false},
                 {data: "papel_linha", "visible": false},
                 {data: "papel", "visible": true},
                 {data: "gramatura", "visible": true},

@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <p class="navbar-brand" href="javascript:void(0)">Lojas</p>
+                    <div class="navbar-brand" href="javascript:void(0)">Lojas</div>
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->

@@ -82,7 +82,7 @@ class Papel_m extends CI_Model {
         return $result[0];
     }
 
-    public function get_list($id = '') {
+    public function get_list() {
         if (!empty($id)) {
             $this->db->where('id', $id);
             $this->db->limit(1);
