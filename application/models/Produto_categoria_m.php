@@ -68,18 +68,12 @@ class Produto_categoria_m extends CI_Model {
         return $result[0];
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-            $result = $this->db->get('produto_categoria');
-        } else {
-            $result = $this->db->get('produto_categoria');
-        }
+    public function get_list() {
+        $result = $this->db->get('produto_categoria');
         return $this->Produto_categoria_m->_changeToObject($result->result_array());
     }
 
-    public function inserir(Produto_categoria_m $objeto) {
+    public function inserir($objeto) {
         if (!empty($objeto)) {
             $dados = array(
                 'id' => $objeto->id,
@@ -87,18 +81,13 @@ class Produto_categoria_m extends CI_Model {
                 'descricao' => $objeto->descricao
                 );
             if ($this->db->insert('produto_categoria', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public function editar(Produto_categoria_m $objeto) {
+    public function editar($objeto) {
         if (!empty($objeto->id)) {
             $dados = array(
                 'id' => $objeto->id,
@@ -107,31 +96,23 @@ class Produto_categoria_m extends CI_Model {
                 );
             $this->db->where('id', $objeto->id);
             if ($this->db->update('produto_categoria', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('produto_categoria')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    function _changeToObject($result_db = '') {
+    function _changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Produto_categoria_m();

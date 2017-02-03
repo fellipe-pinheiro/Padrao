@@ -491,7 +491,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Catálogo</label>
+                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
                         <input type="text" id="papel-filtro_papel" class="form-control">
                     </div>
                     <div class="form-group">
@@ -517,8 +517,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="filtro('papel_linha','reset')">Limpar Filtro</button>
-                    <button type="button" class="btn btn-default" onclick="filtro('papel_linha','filtrar')">
+                    <button type="button" class="btn btn-default" onclick="filtro('reset')">
+                        <span class="glyphicon glyphicon-erase"></span> Limpar Filtro
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="filtro('filtrar')">
                         <span class="glyphicon glyphicon-filter"></span>
                     </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -594,7 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     fade: true
                 },
                 {   
-                    text: 'Filtro',
+                    text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
                     action: function () {
                         $("#md_filtro_papel").modal('show');
                     }
@@ -609,8 +611,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: "<?= base_url('papel/ajax_list') ?>",
                 type: "POST",
                 data: function ( data ) {
-                    //data.filtro_catalogo = $('#papel-filtro_papel').val();
-                    //data.filtro_linha = $('#papel-filtro_linha').val();
+                    data.filtro_papel = $('#papel-filtro_papel').val();
+                    data.filtro_linha = $('#papel-filtro_linha').val();
                 },
             },
             columns: [
@@ -893,7 +895,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if($('[name="' + index + '"]').is("input, textarea")){
                             $('[name="' + index + '"]').val(value);
                         }else if($('[name="' + index + '"]').is("select")){
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                            if( $('[name="' + index + '"]').hasClass("selectpicker") ){
+                                $('[name="' + index + '"]').selectpicker('val', value.id);
+                            }else{
+                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                            }
                         }
                     });
                     $(md_form).modal('show');
@@ -1092,7 +1098,7 @@ function open_papel_acabamento_docs() {
 
     $("#md_acabamento_docs").modal('show');
 }
-function filtro(tabela,acao) {
+function filtro(acao) {
     if(!get_tab_active()){
         console.log('Não foi possível carregar get_tab_active()');
         return false;
@@ -1101,12 +1107,10 @@ function filtro(tabela,acao) {
         dataTable.ajax.reload(null,false);
         $("#md_filtro_papel").modal('hide');
     }else if(acao === 'reset'){
-        $('#form-filter-papel_linha')[0].reset();
-        $('#form-filter-papel_linha ul>li.selected.active').removeClass('selected active');
-        //$($('#form-filter-papel_linha ul li')[0]).addClass('selected active');
-        $(".filter-option").each(function(index, el) {
-            $(".filter-option").text("Selecione");
-        });
+        $('#form-filter-papel')[0].reset();
+        $('#form-filter-papel ul>li.selected.active').removeClass('selected active');
+        //$($('#form-filter-papel ul li')[0]).addClass('selected active');
+        $('#papel-filtro_linha').selectpicker('val', '');
         dataTable.ajax.reload(null,false);
     }
 }

@@ -22,12 +22,12 @@ class Papel_m extends CI_Model {
     var $column_search = array('pl_nome','p_nome','pd_altura','pd_largura','p_descricao',);
     var $order = array('p.nome'=>'asc');
 
-    private function _get_datatables_query() {
-        if($this->input->post('filtro_catalogo')){
-            //$this->db->like('pl.nome', $this->input->post('filtro_catalogo'));
+    private function get_datatables_query() {
+        if($this->input->post('filtro_papel')){
+            $this->db->like('p_nome', $this->input->post('filtro_papel'));
         }
         if($this->input->post('filtro_linha')){
-            //$this->db->like('p.nome', $this->input->post('filtro_linha'));
+            $this->db->where('pl_nome', $this->input->post('filtro_linha'));
         }
         $this->db->from($this->table);
         $i = 0;
@@ -56,7 +56,7 @@ class Papel_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
@@ -64,7 +64,7 @@ class Papel_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
