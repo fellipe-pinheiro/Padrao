@@ -30,6 +30,9 @@ switch (EXECUCAO) {
 	case 1: // Production
 		$config['base_url'] = 'http://localhost/cgolin/';
 		break;
+	case 3:
+		$config['base_url'] = 'http://orcasistemas.com.br/dev_f';
+		break;
 	default:
 		$config['base_url'] = 'http://localhost/cgolin/';
 		break;

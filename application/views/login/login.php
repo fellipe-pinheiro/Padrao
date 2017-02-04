@@ -1,14 +1,15 @@
 <div class="row">
     <div class="col-md-offset-4 col-md-4">
+        <?= get_flashdata() ?> 
         <div class="panel panel-default"  style="min-width: 330px;">
             <div class="panel-body text-center">
                 <?= form_open(base_url('login/logar'), 'class="form-signin"') ?>
-                <?= form_hidden('redirecionar', $this->session->userdata('redirecionar'))?>
-                <p><?= img(array('src'   => '/assets/imagens/logo_cgolin.png','alt'   => 'Logo da empresa','class' => '','width' => '300','height'=> 'auto','title' => 'Logo da empresa')); ?></p>
+                <?= form_hidden('redirecionar', $this->session->userdata('redirecionar')) ?>
+                <p><?= img(array('src' => '/assets/imagens/logo_cgolin.png', 'alt' => 'Logo da empresa', 'class' => '', 'width' => '300', 'height' => 'auto', 'title' => 'Logo da empresa')); ?></p>
                 <?= form_error('senha') ?>
                 <p>
-                    <?= form_label('Login: ', 'identity', array('class' => 'sr-only')) ?>
-                    <?= form_input('login', set_value('login'), ' id="login" class="form-control" placeholder="Login" autofocus required') ?>
+                    <?= form_label('Usuário/Email: ', 'identity', array('class' => 'sr-only')) ?>
+                    <?= form_input('login', set_value('login'), ' id="login" class="form-control" placeholder="Usuário/Email" autofocus required') ?>
                 </p>
                 <p>
                     <?= form_label('Senha: ', 'senha', array('class' => 'sr-only')) ?>
@@ -25,7 +26,7 @@
             </div>
         </div>
         <div>
-            <?= anchor(base_url("login/esqueci_senha"), "Esqueci minha senha")?>
+            <?= anchor(base_url("login/esqueci_senha"), "Esqueci minha senha") ?>
         </div>
     </div>
 </div>
