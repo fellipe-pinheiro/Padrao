@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fita-menu">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse navbar-fita-menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
@@ -169,7 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?= form_label('Fita Laço: ', 'fita_laco', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
                             <select autofocus name="fita_laco" id="fita_laco" class="form-control" >
-                                <option disabled selected>Selecione</option>
+                                <option value="" disabled selected>Selecione</option>
                                 <?php foreach ($dados['fita_laco'] as $key => $value) { 
                                     ?>
                                     <option value="<?=$value->id?>"><?=$value->nome?></option>
@@ -186,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?= form_label('Fita Material: ', 'fita_material', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
                             <select name="fita_material" id="fita_material" class="form-control" >
-                                <option disabled selected>Selecione</option>
+                                <option value="" disabled selected>Selecione</option>
                                 <?php foreach ($dados['fita_material'] as $key => $value) { 
                                     ?>
                                     <option value="<?=$value->id?>"><?=$value->nome?></option>
@@ -857,9 +857,23 @@ function formulario_submit(e) {
         success: function (data)
         {
             if (data.status)
-            {
-                $(md_form).modal('hide');
-                reload_table(dataTable);
+            {   
+                if(tab_active == '#tab_fita' && save_method == 'add'){
+                    $.confirm({
+                        title: 'Fita inserida com sucesso!',
+                        content: 'Deseja inserir mais uma fita de mesmo material?',
+                        confirmButton: 'Sim',
+                        cancelButton: 'Não',
+                        confirm: function(){
+                            $(form + " #fita_laco").val('');
+                        },
+                        cancel: function(){
+                            $(md_form).modal('hide');
+                        }
+                    });
+                }else{
+                    $(md_form).modal('hide');
+                }
             }
             else
             {
@@ -875,11 +889,9 @@ function formulario_submit(e) {
         },
         complete:function(){
             enable_button_salvar();
+            reload_table(dataTable);
         }
     });
-    
-    //enable_button_salvar();
-    reload_table(dataTable);
     e.preventDefault();
 }
 function get_tab_active() {

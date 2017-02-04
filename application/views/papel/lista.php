@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-papel-menu">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse navbar-papel-menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
@@ -971,9 +971,23 @@ function formulario_submit(e) {
         success: function (data)
         {
             if (data.status)
-            {
-                $(md_form).modal('hide');
-                reload_table(dataTable);
+            {   
+                if(tab_active == '#tab_papel' && save_method == 'add'){
+                    $.confirm({
+                        title: 'Papel inserido com sucesso!',
+                        content: 'Deseja inserir mais um papel da mesma linha?',
+                        confirmButton: 'Sim',
+                        cancelButton: 'Não',
+                        confirm: function(){
+                            $(form + " #nome").val('');
+                        },
+                        cancel: function(){
+                            $(md_form).modal('hide');
+                        }
+                    });
+                }else{
+                    $(md_form).modal('hide');
+                }
             }
             else
             {
@@ -987,11 +1001,12 @@ function formulario_submit(e) {
         {
             alert('Erro ao Adicionar ou Editar');
         },
-            complete: function () {
-                enable_button_salvar();
-            }
+        complete: function () 
+        {
+            enable_button_salvar();
+            reload_table(dataTable);
+        }
     });
-    reload_table(dataTable);
     e.preventDefault();
 }
 function get_tab_active() {

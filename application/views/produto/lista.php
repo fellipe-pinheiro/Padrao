@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-produto-menu">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse navbar-produto-menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
@@ -536,12 +536,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: "JSON",
             success: function (data)
             {
-                if (data.status)
-                {
-                    $(md_form).modal('hide');
-                    reload_table(dataTable);
-                } else
-                {
+                if (data.status){
+                    if(tab_active == '#tab_produto' && save_method == 'add'){
+                        $.confirm({
+                            title: 'Produto inserido com sucesso!',
+                            content: 'Deseja inserir mais um produto da mesma categoria?',
+                            confirmButton: 'Sim',
+                            cancelButton: 'Não',
+                            confirm: function(){
+                                $(form + " #nome").val('');
+                            },
+                            cancel: function(){
+                                $(md_form).modal('hide');
+                            }
+                        });
+                    }else{
+                        $(md_form).modal('hide');
+                    }
+                } else{
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').parent().parent().addClass('has-error');
                         $('[name="' + index + '"]').next().text(value);
@@ -554,9 +566,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             complete: function () {
                 enable_button_salvar();
+                reload_table(dataTable);
             }
         });
-        reload_table(dataTable);
         e.preventDefault();
     }
     function get_tab_active() {
