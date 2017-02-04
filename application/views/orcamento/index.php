@@ -1,233 +1,230 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<div class="row" id="painel_principal">
-    <!-- Carrinho -->
-    <div class="panel panel-default">
-        <div class="panel-body panel-nav">
-            <nav class="navbar navbar-default navbar-static-top" role="navigation">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <div class="navbar-brand" href="javascript:void(0)">Orçamento</div>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <?php
-                                    empty($this->session->orcamento->descricao) ? $descricao = '' : $descricao = $this->session->orcamento->descricao;
-                                    empty($this->session->orcamento->desconto) ? $desconto = "''" : $desconto = $this->session->orcamento->desconto;
-                                    $pedido = $this->session->pedido;
-                                    ?>
-                                    <li class="dropdown-header">Orçamento</li>
-                                    <li>
-                                        <a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="session_orcamento_info()" href="javascript:void(0)"><i class="glyphicon glyphicon-info-sign"></i> Informações</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Opções do orçamento</li>
-                                    <li>
-                                        <a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i> Produtos <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="<?= base_url('convite') ?>"><i class="glyphicon glyphicon-envelope"></i> Convite</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?= base_url('personalizado') ?>"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</a>
-                                    </li>
-                                    <li>
-                                        <a onclick="produto_modal('inserir', '', '', '', '', '')" href="javascript:void(0)"><i class="glyphicon glyphicon-gift"></i> Produto
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-save"></i> Salvar <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-save"></i> Salvar como orçamento</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li>
-                                        <a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-open"></i> Salvar como pedido</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+<div class="panel panel-default" id="painel_principal">
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-orcamento-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <div class="navbar-brand">Orçamento</div>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
-                        <?= form_input('', $this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
-                    </div>
-                    <div class="col-sm-3">
-                        <?= form_label('E-mail:', '', array('class' => 'control-label')) ?>
-                        <?= form_input('', $this->session->orcamento->cliente->email, 'readonly class="form-control input-sm"') ?>
-                    </div>
-                    <div class="col-sm-3">
-                        <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
-                        <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
-                    </div>
-                    <div class="col-sm-3">
-                        <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
-                        <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm"') ?>
-                    </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-orcamento-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php
+                                empty($this->session->orcamento->descricao) ? $descricao = '' : $descricao = $this->session->orcamento->descricao;
+                                empty($this->session->orcamento->desconto) ? $desconto = "''" : $desconto = $this->session->orcamento->desconto;
+                                $pedido = $this->session->pedido;
+                                ?>
+                                <li class="dropdown-header">Orçamento</li>
+                                <li>
+                                    <a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                                </li>
+                                <li>
+                                    <a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a>
+                                </li>
+                                <li>
+                                    <a onclick="session_orcamento_info()" href="javascript:void(0)"><i class="glyphicon glyphicon-info-sign"></i> Informações</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header">Opções do orçamento</li>
+                                <li>
+                                    <a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a>
+                                </li>
+                                <li>
+                                    <a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a>
+                                </li>
+                                <li>
+                                    <a onclick="orcamento_desconto('inserir',<?= $desconto ?>)" href="javascript:void(0)"><i class="glyphicon glyphicon-piggy-bank"></i> Desconto</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i> Produtos <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= base_url('convite') ?>"><i class="glyphicon glyphicon-envelope"></i> Convite</a>
+                                </li>
+                                <li>
+                                    <a href="<?= base_url('personalizado') ?>"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</a>
+                                </li>
+                                <li>
+                                    <a onclick="produto_modal('inserir', '', '', '', '', '')" href="javascript:void(0)"><i class="glyphicon glyphicon-gift"></i> Produto
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-save"></i> Salvar <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a onclick="criar_orcamento()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-save"></i> Salvar como orçamento</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a onclick="criar_pedido()" href="javascript:void(0)"><i class="glyphicon glyphicon-floppy-open"></i> Salvar como pedido</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                <br>
-                <div class="table-responsive">
-                    <table class="table table-hover table-condensed">
-                        <tr>
-                            <th>#</th>
-                            <th>Categoria</th>
-                            <th>Produto</th>
-                            <th class="data_entrega">Data Entrega</th>
-                            <th>Qtd</th>
-                            <th>Unitário</th>
-                            <th>Sub-total</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
-                        </tr>
-                        <tbody>
-                            <?php
-                            $count = 1;
-                            //CONVITES
-                            foreach ($this->session->orcamento->convite as $key => $convite) {
-                                ?>
-                                <tr>
-                                    <td><?= $count ?></td>
-                                    <td>Convite</td>
-                                    <td><?= $convite->modelo->nome ?></td>
-                                    <td class="data_entrega form-group">
-                                        <form id="convite-<?= $key ?>">
-                                            <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                            <span class="help-block"></span>
-                                            <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                        </form>
-                                    </td>
-                                    <td><?= $convite->quantidade ?></td>
-                                    <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
-                                    <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
-                                    <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                    <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                </tr>
-                                <?php
-                                $count ++;
-                            }
-                            //PERSONALIZADOS
-                            foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
-                                ?>
-                                <tr>
-                                    <td><?= $count ?></td>
-                                    <td>Personalizado</td>
-                                    <td><?= $personalizado->modelo->nome ?></td>
-                                    <td class="data_entrega form-group">
-                                        <form id="personalizado-<?= $key ?>">
-                                            <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                            <span class="help-block"></span>
-                                            <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                        </form>
-                                    </td>
-                                    <td><?= $personalizado->quantidade ?></td>
-                                    <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
-                                    <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
-                                    <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                    <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                </tr>
-                                <?php
-                                $count ++;
-                            }
-                            //PRODUTOS
-                            foreach ($this->session->orcamento->produto as $key => $container) {
-                                ?>
-                                <tr>
-                                    <td><?= $count ?></td>
-                                    <td><?= $container->produto->produto_categoria->nome ?></td>
-                                    <td><?= $container->produto->nome ?></td>
-                                    <td class="data_entrega form-group">
-                                        <form id="produto-<?= $key ?>">
-                                            <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                            <span class="help-block"></span>
-                                            <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                        </form>
-                                    </td>
-                                    <td><?= $container->quantidade ?></td>
-                                    <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
-                                    <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
-                                    <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                    <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                </tr>
-                                <?php
-                                $count ++;
-                            }
-                            ?>
-                        </tbody>
-                        <tfoot>
-                            <?php
-                            if (!empty($this->session->orcamento->desconto)) {
-                                ?>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="data_entrega"></td>
-                                    <td></td>
-                                    <td>Desconto</td>
-                                    <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
-                                    <td><a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                    <td><a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                </tr>
-                                <?php
-                            }
+            </div>
+        </nav>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
+                    <?= form_input('', $this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= form_label('E-mail:', '', array('class' => 'control-label')) ?>
+                    <?= form_input('', $this->session->orcamento->cliente->email, 'readonly class="form-control input-sm"') ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
+                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
+                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm"') ?>
+                </div>
+            </div>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
+                    <tr>
+                        <th>#</th>
+                        <th>Categoria</th>
+                        <th>Produto</th>
+                        <th class="data_entrega">Data Entrega</th>
+                        <th>Qtd</th>
+                        <th>Unitário</th>
+                        <th>Sub-total</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                    <tbody>
+                        <?php
+                        $count = 1;
+                        //CONVITES
+                        foreach ($this->session->orcamento->convite as $key => $convite) {
                             ?>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th class="data_entrega"></th>
-                                <th></th>
-                                <th>Total a pagar</th>
-                                <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
-                                <th></th>
-                                <th></th>
+                                <td><?= $count ?></td>
+                                <td>Convite</td>
+                                <td><?= $convite->modelo->nome ?></td>
+                                <td class="data_entrega form-group">
+                                    <form id="convite-<?= $key ?>">
+                                        <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                        <span class="help-block"></span>
+                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                    </form>
+                                </td>
+                                <td><?= $convite->quantidade ?></td>
+                                <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
+                                <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
+                                <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
                             </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                            <?php
+                            $count ++;
+                        }
+                        //PERSONALIZADOS
+                        foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
+                            ?>
+                            <tr>
+                                <td><?= $count ?></td>
+                                <td>Personalizado</td>
+                                <td><?= $personalizado->modelo->nome ?></td>
+                                <td class="data_entrega form-group">
+                                    <form id="personalizado-<?= $key ?>">
+                                        <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                        <span class="help-block"></span>
+                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                    </form>
+                                </td>
+                                <td><?= $personalizado->quantidade ?></td>
+                                <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
+                                <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
+                                <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                            </tr>
+                            <?php
+                            $count ++;
+                        }
+                        //PRODUTOS
+                        foreach ($this->session->orcamento->produto as $key => $container) {
+                            ?>
+                            <tr>
+                                <td><?= $count ?></td>
+                                <td><?= $container->produto->produto_categoria->nome ?></td>
+                                <td><?= $container->produto->nome ?></td>
+                                <td class="data_entrega form-group">
+                                    <form id="produto-<?= $key ?>">
+                                        <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                        <span class="help-block"></span>
+                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                    </form>
+                                </td>
+                                <td><?= $container->quantidade ?></td>
+                                <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
+                                <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
+                                <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            </tr>
+                            <?php
+                            $count ++;
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <?php
+                        if (!empty($this->session->orcamento->desconto)) {
+                            ?>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="data_entrega"></td>
+                                <td></td>
+                                <td>Desconto</td>
+                                <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
+                                <td><a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="data_entrega"></th>
+                            <th></th>
+                            <th>Total a pagar</th>
+                            <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
