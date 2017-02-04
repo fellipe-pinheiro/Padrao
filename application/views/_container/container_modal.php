@@ -44,11 +44,11 @@ $controller = $this->router->class;
 							<?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label')) ?>
 							<select name="gramatura" id="form_select_gramatura" class="form-control" required>
 								<option value="" selected="" disabled="disabled">Selecione</option>
-								<option value="80">80g</option>
-								<option value="120">120g</option>
-								<option value="180">170 / 180g</option>
-								<option value="250">240 / 250g</option>
-								<option value="300">300g</option>
+								<option value="80">80~100(g)</option>
+								<option value="120">120(g)</option>
+								<option value="180">170~180(g)</option>
+								<option value="250">240~250(g)</option>
+								<option value="300">300~320(g)</option>
 								<option value="350">350g</option>
 								<option value="400">400g</option>
 							</select>

@@ -202,7 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_03mm: ', 'valor_03mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_03mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_03mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -211,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_07mm: ', 'valor_07mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_07mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_07mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_10mm: ', 'valor_10mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_10mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_10mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -229,7 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_15mm: ', 'valor_15mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_15mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_15mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -238,7 +238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_22mm: ', 'valor_22mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_22mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_22mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -247,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_38mm: ', 'valor_38mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_38mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_38mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -256,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_50mm: ', 'valor_50mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_50mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_50mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -265,7 +265,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor_70mm: ', 'valor_70mm', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01"  value="" name="valor_70mm" type="number" class="form-control" placeholder="Valor" />
+                            <input step="0.01"  value="0.00" name="valor_70mm" type="number" class="form-control" placeholder="Valor">
                             <span class="help-block"></span>
                         </div>
                     </div>

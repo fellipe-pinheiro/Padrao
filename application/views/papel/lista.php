@@ -201,41 +201,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <!--Valor 80g-->
                     <div class="form-group">
-                        <?= form_label('Valor 80g: ', 'valor_80g', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Valor 80 ~ 100 (g): ', 'valor_80g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_80g" type="number" class="form-control" placeholder="Valor de 80g" />
+                            <input step="0.01" value="0.00" name="valor_80g" type="number" class="form-control" placeholder="Valor de 80g ~ 100g">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <!--Valor 120g-->
                     <div class="form-group">
-                        <?= form_label('Valor 120g: ', 'valor_120g', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Valor 120 (g): ', 'valor_120g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_120g" type="number" class="form-control" placeholder="Valor de 120g" />
+                            <input step="0.01" value="0.00" name="valor_120g" type="number" class="form-control" placeholder="Valor de 120g">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <!--Valor 180g-->
                     <div class="form-group">
-                        <?= form_label('Valor 180g: ', 'valor_180g', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Valor 170 ~ 180 (g): ', 'valor_180g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_180g" type="number" class="form-control" placeholder="Valor de 180g" />
+                            <input step="0.01" value="0.00" name="valor_180g" type="number" class="form-control" placeholder="Valor de 170g ~ 180g">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <!--Valor 250g-->
                     <div class="form-group">
-                        <?= form_label('Valor 250g: ', 'valor_250g', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Valor 240 ~ 250 (g): ', 'valor_250g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_250g" type="number" class="form-control" placeholder="Valor de 250g" />
+                            <input step="0.01" value="0.00" name="valor_250g" type="number" class="form-control" placeholder="Valor de 240g ~ 250g">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <!--Valor 300g-->
                     <div class="form-group">
-                        <?= form_label('Valor 300g: ', 'valor_300g', array('class' => 'control-label col-sm-2')) ?>
+                        <?= form_label('Valor 300 ~ 320 (g): ', 'valor_300g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_300g" type="number" class="form-control" placeholder="Valor de 300g" />
+                            <input step="0.01" value="0.00" name="valor_300g" type="number" class="form-control" placeholder="Valor de 300g ~320g">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor 350g: ', 'valor_350g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_350g" type="number" class="form-control" placeholder="Valor de 350g" />
+                            <input step="0.01" value="0.00" name="valor_350g" type="number" class="form-control" placeholder="Valor de 350g">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -251,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Valor 400g: ', 'valor_400g', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor_400g" type="number" class="form-control" placeholder="Valor de 400g" />
+                            <input step="0.01" value="0.00" name="valor_400g" type="number" class="form-control" placeholder="Valor de 400g">
                             <span class="help-block"></span>
                         </div>
                     </div>   
@@ -598,6 +598,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {   
                     text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
                     action: function () {
+                        $('.modal-title').text('Filtro');
                         $("#md_filtro_papel").modal('show');
                     }
                 }
@@ -1079,7 +1080,6 @@ function reset_form() {
     $(form)[0].reset();
     $('.form-group').removeClass('has-error');
     $('.help-block').empty();
-    //$(".filter-option").text("");
     $('.selectpicker').selectpicker('val', '');
 }
 function reset_errors() {
@@ -1109,7 +1109,6 @@ function filtro(acao) {
     }else if(acao === 'reset'){
         $('#form-filter-papel')[0].reset();
         $('#form-filter-papel ul>li.selected.active').removeClass('selected active');
-        //$($('#form-filter-papel ul li')[0]).addClass('selected active');
         $('#papel-filtro_linha').selectpicker('val', '');
         dataTable.ajax.reload(null,false);
     }
