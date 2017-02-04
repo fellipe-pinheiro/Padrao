@@ -76,23 +76,10 @@ $query_builder = TRUE;
 
 switch (EXECUCAO) {
     case 0: // Development
-        // $hostname = '50.116.112.138';
-        // $username = 'orcas394_db_dev';
-        // $password = 'sDBdb_dev2017';
-        // $database = 'orcas394_db_dev';
-        // $hostname = 'studio_cg.mysql.dbaas.com.br';
-        // $username = 'studio_cg';
-        // $password = 'uninove10';
-        // $database = 'studio_cg';
-        // $hostname = 'localhost';
-        // $username = 'root';
-        // $password = '';
-        // $database = 'studio_cg';
-
-        $hostname = 'localhost';
-        $username = 'root';
-        $password = '';
-        $database = 'b_papel_changes';
+        $hostname = '50.116.112.138';
+        $username = 'orcas394_db_dev';
+        $password = 'sDBdb_dev2017';
+        $database = 'orcas394_db_dev';
         break;
     case 1: // Production
         $hostname = '50.116.112.138';
@@ -108,15 +95,10 @@ switch (EXECUCAO) {
         break;
 
     default:
-        $hostname = '50.116.112.138';
-        $username = 'orcas394_cgolin';
-        $password = 'sDBcgolin2017';
-        $database = 'orcas394_camilagolin';
-
         $hostname = 'localhost';
         $username = 'root';
         $password = '';
-        $database = 'studio_cg';
+        $database = 'cgolin_localhost';
         break;
 }
 

@@ -58,9 +58,9 @@
 	/*
 	0 - Development
 	1 - Production
-        3 - dev_f
+    3 - dev_f
 	*/
-	define("EXECUCAO",3);
+	define("EXECUCAO",0);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
