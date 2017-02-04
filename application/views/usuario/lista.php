@@ -32,15 +32,14 @@ $view_data = $dados;
                             <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="javascript:void(0)" id="ativar"><i class="glyphicon glyphicon-ok"></i> Ativar</a>
-                        </li>
-                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-remove"></i><b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i><b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="ativar"><i class="glyphicon glyphicon-ok"></i> Ativar</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="javascript:void(0)" id="desativar"><i class="glyphicon glyphicon-remove"></i> desativar</a>
                                 </li>
@@ -102,11 +101,11 @@ $view_data = $dados;
                         <span class="help-block"></span>
                     </div>
                 </div>
-                <!--Emai-->
+                <!--Email-->
                 <div class="form-group">
-                    <?= form_label("Emai  ", '', array("class" => "col-sm-2 control-label")) ?>
+                    <?= form_label("Email  ", '', array("class" => "col-sm-2 control-label")) ?>
                     <div class="col-sm-10">
-                        <?= form_input("email", '', "class = 'form-control' placeholder = 'Emai'") ?>
+                        <?= form_input("email", '', "class = 'form-control' placeholder = 'Email'") ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -114,7 +113,7 @@ $view_data = $dados;
                 <div class="form-group">
                     <?= form_label("Celular  ", '', array("class" => "col-sm-2 control-label")) ?>
                     <div class="col-sm-10">
-                        <?= form_input("phone", '', "class = 'form-control' placeholder = 'Celular'") ?>
+                        <?= form_input("phone", '', "class = 'form-control sp_celphones' placeholder = 'Celular'") ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
