@@ -58,8 +58,9 @@
 	/*
 	0 - Local
 	1 - dominio
+        2 - dev_f
 	*/
-	define("EXECUCAO",0);
+	define("EXECUCAO",2);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

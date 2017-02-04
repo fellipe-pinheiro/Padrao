@@ -12,7 +12,8 @@ $view_data = $dados;
     <div class="panel-body">
         <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
         <button class="btn btn-default" id="editar" ><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-default" id="deletar"> Desativar</button>
+        <button class="btn btn-default" id="deletar">Desativar</button>
+        <button class="btn btn-default" id="ativar">Ativar</button>
 
         <hr style="margin-top: 10px; margin-bottom: 10px; border-top-width: 5px;">
         <div class="table-responsive">
@@ -36,31 +37,7 @@ $view_data = $dados;
     </div>
 </div>
 
-<!--Tabela Grupos-->
-<!--<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Gestão de Grupos</h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="editar_gp" ><i class="glyphicon glyphicon-pencil"></i></button>
-
-        <hr style="margin-top: 10px; margin-bottom: 10px; border-top-width: 5px;">
-        <div class="table-responsive">
-            <table id="table_grupo" class="table display compact table-hover table-bordered" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>-->
-
+<!--Modal add/edit-->
 <div class="modal fade" id="modal_form" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -141,6 +118,38 @@ $view_data = $dados;
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!--Modal ativar usuario-->
+<div class="modal fade" id="modal_ativacao" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Ativação de usuário</h3>
+            </div><!-- /.modal-content .modal-head -->
+            <div class="modal-body form row">
+                <?= form_open("#", array("id" => "from_ativacao", "class" => "form-horizontal col-sm-offset-1 col-sm-10", "role" => "form")) ?>
+                <?= form_hidden("id", "") ?>
+                <!--Usuario-->
+                <div class="form-group">
+                    <?= form_label("Usuário:  ", '', array("class" => " control-label")) ?>
+                    <?= form_label("", "", array("id" => "form_ativacao_usuario", "style" => "font-weight: normal")) ?>
+                </div>
+                <!--Codigo-->
+                <div class="form-group">
+                    <?= form_label("Código de ativação", '', array("class" => "control-label")) ?>
+                    <?= form_input("codigo", '', "class = 'form-control' placeholder = 'Código de ativação'") ?>
+                    <span class="help-block"></span>
+                </div>
+                <?= form_close() ?>
+            </div><!-- /.modal-content .modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+                <button type="button" id="btnSubmit_ativacao" class="btn btn-default">Salvar</button>
+            </div><!-- /.modal-content .modal-footer -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
     $(document).ready(function () {
         // Inicializar DataTable
@@ -199,7 +208,7 @@ $view_data = $dados;
                 "type": "POST"
             },
             "columns": [
-                {"data": "id", "visible": true},
+                {"data": "id", "visible": false},
                 {"data": "name", "visible": true},
                 {"data": "last_name", "visible": true},
                 {"data": "email", "visible": true},
@@ -261,10 +270,10 @@ $view_data = $dados;
                     $('[name="phone"]').val(data.usuario.phone);
                     $('[name="company"]').val(data.usuario.company);
                     // desmarcar todos os checkbox
-                    $("#from_usuario #grupos input[type='checkbox']").prop("checked",false);
+                    $("#from_usuario #grupos input[type='checkbox']").prop("checked", false);
                     for (var i = 0; i < data.usuario.groups.length; i++) {
                         // marcar os checkbox desse usuario
-                        $("#from_usuario input[name='gp_"+data.usuario.groups[i].id+"']").prop("checked", true);
+                        $("#from_usuario input[name='gp_" + data.usuario.groups[i].id + "']").prop("checked", true);
                     }
 
                     $('#modal_form').modal('show');
@@ -277,9 +286,9 @@ $view_data = $dados;
             });
         });
         $("#deletar").click(function () {
-
+            console.log(table_usuario.row(".selected"));
             var id = table_usuario.row(".selected").id();
-            if (confirm("O usuario " + id + " sera apagado")) {
+            if (confirm("O usuário sera desativado")) {
                 // ajax delete data to database
                 $.ajax({
                     url: "<?= base_url('usuario/ajax_delete/') ?>" + id,
@@ -301,7 +310,18 @@ $view_data = $dados;
                 });
             }
         });
-        
+        $("#ativar").click(function () {
+            // difinir o id do usuario no form_ativacao
+            var id = table_usuario.row(".selected").data().id;
+            $('#from_ativacao input[name=id]').val(id);
+            // Mostar nome do usuario que sera ativado
+            var nome = table_usuario.row(".selected").data().name + " " + table_usuario.row(".selected").data().last_name;
+            $("#form_ativacao_usuario").text(nome);
+            console.log("Id:" + id + " Nome:" + nome);
+
+            $("#modal_ativacao").modal();
+        });
+
         $("#btnSubmit").click(function () {
             $('#btnSubmit').text('Salvando..');
             $('#btnSubmit').attr('disabled', true);
@@ -336,24 +356,60 @@ $view_data = $dados;
                     console.log(jqXHR.responseText);
                     console.log(textStatus);
                     console.log(errorThrown);
+                },
+                complete: function (jqXHR, textStatus) {
+                    $('#btnSubmit').text('Salvar');
+                    $('#btnSubmit').attr('disabled', false);
                 }
             });
-            $('#btnSubmit').text('save');
-            $('#btnSubmit').attr('disabled', false);
         });
-        
-        
+
+        $("#btnSubmit_ativacao").click(function () {
+            $('#btnSubmit_ativacao').text('Salvando..');
+            $('#btnSubmit_ativacao').attr('disabled', true);
+
+            $.ajax({
+                url: "<?= base_url("usuario/ativacao") ?>",
+                type: "POST",
+                data: $('#from_ativacao').serialize(),
+                dataType: "JSON",
+                success: function (data)
+                {
+                    console.log(data);
+                    console.log(data.status);
+                    console.log(data.msg);
+                    if (data.status) {
+                        $("#modal_ativacao").modal("hide");
+                        reload_table();
+                    } else {
+                        $('input[name="codigo"]').next().addClass('has-error');
+                        $('input[name="codigo"]').next().text(data.msg);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    //alert('Erro ao ativar usuário');
+                    console.log("Ajax erro");
+                    console.log(textStatus);
+                },
+                complete: function (jqXHR, textStatus) {
+                    $('#btnSubmit_ativacao').text('Salvar');
+                    $('#btnSubmit_ativacao').attr('disabled', false);
+                }
+            });
+        });
     });
     function enable_buttons() {
         $("#editar").attr("disabled", false);
         $("#deletar").attr("disabled", false);
+        $("#ativar").attr("disabled", false);
     }
     function disable_buttons() {
         $("#editar").attr("disabled", true);
         $("#deletar").attr("disabled", true);
+        $("#ativar").attr("disabled", true);
     }
     function reload_table() {
         table_usuario.ajax.reload(null, false); //reload datatable ajax
-
     }
 </script>

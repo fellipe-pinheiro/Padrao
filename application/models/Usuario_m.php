@@ -127,7 +127,7 @@ class Usuario_m extends CI_Model {
     }
 
     // Metodos para trabalhar com os grupos
-    public function get_groups($id) {
+    public function get_groups($id=null) {
         $groups = $this->ion_auth->get_users_groups($id)->result();
         return $groups;
     }
