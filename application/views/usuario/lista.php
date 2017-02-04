@@ -6,33 +6,71 @@ $view_data = $dados;
 <?php $this->load->view('_include/dataTable'); ?>
 <!--Tabela Usuarios-->
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Gestão de Usuários</h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar" ><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-default" id="deletar">Desativar</button>
-        <button class="btn btn-default" id="ativar">Ativar</button>
-
-        <hr style="margin-top: 10px; margin-bottom: 10px; border-top-width: 5px;">
-        <div class="table-responsive">
-            <table id="table_usuario" class="table display compact table-hover table-bordered" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Sobrenome</th>
-                        <th>Email</th>
-                        <th>Celular</th>
-                        <th>Estado</th>
-                        <th>Criado em</th>
-                        <th>Último Login</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Gestão de Usuários</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-acabamento-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="ativar"><i class="glyphicon glyphicon-ok"></i> Ativar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-remove"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="desativar"><i class="glyphicon glyphicon-remove"></i> desativar</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="table_usuario" class="table display compact table-hover table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Sobrenome</th>
+                                <th>Email</th>
+                                <th>Celular</th>
+                                <th>Estado</th>
+                                <th>Criado em</th>
+                                <th>Último Login</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -285,7 +323,7 @@ $view_data = $dados;
                 }
             });
         });
-        $("#deletar").click(function () {
+        $("#desativar").click(function () {
             console.log(table_usuario.row(".selected"));
             var id = table_usuario.row(".selected").id();
             if (confirm("O usuário sera desativado")) {
@@ -401,12 +439,12 @@ $view_data = $dados;
     });
     function enable_buttons() {
         $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
+        $("#desativar").attr("disabled", false);
         $("#ativar").attr("disabled", false);
     }
     function disable_buttons() {
         $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        $("#desativar").attr("disabled", true);
         $("#ativar").attr("disabled", true);
     }
     function reload_table() {
