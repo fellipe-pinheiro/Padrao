@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-modelo_personalizado-menu">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse navbar-modelo_personalizado-menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#tab_personalizado_modelo" aria-controls="tab_personalizado_modelo" role="tab" data-toggle="tab">Modelo Personalizado</a>
+                        <a href="#tab_personalizado_modelo" aria-controls="tab_personalizado_modelo" role="tab" data-toggle="tab">Modelo</a>
                     </li>
                     <li role="presentation">
                         <a href="#tab_categoria" aria-controls="tab_categoria" role="tab" data-toggle="tab">Categoria</a>
