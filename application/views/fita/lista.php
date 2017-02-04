@@ -2,112 +2,145 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Fitas</h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>  
-        <div role="tabpanel">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#tab_fita" aria-controls="tab_fita" role="tab" data-toggle="tab">Fita</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab_laco" aria-controls="tab_laco" role="tab" data-toggle="tab">Laço</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab_espessura" aria-controls="tab_espessura" role="tab" data-toggle="tab">Espessura</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab_material" aria-controls="tab_material" role="tab" data-toggle="tab">Material</a>
-                </li>
-            </ul>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fita-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Fita</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-fita-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="col-md-12">
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_fita" aria-controls="tab_fita" role="tab" data-toggle="tab">Fita</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab_laco" aria-controls="tab_laco" role="tab" data-toggle="tab">Laço</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab_espessura" aria-controls="tab_espessura" role="tab" data-toggle="tab">Espessura</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab_material" aria-controls="tab_material" role="tab" data-toggle="tab">Material</a>
+                    </li>
+                </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab_fita">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_fita" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Laço</th>
-                                        <th>Material</th>
-                                        <th>Val_03mm</th>
-                                        <th>Val_07mm</th>
-                                        <th>Val_10mm</th>
-                                        <th>Val_15mm</th>
-                                        <th>Val_22mm</th>
-                                        <th>Val_38mm</th>
-                                        <th>Val_50mm</th>
-                                        <th>Val_70mm</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="tab_fita">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_fita" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Laço</th>
+                                            <th>Material</th>
+                                            <th>Val_03mm</th>
+                                            <th>Val_07mm</th>
+                                            <th>Val_10mm</th>
+                                            <th>Val_15mm</th>
+                                            <th>Val_22mm</th>
+                                            <th>Val_38mm</th>
+                                            <th>Val_50mm</th>
+                                            <th>Val_70mm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab_laco">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_laco" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Descrição</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div role="tabpanel" class="tab-pane" id="tab_laco">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_laco" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab_espessura">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_espessura" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>esp_03mm</th>
-                                        <th>esp_07mm</th>
-                                        <th>esp_10mm</th>
-                                        <th>esp_15mm</th>
-                                        <th>esp_22mm</th>
-                                        <th>esp_38mm</th>
-                                        <th>esp_50mm</th>
-                                        <th>esp_70mm</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div role="tabpanel" class="tab-pane" id="tab_espessura">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_espessura" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>esp_03mm</th>
+                                            <th>esp_07mm</th>
+                                            <th>esp_10mm</th>
+                                            <th>esp_15mm</th>
+                                            <th>esp_22mm</th>
+                                            <th>esp_38mm</th>
+                                            <th>esp_50mm</th>
+                                            <th>esp_70mm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab_material">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_material" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Descrição</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div role="tabpanel" class="tab-pane" id="tab_material">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_material" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,303 +150,303 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="md_form_fita">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Fita</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_fita" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
+    <?= form_open("#", 'class="form-horizontal" id="form_fita" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Fita</h4>
+                </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--Fita Laço-->
-                <div class="form-group">
-                    <?= form_label('Fita Laço: ', 'fita_laco', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <select autofocus name="fita_laco" id="fita_laco" class="form-control" >
-                            <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['fita_laco'] as $key => $value) { 
+                    <!--Fita Laço-->
+                    <div class="form-group">
+                        <?= form_label('Fita Laço: ', 'fita_laco', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <select autofocus name="fita_laco" id="fita_laco" class="form-control" >
+                                <option value="" disabled selected>Selecione</option>
+                                <?php foreach ($dados['fita_laco'] as $key => $value) { 
+                                    ?>
+                                    <option value="<?=$value->id?>"><?=$value->nome?></option>
+                                    <?php 
+                                } 
                                 ?>
-                                <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                <?php 
-                            } 
-                            ?>
-                        </select>
-                        <span class="help-block"></span>
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Fita Material-->
-                <div class="form-group">
-                    <?= form_label('Fita Material: ', 'fita_material', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <select name="fita_material" id="fita_material" class="form-control" >
-                            <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['fita_material'] as $key => $value) { 
+                    <!--Fita Material-->
+                    <div class="form-group">
+                        <?= form_label('Fita Material: ', 'fita_material', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <select name="fita_material" id="fita_material" class="form-control" >
+                                <option value="" disabled selected>Selecione</option>
+                                <?php foreach ($dados['fita_material'] as $key => $value) { 
+                                    ?>
+                                    <option value="<?=$value->id?>"><?=$value->nome?></option>
+                                    <?php 
+                                } 
                                 ?>
-                                <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                <?php 
-                            } 
-                            ?>
-                        </select>
-                        <span class="help-block"></span>
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 03mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_03mm: ', 'valor_03mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_03mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 03mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_03mm: ', 'valor_03mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_03mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 07mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_07mm: ', 'valor_07mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_07mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 07mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_07mm: ', 'valor_07mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_07mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 10mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_10mm: ', 'valor_10mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_10mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 10mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_10mm: ', 'valor_10mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_10mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 15mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_15mm: ', 'valor_15mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_15mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 15mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_15mm: ', 'valor_15mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_15mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 22mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_22mm: ', 'valor_22mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_22mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 22mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_22mm: ', 'valor_22mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_22mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 38mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_38mm: ', 'valor_38mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_38mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 38mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_38mm: ', 'valor_38mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_38mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 50mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_50mm: ', 'valor_50mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_50mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 50mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_50mm: ', 'valor_50mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_50mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor 70mm-->
-                <div class="form-group">
-                    <?= form_label('Valor_70mm: ', 'valor_70mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01"  value="" name="valor_70mm" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor 70mm-->
+                    <div class="form-group">
+                        <?= form_label('Valor_70mm: ', 'valor_70mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01"  value="0.00" name="valor_70mm" type="number" class="form-control" placeholder="Valor">
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <div class="modal fade" id="md_form_laco">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Fita material</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_laco" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
+    <?= form_open("#", 'class="form-horizontal" id="form_laco" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Fita material</h4>
+                </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
+                    <!--Nome-->
+                    <div class="form-group">
+                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Descrição-->
+                    <div class="form-group">
+                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
                 </div>
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <div class="modal fade" id="md_form_espessura">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Fita Espessura</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_espessura" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
+    <?= form_open("#", 'class="form-horizontal" id="form_espessura" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Fita Espessura</h4>
+                </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--esp_03mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_03mm: ', 'esp_03mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_03mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_03mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_03mm: ', 'esp_03mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_03mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_07mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_07mm: ', 'esp_07mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_07mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_07mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_07mm: ', 'esp_07mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_07mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_10mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_10mm: ', 'esp_10mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_10mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_10mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_10mm: ', 'esp_10mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_10mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_15mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_15mm: ', 'esp_15mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_15mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_15mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_15mm: ', 'esp_15mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_15mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_22mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_22mm: ', 'esp_22mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_22mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_22mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_22mm: ', 'esp_22mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_22mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_38mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_38mm: ', 'esp_38mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_38mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_38mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_38mm: ', 'esp_38mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_38mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_50mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_50mm: ', 'esp_50mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_50mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_50mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_50mm: ', 'esp_50mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_50mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
-                <!--esp_70mm-->
-                <div class="form-group">
-                    <?= form_label('*esp_70mm: ', 'esp_70mm', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('esp_70mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                        <span class="help-block"></span>
+                    <!--esp_70mm-->
+                    <div class="form-group">
+                        <?= form_label('*esp_70mm: ', 'esp_70mm', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('esp_70mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <div class="modal fade" id="md_form_material">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Fita material</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_material" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
+    <?= form_open("#", 'class="form-horizontal" id="form_material" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Fita material</h4>
+                </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
+                    <!--Nome-->
+                    <div class="form-group">
+                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Descrição-->
+                    <div class="form-group">
+                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
                 </div>
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -514,6 +547,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("a[href='#tab_fita']").click(function () {
 
             tb_fita.ajax.reload(null, false);
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
         });
         $("a[href='#tab_laco']").click(function () {
             if (!is_datatable_exists("#tb_laco")) {
@@ -579,6 +616,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }else {
                 tb_laco.ajax.reload(null, false);
             }
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
         });
         $("a[href='#tab_espessura']").click(function () {
             if (!is_datatable_exists("#tb_espessura")) {
@@ -608,6 +649,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }else {
                 tb_espessura.ajax.reload(null, false);
+            }
+            if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
             }
         });
         $("a[href='#tab_material']").click(function () {
@@ -674,6 +719,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }else {
                 tb_material.ajax.reload(null, false);
             }
+             if(!get_tab_active()){
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
         });
         //seleciona a linha da tabela
         $("#tb_fita tbody").on("click", "tr", function () {
@@ -694,10 +743,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 return false;
             }
             reset_form();
-
+            console.log($(form +' .modal-title'));
             save_method = 'add';
             $("input[name='id']").val("");
-            $('.modal-title').text('Adicionar' + modal_title);
+            $(form +' .modal-title').text('Adicionar' + modal_title);
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
@@ -731,7 +780,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                     $(md_form).modal('show');
-                    $('.modal-title').text('Editar' + modal_title);
+                    $(form +' .modal-title').text('Editar' + modal_title);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -808,9 +857,23 @@ function formulario_submit(e) {
         success: function (data)
         {
             if (data.status)
-            {
-                $(md_form).modal('hide');
-                reload_table(dataTable);
+            {   
+                if(tab_active == '#tab_fita' && save_method == 'add'){
+                    $.confirm({
+                        title: 'Fita inserida com sucesso!',
+                        content: 'Deseja inserir mais uma fita de mesmo material?',
+                        confirmButton: 'Sim',
+                        cancelButton: 'Não',
+                        confirm: function(){
+                            $(form + " #fita_laco").val('');
+                        },
+                        cancel: function(){
+                            $(md_form).modal('hide');
+                        }
+                    });
+                }else{
+                    $(md_form).modal('hide');
+                }
             }
             else
             {
@@ -826,11 +889,9 @@ function formulario_submit(e) {
         },
         complete:function(){
             enable_button_salvar();
+            reload_table(dataTable);
         }
     });
-    
-    //enable_button_salvar();
-    reload_table(dataTable);
     e.preventDefault();
 }
 function get_tab_active() {
@@ -861,7 +922,7 @@ function get_tab_active() {
         case '#tab_espessura':
         dataTable = tb_espessura;
         md_form = '#md_form_espessura';
-        modal_title = ' Laço';
+        modal_title = ' Espessura';
         url_edit = "<?= base_url('fita_espessura/ajax_edit/') ?>";
         url_add = "<?php echo site_url('fita_espessura/ajax_add') ?>";
         url_update = "<?php echo site_url('fita_espessura/ajax_update') ?>";
@@ -872,7 +933,7 @@ function get_tab_active() {
         case '#tab_material':
         dataTable = tb_material;
         md_form = '#md_form_material';
-        modal_title = ' Laço';
+        modal_title = ' Material';
         url_edit = "<?= base_url('fita_material/ajax_edit/') ?>";
         url_add = "<?php echo site_url('fita_material/ajax_add') ?>";
         url_update = "<?php echo site_url('fita_material/ajax_update') ?>";

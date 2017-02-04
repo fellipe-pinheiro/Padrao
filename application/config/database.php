@@ -74,32 +74,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$banco_dados = 1;
-
 switch (EXECUCAO) {
-    case 0: // Comunitário
-        $hostname = '50.116.112.138';
-        $username = 'orcas394_db_dev';
-        $password = 'sDBdb_dev2017';
-        $database = 'orcas394_db_dev';
+    case 0: // Development
+        // $hostname = '50.116.112.138';
+        // $username = 'orcas394_db_dev';
+        // $password = 'sDBdb_dev2017';
+        // $database = 'orcas394_db_dev';
+        // $hostname = 'studio_cg.mysql.dbaas.com.br';
+        // $username = 'studio_cg';
+        // $password = 'uninove10';
+        // $database = 'studio_cg';
+        // $hostname = 'localhost';
+        // $username = 'root';
+        // $password = '';
+        // $database = 'studio_cg';
+
+        $hostname = 'localhost';
+        $username = 'root';
+        $password = '';
+        $database = 'b_papel_changes';
         break;
-    case 1: // Produção
+    case 1: // Production
         $hostname = '50.116.112.138';
         $username = 'orcas394_cgolin';
         $password = 'sDBcgolin2017';
         $database = 'orcas394_camilagolin';
         break;
-    case 2: // Comunitário
+    case 3:
         $hostname = '50.116.112.138';
         $username = 'orcas394_db_dev';
         $password = 'sDBdb_dev2017';
         $database = 'orcas394_db_dev';
         break;
+
     default:
         $hostname = '50.116.112.138';
         $username = 'orcas394_cgolin';
         $password = 'sDBcgolin2017';
         $database = 'orcas394_camilagolin';
+
+        $hostname = 'localhost';
+        $username = 'root';
+        $password = '';
+        $database = 'studio_cg';
         break;
 }
 

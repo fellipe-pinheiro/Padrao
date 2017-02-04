@@ -5,12 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Calendario_m extends CI_Model {
 
     // Ajax 
-    var $table = 'v_calendario_entrega';
+    var $table = 'v_produtos_entrega';
     var $column_order = array('data_entrega','pedido_id','documento','cliente','cliente_id','data_evento','orcamento_id','produto_id', 'adicional','adicional_id','ad_produto_id','produto_tipo','produto_nome','produto_codigo', 'quantidade','unidade','recebimento_dados','desenvolvimento_layout','envio_layout','aprovado','producao','disponivel','retirado');
     var $column_search = array('pedido_id','orcamento_id','produto_id', 'adicional','adicional_id','ad_produto_id','produto_nome', 'quantidade', 'DATE_FORMAT("data_entrega", "%d/%m/%Y")', 'cliente_id','cliente','DATE_FORMAT("data_evento", "%d/%m/%Y")','unidade','recebimento_dados','desenvolvimento_layout','envio_layout','aprovado','producao','disponivel','retirado');
     var $order = array('data_entrega'=>'asc');
     
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
+        $this->db->where('cancelado', 0);
         if($this->input->post('agrupar')){
             $this->db->select('pedido_id,documento,orcamento_id,produto_id,adicional,adicional_id,ad_produto_id,produto_tipo,produto_nome,produto_codigo,SUM(quantidade) as quantidade,data_entrega,cliente_id,cliente,data_evento,unidade,recebimento_dados,desenvolvimento_layout,envio_layout,aprovado,producao,disponivel,retirado');
         }
@@ -36,19 +37,19 @@ class Calendario_m extends CI_Model {
             $this->db->where('produto_codigo', $this->input->post('filtro_produto_codigo'));
         }
         if($this->input->post('filtro_data_evento')){
-            $this->db->where('data_evento', $this->__format_date($this->input->post('filtro_data_evento')));
+            $this->db->where('data_evento', $this->format_date($this->input->post('filtro_data_evento')));
         }
         if($this->input->post('filtro_data_entrega')){
-            $this->db->where('data_entrega', $this->__format_date($this->input->post('filtro_data_entrega')));
+            $this->db->where('data_entrega', $this->format_date($this->input->post('filtro_data_entrega')));
         }
         if($this->input->post('filtro_data_inicio') && $this->input->post('filtro_data_final')){
-            $this->db->where("data_entrega BETWEEN '" . $this->__format_date($this->input->post('filtro_data_inicio'))."' AND '" . $this->__format_date($this->input->post('filtro_data_final')) . "' ", NULL, FALSE );
+            $this->db->where("data_entrega BETWEEN '" . $this->format_date($this->input->post('filtro_data_inicio'))."' AND '" . $this->format_date($this->input->post('filtro_data_final')) . "' ", NULL, FALSE );
         }
         if($this->input->post('filtro_unidade')){
             $this->db->where('unidade', $this->input->post('filtro_unidade'));
         }
         if($this->input->post('filtro_periodo')){
-            $this->__set_where_periodo($this->input->post('filtro_periodo'));
+            $this->set_where_periodo($this->input->post('filtro_periodo'));
         }
         if($this->input->post('filtro_status')){
             switch ($this->input->post('filtro_status')) {
@@ -129,14 +130,14 @@ class Calendario_m extends CI_Model {
         }
     }  
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }  
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }   
@@ -185,18 +186,18 @@ class Calendario_m extends CI_Model {
         $query = $this->db->get($tabela);
         return $query->result(); 
     }
-    private function __format_date($date){
+    private function format_date($date){
         list($dia,$mes,$ano) = explode('/', $date);
         return $date = $ano.'-'.$mes.'-'.$dia;
     }
-    private function __set_where_periodo($periodo){
+    private function set_where_periodo($periodo){
         switch ($periodo) {
             case 'mes_passado':
-            $this->__rangeMonth(date('Y-m-d', strtotime('-1 month')));
+            $this->rangeMonth(date('Y-m-d', strtotime('-1 month')));
             break;
 
             case 'semana_passada':
-            $this->__rangeWeek(date("Y-m-d", strtotime("-1 week")));
+            $this->rangeWeek(date("Y-m-d", strtotime("-1 week")));
             break;
 
             case 'ontem':
@@ -212,49 +213,49 @@ class Calendario_m extends CI_Model {
             break;
 
             case 'esta_semana':
-            $this->__rangeWeek(date('Y-m-d'));
+            $this->rangeWeek(date('Y-m-d'));
             break;
 
             case 'proxima_semana':
-            $this->__rangeWeek(date("Y-m-d", strtotime("+1 week")));
+            $this->rangeWeek(date("Y-m-d", strtotime("+1 week")));
             break;
 
             case 'este_mes':
-            $this->__rangeMonth(date("Y-m-d"));
+            $this->rangeMonth(date("Y-m-d"));
             break;
 
             case 'proximo_mes':
-            $this->__rangeMonth(date('Y-m-d', strtotime('+1 month')));
+            $this->rangeMonth(date('Y-m-d', strtotime('+1 month')));
             break;
 
             case 'este_mes_e_proximo_mes':
             $start = date("Y-m-d");
             $end = date('Y-m-d', strtotime('+1 month'));
-            $this->__rangeBetweenMonths($start,$end);
+            $this->rangeBetweenMonths($start,$end);
             break;
 
             case 'este_mes_mais_dois_meses':
             $start = date("Y-m-d");
             $end = date('Y-m-d', strtotime('+2 month'));
-            $this->__rangeBetweenMonths($start,$end);
+            $this->rangeBetweenMonths($start,$end);
             break;
 
             case 'este_mes_mais_cinco_meses':
             $start = date("Y-m-d");
             $end = date('Y-m-d', strtotime('+5 month'));
-            $this->__rangeBetweenMonths($start,$end);
+            $this->rangeBetweenMonths($start,$end);
             break;
             
             case 'este_ano':
             $start = date("Y-m-d", strtotime('first day of January'));
             $end = date('Y-m-d', strtotime('Dec 31'));
-            $this->__rangeBetweenMonths($start,$end);
+            $this->rangeBetweenMonths($start,$end);
             break;
 
             case 'proximo_ano':
             $start = date('Y-m-d', strtotime('+1 year'.date("Y-m-d", strtotime('first day of January'))));
             $end = date('Y-m-d', strtotime('+1 year'.date("Y-m-d", strtotime('Dec 31'))));
-            $this->__rangeBetweenMonths($start,$end);
+            $this->rangeBetweenMonths($start,$end);
             break;
 
             default:
@@ -262,26 +263,26 @@ class Calendario_m extends CI_Model {
             break;
         }
     }
-    private function __rangeWeek($datestr) {
+    private function rangeWeek($datestr) {
         $dt = strtotime($datestr);
         $range['start'] = date('N', $dt)==1 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('last monday', $dt));
         $range['end'] = date('N', $dt)==7 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('next sunday', $dt));
-        $this->__apply_where_range($range);
+        $this->apply_where_range($range);
     }
-    private function __rangeMonth($datestr) {
+    private function rangeMonth($datestr) {
         $dt = strtotime($datestr);
         $range['start'] = date('Y-m-d', strtotime('first day of this month', $dt));
         $range['end'] = date('Y-m-d', strtotime('last day of this month', $dt));
-        $this->__apply_where_range($range);
+        $this->apply_where_range($range);
     }
-    private function __rangeBetweenMonths($start,$end) {
+    private function rangeBetweenMonths($start,$end) {
         $start = strtotime($start);
         $end = strtotime($end);
         $range['start'] = date('Y-m-d', strtotime('first day of this month', $start));
         $range['end'] = date('Y-m-d', strtotime('last day of this month', $end));
-        $this->__apply_where_range($range);
+        $this->apply_where_range($range);
     }
-    private function __apply_where_range($range){
+    private function apply_where_range($range){
 
         $this->db->where("data_entrega BETWEEN '" . $range['start'] ."' AND '" . $range['end'] . "' ", NULL, FALSE );
     }

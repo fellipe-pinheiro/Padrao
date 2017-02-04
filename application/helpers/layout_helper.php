@@ -15,10 +15,12 @@ function init_layout() {
     set_layout('titulo', 'Sistema | ');
     set_layout('menu', load_content('template/menu/menu'));
     set_layout('breadcrumb', load_content('template/breadcrumb/breadcrumb'));
+    set_layout('calendario', load_content('template/calendario/calendario'));
+    set_layout('footer', load_content('template/footer/footer'));
     set_layout('conteudo', "Não foi carregado nenhum conteudo na variavel Sistema->layout['conteudo']");
 
     //CSS
-    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar', 'jquery-confirm', 'jquery.loadingModal.min', 'main', 'bootstrap-datepicker.min', 'bootstrap-year-calendar.min', 'monthly')), FALSE);
+    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar','jquery-confirm','jquery.loadingModal.min','main','bootstrap-year-calendar.min','bootstrap-datetimepicker.min','font-awesome.min')), FALSE);
     set_layout('header', load_css(array('bootstrap-select'), 'assets/js/bootstrap-select/css'), FALSE);
 
 //    set_layout('header', load_css(array('bootstrap.min'), 'assets/paper'), FALSE);
@@ -30,13 +32,15 @@ function init_layout() {
     set_layout('header', load_js(array('bootstrap-datepicker.pt-BR.min'), 'assets/js/bootstrap-datepicker/locales'), FALSE);
     set_layout('header', load_js(array('bootstrap-checkbox.min'), 'assets/js/bootstrap-checkbox/js'), FALSE);
     set_layout('header', load_js(array('angular.min'), 'assets/js/angular'), FALSE);
-    set_layout('header', load_js(array('main'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('jquery-confirm'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('jquery.loadingModal.min'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('jquery.mask'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('bootstrap-year-calendar.min'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('bootstrap-year-calendar.pt'), 'assets/js'), FALSE);
-    set_layout('header', load_js(array('monthly'), 'assets/js'), FALSE);
+    set_layout('header', load_js(array('main'), 'assets/js'), FALSE);
+    set_layout('header', load_js(array('moment.min'), 'assets/js/moment'), FALSE);
+    set_layout('header', load_js(array('moment-pt-br'), 'assets/js/moment'), FALSE);
+    set_layout('header', load_js(array('bootstrap-datetimepicker.min'), 'assets/js'), FALSE);
 }
 
 // Definir prodiedades do layout

@@ -114,7 +114,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $convite->modelo->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="convite-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-convite-<?= $key ?>" id="data_entrega-convite-<?= $key ?>" class="form-control date input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega('convite', 'convite-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-convite-<?= $key ?>" id="data_entrega-convite-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega('convite', 'convite-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-convite-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $convite->id ?>">
@@ -144,7 +144,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $personalizado->modelo->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="personalizado-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-personalizado-<?= $key ?>" id="data_entrega-personalizado-<?= $key ?>" class="form-control date input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega('personalizado', 'personalizado-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-personalizado-<?= $key ?>" id="data_entrega-personalizado-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega('personalizado', 'personalizado-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-personalizado-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $personalizado->id ?>">
@@ -174,7 +174,7 @@ $loja = $orcamento->loja;
                                                 <td><?= $container->produto->nome ?></td>
                                                 <td class="form-group">
                                                     <form id="produto-<?= $key ?>">
-                                                        <input type="text" name="data_entrega-produto-<?= $key ?>" id="data_entrega-produto-<?= $key ?>" class="form-control date input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega('produto', 'produto-<?= $key ?>', event)">
+                                                        <input type="text" name="data_entrega-produto-<?= $key ?>" id="data_entrega-produto-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega('produto', 'produto-<?= $key ?>', event)">
                                                         <span class="help-block"></span>
                                                         <input type="hidden" name="input_post" class="form-control" value="data_entrega-produto-<?= $key ?>">
                                                         <input type="hidden" name="id" class="form-control" value="<?= $container->id ?>">
@@ -278,7 +278,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $convite->objeto->modelo->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="convite-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control date input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega_adicional('convite', 'convite-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?>" value="<?= $convite->data_entrega ?>" onchange="alterar_data_entrega_adicional('convite', 'convite-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-convite-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $convite->id ?>">
@@ -307,7 +307,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $personalizado->objeto->modelo->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control date input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega_adicional('personalizado', 'personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?>" value="<?= $personalizado->data_entrega ?>" onchange="alterar_data_entrega_adicional('personalizado', 'personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-personalizado-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $personalizado->id ?>">
@@ -337,7 +337,7 @@ $loja = $orcamento->loja;
                                                             <td><?= $container->objeto->produto->nome ?></td>
                                                             <td class="form-group">
                                                                 <form id="produto-adicional-<?= $adicional->id ?>-<?= $key ?>">
-                                                                    <input type="text" name="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control date input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega_adicional('produto', 'produto-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
+                                                                    <input type="text" name="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" id="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?>" value="<?= $container->data_entrega ?>" onchange="alterar_data_entrega_adicional('produto', 'produto-adicional-<?= $adicional->id ?>-<?= $key ?>', event)">
                                                                     <span class="help-block"></span>
                                                                     <input type="hidden" name="input_post" value="data_entrega-produto-adicional-<?= $adicional->id ?>-<?= $key ?>">
                                                                     <input type="hidden" name="id" class="form-control" value="<?= $container->id ?>">
@@ -518,7 +518,7 @@ $loja = $orcamento->loja;
                                                         <td><?= $convite->modelo->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-convite-<?= $key ?>" id="data_entrega-adicional-convite-<?= $key ?>" class="form-control date input-cancelado-<?= $convite->cancelado ?> desativar_linha-convite-<?= $key ?>" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-convite-<?= $key ?>" id="data_entrega-adicional-convite-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?> desativar_linha-convite-<?= $key ?>" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
@@ -553,7 +553,7 @@ $loja = $orcamento->loja;
                                                         <td><?= $personalizado->modelo->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-personalizado-<?= $key ?>" id="data_entrega-adicional-personalizado-<?= $key ?>" class="form-control date input-cancelado-<?= $personalizado->cancelado ?> desativar_linha-personalizado-<?= $key ?>" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-personalizado-<?= $key ?>" id="data_entrega-adicional-personalizado-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?> desativar_linha-personalizado-<?= $key ?>" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
@@ -588,7 +588,7 @@ $loja = $orcamento->loja;
                                                         <td><?= $container->produto->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-produto-<?= $key ?>" id="data_entrega-adicional-produto-<?= $key ?>" class="form-control date input-cancelado-<?= $container->cancelado ?> desativar_linha-produto-<?= $key ?>" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-produto-<?= $key ?>" id="data_entrega-adicional-produto-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?> desativar_linha-produto-<?= $key ?>" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
@@ -625,18 +625,6 @@ $loja = $orcamento->loja;
                                                     <span class="help-block"></span>
                                                 </td>
                                             </tr>
-                                            <!-- //comentado pela mudança nos cálculos 19/01/2017
-                                            <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>Custos admin.</td>
-                                                    <td id="tr--adicional-custos_adm"></td>
-                                            </tr> -->
                                             <tr>
                                                 <th></th>
                                                 <th></th>
@@ -715,7 +703,7 @@ $loja = $orcamento->loja;
                                     <!-- Primeiro vencimento -->
                                     <div class="form-group">
                                         <?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label')) ?>
-                                        <input type="date" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control">
+                                        <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker">
                                         <span class="help-block"></span>
                                     </div>
                                     <!-- Próximos vencimentos -->
@@ -782,17 +770,7 @@ $loja = $orcamento->loja;
         $(".caracteres_descricao").text(caracteresRestantes);
     });
     $(document).ready(function () {
-        desabilita_produto_cancelado();
-        disable_button_adicional();
-        $(".caracteres_descricao").text(caracteres_descricao);
-        $('#input-adicional-desconto').attr("disabled", true);
-        $.each($("#form_adicional_pedido input"), function (index, value) {
-            if (value.type != 'checkbox') {
-                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
-            }
-        });
-        $("#div_informacoes_complementares").hide();
-        $("#div_forma_pagamento").hide();
+        apply_this_document_ready();
     });
     function criar_adicional_pedido() {
         disable_button_salvar();
@@ -804,45 +782,41 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#form_adicional_pedido").serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $("#md_adicional").modal('hide');
-                        $("#form_adicional_pedido")[0].reset();
-                        close_loadingModal();
-                        atualizar();
-                        $.confirm({
-                            title: "Adicional N° " + data.adicional_id,
-                            content: "<p>Seu pedido adicional foi criado com sucesso!</p>",
-                            confirmButton: 'PDF',
-                            cancelButton: 'Fechar',
-                            confirm: function () {
-                                window.open('<?= base_url('adicional/pdf/') ?>' + data.adicional_id, '_blank');
-                            },
-                            cancel: function () {
-
-                            }
-                        })
-                    } else {
-                        close_loadingModal();
-                        $.alert({
-                            title: "Atenção!",
-                            content: "Alguns erros foram encontrados no formulário. Por favor corrija-os e envie novamente."
-                        });
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $("#md_adicional").modal('hide');
+                $("#form_adicional_pedido")[0].reset();
+                close_loadingModal();
+                atualizar();
+                $.alert({
+                    title: "Adicional N° " + data.adicional_id,
+                    content: "<p>Seu pedido adicional foi criado com sucesso!</p>",
+                    confirmButton: 'PDF',
+                    confirm: function () {
+                        window.open('<?= base_url('adicional/pdf/') ?>' + data.adicional_id, '_blank');
+                    },
                 })
-                .fail(function () {
-                    console.log("error");
-                    close_loadingModal();
-                })
-                .always(function () {
-                    enable_button_salvar();
-                    console.log("complete");
+            } else {
+                close_loadingModal();
+                $.alert({
+                    title: "Atenção!",
+                    content: "Alguns erros foram encontrados no formulário. Por favor corrija-os e envie novamente."
                 });
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+            close_loadingModal();
+        })
+        .always(function () {
+            enable_button_salvar();
+            console.log("complete");
+        });
     }
     function calcula_sub_total(valor_unitario, id_input_qtd, id_td_sub_total, id_input_valor_extra) {
         var total = 0;
@@ -864,25 +838,16 @@ $loja = $orcamento->loja;
     function calcular_total() {
         var total = 0;
         var desconto = 0;
-        //comentado pela mudança nos cálculos 19/01/2017
-        //var custos_adm = 0; //não esta sendo utilizado
 
         $.each($(".td-sub_total"), function (index, value) {
             total += numberFormat($(".td-sub_total")[index].innerText);
         });
 
         desconto = $("#input-adicional-desconto").val();
-        //comentado pela mudança nos cálculos 19/01/2017
-        //custos_adm = calcular_custos_adm(total); //não esta sendo utilizado
-        //custos_adm = Number(parseFloat(custos_adm).toFixed(2)); //não esta sendo utilizado
 
         total += -desconto;
         total = parseFloat(total).toFixed(2);
         total = total.replace(".", ",");
-        //comentado pela mudança nos cálculos 19/01/2017
-        //custos_adm = parseFloat(custos_adm).toFixed(2); //não esta sendo utilizado
-        //custos_adm = custos_adm.replace(".",","); //não esta sendo utilizado
-        //$("#tr--adicional-custos_adm").html("R$ " + custos_adm); //não esta sendo utilizado
         $("#th-adicional-total_a_pagar").html("R$ " + total);
         atualiza_quantidade_parcelas();
     }
@@ -896,8 +861,8 @@ $loja = $orcamento->loja;
     }
     function calcular_custos_adm(valor) {
         var custos_adm = 0;
-        custos_adm = parseFloat(valor / ( (100 - assessor_comissao) / 100 )).toFixed(5);
-	custos_adm = custos_adm - valor;
+        custos_adm = parseFloat(valor / ((100 - assessor_comissao) / 100)).toFixed(5);
+        custos_adm = custos_adm - valor;
         return custos_adm;
     }
     function modal_adicional() {
@@ -920,21 +885,21 @@ $loja = $orcamento->loja;
                         pedido_id: pedido_id
                     },
                 })
-                        .done(function (data) {
-                            console.log("success");
-                            if (data.status) {
-                                close_loadingModal();
-                                modal_cancelamento_item(owner, '', produto_id, 0, assessor_comissao, nome_produto, false, pedido_id, classe_itens, true);
-                            } else {
-                                $.alert('Não foi possível criar um orçamento com o cliente e o produto que deseja alterar. Faça o processo manualmente.')
-                            }
-                        })
-                        .fail(function () {
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
-                        });
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        close_loadingModal();
+                        modal_cancelamento_item(owner, '', produto_id, 0, assessor_comissao, nome_produto, false, pedido_id, classe_itens, true);
+                    } else {
+                        $.alert('Não foi possível criar um orçamento com o cliente e o produto que deseja alterar. Faça o processo manualmente.')
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
 
             },
             cancel: function () {
@@ -951,24 +916,24 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#" + form).serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $.alert("Data de entrega alterada com sucesso!");
-                        atualizar();
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $.alert("Data de entrega alterada com sucesso!");
+                atualizar();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
                 });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+        });
     }
     function alterar_data_entrega_adicional(owner, form, e) {
         e.preventDefault();
@@ -979,24 +944,24 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#" + form).serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $.alert("Data de entrega alterada com sucesso!");
-                        atualizar();
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
-                    }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $.alert("Data de entrega alterada com sucesso!");
+                atualizar();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
                 });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+        });
     }
     function modal_cancelar_pedido(cancelado) {
         if (cancelado) {
@@ -1097,27 +1062,27 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            close_loadingModal();
-                            console.log("success: pedido/ajax_cancelar_pedido()");
-                            if (data.status) {
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Pedido N° ' + id + ' cancelado com sucesso!');
-                                atualizar();
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            close_loadingModal();
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
+                .done(function (data) {
+                    close_loadingModal();
+                    console.log("success: pedido/ajax_cancelar_pedido()");
+                    if (data.status) {
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Pedido N° ' + id + ' cancelado com sucesso!');
+                        atualizar();
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    close_loadingModal();
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
             },
             cancel: function () {
                 $.alert('Ação cancelada.');
@@ -1138,27 +1103,27 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            close_loadingModal();
-                            console.log("success: pedido/ajax_cancelar_adicional()");
-                            if (data.status) {
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Adicional N° ' + id + ' cancelado com sucesso!');
-                                atualizar();
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            close_loadingModal();
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
+                .done(function (data) {
+                    close_loadingModal();
+                    console.log("success: pedido/ajax_cancelar_adicional()");
+                    if (data.status) {
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Adicional N° ' + id + ' cancelado com sucesso!');
+                        atualizar();
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    close_loadingModal();
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
             },
             cancel: function () {
                 $.alert('Ação cancelada.');
@@ -1185,28 +1150,28 @@ $loja = $orcamento->loja;
                     dataType: 'JSON',
                     data: $("#form_cancelamento").serialize(),
                 })
-                        .done(function (data) {
-                            console.log("success");
-                            if (data.status) {
-                                $("#form_cancelamento")[0].reset();
-                                close_loadingModal();
-                                atualizar();
-                                $("#md_cancelamento").modal('hide');
-                                $.alert('Produto cancelado com sucesso');
-                            } else {
-                                $.map(data.form_validation, function (value, index) {
-                                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                                    $('[name="' + index + '"]').next().text(value);
-                                });
-                            }
-                        })
-                        .fail(function () {
-                            console.log("error");
-                        })
-                        .always(function () {
-                            console.log("complete");
-                            enable_button_salvar();
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        $("#form_cancelamento")[0].reset();
+                        close_loadingModal();
+                        atualizar();
+                        $("#md_cancelamento").modal('hide');
+                        $.alert('Produto cancelado com sucesso');
+                    } else {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                            $('[name="' + index + '"]').next().text(value);
                         });
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                    enable_button_salvar();
+                });
             },
             cancel: function () {
                 $("#md_cancelamento").modal('hide');
@@ -1222,36 +1187,36 @@ $loja = $orcamento->loja;
             dataType: 'JSON',
             data: $("#form_cancelamento").serialize(),
         })
-                .done(function (data) {
-                    console.log("success");
-                    if (data.status) {
-                        $("#form_cancelamento")[0].reset();
-                        $("#md_cancelamento").modal('hide');
-                        close_loadingModal();
-                        $.confirm({
-                            title: 'Sucesso!',
-                            content: 'Deseja ir para a página do orçamento realizar as alterações?',
-                            confirm: function () {
-                                window.location.replace("<?= base_url('orcamento/index') ?>");
-                            },
-                            cancel: function () {
-                                atualizar();
-                            }
-                        });
-                    } else {
-                        $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
-                        });
+        .done(function (data) {
+            console.log("success");
+            if (data.status) {
+                $("#form_cancelamento")[0].reset();
+                $("#md_cancelamento").modal('hide');
+                close_loadingModal();
+                $.confirm({
+                    title: 'Sucesso!',
+                    content: 'Deseja ir para a página do orçamento realizar as alterações?',
+                    confirm: function () {
+                        window.location.replace("<?= base_url('orcamento/index') ?>");
+                    },
+                    cancel: function () {
+                        atualizar();
                     }
-                })
-                .fail(function () {
-                    console.log("error");
-                })
-                .always(function () {
-                    console.log("complete");
-                    enable_button_salvar();
                 });
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            console.log("complete");
+            enable_button_salvar();
+        });
     }
     function atualizar() {
         //location.reload();
@@ -1262,21 +1227,22 @@ $loja = $orcamento->loja;
             type: 'POST',
             dataType: 'html',
         })
-                .done(function (data) {
-                    console.log("success: atualizar()");
-                    hash = $('#tab-indice li.active').children()[0].hash;
-                    $('#produtos').html($('#produtos', data).html());
-                    $('#form_adicional_pedido').html($('#form_adicional_pedido', data).html());
-                    $("#tab-indice a[href='" + hash + "']").tab('show');
-                })
-                .fail(function () {
-                    console.log("error: atualizar()");
-                })
-                .always(function (data) {
-                    console.log("complete: atualizar()");
-                    desabilita_produto_cancelado();
-                    close_loadingModal();
-                });
+        .done(function (data) {
+            console.log("success: atualizar()");
+            hash = $('#tab-indice li.active').children()[0].hash;
+            $('#produtos').html($('#produtos', data).html());
+            $('#form_adicional_pedido').html($('#form_adicional_pedido', data).html());
+            $("#tab-indice a[href='" + hash + "']").tab('show');
+        })
+        .fail(function () {
+            console.log("error: atualizar()");
+        })
+        .always(function (data) {
+            console.log("complete: atualizar()");
+            desabilita_produto_cancelado();
+            close_loadingModal();
+            apply_this_document_ready();
+        });
     }
     function desabilita_produto_cancelado() {
         $(".tr-cancelado-1").addClass('danger');
@@ -1375,7 +1341,6 @@ $loja = $orcamento->loja;
         $.each($('.td-sub_total'), function (index, value) {
             $($(".td-sub_total")[index]).html("");
         });
-        //$("#tr--adicional-custos_adm").html("");
         $("#th-adicional-total_a_pagar").html("");
     }
     function call_loadingModal(msg = "") {
@@ -1397,12 +1362,35 @@ $loja = $orcamento->loja;
         // destroy the plugin
         $('body').loadingModal('destroy');
     }
-    $("#qtd_parcelas").click(function (event) {
-        if ($("#qtd_parcelas").val() == 1) {
-            $("#vencimento_dia").attr("disabled", true);
-            $("#vencimento_dia option[value='']").prop("selected", true);
-        } else {
-            $("#vencimento_dia").attr("disabled", false);
-        }
-    });
+    
+    function apply_this_document_ready() {
+        desabilita_produto_cancelado();
+        disable_button_adicional();
+        $(".caracteres_descricao").text(caracteres_descricao);
+        $('#input-adicional-desconto').attr("disabled", true);
+        $.each($("#form_adicional_pedido input"), function (index, value) {
+            if (value.type != 'checkbox') {
+                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
+            }
+        });
+        $("#div_informacoes_complementares").hide();
+        $("#div_forma_pagamento").hide();
+        $('.datetimepicker').datetimepicker({
+            format:'L'
+        });
+        $(".datetimepicker").on("dp.change", function (e) {
+            $(e.target).trigger("change");
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+        $(':checkbox').checkboxpicker();
+        $("#qtd_parcelas").click(function (event) {
+            if ($("#qtd_parcelas").val() == 1) {
+                $("#vencimento_dia").attr("disabled", true);
+                $("#vencimento_dia option[value='']").prop("selected", true);
+            } else {
+                $("#vencimento_dia").attr("disabled", false);
+            }
+        });
+    }
 </script>

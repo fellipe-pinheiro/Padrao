@@ -2,60 +2,93 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Impressão</h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>
-        <div role="tabpanel">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#tab_impressao" aria-controls="tab_impressao" role="tab" data-toggle="tab">Impressão</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab_area" aria-controls="tab_area" role="tab" data-toggle="tab">Área de Impressão</a>
-                </li>
-            </ul>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-impressao-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Impressão</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-impressao-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="col-md-12">
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_impressao" aria-controls="tab_impressao" role="tab" data-toggle="tab">Impressão</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab_area" aria-controls="tab_area" role="tab" data-toggle="tab">Área de Impressão</a>
+                    </li>
+                </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab_impressao">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_impressao" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Impressão Área</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="tab_impressao">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_impressao" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Impressão Área</th>
+                                            <th>Descrição</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab_area">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_area" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Descrição</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div role="tabpanel" class="tab-pane" id="tab_area">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_area" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,112 +98,112 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="md_form_impressao">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Impressão</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_impressao" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'autofocus id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
+    <?= form_open("#", 'class="form-horizontal" id="form_impressao" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Impressão</h4>
                 </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--Impressao Area-->
-                <div class="form-group">
-                    <?= form_label('Impressao Area: ', 'impressao_area', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <select name="impressao_area" id="impressao_area" class="form-control" >
-                            <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['impressao_area'] as $key => $value) {
+                    <!--Nome-->
+                    <div class="form-group">
+                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('nome', '', 'autofocus id="nome" class="form-control" placeholder="Nome"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!--Impressao Area-->
+                    <div class="form-group">
+                        <?= form_label('Impressao Area: ', 'impressao_area', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <select name="impressao_area" id="impressao_area" class="form-control" >
+                                <option disabled selected>Selecione</option>
+                                <?php foreach ($dados['impressao_area'] as $key => $value) {
+                                    ?>
+                                    <option value="<?= $value->id ?>"><?= $value->nome ?></option>
+                                    <?php
+                                }
                                 ?>
-                                <option value="<?= $value->id ?>"><?= $value->nome ?></option>
-                                <?php
-                            }
-                            ?>
-                        </select>
-                        <span class="help-block"></span>
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
-                        <span class="help-block"></span>
+                    <!--Descrição-->
+                    <div class="form-group">
+                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
-                <!--Valor-->
-                <div class="form-group">
-                    <?= form_label('Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01" min="0" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
+                    <!--Valor-->
+                    <div class="form-group">
+                        <?= form_label('Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <input step="0.01" min="0" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
+                            <span class="help-block"></span>
+                        </div>
                     </div>
-                </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <div class="modal fade" id="md_form_area">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Fita material</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_area" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
+    <?= form_open("#", 'class="form-horizontal" id="form_area" role="form"') ?>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Fita material</h4>
+                </div>
+                <div class="modal-body form">
+                    <!--ID-->
+                    <?= form_hidden('id') ?>
 
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
+                    <!--Nome-->
+                    <div class="form-group">
+                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <!--Descrição-->
+                    <div class="form-group">
+                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="col-sm-10">
+                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                            <span class="help-block"></span>
+                        </div>
                     </div>
                 </div>
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    <?= form_close() ?>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -261,6 +294,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("a[href='#tab_impressao']").click(function () {
 
             tb_impressao.ajax.reload(null, false);
+            if (!get_tab_active()) {
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
         });
         $("a[href='#tab_area']").click(function () {
             if (!is_datatable_exists("#tb_area")) {
@@ -326,6 +363,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 tb_area.ajax.reload(null, false);
             }
+            if (!get_tab_active()) {
+                console.log('Não foi possível carregar get_tab_active()');
+                return false;
+            }
         });
         //seleciona a linha da tabela
         $("#tb_impressao tbody").on("click", "tr", function () {
@@ -343,7 +384,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             save_method = 'add';
             $("input[name='id']").val("");
-            $('.modal-title').text('Adicionar' + modal_title);
+            $(form + ' .modal-title').text('Adicionar' + modal_title);
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
@@ -377,7 +418,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                     $(md_form).modal('show');
-                    $('.modal-title').text('Editar' + modal_title);
+                    $(form + ' .modal-title').text('Editar' + modal_title);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

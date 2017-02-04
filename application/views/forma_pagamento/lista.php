@@ -2,27 +2,60 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>  
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-forma_pagamento-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Formas de pagamento</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-forma_pagamento-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_forma_pagamento" class="table display compact table-bordered " cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fbody">
-                    </tbody>
-                </table>
+            <div class="col-md-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_forma_pagamento" class="table display compact table-bordered " cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -148,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             save_method = 'add';
             $("input[name='id']").val("");
 
-            $('.modal-title').text('Adicionar formas pagamento'); // Definir um titulo para o modal
+            $('.modal-title').text('Adicionar forma pagamento'); // Definir um titulo para o modal
             $('#modal_form').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
@@ -175,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar formas pagamento');
+                    $('.modal-title').text('Editar forma pagamento');
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {

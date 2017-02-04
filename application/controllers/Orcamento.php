@@ -28,7 +28,7 @@ class Orcamento extends CI_Controller {
 
         //Sessão Convite
         $this->load->model('Convite_m');
-        $this->load->model('Convite_modelo_m');        
+        $this->load->model('Convite_modelo_m');
         $this->load->model('Container_m');
         $this->load->model('Container_papel_m');
         $this->load->model('Container_papel_acabamento_m');
@@ -36,16 +36,15 @@ class Orcamento extends CI_Controller {
         $this->load->model('Container_acabamento_m');
         $this->load->model('Container_acessorio_m');
         $this->load->model('Container_fita_m');
-        
+
         //Sessão Personalizado
         $this->load->model('Personalizado_m');
-        $this->load->model('Personalizado_modelo_m');        
-        $this->load->model('Personalizado_categoria_m');        
+        $this->load->model('Personalizado_modelo_m');
+        $this->load->model('Personalizado_categoria_m');
 
         //Materia Prima Convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -59,10 +58,11 @@ class Orcamento extends CI_Controller {
 
         //TODO CARREGAR TODOS OS OBJETOS DAS VARIAVEIS DO ORÇAMENTO PARA NÃO DAR ERRRO!!
         init_layout();
-        set_layout('titulo', 'Orçamento',FALSE);
+        set_layout('titulo', 'Orçamento', FALSE);
         empty($this->session->orcamento) ? $this->__criar_orcamento() : '';
         restrito_logado();
     }
+
     public function index() {
         $data['titulo_painel'] = 'Orçamento';
         $data['convite_modelo'] = $this->Convite_modelo_m->get_list();
@@ -72,28 +72,32 @@ class Orcamento extends CI_Controller {
         $data['lojas'] = $this->Loja_m->get_list();
         $data['eventos'] = $this->Evento_m->get_list();
         $data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
-        $data['estados'] = array("AC"=>"Acre", "AL"=>"Alagoas", "AM"=>"Amazonas", "AP"=>"Amapá","BA"=>"Bahia","CE"=>"Ceará","DF"=>"Distrito Federal","ES"=>"Espírito Santo","GO"=>"Goiás","MA"=>"Maranhão","MT"=>"Mato Grosso","MS"=>"Mato Grosso do Sul","MG"=>"Minas Gerais","PA"=>"Pará","PB"=>"Paraíba","PR"=>"Paraná","PE"=>"Pernambuco","PI"=>"Piauí","RJ"=>"Rio de Janeiro","RN"=>"Rio Grande do Norte","RO"=>"Rondônia","RS"=>"Rio Grande do Sul","RR"=>"Roraima","SC"=>"Santa Catarina","SE"=>"Sergipe","SP"=>"São Paulo","TO"=>"Tocantins");
-        set_layout('conteudo', load_content('orcamento/index',$data));
+        $data['estados'] = array("AC" => "Acre", "AL" => "Alagoas", "AM" => "Amazonas", "AP" => "Amapá", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espírito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RO" => "Rondônia", "RS" => "Rio Grande do Sul", "RR" => "Roraima", "SC" => "Santa Catarina", "SE" => "Sergipe", "SP" => "São Paulo", "TO" => "Tocantins");
+        $data['estados_json'] = json_encode($data['estados']);
+        set_layout('conteudo', load_content('orcamento/index', $data));
         load_layout();
     }
-    public function lista(){
+
+    public function lista() {
         $data['titulo_painel'] = 'Lista de orçamentos';
-        set_layout('conteudo', load_content('orcamento/lista',$data));
+        set_layout('conteudo', load_content('orcamento/lista', $data));
         load_layout();
     }
-    public function pdf(){
+
+    public function pdf() {
         $id = $this->uri->segment(3);
         $data['orcamento'] = $this->Orcamento_m->get_by_id($id);
         list($date, $hour) = explode(" ", $data['orcamento']->data);
         list($ano, $mes, $dia) = explode("-", $date);
-        $data['data'] = $dia."/".$mes."/".$ano." ".$hour;
-        $data['documento_numero'] = "<h3 class='pull-right'><strong>Orçamento N° ". $data['orcamento']->id ."</strong></h3>";
-        set_layout('conteudo', load_content('orcamento/pdf',$data));
+        $data['data'] = $dia . "/" . $mes . "/" . $ano . " " . $hour;
+        $data['documento_numero'] = "<h3 class='pull-right'><strong>Orçamento N° " . $data['orcamento']->id . "</strong></h3>";
+        set_layout('conteudo', load_content('orcamento/pdf', $data));
         load_layout();
     }
+
     //cria uma sessão com o produto e cliente ja existente. 
     //solicitação vinda da view pedido/editar
-    public function ajax_create_order_with_client_and_product(){
+    public function ajax_create_order_with_client_and_product() {
         $data["status"] = FALSE;
         $owner = $this->input->post('owner');
         $produto_id = $this->input->post('produto_id');
@@ -101,57 +105,57 @@ class Orcamento extends CI_Controller {
 
         $this->__criar_orcamento();
         $pedido = $this->Pedido_m->get_by_id($pedido_id);
-        if(!$pedido){
+        if (!$pedido) {
             $data["status"] = FALSE;
             print json_encode($data);
             exit();
         }
 
         $pedido->orcamento->desconto = 0;
-        if($owner === 'convite'){
+        if ($owner === 'convite') {
             $pedido->orcamento->personalizado = array();
             $pedido->orcamento->produto = array();
 
-            if(!empty($pedido->orcamento->convite)){
+            if (!empty($pedido->orcamento->convite)) {
                 foreach ($pedido->orcamento->convite as $key => $convite) {
-                    if($convite->id != $produto_id){
+                    if ($convite->id != $produto_id) {
                         unset($pedido->orcamento->convite[$key]);
                     }
-                    if($convite->id === $produto_id){
+                    if ($convite->id === $produto_id) {
                         $data["status"] = TRUE;
                     }
                 }
             }
-        }else if($owner === 'personalizado'){
+        } else if ($owner === 'personalizado') {
             $pedido->orcamento->convite = array();
             $pedido->orcamento->produto = array();
 
-            if(!empty($pedido->orcamento->personalizado)){   
+            if (!empty($pedido->orcamento->personalizado)) {
                 foreach ($pedido->orcamento->personalizado as $key => $personalizado) {
-                    if($personalizado->id != $produto_id){
+                    if ($personalizado->id != $produto_id) {
                         unset($pedido->orcamento->personalizado[$key]);
                     }
-                    if($personalizado->id === $produto_id){
+                    if ($personalizado->id === $produto_id) {
                         $data["status"] = TRUE;
                     }
                 }
-            }else{
+            } else {
                 $data["status"] = FALSE;
             }
-        }else if($owner === 'produto'){
+        } else if ($owner === 'produto') {
             $pedido->orcamento->convite = array();
             $pedido->orcamento->personalizado = array();
 
-            if(!empty($pedido->orcamento->produto)){
+            if (!empty($pedido->orcamento->produto)) {
                 foreach ($pedido->orcamento->produto as $key => $produto) {
-                    if($produto->id != $produto_id){
+                    if ($produto->id != $produto_id) {
                         unset($pedido->orcamento->produto[$key]);
                     }
-                    if($produto->id === $produto_id){
+                    if ($produto->id === $produto_id) {
                         $data["status"] = TRUE;
                     }
                 }
-            }else{
+            } else {
                 $data["status"] = FALSE;
             }
         }
@@ -159,11 +163,12 @@ class Orcamento extends CI_Controller {
         print json_encode($data);
         exit();
     }
-    public function ajax_get_session_orcamento(){
+
+    public function ajax_get_session_orcamento() {
         $this->__criar_orcamento();
         $id = $this->input->post('id');
         $this->session->orcamento = $this->Orcamento_m->get_by_id($id);
-        if($this->session->orcamento){    
+        if ($this->session->orcamento) {
             $data["status"] = TRUE;
             $data["msg"] = "Orcamento numero carregado com sucesso";
             print json_encode($data);
@@ -175,6 +180,7 @@ class Orcamento extends CI_Controller {
         print json_encode($data);
         exit();
     }
+
     public function ajax_list() {
         $list = $this->Orcamento_m->get_datatables();
         $data = array();
@@ -197,7 +203,7 @@ class Orcamento extends CI_Controller {
                 'data_evento' => $item->orc_data_evento,
                 'evento' => $item->evento_nome,
                 'loja' => $item->loja_unidade,
-                );
+            );
             $data[] = $row;
         }
         $output = array(
@@ -205,18 +211,20 @@ class Orcamento extends CI_Controller {
             "recordsTotal" => $this->Orcamento_m->count_all(),
             "recordsFiltered" => $this->Orcamento_m->count_filtered(),
             "data" => $data,
-            );
+        );
         //output to json format
         print json_encode($output);
     }
-    public function ajax_session_orcamento_novo(){
+
+    public function ajax_session_orcamento_novo() {
         $this->__criar_orcamento();
         $data['status'] = TRUE;
         $data['msg'] = "Orçamento criado com sucesso!";
         print json_encode($data);
         exit();
     }
-    public function ajax_session_orcamento_excluir(){
+
+    public function ajax_session_orcamento_excluir() {
         unset($this->session->orcamento);
         $this->__criar_orcamento();
         $data['status'] = TRUE;
@@ -224,7 +232,8 @@ class Orcamento extends CI_Controller {
         print json_encode($data);
         exit();
     }
-    private function __criar_orcamento(){
+
+    private function __criar_orcamento() {
         $this->session->pedido = new Pedido_m();
         $this->session->orcamento = new Orcamento_m();
         $this->session->orcamento->cliente = new Cliente_m();
@@ -238,26 +247,29 @@ class Orcamento extends CI_Controller {
         $this->session->unset_userdata('convite');
         $this->session->unset_userdata('personalizado');
     }
-    public function ajax_session_cliente_inserir(){
+
+    public function ajax_session_cliente_inserir() {
         $id = $this->input->post('id');
         $cliente = $this->Cliente_m->get_by_id($id);
-        if(is_object($cliente)){
+        if (is_object($cliente)) {
             $this->session->orcamento->cliente = $cliente;
             print json_encode(array("status" => TRUE, 'msg' => 'Cliente inserido com sucesso no orçamento'));
         }
         exit();
     }
-    public function ajax_session_orcamento_info(){
+
+    public function ajax_session_orcamento_info() {
         $data['status'] = TRUE;
         $this->__validar_formulario_orcamento_info();
         $this->session->orcamento->loja = $this->Loja_m->get_by_id($this->input->post('loja'));
         $this->session->orcamento->evento = $this->input->post('evento');
-        $this->session->orcamento->data_evento = $this->input->post('data_evento');
+        $this->session->orcamento->data_evento = date_to_db($this->input->post('data_evento'));
         $this->session->orcamento->descricao = $this->input->post('descricao');
         print json_encode($data);
         exit();
     }
-    private function __validar_formulario_orcamento_info(){
+
+    private function __validar_formulario_orcamento_info() {
         $this->form_validation->set_rules('evento', 'Evento', 'trim|required');
         $this->form_validation->set_rules('loja', 'Loja', 'trim|required');
         $this->form_validation->set_rules('data_evento', 'Data Evento', 'callback_validation_date_before_today');
@@ -269,45 +281,48 @@ class Orcamento extends CI_Controller {
             exit();
         }
     }
-    public function ajax_session_assessor(){
+
+    public function ajax_session_assessor() {
         $acao = $this->uri->segment(3);
-        if($acao === 'inserir'){
+        if ($acao === 'inserir') {
             $id = $this->input->post('id');
-            if(empty($id)){
+            if (empty($id)) {
                 print json_encode(array("status" => FALSE, 'msg' => 'Não foi enviado nenhum id do assessor'));
                 exit();
             }
             $assessor = $this->Assessor_m->get_by_id($id);
-            if(is_object($assessor)){
+            if (is_object($assessor)) {
                 $this->session->orcamento->assessor = $assessor;
                 print json_encode(array("status" => TRUE, 'msg' => 'Assessor inserido com sucesso no orçamento'));
             }
-        }else if($acao === 'excluir'){
+        } else if ($acao === 'excluir') {
             $this->session->orcamento->assessor = new Assessor_m();
             print json_encode(array("status" => TRUE, 'msg' => 'Assessor excluido com sucesso no orçamento'));
         }
         exit();
     }
-    public function ajax_session_desconto(){
+
+    public function ajax_session_desconto() {
         $acao = $this->uri->segment(3);
-        if($acao === 'inserir'){
+        if ($acao === 'inserir') {
             $this->__validar_formulario_desconto();
             $this->session->orcamento->desconto = $this->input->post('desconto');
             print json_encode(array("status" => TRUE, 'msg' => 'Desconto inserido com sucesso!'));
-        }else if($acao === 'editar'){
+        } else if ($acao === 'editar') {
             $this->__validar_formulario_desconto();
             $this->session->orcamento->desconto = $this->input->post('desconto');
             print json_encode(array("status" => TRUE, 'msg' => 'Desconto inserido com sucesso!'));
-        }else if($acao === 'excluir'){
+        } else if ($acao === 'excluir') {
             $this->session->orcamento->desconto = 0;
             print json_encode(array("status" => TRUE, 'msg' => 'Desconto excluido com sucesso!'));
         }
         exit();
     }
-    private function __validar_formulario_desconto(){
+
+    private function __validar_formulario_desconto() {
         $data = array();
         $data['status'] = TRUE;
-        
+
         $this->form_validation->set_message('validation_decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|callback_validation_decimal_positive|callback_validation_no_leading_zeroes');
 
@@ -318,46 +333,48 @@ class Orcamento extends CI_Controller {
             exit();
         }
     }
-    public function ajax_is_empty_orcamento_info(){
+
+    public function ajax_is_empty_orcamento_info() {
         $data = array();
         $data['status'] = TRUE;
         $status = array();
-        if(empty($this->session->orcamento->loja)){
-            $status[] = array('status'=>FALSE,'location'=>'loja');
+        if (empty($this->session->orcamento->loja)) {
+            $status[] = array('status' => FALSE, 'location' => 'loja');
         }
-        if(empty($this->session->orcamento->evento)){
-            $status[] = array('status'=>FALSE,'location'=>'evento');
+        if (empty($this->session->orcamento->evento)) {
+            $status[] = array('status' => FALSE, 'location' => 'evento');
         }
-        if(empty($this->session->orcamento->data_evento)){
-            $status[] = array('status'=>FALSE,'location'=>'data_evento');
+        if (empty($this->session->orcamento->data_evento)) {
+            $status[] = array('status' => FALSE, 'location' => 'data_evento');
         }
         foreach ($status as $key => $value) {
-            if(!$value['status']){
+            if (!$value['status']) {
                 $data['status'] = FALSE;
                 $data['location'][] = $value['location'];
             }
         }
         print json_encode($data);
-    }  
-    public function ajax_is_editing_container_itens(){
+    }
+
+    public function ajax_is_editing_container_itens() {
         $data = array();
         $data['status'] = FALSE;
         $status = array();
-        if(!empty($this->session->convite)){
+        if (!empty($this->session->convite)) {
             $cartao = $this->session->convite->cartao;
             $envelope = $this->session->convite->envelope;
-            if(!empty($this->session->convite->modelo->id) && !empty($this->session->convite->quantidade)){
-                $status[] = array('status'=>TRUE,'location'=>'convite','url'=>base_url('convite'));
+            if (!empty($this->session->convite->modelo->id) && !empty($this->session->convite->quantidade)) {
+                $status[] = array('status' => TRUE, 'location' => 'convite', 'url' => base_url('convite'));
             }
         }
-        if(!empty($this->session->personalizado)){
-            $personalizado = $this->session->personalizado->personalizado;    
-            if(!empty($this->session->personalizado->modelo->id) && !empty($this->session->personalizado->quantidade)){
-                $status[] = array('status'=>TRUE,'location'=>'personalizado','url'=>base_url('personalizado'));
+        if (!empty($this->session->personalizado)) {
+            $personalizado = $this->session->personalizado->personalizado;
+            if (!empty($this->session->personalizado->modelo->id) && !empty($this->session->personalizado->quantidade)) {
+                $status[] = array('status' => TRUE, 'location' => 'personalizado', 'url' => base_url('personalizado'));
             }
         }
         foreach ($status as $key => $value) {
-            if($value['status']){
+            if ($value['status']) {
                 $data['status'] = TRUE;
                 $data['location'][] = $value['location'];
                 $data['url'][] = $value['url'];
@@ -365,55 +382,60 @@ class Orcamento extends CI_Controller {
         }
         print json_encode($data);
     }
-    public function ajax_is_empty_orcamento_itens(){
+
+    public function ajax_is_empty_orcamento_itens() {
         $data['status'] = TRUE;
-        if(empty($this->session->orcamento->convite) && empty($this->session->orcamento->personalizado) && empty($this->session->orcamento->produto)){
+        if (empty($this->session->orcamento->convite) && empty($this->session->orcamento->personalizado) && empty($this->session->orcamento->produto)) {
             $data['status'] = FALSE;
             $data['msg'] = 'Não existem produtos neste orçamento';
         }
         print json_encode($data);
     }
-    public function ajax_is_empty_orcamento_cliente(){
+
+    public function ajax_is_empty_orcamento_cliente() {
         $data['status'] = TRUE;
-        if(empty($this->session->orcamento->cliente->id)){
+        if (empty($this->session->orcamento->cliente->id)) {
             $data['status'] = FALSE;
             $data['msg'] = 'Nenhum cliente foi definido para este orçamento. <p>Clique em cliente para definir um cliente.</p>';
         }
         //Se for um pedido, verificar se o cpf/cnpj estão no setados
-        if($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'fisica' && empty($this->session->orcamento->cliente->cpf)){
+        if ($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'fisica' && empty($this->session->orcamento->cliente->cpf)) {
             $data['status'] = FALSE;
             $data['msg'] = 'Tentativa de criar um pedido sem o CPF do cliente. Edite o CPF do cliente e tente novamente.';
         }
-        if($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'juridica' && empty($this->session->orcamento->cliente->cnpj)){
+        if ($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'juridica' && empty($this->session->orcamento->cliente->cnpj)) {
             $data['status'] = FALSE;
             $data['msg'] = 'Tentativa de criar um pedido sem o CNPJ do cliente. Edite o CNPJ do cliente e tente novamente.';
         }
         print json_encode($data);
     }
-    public function ajax_is_empty_orcamento_assessor(){
+
+    public function ajax_is_empty_orcamento_assessor() {
         $data['status'] = TRUE;
-        if(empty($this->session->orcamento->assessor->id)){
+        if (empty($this->session->orcamento->assessor->id)) {
             $data['status'] = FALSE;
             $data['msg'] = 'Nenhum assessor foi definido para este orçamento.';
         }
         print json_encode($data);
     }
-    public function ajax_salvar(){
+
+    public function ajax_salvar() {
         $data['status'] = TRUE;
-        
+
         $this->db->trans_begin();
         $this->session->orcamento->inserir();
         $data['id'] = $this->session->orcamento->id;
-        
-        if($this->db->trans_status() === FALSE){
+
+        if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $data['status'] = FALSE;
-        }else{
+        } else {
             $this->db->trans_commit();
         }
         print json_encode($data);
     }
-    public function ajax_clean_session_orcamento(){
+
+    public function ajax_clean_session_orcamento() {
         $data['status'] = TRUE;
         $this->session->unset_userdata('orcamento');
         $this->session->unset_userdata('pedido');
@@ -422,36 +444,41 @@ class Orcamento extends CI_Controller {
         $this->__criar_orcamento();
         print json_encode($data);
     }
-    private function __format_date($date){
-        list($dia,$mes,$ano) = explode('/', $date);
-        return $date = $ano.'-'.$mes.'-'.$dia;
+
+    private function __format_date($date) {
+        list($dia, $mes, $ano) = explode('/', $date);
+        return $date = $ano . '-' . $mes . '-' . $dia;
     }
-    public function validation_decimal_positive($value){
-        if($value < 0){
+
+    public function validation_decimal_positive($value) {
+        if ($value < 0) {
             return false;
         }
         return true;
     }
-    public function validation_date_before_today($date){
+
+    public function validation_date_before_today($date) {
         if (strpos($date, '/') !== false) {
             $date = $this->__format_date($date);
         }
-        $this->form_validation->set_message('validation_date_before_today','A data é anterior a data de hoje '.date('d/m/Y'));
+        $this->form_validation->set_message('validation_date_before_today', 'A data é anterior a data de hoje ' . date('d/m/Y'));
         $today = date('Y/m/d');
-        if( strtotime($date) >= strtotime($today) ) {
+        if (strtotime($date) >= strtotime($today)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
     //[[[[comentado por parecer estar inutilizado]]]]
     // public function valid_date($date){
     //     $this->form_validation->set_message('valid_date','A data inserida é inválida!');
     //     list($dia,$mes,$ano) = explode('/', $date);
     //     return checkdate ($mes , $dia , $ano );
     // }
-    public function validation_no_leading_zeroes($value){
+    public function validation_no_leading_zeroes($value) {
 
-        return preg_replace('/^0+/','', $value);
+        return preg_replace('/^0+/', '', $value);
     }
+
 }

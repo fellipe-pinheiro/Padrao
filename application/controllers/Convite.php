@@ -22,7 +22,7 @@ class Convite extends CI_Controller {
         //Carrego a materia prima para compor convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
+        //$this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -39,14 +39,13 @@ class Convite extends CI_Controller {
         restrito_logado();
         //Se a session do convite estiver vazia, preenche as variaveis do convite com os objetos
         if(empty($this->session->convite)){
-            $this->__criar_convite();
+            $this->criar_convite();
         }
     }
     public function index() {
-        $data['titulo_painel'] = 'Convite';
         $data['convite_modelo'] = $this->Convite_modelo_m->get_list();
         $data['papel'] = $this->Papel_m->get_list();
-        $data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();
+        $data['linha'] = $this->Papel_linha_m->get_list();
         $data['impressao'] = $this->Impressao_m->get_list();
         $data['impressao_area'] = $this->Impressao_area_m->get_list();
         $data['acabamento'] = $this->Acabamento_m->get_list();
@@ -75,14 +74,14 @@ class Convite extends CI_Controller {
             $data['fita_espessura'] = $fita_espessura[0];
         }
         if(empty($this->session->convite->quantidade) || empty($this->session->convite->modelo)){
-            $this->__criar_convite();
+            $this->criar_convite();
         }
         set_layout('conteudo', load_content('convite/index',$data));
         load_layout();
     }
     public function session_convite_novo() {
-        $this->__validar_formulario_convite();
-        $this->__criar_convite();
+        $this->validar_formulario_convite();
+        $this->criar_convite();
         $modelo = $this->Convite_modelo_m->get_by_id($this->input->post('convite_modelo'));
         $this->session->convite->modelo = $modelo;
         $this->session->convite->quantidade = $this->input->post('quantidade');
@@ -90,7 +89,7 @@ class Convite extends CI_Controller {
         exit();
     }
     public function session_convite_editar() {
-        $this->__validar_formulario_convite();
+        $this->validar_formulario_convite();
         $convite = $this->session->convite;
         if($convite->modelo->id != $this->input->post('convite_modelo')){
             $modelo = $this->Convite_modelo_m->get_by_id($this->input->post('convite_modelo'));
@@ -102,11 +101,11 @@ class Convite extends CI_Controller {
     }
     public function session_convite_excluir(){
         unset($this->session->convite);
-        $this->__criar_convite();
+        $this->criar_convite();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Convite</strong> excluido com sucesso'));
         exit(); 
     }
-    private function __validar_formulario_convite(){
+    private function validar_formulario_convite(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -120,14 +119,18 @@ class Convite extends CI_Controller {
             exit();
         }
     }
-    private function __criar_convite(){
+    private function criar_convite(){
+        $comissao = 0;
+        if(!empty($this->session->orcamento->assessor->comissao)){
+            $comissao = $this->session->orcamento->assessor->comissao;
+        }
         $this->session->unset_userdata('convite');
         $this->session->convite = new Convite_m();
         $this->session->convite->cartao = new Container_m();
         $this->session->convite->envelope = new Container_m();
         $this->session->convite->mao_obra = new Mao_obra_m();
         $this->session->convite->modelo = new Convite_modelo_m();
-        $this->session->convite->comissao = $this->session->orcamento->assessor->comissao;
+        $this->session->convite->comissao = $comissao;
     }
     public function finalizar(){
         //faz swap na sessão do orçamento
@@ -144,12 +147,12 @@ class Convite extends CI_Controller {
         redirect(base_url('orcamento'), 'auto');
     }
     public function session_descricao(){
-        $this->__validar_formulario_descricao();
+        $this->validar_formulario_descricao();
         $this->session->convite->descricao = $this->input->post('descricao');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Descrição</strong> inserido com sucesso'));
         exit();
     }
-    private function __validar_formulario_descricao(){
+    private function validar_formulario_descricao(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -165,7 +168,7 @@ class Convite extends CI_Controller {
     //EDITAR: CONVITE (Enviado da página do orcamento)
     public function session_orcamento_convite_editar(){
         $posicao = $this->uri->segment(3);
-        $this->__criar_convite();
+        $this->criar_convite();
         $this->session->convite = clone $this->session->orcamento->convite[$posicao];
         $this->session->convite->is_edicao = true;
         $this->session->convite->session_posicao = $posicao;
@@ -177,7 +180,7 @@ class Convite extends CI_Controller {
         redirect(base_url('orcamento'), 'auto');
     }
     public function session_mao_obra_inserir() {
-        $this->__validar_formulario_mao_obra();
+        $this->validar_formulario_mao_obra();
         $convite = $this->session->convite;
         $mao_obra = $this->Mao_obra_m->get_by_id($this->input->post('mao_obra'));
         $convite->mao_obra = $mao_obra;
@@ -185,7 +188,7 @@ class Convite extends CI_Controller {
         exit();
     }
     public function session_mao_obra_editar() {
-        $this->__validar_formulario_mao_obra();
+        $this->validar_formulario_mao_obra();
         $convite = $this->session->convite;
         $mao_obra = $this->Mao_obra_m->get_by_id($this->input->post('mao_obra'));
         $convite->mao_obra = $mao_obra;
@@ -197,7 +200,7 @@ class Convite extends CI_Controller {
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Mao de obra</strong> excluido com sucesso'));
         exit();
     }
-    private function __validar_formulario_mao_obra(){
+    private function validar_formulario_mao_obra(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -212,7 +215,7 @@ class Convite extends CI_Controller {
     }   
     //SESSION: PAPEL
     public function session_papel_inserir(){
-        $this->__validar_formulario_papel();
+        $this->validar_formulario_papel();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_papel[] = $this->set_papel('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
@@ -222,7 +225,7 @@ class Convite extends CI_Controller {
         exit();
     }
     public function session_papel_editar(){
-        $this->__validar_formulario_papel();
+        $this->validar_formulario_papel();
         $posicao = $this->uri->segment(4);
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_papel[$posicao] = $this->set_papel('cartao');
@@ -303,59 +306,60 @@ class Convite extends CI_Controller {
     }
     public function check_gramatura_valor(){
         $this->form_validation->set_message('check_gramatura_valor','Gramatura não definida para este papel');
+        if($this->input->post('papel')){
+            $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
 
-        $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
-
-        switch ($this->input->post('gramatura')) {
-            case '80':
-                if($papel->papel_linha->valor_80g <= 0.00){
+            switch ($this->input->post('gramatura')) {
+                case '80':
+                    if($papel->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '120':
+                    if($papel->valor_120g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '180':
+                    if($papel->valor_180g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '250':
+                    if($papel->valor_250g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '300':
+                    if($papel->valor_300g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '350':
+                    if($papel->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '400':
+                    if($papel->valor_400g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                
+                default:
                     return false;
-                }
-                return true;
-                break;
-            case '120':
-                if($papel->papel_linha->valor_120g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '180':
-                if($papel->papel_linha->valor_180g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '250':
-                if($papel->papel_linha->valor_250g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '300':
-                if($papel->papel_linha->valor_300g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '350':
-                if($papel->papel_linha->valor_80g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '400':
-                if($papel->papel_linha->valor_400g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            
-            default:
-                return false;
-                break;
+                    break;
+            }
         }
     }
-    private function __validar_formulario_papel() {
+    private function validar_formulario_papel() {
         $data = array();
         $data['status'] = TRUE;
 
@@ -394,7 +398,7 @@ class Convite extends CI_Controller {
     //SESSION: IMPRESSAO
     public function session_impressao_inserir(){
         $this->input->post();
-        $this->__validar_formulario_impressao();
+        $this->validar_formulario_impressao();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_impressao[] = $this->set_impressao('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
@@ -404,7 +408,7 @@ class Convite extends CI_Controller {
         exit();
     }
     public function session_impressao_editar(){
-        $this->__validar_formulario_impressao();
+        $this->validar_formulario_impressao();
         $posicao = $this->uri->segment(4);
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_impressao[$posicao] = $this->set_impressao('cartao');
@@ -430,7 +434,7 @@ class Convite extends CI_Controller {
         $container = $this->Container_m->get_impressao($owner,$this->input->post('impressao'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_impressao(){
+    private function validar_formulario_impressao(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -447,7 +451,7 @@ class Convite extends CI_Controller {
     }
     //SESSION: ACABAMENTO
     public function session_acabamento_inserir(){
-        $this->__validar_formulario_acabamento();
+        $this->validar_formulario_acabamento();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_acabamento[] = $this->set_acabamento('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
@@ -457,7 +461,7 @@ class Convite extends CI_Controller {
         exit();  
     }    
     public function session_acabamento_editar(){
-        $this->__validar_formulario_acabamento();
+        $this->validar_formulario_acabamento();
         $posicao = $this->uri->segment(4);
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_acabamento[$posicao] = $this->set_acabamento('cartao');
@@ -483,7 +487,7 @@ class Convite extends CI_Controller {
         $container = $this->Container_m->get_acabamento($owner,$this->input->post('acabamento'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_acabamento(){
+    private function validar_formulario_acabamento(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -500,7 +504,7 @@ class Convite extends CI_Controller {
     }
     //SESSION: ACESSÓRIO
     public function session_acessorio_inserir(){
-        $this->__validar_formulario_acessorio();
+        $this->validar_formulario_acessorio();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_acessorio[] = $this->set_acessorio('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
@@ -510,7 +514,7 @@ class Convite extends CI_Controller {
         exit();  
     }
     public function session_acessorio_editar(){
-        $this->__validar_formulario_acessorio();
+        $this->validar_formulario_acessorio();
         $posicao = $this->uri->segment(4);
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_acessorio[$posicao] = $this->set_acessorio('cartao');
@@ -536,7 +540,7 @@ class Convite extends CI_Controller {
         $container = $this->Container_m->get_acessorio($owner,$this->input->post('acessorio'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_acessorio(){
+    private function validar_formulario_acessorio(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -553,7 +557,7 @@ class Convite extends CI_Controller {
     }
     //SESSION: FITA
     public function session_fita_inserir(){
-        $this->__validar_formulario_fita();
+        $this->validar_formulario_fita();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_fita[] = $this->set_fita('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
@@ -563,7 +567,7 @@ class Convite extends CI_Controller {
         exit();   
     }
     public function session_fita_editar(){
-        $this->__validar_formulario_fita();
+        $this->validar_formulario_fita();
         $posicao = $this->uri->segment(4);
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_fita[$posicao] = $this->set_fita('cartao');
@@ -588,12 +592,72 @@ class Convite extends CI_Controller {
         $container = $this->Container_m->get_fita($owner,$this->input->post('fita'),$this->input->post('quantidade'),$this->input->post('descricao'),$this->input->post('espessura'));
         return $container;
     }
-    private function __validar_formulario_fita(){
+    public function check_espessura_valor(){
+        $this->form_validation->set_message('check_espessura_valor','Espessura não definida para esta fita');
+        if($this->input->post('fita')){
+            $fita = $this->Fita_m->get_by_id($this->input->post('fita'));
+
+            switch ($this->input->post('espessura')) {
+                case '3':
+                    if($fita->valor_03mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '7':
+                    if($fita->valor_07mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '10':
+                    if($fita->valor_10mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '15':
+                    if($fita->valor_15mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '22':
+                    if($fita->valor_22mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '38':
+                    if($fita->valor_38mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '50':
+                    if($fita->valor_50mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '70':
+                    if($fita->valor_70mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
+    private function validar_formulario_fita(){
         $data = array();
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('fita', 'Acessório', 'required');
-        $this->form_validation->set_rules('espessura', 'Acessório', 'required');
+        $this->form_validation->set_rules('espessura', 'Acessório', 'required|callback_check_espessura_valor');
         $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 

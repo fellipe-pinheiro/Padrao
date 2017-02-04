@@ -4,109 +4,124 @@ $controller = $this->router->class;
 ?>
 <script>
 	$(document).ready(function () {
-	//Empastamento:
-	$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
-	$('#empastamento_quantidade').attr("disabled", true);
+		//Empastamento:
+		$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
+		$('#empastamento_quantidade').attr("disabled", true);
 
-	$($($('#empastamento_adicionar').parent().children()[1])).click(function () {
-		alteraEmpastamento();
-	});
-	/*====================================================================================*/
-	//Laminação:
-	$($('#laminacao_cobrar').parent().children()[1]).addClass('hidden');
-	$('#laminacao_quantidade').attr("disabled", true);
+		$($($('#empastamento_adicionar').parent().children()[1])).click(function () {
+			alteraEmpastamento();
+		});
+		/*====================================================================================*/
+		//Laminação:
+		$($('#laminacao_cobrar').parent().children()[1]).addClass('hidden');
+		$('#laminacao_quantidade').attr("disabled", true);
 
-	$($($('#laminacao_adicionar').parent().children()[1])).click(function () {
-		alteraLaminacao();
-	});
-	/*====================================================================================*/
-	//Douração:
-	$($('#douracao_cobrar').parent().children()[1]).addClass('hidden');
-	$('#douracao_quantidade').attr("disabled", true);
+		$($($('#laminacao_adicionar').parent().children()[1])).click(function () {
+			alteraLaminacao();
+		});
+		/*====================================================================================*/
+		//Douração:
+		$($('#douracao_cobrar').parent().children()[1]).addClass('hidden');
+		$('#douracao_quantidade').attr("disabled", true);
 
-	$($($('#douracao_adicionar').parent().children()[1])).click(function () {
-		alteraDouracao();
-	});
-	/*====================================================================================*/
-	//Corte Laser:
-	$($('#corte_laser_cobrar').parent().children()[1]).addClass('hidden');
-	$('#corte_laser_quantidade').attr("disabled", true);
-	$('#corte_laser_minutos').attr("disabled", true);
+		$($($('#douracao_adicionar').parent().children()[1])).click(function () {
+			alteraDouracao();
+		});
+		/*====================================================================================*/
+		//Corte Laser:
+		$($('#corte_laser_cobrar').parent().children()[1]).addClass('hidden');
+		$('#corte_laser_quantidade').attr("disabled", true);
+		$('#corte_laser_minutos').attr("disabled", true);
 
-	$($($('#corte_laser_adicionar').parent().children()[1])).click(function () {
-		alteraCorteLaser();
-	});
-	/*====================================================================================*/
-	//Relevo Seco:
-	$($('#relevo_seco_cobrar').parent().children()[1]).addClass('hidden');
-	$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-	$('#relevo_seco_quantidade').attr("disabled", true);
+		$($($('#corte_laser_adicionar').parent().children()[1])).click(function () {
+			alteraCorteLaser();
+		});
+		/*====================================================================================*/
+		//Relevo Seco:
+		$($('#relevo_seco_cobrar').parent().children()[1]).addClass('hidden');
+		$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		$('#relevo_seco_quantidade').attr("disabled", true);
 
-	$($($('#relevo_seco_adicionar').parent().children()[1])).click(function () {
-		alteraRelevoSeco();
-	});
-	/*====================================================================================*/
-	//Corte e Vinco:
-	$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
-	$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-	$('#corte_vinco_quantidade').attr("disabled", true);
+		$($($('#relevo_seco_adicionar').parent().children()[1])).click(function () {
+			alteraRelevoSeco();
+		});
+		/*====================================================================================*/
+		//Corte e Vinco:
+		$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
+		$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		$('#corte_vinco_quantidade').attr("disabled", true);
 
-	$($($('#corte_vinco_adicionar').parent().children()[1])).click(function () {
-		alteraCorteVinco();
-	});
-	/*====================================================================================*/
-	//Almofada:
-	$($('#almofada_cobrar').parent().children()[1]).addClass('hidden');
-	$($('#almofada_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-	$('#almofada_quantidade').attr("disabled", true);
+		$($($('#corte_vinco_adicionar').parent().children()[1])).click(function () {
+			alteraCorteVinco();
+		});
+		/*====================================================================================*/
+		//Almofada:
+		$($('#almofada_cobrar').parent().children()[1]).addClass('hidden');
+		$($('#almofada_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		$('#almofada_quantidade').attr("disabled", true);
 
-	$($($('#almofada_adicionar').parent().children()[1])).click(function () {
-		alteraAlmofada();
-	});
-	/*====================================================================================*/
-	//Esconde ou mostra os itens
-	if('<?=$controller?>' == "convite"){
-		$("#md_convite_titulo").text('Novo Convite');
-		is_empty_modelo_quantidade("#form_convite",'<?=base_url('convite/session_convite_novo')?>',"#cartao, #envelope","#md_convite","convite");
-	}else if('<?=$controller?>' == "personalizado"){
-		$("#md_personalizado_titulo").text('Novo personalizado');
-		is_empty_modelo_quantidade("#form_personalizado",'<?=base_url('personalizado/session_personalizado_novo')?>',"#personalizado","#md_personalizado","personalizado");
-	}else{
-		console.log("controller não identificado");
-	}
-	$("#form_select_papel").change(function(){
-		var option = $(this).find('option:selected');
-		var gramatura = option.data("gramatura");
-		$("#form_select_gramatura").val('');
-		
+		$($($('#almofada_adicionar').parent().children()[1])).click(function () {
+			alteraAlmofada();
+		});
+		/*====================================================================================*/
+		//Esconde ou mostra os itens
+		if('<?=$controller?>' == "convite"){
+			$("#md_convite_titulo").text('Novo Convite');
+			is_empty_modelo_quantidade("#form_convite",'<?=base_url('convite/session_convite_novo')?>',"#cartao, #envelope","#md_convite","convite");
+		}else if('<?=$controller?>' == "personalizado"){
+			$("#md_personalizado_titulo").text('Novo personalizado');
+			is_empty_modelo_quantidade("#form_personalizado",'<?=base_url('personalizado/session_personalizado_novo')?>',"#personalizado","#md_personalizado","personalizado");
+		}else{
+			console.log("controller não identificado");
+		}
+		$("#form_select_papel").change(function(){
+			var option = $(this).find('option:selected');
+			var gramatura = option.data("gramatura");
+			$("#form_select_gramatura").val('');
+			
 
-		$.each(gramatura, function(index, val) {
-			 if(val==0){
-			 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
-			 }else{
-			 	$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
-			 }
+			$.each(gramatura, function(index, val) {
+				if(val==0){
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
+				}else{
+					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
+				}
+			});
+		});
+		$("#form_select_fita").change(function(){
+			var option = $(this).find('option:selected');
+			var espessura = option.data("espessura");
+			$("#form_select_espessura").val('');
+
+			$.each(espessura, function(index, val) {
+				console.log("i: "+ index+" v:"+val);
+				console.log(val==0);
+
+				if(val==0){
+					$("#form_select_espessura option[value='"+index+"']").prop('disabled','disabled');
+				}else{
+					$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
+				}
+			});
 		});
 
-	});
-	$("#form_select_fita").change(function(){
-		var option = $(this).find('option:selected');
-		var espessura = option.data("espessura");
-		$("#form_select_espessura").val('');
-
-		$.each(espessura, function(index, val) {
-			console.log("i: "+ index+" v:"+val);
-			console.log(val==0);
-
-			if(val==0){
-				$("#form_select_espessura option[value='"+index+"']").prop('disabled','disabled');
+		// Filtrar os papeis por linha
+		$("#form_select_linha").change(function(event) {
+			$('#form_select_papel').selectpicker('val', '');
+			$('#form_select_papel').selectpicker('destroy');
+			$("#form_select_papel option").hide();
+			
+			var option = $(this).find('option:selected');
+			var value = option.val();
+			if(value){
+				$("#form_select_papel option[data-papel="+ value +"]").show();
 			}else{
-				$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
+				$("#form_select_papel option").show();
 			}
+			$('#form_select_papel').selectpicker('render');
+			$('#form_select_papel').selectpicker('refresh');
 		});
-
 	});
-});
 	//Altera Itens
 	function alteraEmpastamento(){
 		if($('#empastamento_adicionar').is(':checked')){
@@ -265,7 +280,7 @@ $controller = $this->router->class;
 	function editar_papel_modal(owner,posicao,id_papel,nome_papel,gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
 		$("#form_select_gramatura option[value=" + gramatura + "]").prop("selected", true);
-		$(".filter-option").text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
+		$($('#form_md_papel').find(".filter-option")[1]).text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
 		$("#md_papel_container_owner").val(owner);
 
 		/*====================================================================================*/
@@ -466,6 +481,7 @@ $controller = $this->router->class;
 		corteVincoOff();
 		almofadaOff();
 		$(".filter-option").text("");
+		selectpicker_clear();
 		reset_form("#form_md_papel");
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 	}
@@ -620,6 +636,7 @@ $controller = $this->router->class;
 			if (data.status){
 				$(modal).modal('hide');
 				reload_table(owner,data.msg);
+				selectpicker_clear();
 			}
 			else{
 				$.map(data.form_validation, function (value, index) {
@@ -641,6 +658,17 @@ $controller = $this->router->class;
 		});
 		e.preventDefault();
 	});
+	function selectpicker_clear() {
+		// MODAL PAPEL: 
+		//Seleciona vazio
+		$("#form_select_linha").selectpicker('val', '');
+		//Limpa o filtro e select do papel
+		$('#form_select_papel').selectpicker('destroy');
+		$("#form_select_papel option").show();
+		$('#form_select_papel').selectpicker('render');
+		$('#form_select_papel').selectpicker('refresh');
+		$('#form_select_papel').selectpicker('val', '');
+	}
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
 	function excluir_item_posicao(url,owner,posicao) {
 		console.log('Função: excluir_item_posicao()');
@@ -732,7 +760,7 @@ $controller = $this->router->class;
 			console.log("success");
 			if(data.status){
 				$.confirm({
-					title:'Salvando...',
+					title:'Preparando para salvar...',
 					content:'Deseja realmente salvar?',
 					confirmButton: 'Salvar',
 					cancelButton: 'Fechar',

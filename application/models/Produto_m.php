@@ -84,22 +84,16 @@ class Produto_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('produto');
         if($result->num_rows() > 0){
-            $result =  $this->Produto_m->__changeToObject($result->result_array());
+            $result =  $this->Produto_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
     }
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-            $result = $this->db->get('produto');
-        } else {
-            $result = $this->db->get('produto');
-        }
-        return $this->Produto_m->__changeToObject($result->result_array());
+    public function get_list() {
+        $result = $this->db->get('produto');
+        return $this->Produto_m->changeToObject($result->result_array());
     }
-    public function inserir(Produto_m $objeto) {
+    public function inserir($objeto) {
         if (!empty($objeto)) {
             $dados = array(
                 'id' => $objeto->id,
@@ -114,7 +108,7 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
-    public function editar(Produto_m $objeto) {
+    public function editar($objeto) {
         if (!empty($objeto->id)) {
             $dados = array(
                 'id' => $objeto->id,
@@ -130,7 +124,7 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('produto')) {
@@ -139,23 +133,17 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
-    function __changeToObject($result_db = '') {
+    function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Produto_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object->produto_categoria = $this->Produto_m->__get_produto_categoria($value['produto_categoria']);
+            $object->produto_categoria = $this->Produto_categoria_m->get_by_id($value['produto_categoria']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object_lista[] = $object;
         }
         return $object_lista;
-    }
-    function __get_produto_categoria($id) {
-        foreach ($this->Produto_categoria_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
     }
 }

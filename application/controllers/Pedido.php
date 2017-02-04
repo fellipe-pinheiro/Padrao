@@ -45,7 +45,6 @@ class Pedido extends CI_Controller {
         //Materia Prima Convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -98,7 +97,7 @@ class Pedido extends CI_Controller {
                 'data_evento' => $item->orc_data_evento,
                 'evento' => $item->evento_nome,
                 'loja' => $item->loja_unidade,
-                );
+            );
             $data[] = $row;
         }
         $output = array(
@@ -106,7 +105,7 @@ class Pedido extends CI_Controller {
             "recordsTotal" => $this->Pedido_m->count_all(),
             "recordsFiltered" => $this->Pedido_m->count_filtered(),
             "data" => $data,
-            );
+        );
         //output to json format
         print json_encode($output);
     }
@@ -123,7 +122,7 @@ class Pedido extends CI_Controller {
         list($date, $hour) = explode(" ", $data['pedido']->data);
         list($ano, $mes, $dia) = explode("-", $date);
         $data['data'] = $dia . "/" . $mes . "/" . $ano . " " . $hour;
-        $data['documento_numero'] = "<h3 class='pull-right'><strong>Pedido Nº ". $data['pedido']->id ."</strong></h3>";
+        $data['documento_numero'] = "<h3 class='pull-right'><strong>Pedido Nº " . $data['pedido']->id . "</strong></h3>";
         set_layout('conteudo', load_content('pedido/pdf', $data));
         load_layout();
     }
@@ -135,7 +134,7 @@ class Pedido extends CI_Controller {
         list($date, $hour) = explode(" ", $data['pedido']->data);
         list($ano, $mes, $dia) = explode("-", $date);
         $data['data'] = $dia . "/" . $mes . "/" . $ano;
-        $data['documento_numero'] = "<strong>Pedido Nº ".$data['pedido']->id."</strong>";
+        $data['documento_numero'] = "<strong>Pedido Nº " . $data['pedido']->id . "</strong>";
 
         $data['total_debitos'] = 0;
         $data['total_creditos'] = 0;
@@ -298,9 +297,13 @@ class Pedido extends CI_Controller {
 
         //$custos_adm = round(($valor_total_pedido_adicional / 100) * $pedido->orcamento->assessor->comissao, 2); //$custos_adm não esta sendo utilizado, pois ja está embutido nos produtos
         $valor_total_pedido_adicional += -$adicional->desconto;
+        $valor_parcela = $this->__round_down($valor_total_pedido_adicional / $this->input->post('qtd_parcelas'));
         $num_total_parcelas = $this->input->post('qtd_parcelas');
+        $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
         for ($parcela = 1; $parcela <= $this->input->post('qtd_parcelas'); $parcela++) {
-            $cliente_conta = $this->__get_cliente_conta($parcela, $valor_total_pedido_adicional, "Parcela " . ($parcela) . "/" . $num_total_parcelas . " do Adicional Nº " . $pedido->id . "/" . $adicional->id, 1, $adicional->id);
+
+            $descricao = "Parcela " . ($parcela) . "/" . $num_total_parcelas . " do Adicional Nº " . $pedido->id . "/" . $adicional->id;
+            $cliente_conta = $this->__get_cliente_conta($parcela, $primeiro_vencimento, $valor_total_pedido_adicional, $valor_parcela, $descricao, 1, $adicional->id);
             $cliente_conta->pedido = $pedido->id;
             $cliente_conta->inserir();
         }
@@ -370,7 +373,7 @@ class Pedido extends CI_Controller {
         }
     }
 
-    public function ajax_cancelar_pedido(){
+    public function ajax_cancelar_pedido() {
         //Cancela todo o pedido e seus respectivos adicionais
         $data['status'] = TRUE;
         $this->__validar_formulario_ajax_cancelar();
@@ -399,11 +402,11 @@ class Pedido extends CI_Controller {
             $this->__create_cliente_conta_cancelamento($multa_valor, $pedido->id, $forma_pagamento, "Multa pelo cancelamento do Pedido N° " . $pedido->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 0, null);
         }
 
-        if(!empty($pedido->adicional)){
+        if (!empty($pedido->adicional)) {
             foreach ($pedido->adicional as $key => $adicional) {
                 $valor_total = 0.00;
                 //$comissao = 0.00;
-                if(!$adicional->cancelado){
+                if (!$adicional->cancelado) {
                     $valor_total = $adicional->cancelar();
                     //$comissao = ($valor_total / 100) * $pedido->orcamento->assessor->comissao;
                     //$comissao = $this->calcula_comissao($valor_total, $assessor_comissao, $porcentagem_total);
@@ -424,7 +427,7 @@ class Pedido extends CI_Controller {
         exit();
     }
 
-    public function ajax_cancelar_adicional(){
+    public function ajax_cancelar_adicional() {
         //Cancela o Adicional com todos os produtos que não foram cancelados
         $data['status'] = TRUE;
         $this->__validar_formulario_ajax_cancelar();
@@ -668,7 +671,6 @@ class Pedido extends CI_Controller {
         //Comissão já está com o valor negativo
         //$comissao = ($valor_item / 100) * $adicional->assessor->comissao;
         //$comissao = $this->calcula_comissao($valor_item, $assessor_comissao, $porcentagem_total);
-
         //Insere valor do produto (valor negativo)
         $this->__create_cliente_conta_cancelamento($valor_item, $id_pedido, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . "/ Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
         //Insere valor dos custos administrativos (valor negativo)
@@ -706,7 +708,7 @@ class Pedido extends CI_Controller {
         }
     }
 
-    private function __create_cliente_conta_cancelamento($valor, $id_pedido, $forma_pagamento, $pre_descricao, $cancelado, $vencimento, $multa,$adicional,$adicional_id) {
+    private function __create_cliente_conta_cancelamento($valor, $id_pedido, $forma_pagamento, $pre_descricao, $cancelado, $vencimento, $multa, $adicional, $adicional_id) {
         $objeto = new Cliente_conta_m();
         $objeto->id = null;
         $objeto->usuario = $this->session->user_id;
@@ -824,16 +826,20 @@ class Pedido extends CI_Controller {
         $this->__validar_formulario_forma_pagamento();
         $this->session->pedido->condicoes = $this->input->post('condicoes');
         $num_total_parcelas = $this->input->post('qtd_parcelas');
+        $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
+        $total_pedido = $this->session->orcamento->calcula_total();
+        $valor_parcela = $this->__round_down($total_pedido / $this->input->post('qtd_parcelas'));
 
         for ($parcela = 1; $parcela <= $num_total_parcelas; $parcela++) {
-            $cliente_conta = $this->__get_cliente_conta($parcela, $this->session->orcamento->calcula_total(), "Parcela " . ($parcela) . "/" . $num_total_parcelas, 0, null);
+            $descricao = "Parcela " . ($parcela) . "/" . $num_total_parcelas;
+            $cliente_conta = $this->__get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, 0, null);
             $this->session->pedido->cliente_conta[] = $cliente_conta;
         }
         print json_encode($data);
         exit();
     }
 
-    private function __get_cliente_conta($parcela, $total_pedido, $descricao, $adicional, $adicional_id) {
+    private function __get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, $adicional, $adicional_id) {
 
         $cliente_conta = new Cliente_conta_m();
         $cliente_conta->id = null;
@@ -841,10 +847,10 @@ class Pedido extends CI_Controller {
         $cliente_conta->pedido = null;
         $cliente_conta->data = date('Y-m-d H:i:s');
         $cliente_conta->n_parcela = $parcela;
-        $cliente_conta->primeiro_vencimento = $this->input->post('primeiro_vencimento');
+        $cliente_conta->primeiro_vencimento = $primeiro_vencimento;
         $cliente_conta->vencimento_dia = $this->input->post('vencimento_dia');
         $cliente_conta->forma_pagamento = $this->input->post('forma_pagamento');
-        $cliente_conta->valor = $this->__round_down($total_pedido / $this->input->post('qtd_parcelas'));
+        $cliente_conta->valor = $valor_parcela;
         $cliente_conta->vencimento = $cliente_conta->set_vencimento($parcela);
         $cliente_conta->debito = true;
         $cliente_conta->codigo_bancario = null;
@@ -879,7 +885,7 @@ class Pedido extends CI_Controller {
 
     private function __condicoes_forma_pagamento() {
         $this->form_validation->set_rules('qtd_parcelas', 'Quantidade de parcelas', 'trim|required|max_length[2]|callback_validation_decimal_positive|callback_validation_no_leading_zeroes|is_natural_no_zero');
-        if($this->input->post('qtd_parcelas') > 1){
+        if ($this->input->post('qtd_parcelas') > 1) {
             $this->form_validation->set_rules('vencimento_dia', 'Dias de vencimento', 'trim|required');
         }
         $this->form_validation->set_rules('forma_pagamento', 'Forma de pagamento', 'trim|required');

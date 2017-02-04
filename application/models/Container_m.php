@@ -136,19 +136,18 @@ class Container_m extends CI_Model {
 		}
 		return true;
 	}
+
 	public function get_by_id($id,$owner){
 		if(empty($id)){
 			return new Container_m();
 		}
-		return  $this->Container_m->__changeToObject($id,$owner);
+		return  $this->Container_m->changeToObject($id,$owner);
 	}
 
 	public function get_papel($owner,$id,$quantidade,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche){
         //busca o papel pelo id
-		$result = $this->Papel_m->get_list($id);
-		$papel_objeto = $result[0];
 		$container_papel = new Container_papel_m();
-		$container_papel->papel = $papel_objeto;
+		$container_papel->papel = $this->Papel_m->get_by_id($id);
 		$container_papel->quantidade = $quantidade;
 		$container_papel->gramatura = $gramatura;
 		$container_papel->owner = $owner;
@@ -238,6 +237,7 @@ class Container_m extends CI_Model {
 		}
 		return $item;
 	}
+
 	public function get_impressao($owner,$id,$quantidade,$descricao){
 		//busca a impressão pelo id
 		$result = $this->Impressao_m->get_list($id);
@@ -249,6 +249,7 @@ class Container_m extends CI_Model {
 		$container_impressao->owner = $owner;
 		return $container_impressao;
 	}
+
 	public function get_acabamento($owner,$id,$quantidade,$descricao){
 		//busca o acabamento pelo id
 		$result = $this->Acabamento_m->get_list($id);
@@ -260,6 +261,7 @@ class Container_m extends CI_Model {
 		$container_acabamento->owner = $owner;
 		return $container_acabamento;
 	}
+
 	public function get_acessorio($owner,$id,$quantidade,$descricao){
 		//busca o acessório pelo id
 		$result = $this->Acessorio_m->get_list($id);
@@ -271,6 +273,7 @@ class Container_m extends CI_Model {
 		$container_acessorio->owner = $owner;
 		return $container_acessorio;
 	}
+
 	public function get_fita($owner,$id,$quantidade,$descricao,$espessura){
 		//busca a fita pelo id
 		$result = $this->Fita_m->get_list($id);
@@ -283,6 +286,7 @@ class Container_m extends CI_Model {
 		$container_fita->owner = $owner;
 		return $container_fita;
 	}
+
 	//retorna a soma dos valores do array de: PAPEL, IMPRESSÃO, FITA, ACABAMENTO e ACESSÓRIO
 	public function calcula_total($modelo,$qtd_pedido){
 		$this->total = 0;
@@ -321,6 +325,7 @@ class Container_m extends CI_Model {
 		}
 		return $this->total;
 	}
+
 	public function calcula_total_personalizado($modelo,$qtd_pedido){
 		$this->total = 0;
 		if (!empty($this->container_papel)) {
@@ -358,7 +363,8 @@ class Container_m extends CI_Model {
 		}
 		return $this->total;
 	}
-	private function __changeToObject($id,$owner) {
+
+	private function changeToObject($id,$owner) {
 		$object = new Container_m();
 		$object->id = $id;
 		$object->owner = $owner;

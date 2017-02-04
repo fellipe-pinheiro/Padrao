@@ -2,47 +2,74 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-	</div>
-	<div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <a href="<?=base_url('orcamento')?>" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></a>
-                <button class="btn btn-default" data-toggle="modal" href='#md_filtro'><span class="glyphicon glyphicon-search"></span></button>
-                <button type="button" id="btn-reset" class="btn btn-default">Limpar Filtro</button>
-                <button class="btn btn-default" id="pdf">PDF</button>
-                <button class="btn btn-default" id="resumo">Resumo</button>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-pedido-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Lista de pedidos</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-pedido-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="<?=base_url('orcamento')?>"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a data-toggle="modal" href='#md_filtro'><i class="glyphicon glyphicon-filter"></i> Filtrar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="btn-reset">
+                            <a href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <hr>  
+        </nav>
         <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table id="tabela_pedido" class="table display compact table-bordered " cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>N° Pedido</th>
-                            <th>Data pedido</th>
-                            <th>Nome</th>
-                            <th>Sobrenome</th>
-                            <th>N° Orçamento</th>
-                            <th>Data Orçamento</th>
-                            <th>Data Evento</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>CPF</th>
-                            <th>CNPJ</th>
-                            <th>Razao Social</th>
-                            <th>Pessoa</th>
-                            <th>Evento</th>
-                            <th>Loja</th>
-                            <th>Descricao</th>
-                            <th>Condicoes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fbody">
-                    </tbody>
-                </table>
+            <div class="col-sm-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_pedido" class="table display compact table-bordered " cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>N° Pedido</th>
+                                <th>Data pedido</th>
+                                <th>Nome</th>
+                                <th>Sobrenome</th>
+                                <th>N° Orçamento</th>
+                                <th>Data Orçamento</th>
+                                <th>Data Evento</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>CPF</th>
+                                <th>CNPJ</th>
+                                <th>Razao Social</th>
+                                <th>Pessoa</th>
+                                <th>Evento</th>
+                                <th>Loja</th>
+                                <th>Descricao</th>
+                                <th>Condicoes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fbody">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +153,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" id="btn-filter" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
+                <button type="button" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
+                <button type="button" id="btn-filter" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
             </div>
         </div>
     </div>
@@ -208,7 +236,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#md_filtro").modal('hide');
         });
         //button reset event click
-        $('#btn-reset').click(function(){
+        $('.btn-reset').click(function(){
             $('#form-filter')[0].reset();
             //just reload table
             tabela.ajax.reload(null,false);

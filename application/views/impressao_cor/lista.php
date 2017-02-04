@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Descrição</th>
                         </tr>
                     </thead>
-                    <tbody id="fbody">
+                    <tbody>
                     </tbody>
                 </table>
             </div>

@@ -134,7 +134,11 @@ class Produto extends CI_Controller {
         exit();
     }
     private function set_produto(){
-        $produto = $this->Container_produto_m->get_produto($this->input->post('produto'),$this->input->post('quantidade'),$this->input->post('descricao'),$this->session->orcamento->assessor->comissao);
+        $comissao = 0;
+        if(!empty($this->session->orcamento->assessor->comissao)){
+            $comissao = $this->session->orcamento->assessor->comissao;
+        }
+        $produto = $this->Container_produto_m->get_produto($this->input->post('produto'),$this->input->post('quantidade'),$this->input->post('descricao'),$comissao);
         return $produto;
     }
     private function __validar_formulario_produto(){

@@ -56,11 +56,11 @@
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 	/*
-	0 - Local
-	1 - dominio
-        2 - dev_f
+	0 - Development
+	1 - Production
+        3 - dev_f
 	*/
-	define("EXECUCAO",2);
+	define("EXECUCAO",3);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

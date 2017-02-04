@@ -2,60 +2,93 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><?= $dados['titulo_painel'] ?></h3>
-    </div>
-    <div class="panel-body">
-        <button class="btn btn-default" id="adicionar"><i class="glyphicon glyphicon-plus"></i></button>
-        <button class="btn btn-default" id="editar"><i class="glyphicon glyphicon-pencil"></i></button>
-        <button class="btn btn-danger pull-right" id="deletar"><i class="glyphicon glyphicon-trash"></i></button>
-        <hr>
-        <div role="tabpanel">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#tab_produto" aria-controls="tab_produto" role="tab" data-toggle="tab">Produto</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab_categoria" aria-controls="tab_categoria" role="tab" data-toggle="tab">Categoria</a>
-                </li>
-            </ul>
+    <div class="panel-body panel-nav">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-produto-menu">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">Produto</div>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-produto-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="col-md-12">
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_produto" aria-controls="tab_produto" role="tab" data-toggle="tab">Produto</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#tab_categoria" aria-controls="tab_categoria" role="tab" data-toggle="tab">Categoria</a>
+                    </li>
+                </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab_produto">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_produto" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Categoria</th>
-                                        <th>Nome</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="tab_produto">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_produto" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Categoria</th>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab_categoria">
-                    <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                            <table id="tb_categoria" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Descrição</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    <div role="tabpanel" class="tab-pane" id="tab_categoria">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="tb_categoria" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,9 +246,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default" onclick="filtro('produto', 'reset')">Limpar Filtro</button>
+                <button type="button" class="btn btn-default" onclick="filtro('produto', 'reset')"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
                 <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto', 'filtrar')">
-                    <span class="glyphicon glyphicon-filter"></span>
+                    <span class="glyphicon glyphicon-filter"></span> Filtrar
                 </button>
             </div>
         </div>
@@ -286,7 +319,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     fade: true
                 },
                 {
-                    text: 'Filtro',
+                    text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
                     action: function () {
                         $("#md_filtro_produto").modal('show');
                     }
@@ -503,12 +536,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: "JSON",
             success: function (data)
             {
-                if (data.status)
-                {
-                    $(md_form).modal('hide');
-                    reload_table(dataTable);
-                } else
-                {
+                if (data.status){
+                    if(tab_active == '#tab_produto' && save_method == 'add'){
+                        $.confirm({
+                            title: 'Produto inserido com sucesso!',
+                            content: 'Deseja inserir mais um produto da mesma categoria?',
+                            confirmButton: 'Sim',
+                            cancelButton: 'Não',
+                            confirm: function(){
+                                $(form + " #nome").val('');
+                            },
+                            cancel: function(){
+                                $(md_form).modal('hide');
+                            }
+                        });
+                    }else{
+                        $(md_form).modal('hide');
+                    }
+                } else{
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').parent().parent().addClass('has-error');
                         $('[name="' + index + '"]').next().text(value);
@@ -521,9 +566,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             complete: function () {
                 enable_button_salvar();
+                reload_table(dataTable);
             }
         });
-        reload_table(dataTable);
         e.preventDefault();
     }
     function get_tab_active() {
@@ -595,14 +640,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function disable_buttons() {
         $("#editar").attr("disabled", true);
         $("#deletar").attr("disabled", true);
-    }
-    function disable_button_salvar() {
-        $('.btnSubmit').text('Salvando...');
-        $('.btnSubmit').attr('disabled', true);
-    }
-    function enable_button_salvar() {
-        $('.btnSubmit').text('Salvar');
-        $('.btnSubmit').attr('disabled', false);
     }
     function filtro(tabela, acao) {
         if (!get_tab_active()) {

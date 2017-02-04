@@ -180,6 +180,7 @@ class Cliente_m extends CI_Model {
             $result =  $this->Cliente_m->_changeToObject($result->result_array());
             return $result[0];
         }
+        return new Cliente_m();
     }
 
     public function inserir(Cliente_m $objeto) {

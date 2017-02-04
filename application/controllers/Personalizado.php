@@ -23,7 +23,6 @@ class Personalizado extends CI_Controller {
         //Carrego a materia prima para compor o personalizado
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
@@ -40,16 +39,15 @@ class Personalizado extends CI_Controller {
         restrito_logado();
         //Se a session do personalizado estiver vazia, preenche as variaveis do personalizado com os objetos
         if(empty($this->session->personalizado)){
-            $this->__criar_personalizado();
+            $this->criar_personalizado();
         }
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Personalizado';
         $data['personalizado_modelo'] = $this->Personalizado_modelo_m->get_list();
         $data['personalizado_categoria'] = $this->Personalizado_categoria_m->get_list();
         $data['papel'] = $this->Papel_m->get_list();
-        $data['papel_catalogo'] = $this->Papel_catalogo_m->get_list();
+        $data['linha'] = $this->Papel_linha_m->get_list();
         $data['impressao'] = $this->Impressao_m->get_list();
         $data['impressao_area'] = $this->Impressao_area_m->get_list();
         $data['acabamento'] = $this->Acabamento_m->get_list();
@@ -78,16 +76,16 @@ class Personalizado extends CI_Controller {
             $data['fita_espessura'] = $fita_espessura[0];
         }
         if(empty($this->session->personalizado->quantidade) || empty($this->session->personalizado->modelo)){
-            $this->__criar_personalizado();
+            $this->criar_personalizado();
         }
         set_layout('conteudo', load_content('personalizado/index',$data));
         load_layout();
     }
     //NOVO: Personalizado 
     public function session_personalizado_novo() {
-        $this->__validar_formulario_personalizado();
+        $this->validar_formulario_personalizado();
         unset($this->session->personalizado);
-        $this->__criar_personalizado();
+        $this->criar_personalizado();
         $modelo = $this->Personalizado_modelo_m->get_by_id($this->input->post('personalizado_modelo'));
         $this->session->personalizado->modelo = $modelo;
         $this->session->personalizado->quantidade = $this->input->post('quantidade');
@@ -96,7 +94,7 @@ class Personalizado extends CI_Controller {
     }
     //ALTERAR: Personalizado
     public function session_personalizado_editar() {
-        $this->__validar_formulario_personalizado();
+        $this->validar_formulario_personalizado();
         $personalizado = $this->session->personalizado;
         if($personalizado->modelo->id != $this->input->post('personalizado_modelo')){
             $modelo = $this->Personalizado_modelo_m->get_by_id($this->input->post('personalizado_modelo'));
@@ -108,11 +106,11 @@ class Personalizado extends CI_Controller {
     }
     public function session_personalizado_excluir(){
         unset($this->session->personalizado);
-        $this->__criar_personalizado();
+        $this->criar_personalizado();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Personalizado</strong> excluido com sucesso'));
         exit(); 
     }
-    private function __validar_formulario_personalizado(){
+    private function validar_formulario_personalizado(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -132,13 +130,17 @@ class Personalizado extends CI_Controller {
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Itens da personalizado</strong> excluidos com sucesso'));
         exit(); 
     }
-    private function __criar_personalizado(){
+    private function criar_personalizado(){
+        $comissao = 0;
+        if(!empty($this->session->orcamento->assessor->comissao)){
+            $comissao = $this->session->orcamento->assessor->comissao;
+        }
         $this->session->unset_userdata('personalizado');
         $this->session->personalizado = new Personalizado_m();
         $this->session->personalizado->personalizado = new Container_m();
         $this->session->personalizado->mao_obra = new Mao_obra_m();
         $this->session->personalizado->modelo = new Personalizado_modelo_m();
-        $this->session->personalizado->comissao = $this->session->orcamento->assessor->comissao;
+        $this->session->personalizado->comissao = $comissao;
     }
     //FINALIZAR: Personalizado   
     public function finalizar(){
@@ -156,12 +158,12 @@ class Personalizado extends CI_Controller {
         redirect(base_url('orcamento'), 'auto');
     }
     public function session_descricao(){
-        $this->__validar_formulario_descricao();
+        $this->validar_formulario_descricao();
         $this->session->personalizado->descricao = $this->input->post('descricao');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Descrição</strong> inserido com sucesso'));
         exit();
     }
-    private function __validar_formulario_descricao(){
+    private function validar_formulario_descricao(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -178,7 +180,7 @@ class Personalizado extends CI_Controller {
     public function session_orcamento_personalizado_editar(){
         $posicao = $this->uri->segment(3);
         $this->session->unset_userdata('personalizado');
-        $this->__criar_personalizado();
+        $this->criar_personalizado();
         $this->session->personalizado = clone $this->session->orcamento->personalizado[$posicao];
         $this->session->personalizado->is_edicao = true;
         $this->session->personalizado->session_posicao = $posicao;
@@ -191,7 +193,7 @@ class Personalizado extends CI_Controller {
     }
     //INSERIR: MAO_OBRA
     public function session_mao_obra_inserir() {
-        $this->__validar_formulario_mao_obra();
+        $this->validar_formulario_mao_obra();
         $personalizado = $this->session->personalizado;
         $mao_obra = $this->Mao_obra_m->get_by_id($this->input->post('mao_obra'));
         $personalizado->mao_obra = $mao_obra;
@@ -199,7 +201,7 @@ class Personalizado extends CI_Controller {
         exit();
     }
     public function session_mao_obra_editar() {
-        $this->__validar_formulario_mao_obra();
+        $this->validar_formulario_mao_obra();
         $personalizado = $this->session->personalizado;
         $mao_obra = $this->Mao_obra_m->get_by_id($this->input->post('mao_obra'));
         $personalizado->mao_obra = $mao_obra;
@@ -211,7 +213,7 @@ class Personalizado extends CI_Controller {
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Mão de obra</strong> excluida com sucesso'));
         exit();
     }
-    private function __validar_formulario_mao_obra(){
+    private function validar_formulario_mao_obra(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -226,13 +228,13 @@ class Personalizado extends CI_Controller {
     }      
     //SESSION: PAPEL
     public function session_papel_inserir(){
-        $this->__validar_formulario_papel();
+        $this->validar_formulario_papel();
         $this->session->personalizado->personalizado->container_papel[] = $this->set_papel('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Papel</strong> inserido com sucesso'));
         exit();
     }
     public function session_papel_editar(){
-        $this->__validar_formulario_papel();
+        $this->validar_formulario_papel();
         $posicao = $this->uri->segment(4);
         $this->session->personalizado->personalizado->container_papel[$posicao] = $this->set_papel('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Papel</strong> editado com sucesso'));
@@ -304,59 +306,60 @@ class Personalizado extends CI_Controller {
     }
     public function check_gramatura_valor(){
         $this->form_validation->set_message('check_gramatura_valor','Gramatura não definida para este papel');
+        if($this->input->post('papel')){
+            $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
 
-        $papel = $this->Papel_m->get_by_id($this->input->post('papel'));
-
-        switch ($this->input->post('gramatura')) {
-            case '80':
-                if($papel->papel_linha->valor_80g <= 0.00){
+            switch ($this->input->post('gramatura')) {
+                case '80':
+                    if($papel->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '120':
+                    if($papel->valor_120g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '180':
+                    if($papel->valor_180g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '250':
+                    if($papel->valor_250g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '300':
+                    if($papel->valor_300g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '350':
+                    if($papel->valor_80g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '400':
+                    if($papel->valor_400g <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                
+                default:
                     return false;
-                }
-                return true;
-                break;
-            case '120':
-                if($papel->papel_linha->valor_120g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '180':
-                if($papel->papel_linha->valor_180g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '250':
-                if($papel->papel_linha->valor_250g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '300':
-                if($papel->papel_linha->valor_300g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '350':
-                if($papel->papel_linha->valor_80g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            case '400':
-                if($papel->papel_linha->valor_400g <= 0.00){
-                    return false;
-                }
-                return true;
-                break;
-            
-            default:
-                return false;
-                break;
+                    break;
+            }
         }
     }
-    private function __validar_formulario_papel() {
+    private function validar_formulario_papel() {
         $data = array();
         $data['status'] = TRUE;
 
@@ -394,13 +397,13 @@ class Personalizado extends CI_Controller {
     }
     //SESSION: IMPRESSAO
     public function session_impressao_inserir(){
-        $this->__validar_formulario_impressao();
+        $this->validar_formulario_impressao();
         $this->session->personalizado->personalizado->container_impressao[] = $this->set_impressao('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> inserida com sucesso'));
         exit();
     }
     public function session_impressao_editar(){
-        $this->__validar_formulario_impressao();
+        $this->validar_formulario_impressao();
         $posicao = $this->uri->segment(4);
         $this->session->personalizado->personalizado->container_impressao[$posicao] = $this->set_impressao('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> editada com sucesso'));
@@ -417,7 +420,7 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_impressao($owner,$this->input->post('impressao'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_impressao(){
+    private function validar_formulario_impressao(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -434,13 +437,13 @@ class Personalizado extends CI_Controller {
     }
     //SESSION: ACABAMENTO
     public function session_acabamento_inserir(){
-        $this->__validar_formulario_acabamento();
+        $this->validar_formulario_acabamento();
         $this->session->personalizado->personalizado->container_acabamento[] = $this->set_acabamento('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Acabamento</strong> inserido com sucesso'));
         exit();  
     }    
     public function session_acabamento_editar(){
-        $this->__validar_formulario_acabamento();
+        $this->validar_formulario_acabamento();
         $posicao = $this->uri->segment(4);
         $this->session->personalizado->personalizado->container_acabamento[$posicao] = $this->set_acabamento('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Acabamento</strong> editado com sucesso'));
@@ -457,7 +460,7 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_acabamento($owner,$this->input->post('acabamento'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_acabamento(){
+    private function validar_formulario_acabamento(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -474,13 +477,13 @@ class Personalizado extends CI_Controller {
     }
     //SESSION: ACESSÓRIO
     public function session_acessorio_inserir(){
-        $this->__validar_formulario_acessorio();
+        $this->validar_formulario_acessorio();
         $this->session->personalizado->personalizado->container_acessorio[] = $this->set_acessorio('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Acessório</strong> inserido com sucesso'));
         exit();    
     }
     public function session_acessorio_editar(){
-        $this->__validar_formulario_acessorio();
+        $this->validar_formulario_acessorio();
         $posicao = $this->uri->segment(4);
         $this->session->personalizado->personalizado->container_acessorio[$posicao] = $this->set_acessorio('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Acessório</strong> editado com sucesso'));
@@ -497,7 +500,7 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_acessorio($owner,$this->input->post('acessorio'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
-    private function __validar_formulario_acessorio(){
+    private function validar_formulario_acessorio(){
         $data = array();
         $data['status'] = TRUE;
         
@@ -514,13 +517,13 @@ class Personalizado extends CI_Controller {
     }
     //SESSION: FITA
     public function session_fita_inserir(){
-        $this->__validar_formulario_fita();
+        $this->validar_formulario_fita();
         $this->session->personalizado->personalizado->container_fita[] = $this->set_fita('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Fita</strong> inserido com sucesso'));
         exit();      
     }
     public function session_fita_editar(){
-        $this->__validar_formulario_fita();
+        $this->validar_formulario_fita();
         $posicao = $this->uri->segment(4);
         $this->session->personalizado->personalizado->container_fita[$posicao] = $this->set_fita('personalizado');
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Fita</strong> editado com sucesso'));
@@ -536,12 +539,72 @@ class Personalizado extends CI_Controller {
         $container = $this->Container_m->get_fita($owner,$this->input->post('fita'),$this->input->post('quantidade'),$this->input->post('descricao'),$this->input->post('espessura'));
         return $container;
     }
-    private function __validar_formulario_fita(){
+    public function check_espessura_valor(){
+        $this->form_validation->set_message('check_espessura_valor','Espessura não definida para esta fita');
+        if($this->input->post('fita')){
+            $fita = $this->Fita_m->get_by_id($this->input->post('fita'));
+
+            switch ($this->input->post('espessura')) {
+                case '3':
+                    if($fita->valor_03mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '7':
+                    if($fita->valor_07mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '10':
+                    if($fita->valor_10mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '15':
+                    if($fita->valor_15mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '22':
+                    if($fita->valor_22mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '38':
+                    if($fita->valor_38mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '50':
+                    if($fita->valor_50mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                case '70':
+                    if($fita->valor_70mm <= 0.00){
+                        return false;
+                    }
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
+    private function validar_formulario_fita(){
         $data = array();
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('fita', 'Acessório', 'required');
-        $this->form_validation->set_rules('espessura', 'Acessório', 'required');
+        $this->form_validation->set_rules('espessura', 'Acessório', 'required|callback_check_espessura_valor');
         $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
