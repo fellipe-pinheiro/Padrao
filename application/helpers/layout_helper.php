@@ -8,9 +8,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 function init_layout() {
     $CI = & get_instance();
 
-    $CI->load->library(array('sistema', 'session', 'form_validation','ion_auth'));
-    $CI->load->helper(array('layout', 'form', 'url', 'array', 'text','html'));
-    
+    $CI->load->library(array('sistema', 'session', 'form_validation', 'ion_auth'));
+    $CI->load->helper(array('layout', 'form', 'url', 'array', 'text', 'html'));
+
     set_layout('template', 'default');
     set_layout('titulo', 'Sistema | ');
     set_layout('menu', load_content('template/menu/menu'));
@@ -18,8 +18,10 @@ function init_layout() {
     set_layout('conteudo', "Não foi carregado nenhum conteudo na variavel Sistema->layout['conteudo']");
 
     //CSS
-    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar','jquery-confirm','jquery.loadingModal.min','main','bootstrap-datepicker.min','bootstrap-year-calendar.min','monthly')), FALSE);
+    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar', 'jquery-confirm', 'jquery.loadingModal.min', 'main', 'bootstrap-datepicker.min', 'bootstrap-year-calendar.min', 'monthly')), FALSE);
     set_layout('header', load_css(array('bootstrap-select'), 'assets/js/bootstrap-select/css'), FALSE);
+
+//    set_layout('header', load_css(array('bootstrap.min'), 'assets/paper'), FALSE);
     //JS
     set_layout('header', load_js(array('jquery.min', 'bootstrap.min', 'ie10-viewport-bug-workaround')), FALSE);
     set_layout('header', load_js(array('inputmask'), 'assets/js/inputmask'), FALSE);
@@ -119,23 +121,27 @@ function load_js($arquivo = NULL, $pasta = 'assets/js', $remoto = FALSE) {
 }
 
 // Define uma mensagem para ser exibida na próxima tela carregada
-function set_msg($id = 'msg', $msg = NULL, $tipo = 'info') {
+function set_flashdata($msg = NULL, $tipo = 'info', $id = 'msg') {
     $CI = & get_instance();
-    $CI->session->set_flashdata($id, "<div class='alert alert-$tipo fade in'><p> $msg </p></div>");
+    if (!empty(trim($msg))) {
+        $arr = is_array($CI->session->flashdata($id)) ? $CI->session->flashdata($id) : array();
+        array_push($arr, ['msg' => $msg, 'tipo' => $tipo]);
+        $CI->session->set_flashdata($id, $arr);
+    }
 }
 
 // Verifica se existe uma mensagem para ser exibida na tela atual
-function get_msg($id, $printar = TRUE) {
+function get_flashdata($print = TRUE, $id = 'msg') {
     $CI = & get_instance();
     if ($CI->session->flashdata($id)) {
-        if ($printar) {
-            echo $CI->session->flashdata($id);
-            return TRUE;
+        if ($print) {
+            foreach ($CI->session->flashdata($id) as $msg) {
+                print "<div class='alert alert-" . $msg["tipo"] . " fade in'>" . $msg["msg"] . "</div>";
+            }
         } else {
             return $CI->session->flashdata($id);
         }
     }
-    return FALSE;
 }
 
 // Gera um breadcrumb com base no controller atual

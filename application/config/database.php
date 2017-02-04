@@ -77,25 +77,30 @@ $query_builder = TRUE;
 $banco_dados = 1;
 
 switch (EXECUCAO) {
-  case 0: // Comunitário
-    $hostname = '50.116.112.138';
-    $username = 'orcas394_db_dev';
-    $password = 'sDBdb_dev2017';
-    $database = 'orcas394_db_dev';
-    break;
-  case 1: // Produção
-    $hostname = '50.116.112.138';
-    $username = 'orcas394_cgolin';
-    $password = 'sDBcgolin2017';
-    $database = 'orcas394_camilagolin';
-    break;
-  
-  default:
-    $hostname = '50.116.112.138';
-    $username = 'orcas394_cgolin';
-    $password = 'sDBcgolin2017';
-    $database = 'orcas394_camilagolin';
-    break;
+    case 0: // Comunitário
+        $hostname = '50.116.112.138';
+        $username = 'orcas394_db_dev';
+        $password = 'sDBdb_dev2017';
+        $database = 'orcas394_db_dev';
+        break;
+    case 1: // Produção
+        $hostname = '50.116.112.138';
+        $username = 'orcas394_cgolin';
+        $password = 'sDBcgolin2017';
+        $database = 'orcas394_camilagolin';
+        break;
+    case 2: // Comunitário
+        $hostname = '50.116.112.138';
+        $username = 'orcas394_db_dev';
+        $password = 'sDBdb_dev2017';
+        $database = 'orcas394_db_dev';
+        break;
+    default:
+        $hostname = '50.116.112.138';
+        $username = 'orcas394_cgolin';
+        $password = 'sDBcgolin2017';
+        $database = 'orcas394_camilagolin';
+        break;
 }
 
 $db['default'] = array(

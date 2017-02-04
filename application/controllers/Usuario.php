@@ -70,8 +70,12 @@ class Usuario extends CI_Controller {
                 'phone' => $this->input->post('phone'),
             );
 
-            $password = "$email";
-
+            $password = $email;
+            var_dump($identity);
+            var_dump($password);
+            var_dump($email);
+            var_dump($additional_data);
+            die();
             if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
 
                 $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
@@ -108,6 +112,7 @@ class Usuario extends CI_Controller {
         $this->_validar_formulario("add");
         $data['status'] = TRUE;
         $data = $this->_get_post();
+
         if ($this->ion_auth->register($data['email'], "", $data['email'], $data)) {
             print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
         } else {
@@ -128,7 +133,7 @@ class Usuario extends CI_Controller {
         for ($i = 0; $i < count($grupos); $i++) {
             if (array_key_exists("gp_" . $grupos[$i]["id"], $post)) {
                 $in[] = $grupos[$i]["id"];
-            } 
+            }
             $out[] = $grupos[$i]["id"];
         }
 
@@ -137,10 +142,10 @@ class Usuario extends CI_Controller {
 
             if ($this->ion_auth->update($id, $data)) {
                 // atualizar os grupos do usuario
-                $this->Usuario_m->remove_from_group($out,$id);
-                
-                $this->Usuario_m->add_to_group($in,$id);
-                
+                $this->Usuario_m->remove_from_group($out, $id);
+
+                $this->Usuario_m->add_to_group($in, $id);
+
                 print json_encode(array("status" => TRUE, 'msg' => 'Registro auterado com sucesso'));
             } else {
                 print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo ion_auth->update()'));
@@ -225,6 +230,17 @@ class Usuario extends CI_Controller {
             $data['status'] = FALSE;
             print json_encode($data);
             exit();
+        }
+    }
+
+    public function ativacao() {
+        $id = $this->input->post('id');
+        $codigo = $this->input->post('codigo');
+        $aticavao = $this->ion_auth->activate($id, $codigo);
+        if ($aticavao) {
+            print json_encode(array("status" => TRUE, "msg" => "Usuário ativado com sucesso"));
+        } else {
+            print json_encode(array("status" => FALSE, "msg" => $this->ion_auth->errors()));
         }
     }
 
