@@ -80,6 +80,11 @@ switch (EXECUCAO) {
         $username = 'orcas394_db_dev';
         $password = 'sDBdb_dev2017';
         $database = 'orcas394_db_dev';
+
+        $hostname = 'localhost';
+        $username = 'root';
+        $password = '';
+        $database = 'cgolin_localhost';
         break;
     case 1: // Production
         $hostname = '50.116.112.138';
