@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Papel</th>
                                             <th>Altura (mm)</th>
                                             <th>Largura (mm)</th>
-                                            <th>Gramatura (g)</th>
+                                            <th>Gramaturas (g)</th>
                                             <th>Descrição</th>
                                         </tr>
                                     </thead>
@@ -193,17 +193,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span class="help-block"></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</button>
+                        </div>
+                    </div>
                     <!--Papel Gramatura-->
-                    <div class="form-group" id="default_gramatura">
+                    <div class="form-group hidden" id="default_gramatura">
                         <?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-4">
-                            <input step="1" type="number" min="0" name="gramatura_0_ADD" required class="form-control" placeholder="Gramatura ex: 80">
+                            <input step="1" type="number" min="0" name="" class="form-control" placeholder="Gramatura ex: 80">
                         </div>
                         <div class="col-sm-4">
-                            <input step="0.01" type="number" min="0" name="valor_0_ADD" required class="form-control" placeholder="Valor ex: 3,20">
+                            <input step="0.01" type="number" min="0" name="" class="form-control" placeholder="Valor ex: 3,20">
                         </div>
                         <div class="col-sm-2">
-                            <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
                     </div>
                     <div id="lista_gramaturas">
@@ -857,14 +862,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                             }else if(index === 'papel_gramaturas'){
                                 $.each(value,function(i, gramatura) {
-                                    if(i === 0){
-                                        $("#default_gramatura input")[0].value = gramatura.gramatura;
-                                        $("#default_gramatura input")[1].value = gramatura.valor;
-                                        $($("#default_gramatura input")[0]).prop("name","gramatura_"+gramatura.id+"_UPD");
-                                        $($("#default_gramatura input")[1]).prop("name","valor_"+gramatura.id+"_UPD");
-                                    }else{
-                                        clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
-                                    }
+                                    clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
                                 });
                             }
 
@@ -934,18 +932,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
 function clonar_gramatura(id,gramatura,valor){
-    var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id);
+    var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
     // ALterar sinal do botao
-    $(c[0]).find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    //$(c[0]).find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
     // adicionar funcao para deletar a linha
     if (gramatura == "") {
-    $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
+        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
     } else {
-    $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
+        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
     }
     // Alterar name do inputs
-    $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura);
-    $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor);
+    $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+    $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
 
     c.appendTo("#lista_gramaturas");
 }
@@ -969,6 +967,7 @@ function remover_gramatura_papel(id,add) {
         $($("#"+id+" input")[1]).prop("name",name_valor);
         $("#"+id).hide();
     }
+    console.log($(".gramatura_group").length);
 }
 function formulario_submit(e) {
     disable_button_salvar();

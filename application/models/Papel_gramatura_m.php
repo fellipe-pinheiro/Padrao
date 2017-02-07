@@ -8,6 +8,7 @@ class Papel_gramatura_m extends CI_Model {
     var $papel;
     var $gramatura;
     var $valor;
+    var $selected = false; //boolean
 
     public function get_by_id($id){
         $this->db->where('id', $id);

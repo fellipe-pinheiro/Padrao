@@ -75,18 +75,7 @@ $controller = $this->router->class;
 			console.log("controller não identificado");
 		}
 		$("#form_select_papel").change(function(){
-			var option = $(this).find('option:selected');
-			var gramatura = option.data("gramatura");
-			$("#form_select_gramatura").val('');
-			
-
-			$.each(gramatura, function(index, val) {
-				if(val==0){
-					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','disabled');
-				}else{
-					$("#form_select_gramatura option[value='"+index+"']").prop('disabled','');
-				}
-			});
+			fill_and_select_gramatura();
 		});
 		$("#form_select_fita").change(function(){
 			var option = $(this).find('option:selected');
@@ -274,12 +263,30 @@ $controller = $this->router->class;
 		$('#almofada_quantidade').val(null);
 	}
 	/*====================================================================================*/
-
+	function fill_and_select_gramatura() {
+		var option = $("#form_select_papel").find('option:selected');
+		var arr_gramatura = option.data("gramatura");
+		var gramatura = $("#form_select_gramatura option:selected").text();
+		gramatura = gramatura.replace("g", "");
+		$("#form_select_gramatura").val('');
+		$("#form_select_gramatura").find('option').remove();
+		$("#form_select_gramatura").append('<option value="" selected>Selecione</option>');
+		$.each(arr_gramatura, function(index, val) {
+			$("#form_select_gramatura").append('<option value='+val.id+'>'+val.gramatura+'g</option>');
+			if(val.gramatura == gramatura){
+				$('#form_select_gramatura option[value='+val.id+']').attr('selected','selected');
+			}else{
+				$('#form_select_gramatura option[value=""]').attr('selected','selected');
+			}
+		});
+	}
 	//EDITA: MODAL
 	//edita o modal do papel cartao
 	function editar_papel_modal(owner,posicao,id_papel,nome_papel,gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
-		$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
-		$("#form_select_gramatura option[value=" + gramatura + "]").prop("selected", true);
+		//$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
+		$('#form_select_papel').selectpicker('val', id_papel);
+
+		fill_and_select_gramatura();
 		$($('#form_md_papel').find(".filter-option")[1]).text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
 		$("#md_papel_container_owner").val(owner);
 
@@ -483,6 +490,7 @@ $controller = $this->router->class;
 		$(".filter-option").text("");
 		selectpicker_clear();
 		reset_form("#form_md_papel");
+		$("#form_select_gramatura").find('option').remove();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 	}
 	//limpa o formulario do cartao_impressao
