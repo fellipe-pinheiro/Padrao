@@ -22,6 +22,7 @@ class Papel_gramatura_m extends CI_Model {
 
     public function get_by_papel_id($id){
         $this->db->where('papel', $id);
+        $this->db->order_by("gramatura", "asc");
         $result = $this->db->get('papel_gramatura');
         if($result->num_rows() > 0){
             return $this->Papel_gramatura_m->changeToObject($result->result_array());
@@ -29,8 +30,7 @@ class Papel_gramatura_m extends CI_Model {
         return false;
     }
 
-    public function get_ids_by_papel_id($id_papel)
-    {
+    public function get_ids_by_papel_id($id_papel){
         $this->db->select("id");
         $this->db->where('papel', $id);
         return $this->db->get('papel_gramatura')->result_array();;
@@ -91,6 +91,16 @@ class Papel_gramatura_m extends CI_Model {
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
+            if ($this->db->delete('papel_gramatura')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function deletar_papel($id) {
+        if (!empty($id)) {
+            $this->db->where('papel', $id);
             if ($this->db->delete('papel_gramatura')) {
                 return true;
             }

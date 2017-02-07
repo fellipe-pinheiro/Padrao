@@ -197,10 +197,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group" id="default_gramatura">
                         <?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-4">
-                            <input step="1" type="number" min="0" name="gramatura_0" required class="form-control" placeholder="Gramatura ex: 80">
+                            <input step="1" type="number" min="0" name="gramatura_0_ADD" required class="form-control" placeholder="Gramatura ex: 80">
                         </div>
                         <div class="col-sm-4">
-                            <input step="0.01" type="number" min="0" name="valor_0" required class="form-control" placeholder="Valor ex: 3,20">
+                            <input step="0.01" type="number" min="0" name="valor_0_ADD" required class="form-control" placeholder="Valor ex: 3,20">
                         </div>
                         <div class="col-sm-2">
                             <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i></button>
@@ -844,7 +844,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 dataType: "JSON",
                 success: function (data)
                 {   
-                    console.log(data);
                     data = switch_data(tab_active,data);
                     if(tab_active == '#tab_papel'){
                         $.map(data, function (value, index) {
@@ -861,10 +860,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     if(i === 0){
                                         $("#default_gramatura input")[0].value = gramatura.gramatura;
                                         $("#default_gramatura input")[1].value = gramatura.valor;
-                                        $($("#default_gramatura input")[0]).prop("name","gramatura_"+gramatura.id+"_E");
-                                        $($("#default_gramatura input")[1]).prop("name","valor_"+gramatura.id+"_E");
+                                        $($("#default_gramatura input")[0]).prop("name","gramatura_"+gramatura.id+"_UPD");
+                                        $($("#default_gramatura input")[1]).prop("name","valor_"+gramatura.id+"_UPD");
                                     }else{
-                                        clonar_gramatura(gramatura.id+"_E",gramatura.gramatura,gramatura.valor);
+                                        clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
                                     }
                                 });
                             }
@@ -930,36 +929,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#add_gramatura").click(function(){
             count_gramatura++;
-            clonar_gramatura(count_gramatura+"_A","","");
+            clonar_gramatura(count_gramatura+"_ADD","","");
         });
     });
 
 function clonar_gramatura(id,gramatura,valor){
-            var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id);
-            // ALterar sinal do botao
-            $(c[0]).find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
-            // adicionar funcao para deletar a linha
-            if (gramatura == "") {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
-            } else {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
-            }
-            // Alterar name do inputs
-            $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura);
-            $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor);
+    var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id);
+    // ALterar sinal do botao
+    $(c[0]).find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    // adicionar funcao para deletar a linha
+    if (gramatura == "") {
+    $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
+    } else {
+    $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
+    }
+    // Alterar name do inputs
+    $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura);
+    $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor);
 
-            c.appendTo("#lista_gramaturas");
+    c.appendTo("#lista_gramaturas");
 }
 function remover_gramatura_papel(id,add) {
     if (add) {
         $("#"+id).remove();
     } else {
+        var arr_g = new Array();
+        var arr_v = new Array();
         // adicionar o D no name dos inputs
-        var name_old = $($("#"+id+" input")[0]).prop("name");
-        $($("#"+id+" input")[0]).prop("name",name_old+"D");
+        var name_gramatura = $($("#"+id+" input")[0]).prop("name");
+        arr_g = name_gramatura.split("_");
+        arr_g[2] = "DEL";
+        name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
+        $($("#"+id+" input")[0]).prop("name",name_gramatura);
 
-        var name_old = $($("#"+id+" input")[1]).prop("name");
-        $($("#"+id+" input")[1]).prop("name",name_old+"D");
+        var name_valor = $($("#"+id+" input")[1]).prop("name");
+        arr_v = name_valor.split("_");
+        arr_v[2] = "DEL";
+        name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
+        $($("#"+id+" input")[1]).prop("name",name_valor);
         $("#"+id).hide();
     }
 }

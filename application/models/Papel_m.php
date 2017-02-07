@@ -92,8 +92,9 @@ class Papel_m extends CI_Model {
         return $this->Papel_m->changeToObject($result->result_array());
     }
 
+    /*
     public function __get_list_to_select(){
-        //TODO verificar se esté em uso....
+        //TODO verificar se está em uso....
         $arr = array();
         $papel_linha = $this->Papel_linha_m->get_list();
         foreach ($papel_linha as $linha) {
@@ -101,6 +102,7 @@ class Papel_m extends CI_Model {
         }
         return $arr;
     }
+    */
 
     public function inserir($objeto) {
         if (!empty($objeto)) {
@@ -136,9 +138,11 @@ class Papel_m extends CI_Model {
 
     public function deletar($id) {
         if (!empty($id)) {
-            $this->db->where('id', $id);
-            if ($this->db->delete('papel')) {
-                return true;
+            if($this->Papel_gramatura_m->deletar_papel($id)){
+                $this->db->where('id', $id);
+                if ($this->db->delete('papel')) {
+                    return true;
+                }
             }
         }
         return false;

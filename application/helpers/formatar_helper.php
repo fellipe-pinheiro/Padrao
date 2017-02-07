@@ -9,7 +9,6 @@ function date_to_db($data=''){
 
 function number_to_db($number){
 	if (!empty($number)) {
-		//$number = str_replace(".","",$number);
 		$number = str_replace(",",".",$number);
 		return $number;
 	}
