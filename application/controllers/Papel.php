@@ -52,11 +52,9 @@ class Papel extends CI_Controller {
 
     public function ajax_add() {
         $data['status'] = FALSE;
-        //$this->validar_formulario();
+        $this->validar_formulario();
         $objeto = $this->get_post();
-        // Pegar os valordas gramaturas
 
-        //Transaction
         $this->db->trans_begin();
         $id_papel = $this->Papel_m->inserir( $objeto );
         if ( $id_papel ) {
@@ -73,7 +71,6 @@ class Papel extends CI_Controller {
         } else {
             $this->db->trans_commit();
         }
-        //FIM Transaction
         print json_encode($data);
     }
 
@@ -105,7 +102,6 @@ class Papel extends CI_Controller {
                     }
                 }
             }
-            // fim Trans
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 $data['status'] = FALSE;
@@ -142,7 +138,9 @@ class Papel extends CI_Controller {
         $objeto->descricao = $this->input->post('descricao');
         return $objeto;
     }
+
     private function get_array_gramaturas_objects($id_papel) {
+
         $arr_gramaturas = $this->get_array_inputs_gramaturas("/gramatura_/",$this->input->post());
 
         $object_lista = array();
@@ -186,6 +184,14 @@ class Papel extends CI_Controller {
     private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
+        $names_gramatura = preg_grep( "/gramatura_/", array_keys( $this->input->post() ), 0);
+        $names_valor = preg_grep( "/valor_/", array_keys( $this->input->post() ), 0);
+        foreach ($names_gramatura as $name) {
+            $this->form_validation->set_rules($name, 'Gramatura', 'trim|required|is_natural_no_zero');    
+        }
+        foreach ($names_valor as $name) {
+            $this->form_validation->set_rules($name, 'Valor', 'trim|required|callback_decimal_positive');    
+        }
         $this->form_validation->set_rules('papel_linha', 'Linha', 'trim|required');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('papel_dimensao', 'Dimensão', 'trim|required');

@@ -201,11 +201,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!--Papel Gramatura-->
                     <div class="form-group hidden" id="default_gramatura">
                         <?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-4">
+                        <div class="form-group col-sm-4 form_group_gramatura">
                             <input step="1" type="number" min="0" name="" class="form-control" placeholder="Gramatura ex: 80">
+                            <span class="help-block"></span>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="form-group col-sm-4 form_group_gramatura">
                             <input step="0.01" type="number" min="0" name="" class="form-control" placeholder="Valor ex: 3,20">
+                            <span class="help-block"></span>
                         </div>
                         <div class="col-sm-2">
                             <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
@@ -218,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
+                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -259,7 +261,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -493,6 +495,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .tab-pane{
         margin-top: 30px;
     }
+    .form_group_gramatura{
+        margin-left: 0px !important;
+        margin-bottom: 0px !important;
+        margin-right: 0px !important;
+        padding-right: 15px !important;
+    }
+    .gramatura_group{
+        margin-bottom: 0px !important;
+    }
 </style>
 <script type="text/javascript">
 
@@ -510,6 +521,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_update;
     var form;
     var count_gramatura = 0;
+    var visible_gramatura = 0;
 
     $(document).ready(function() {
         tb_papel = $("#tb_papel").DataTable({
@@ -821,13 +833,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 return false;
             }
             reset_form();
-
+            if(tab_active === "#tab_papel"){
+                $("#add_gramatura").click();
+            }
             save_method = 'add';
             $("input[name='id']").val("");
             $('.modal-title').text('Adicionar' + modal_title);
+            visible_gramatura = $(".gramatura_group").length;
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
+
             if(!get_tab_active()){
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
@@ -886,7 +902,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao buscar os dados');
-                }
+                },
+                complete: function ()
+                {
+                    visible_gramatura = $(".gramatura_group").length;
+                },
             });
         });
         $("#deletar").click(function () {
@@ -927,27 +947,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#add_gramatura").click(function(){
             count_gramatura++;
+            visible_gramatura++;
             clonar_gramatura(count_gramatura+"_ADD","","");
         });
     });
 
 function clonar_gramatura(id,gramatura,valor){
     var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
-    // ALterar sinal do botao
-    //$(c[0]).find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
     // adicionar funcao para deletar a linha
     if (gramatura == "") {
         $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
     } else {
         $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
     }
-    // Alterar name do inputs
+    // Alterar name e adicionar required
     $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
     $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
 
     c.appendTo("#lista_gramaturas");
 }
 function remover_gramatura_papel(id,add) {
+    if(visible_gramatura === 1){
+        $.alert({
+            title: 'Alerta!',
+            content: 'O papel precisa ter pelo menos uma gramatura.',
+        });
+        return false;
+    }else{
+        visible_gramatura--;
+    }
     if (add) {
         $("#"+id).remove();
     } else {
@@ -967,7 +995,6 @@ function remover_gramatura_papel(id,add) {
         $($("#"+id+" input")[1]).prop("name",name_valor);
         $("#"+id).hide();
     }
-    console.log($(".gramatura_group").length);
 }
 function formulario_submit(e) {
     disable_button_salvar();
