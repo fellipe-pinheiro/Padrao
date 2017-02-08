@@ -320,7 +320,7 @@ $controller = $this->router->class;
 				<div class="modal-body row">
 					<div class="form-group col-sm-8">
 						<!-- Lista de acessorio -->
-						<span class="glyphicon glyphicon-leaf"></span>
+						<i class="fa fa-diamond" aria-hidden="true"></i>
 						<?= form_label('Acessório: ', 'form_select_acessorio', array('class' => 'control-label')) ?>
 						<select name="acessorio" id="form_select_acessorio" class="form-control" autofocus="true">
 							<option value="" selected="selected">Selecione</option>
@@ -364,28 +364,31 @@ $controller = $this->router->class;
 					<h4 class="modal-title">Fita</h4>
 				</div>
 				<div class="modal-body row">
-					<div class="form-group col-sm-12">
+					<div class="form-group col-sm-6">
+						<div class="form-group">
+							<label for="form_select_fita_material">Filtro Material</label>
+							<select id="form_select_fita_material" class="form-control selectpicker" data-live-search="true">
+							<option value="" selected>Selecione</option>
+								<?php foreach ( $dados['fita_material'] as $fita_material) {
+									?>
+									<option value="<?=$fita_material->id?>"><?=$fita_material->nome ?></option>
+									<?php
+								}
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-sm-6">
 						<!-- Lista de fita -->
 						<span class="glyphicon glyphicon-tags"></span>
 						<?= form_label('Fita: ', 'form_select_fita', array('class' => 'control-label')) ?>
-						<select name="fita" id="form_select_fita" class="form-control" autofocus="true">
+						<select name="fita" id="form_select_fita" class="form-control selectpicker show-tick" data-live-search="true" autofocus="true">
 							<option value="" selected="selected">Selecione</option>
-							<?php foreach ($dados['fita_material'] as $fita_material) {
-								?>
-								<optgroup label="<?=$fita_material->nome?>">
+								<?php foreach ($dados['fita'] as $fita) {
 									?>
-									<?php foreach ($dados['fita'] as $fita) {
-										?>
-										<?php if($fita_material->id == $fita->fita_material->id){
-											?>
-											<option data-espessura='<?=$fita->get_espessura_json();?>' value="<?=$fita->id?>"><?=$fita->fita_material->nome?> : <?=$fita->fita_laco->nome?></option>
-											<?php
-										}
-									}
-									?>
-								</optgroup>
+									<option data-espessura='<?=$fita->get_espessura_json();?>' data-fita_material="<?=$fita->fita_material->id?>" value="<?=$fita->id?>" data-subtext="<?=$fita->fita_material->nome?>"><?=$fita->fita_laco->nome?></option>
 								<?php
-							}
+								}
 							?>
 						</select>
 						<span class="help-block"></span>

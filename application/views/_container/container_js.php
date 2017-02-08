@@ -80,18 +80,20 @@ $controller = $this->router->class;
 		$("#form_select_fita").change(function(){
 			var option = $(this).find('option:selected');
 			var espessura = option.data("espessura");
+			var espessura_selected = $("#form_select_espessura option:selected").val();
+			
 			$("#form_select_espessura").val('');
 
 			$.each(espessura, function(index, val) {
-				console.log("i: "+ index+" v:"+val);
-				console.log(val==0);
-
 				if(val==0){
 					$("#form_select_espessura option[value='"+index+"']").prop('disabled','disabled');
 				}else{
 					$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
 				}
 			});
+			if(!$("#form_select_espessura option[value="+espessura_selected+"]")[0].disabled){
+				$("#form_select_espessura option[value='"+espessura_selected+"']").prop('selected','selected');
+			}
 		});
 
 		// Filtrar os papeis por linha
@@ -109,6 +111,23 @@ $controller = $this->router->class;
 			}
 			$('#form_select_papel').selectpicker('render');
 			$('#form_select_papel').selectpicker('refresh');
+		});
+
+		// Filtrar as fitas por material
+		$("#form_select_fita_material").change(function(event) {
+			$('#form_select_fita').selectpicker('val', '');
+			$('#form_select_fita').selectpicker('destroy');
+			$("#form_select_fita option").hide();
+			
+			var option = $(this).find('option:selected');
+			var value = option.val();
+			if(value){
+				$("#form_select_fita option[data-fita_material="+ value +"]").show();
+			}else{
+				$("#form_select_fita option").show();
+			}
+			$('#form_select_fita').selectpicker('render');
+			$('#form_select_fita').selectpicker('refresh');
 		});
 	});
 	//Altera Itens
@@ -285,8 +304,8 @@ $controller = $this->router->class;
 	function editar_papel_modal(owner,posicao,id_papel,nome_papel,gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		//$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
 		$('#form_select_papel').selectpicker('val', id_papel);
-
 		fill_and_select_gramatura();
+		$("#form_select_gramatura option[value=" + gramatura + "]").prop("selected", true);
 		$($('#form_md_papel').find(".filter-option")[1]).text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
 		$("#md_papel_container_owner").val(owner);
 
@@ -465,8 +484,11 @@ $controller = $this->router->class;
 		pre_submit("#form_md_acessorio","<?=$controller?>/session_acessorio_editar/" + owner + "/" + posicao,"#md_acessorio",owner);
 	}
 	//edita o modal do fita
-	function editar_fita_modal(owner,posicao,id_fita,quantidade,descricao,espessura){
-		$("#form_select_fita option[value=" + id_fita + "]").prop("selected", true);
+	function editar_fita_modal(owner,posicao,id_fita,quantidade,descricao,espessura,id_fita_material){
+		//$("#form_select_fita option[value=" + id_fita + "]").prop("selected", true);
+		$('#form_select_fita_material').selectpicker('val', id_fita_material);
+		$('#form_select_fita_material').change();
+		$('#form_select_fita').selectpicker('val', id_fita);
 		$("#form_select_espessura option[value=" + espessura + "]").prop("selected", true);
 		$("#form_qtd_fita").val(quantidade);
 		$("#form_descricao_fita").val(descricao);
@@ -488,7 +510,7 @@ $controller = $this->router->class;
 		corteVincoOff();
 		almofadaOff();
 		$(".filter-option").text("");
-		selectpicker_clear();
+		selectpicker_papel_clear();
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
@@ -514,6 +536,7 @@ $controller = $this->router->class;
 	//limpa o formulario do cartao_fita
 	function abrir_fita_modal(owner){
 		//$("#form_md_fita").prop("action", "<?=$controller?>/session_fita_inserir/"+owner);
+		selectpicker_fita_clear();
 		reset_form("#form_md_fita");
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);
 	}
@@ -644,7 +667,8 @@ $controller = $this->router->class;
 			if (data.status){
 				$(modal).modal('hide');
 				reload_table(owner,data.msg);
-				selectpicker_clear();
+				selectpicker_papel_clear();
+				selectpicker_fita_clear();
 			}
 			else{
 				$.map(data.form_validation, function (value, index) {
@@ -666,7 +690,7 @@ $controller = $this->router->class;
 		});
 		e.preventDefault();
 	});
-	function selectpicker_clear() {
+	function selectpicker_papel_clear() {
 		// MODAL PAPEL: 
 		//Seleciona vazio
 		$("#form_select_linha").selectpicker('val', '');
@@ -676,6 +700,17 @@ $controller = $this->router->class;
 		$('#form_select_papel').selectpicker('render');
 		$('#form_select_papel').selectpicker('refresh');
 		$('#form_select_papel').selectpicker('val', '');
+	}
+	function selectpicker_fita_clear() {
+		// MODAL PAPEL: 
+		//Seleciona vazio
+		$("#form_select_fita_material").selectpicker('val', '');
+		//Limpa o filtro e select do papel
+		$('#form_select_fita').selectpicker('destroy');
+		$("#form_select_fita option").show();
+		$('#form_select_fita').selectpicker('render');
+		$('#form_select_fita').selectpicker('refresh');
+		$('#form_select_fita').selectpicker('val', '');
 	}
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
 	function excluir_item_posicao(url,owner,posicao) {

@@ -305,7 +305,7 @@ foreach ($arr as $key => $value) {
 													<td>R$ <?= number_format($container_fita->calcula_valor_unitario(), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_fita->calcula_valor_total($container_fita->quantidade,$container_fita->calcula_valor_unitario()), 2, ",", ".") ?></td>
 													<td>
-														<button onclick="editar_fita_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_fita->fita->id?>,<?=$container_fita->quantidade?>,'<?=$container_fita->descricao?>',<?=$container_fita->espessura?>)" id="" class="btn btn-default btn-sm">
+														<button onclick="editar_fita_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_fita->fita->id?>,<?=$container_fita->quantidade?>,'<?=$container_fita->descricao?>',<?=$container_fita->espessura?>,<?=$container_fita->fita->fita_material->id?>)" id="" class="btn btn-default btn-sm">
 															<span class="glyphicon glyphicon-pencil"></span>
 														</button>
 													</td>
