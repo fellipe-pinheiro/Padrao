@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-12">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
-                        <textarea id="descricao_produto" name="descricao" class="form-control" placeholder="Descrição"></textarea>
+                        <textarea id="descricao_produto" name="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -290,12 +290,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Clientes</h4>
             </div>
-            <div class="modal-body">
-                <button onclick="pre_crud('cliente', 'adicionar', '#form_cliente', '#md_clientes', '#md_form_cliente', '<?= base_url('cliente/ajax_add') ?>')" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></button>
-                <button onclick="pre_crud('cliente', 'editar', '#form_cliente', '#md_clientes', '#md_form_cliente', '<?= base_url('cliente/ajax_update') ?>')" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button>
-                <button class="btn btn-default" data-toggle="modal" href='#md_filtro_cliente'><span class="glyphicon glyphicon-search"></span></button>
-                <button type="button" id="" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <hr>  
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="navbar-brand"></div>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-acabamento-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" onclick="pre_crud('cliente', 'adicionar', '#form_cliente', '#md_clientes', '#md_form_cliente', '<?= base_url('cliente/ajax_add') ?>')"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" onclick="pre_crud('cliente', 'editar', '#form_cliente', '#md_clientes', '#md_form_cliente', '<?= base_url('cliente/ajax_update') ?>')"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a data-toggle="modal" href='#md_filtro_cliente'><i class="glyphicon glyphicon-search"></i> Filtro</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="modal" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="modal-body"> 
                 <div class="row">
                     <div class="col-sm-12 table-responsive">
                         <table id="tabela_cliente" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -399,7 +431,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="row">
                                 <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Cliente*</h4>
                                 <div class="col-sm-1">
-                                    <button onclick="orcamento_cliente('Clientes')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button onclick="orcamento_cliente('Clientes')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col-sm-3">
                                     <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
@@ -423,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="row">
                                 <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Assessor</h4>
                                 <div class="col-sm-1">
-                                    <button onclick="orcamento_assessor('inserir', 'Assessores')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button onclick="orcamento_assessor('inserir', 'Assessores')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col-sm-1">
                                     <button onclick="orcamento_assessor('excluir', '')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-trash"></i></button>
@@ -476,12 +508,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Assessores</h4>
             </div>
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="navbar-brand"></div>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-acabamento-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" onclick="pre_crud('assessor', 'adicionar', '#form_assessor', '#md_assessores', '#md_form_assessor', '<?= base_url('assessor/ajax_add') ?>')"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" onclick="pre_crud('assessor', 'editar', '#form_assessor', '#md_assessores', '#md_form_assessor', '<?= base_url('assessor/ajax_update') ?>')" id="editar_assessor"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a data-toggle="modal" href='#md_filtro_assessor'><i class="glyphicon glyphicon-search"></i> Filtro</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="modal" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
             <div class="modal-body">
-                <button onclick="pre_crud('assessor', 'adicionar', '#form_assessor', '#md_assessores', '#md_form_assessor', '<?= base_url('assessor/ajax_add') ?>')" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></button>
-                <button onclick="pre_crud('assessor', 'editar', '#form_assessor', '#md_assessores', '#md_form_assessor', '<?= base_url('assessor/ajax_update') ?>')" class="btn btn-default" id="editar_assessor"><i class="glyphicon glyphicon-pencil"></i></button>
-                <button class="btn btn-default" data-toggle="modal" href='#md_filtro_assessor'><span class="glyphicon glyphicon-search"></span></button>
-                <button type="button" id="" class="btn btn-default btn-reset">Limpar Filtro</button>
-                <hr>  
                 <div class="row">
                     <div class="col-sm-12 table-responsive">
                         <table id="tabela_assessor" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -497,7 +561,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Descrição</th>
                                 </tr>
                             </thead>
-                            <tbody id="fbody">
+                            <tbody>
                             </tbody>
                         </table>
                     </div>
@@ -584,12 +648,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                        <textarea name="descricao" rows="3" id="descricao" class="form-control"></textarea>
                         <span class="help-block"></span>
                     </div>
                 </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -687,7 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Condições: ', 'condicoes', array('class' => 'control-label col-sm-3')) ?>
                         <div class="col-sm-9">
-                            <?= form_textarea(array('name' => 'condicoes', 'rows' => '4', 'id' => 'condicoes', 'class' => 'form-control', 'placeholder' => 'Condições')) ?>
+                            <textarea name="condicoes" id="condicoes" class="form-control" rows="3" placeholder="Condições"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
