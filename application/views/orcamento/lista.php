@@ -43,16 +43,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="javascript:void(0)" id="pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="javascript:void(0)" id="deletar"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>

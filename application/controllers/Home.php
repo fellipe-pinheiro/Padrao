@@ -79,4 +79,26 @@ class Home extends CI_Controller {
         $obj = $this->Orcamento_m->get_by_id(187);
         var_dump($obj);
     }
+    private function __get_gramatura( $pattern, $input, $flags = 0 )
+    {
+        $keys = preg_grep( $pattern, array_keys( $input ), $flags );
+        $vals = array();
+        foreach ( $keys as $key )
+        {   
+            $num = explode("_",$key);
+            $vals[] = array("gramatura"=>$input[$key],"valor"=>$input["valor_".$num[1]]);
+        }
+        return $vals;
+    }
+
+    public function t1()
+    {
+        $arr = array("gramatura_10"=>"10","valor_10"=>"1","gramatura_20"=>"20","valor_20"=>"2");
+        var_dump($arr);
+        print "<hr>";
+        var_dump($this->preg_grep_keys("/gramatura_/",$arr));
+
+    }
+
+    
 }

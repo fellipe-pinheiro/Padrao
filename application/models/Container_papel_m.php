@@ -7,7 +7,7 @@ class Container_papel_m extends CI_Model {
 	var $papel; //Objeto Papel_m()
 	var $owner; //string:'cartao','envelope','personalizado' :definido no get_papel() do Container_m.php
 	var $quantidade; 
-	var $gramatura; //gramatura em números inteiros escolhida
+	//var $gramatura; //gramatura em números inteiros escolhida
 
 	var $corte_vinco; //Objeto Container_papel_acabamento_m()
 	var $empastamento; //Objeto Container_papel_acabamento_m()
@@ -37,8 +37,8 @@ class Container_papel_m extends CI_Model {
 			'papel' => $this->papel->id,
 			$coluna => $id,
 			'quantidade' => $this->quantidade,
-			'gramatura' => $this->gramatura,
-			'valor' => $this->get_valor_gramatura(),
+			'gramatura' => $this->papel->get_selected_papel_gramatura()->id,
+			'valor' => $this->papel->get_selected_papel_gramatura()->valor,
 			);
 		if ($this->db->insert($tabela, $dados)) {
 			$this->id = $this->db->insert_id();
@@ -137,14 +137,13 @@ class Container_papel_m extends CI_Model {
 		}
         //calcula a quantidade total de papeis para o pedido arredondando para cima
 		$qtd_papeis = ceil($qtd / $this->calcula_formato($altura,$largura));
-		return round(($qtd_papeis * $this->get_valor_gramatura())/$qtd,2); //Arredonda o valor
+		return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor)/$qtd,2); //Arredonda o valor
 	}
 	private function calcula_valor_unitario_personalizado($modelo,$qtd){
         //calcula a quantidade total de papeis para o pedido arredondando para cima
 		$qtd_papeis = ceil($qtd / $modelo->formato);
 
-		//return ($qtd_papeis * $this->get_valor_gramatura())/$qtd;
-		return round(($qtd_papeis * $this->get_valor_gramatura())/$qtd,2); //Arredonda o valor
+		return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor)/$qtd,2); //Arredonda o valor
 	}
 	public function calcula_valor_total($qtd,$valor_unitario){
 
@@ -160,64 +159,25 @@ class Container_papel_m extends CI_Model {
 		}
 		return $formato2;
 	}
+	/*
 	private function get_valor_gramatura(){
-		//Define o valor do papel pela gramatura escolhida e atribuo para $cartao_papel->valor 
-		switch ($this->gramatura) {
-			case '80':
-			return $this->papel->valor_80g;
-			break;
-			case '120':
-			return $this->papel->valor_120g;
-			break;
-			case '180':
-			return $this->papel->valor_180g;
-			break;
-			case '250':
-			return $this->papel->valor_250g;
-			break;
-			case '300':
-			return $this->papel->valor_300g;
-			break;
-			case '350':
-			return $this->papel->valor_350g;
-			break;
-			case '400':
-			return $this->papel->valor_400g;
-			break;
-			default:
-			return 0;
-			break;
+		//Define o valor do papel pela gramatura escolhida
+		foreach ($this->papel->papel_gramaturas as $value) {
+			if($this->gramatura == $value->id){
+				return $value->valor;
+			}
 		}
 	}
 	//Atribui o valor em que foi realizado o orçamento para a gramatura correspondente
 	private function set_valor_gramatura($papel,$gramatura,$valor){
-		switch ($gramatura) {
-			case '80':
-			return $papel->valor_80g = $valor;
-			break;
-			case '120':
-			return $papel->valor_120g = $valor;
-			break;
-			case '180':
-			return $papel->valor_180g = $valor;
-			break;
-			case '250':
-			return $papel->valor_250g = $valor;
-			break;
-			case '300':
-			return $papel->valor_300g = $valor;
-			break;
-			case '350':
-			return $papel->valor_350g = $valor;
-			break;
-			case '400':
-			return $papel->valor_400g = $valor;
-			break;
-			default:
-			return 0;
-			break;
+
+		foreach ($papel->papel_gramaturas as $value) {
+			if($gramatura === $value->id){
+				return $value->valor = $valor;
+			}
 		}
 	}
+	*/
 	public function calcula_valor_unitario_empastamento($qtd){
 		if($this->empastamento->adicionar == 1 && $this->empastamento->cobrar_servico ==1){
 			if($qtd < 100){
@@ -352,10 +312,9 @@ class Container_papel_m extends CI_Model {
 			$object = new Container_papel_m();
 			$object->id = $value['id'];
 			$object->papel = $this->Papel_m->get_by_id($value['papel']);
+			$object->papel->set_papel_gramatura_and_valor($value['gramatura'],$value['valor']);
 			$object->owner = $owner;
 			$object->quantidade = $value['quantidade'];
-			$object->gramatura = $value['gramatura'];
-			$this->set_valor_gramatura($object->papel,$object->gramatura,$value['valor']);
 
 			$object->corte_vinco =  $this->Container_papel_acabamento_m->get_by_id($value['id'],$owner,'corte_vinco');
 			$object->empastamento = $this->Container_papel_acabamento_m->get_by_id($value['id'],$owner,'empastamento');

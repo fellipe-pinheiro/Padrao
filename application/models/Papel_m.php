@@ -8,26 +8,27 @@ class Papel_m extends CI_Model {
     var $nome;
     var $papel_linha; // Object Papel_linha_m()
     var $papel_dimensao; // Object Papel_dimensao_m()
-    var $valor_80g;
-    var $valor_120g;
-    var $valor_180g;
-    var $valor_250g;
-    var $valor_300g;
-    var $valor_350g;
-    var $valor_400g;
+    var $papel_gramaturas; // array Object Papel_gramatura_m()
+
     var $descricao;
     // Ajax 
-    var $table = 'v_papel';
-    var $column_order = array('id','pl_nome','p_nome','pd_altura','pd_largura','p_valor_80g','p_valor_120g','p_valor_180g','p_valor_250g','p_valor_300g','p_valor_350g','p_valor_400g','p_descricao',);
-    var $column_search = array('pl_nome','p_nome','pd_altura','pd_largura','p_descricao',);
-    var $order = array('p.nome'=>'asc');
+    var $table = 'v_papel_gramatura_group';
+    var $column_order = array('id','linha','papel','altura','largura','gramaturas','descricao');
+    var $column_search = array('id','linha','papel','altura','largura','gramaturas','descricao');
+    var $order = array('papel'=>'asc');
 
     private function get_datatables_query() {
         if($this->input->post('filtro_papel')){
-            $this->db->like('p_nome', $this->input->post('filtro_papel'));
+            $this->db->like('papel', $this->input->post('filtro_papel'));
         }
         if($this->input->post('filtro_linha')){
-            $this->db->where('pl_nome', $this->input->post('filtro_linha'));
+            $this->db->where('linha', $this->input->post('filtro_linha'));
+        }
+        if($this->input->post('filtro_altura')){
+            $this->db->where('altura', $this->input->post('filtro_altura'));
+        }
+        if($this->input->post('filtro_largura')){
+            $this->db->where('largura', $this->input->post('filtro_largura'));
         }
         $this->db->from($this->table);
         $i = 0;
@@ -91,14 +92,17 @@ class Papel_m extends CI_Model {
         return $this->Papel_m->changeToObject($result->result_array());
     }
 
-    public function get_list_to_select(){
+    /*
+    public function __get_list_to_select(){
+        //TODO verificar se está em uso....
         $arr = array();
-        $papel_catalogo = $this->Papel_catalogo_m->get_list();
-        foreach ($papel_catalogo as $catalogo) {
-            $arr[$catalogo->nome] = "$catalogo->nome $$this->nome $$this->cor";
+        $papel_linha = $this->Papel_linha_m->get_list();
+        foreach ($papel_linha as $linha) {
+            $arr[$linha->nome] = "$linha->nome $this->nome $this->cor";
         }
         return $arr;
     }
+    */
 
     public function inserir($objeto) {
         if (!empty($objeto)) {
@@ -127,13 +131,6 @@ class Papel_m extends CI_Model {
             'papel_linha' => $objeto->papel_linha,
             'nome' => $objeto->nome,
             'papel_dimensao' => $objeto->papel_dimensao,
-            'valor_80g' => str_replace(',', '.', $objeto->valor_80g),
-            'valor_120g' => str_replace(',', '.', $objeto->valor_120g),
-            'valor_180g' => str_replace(',', '.', $objeto->valor_180g),
-            'valor_250g' => str_replace(',', '.', $objeto->valor_250g),
-            'valor_300g' => str_replace(',', '.', $objeto->valor_300g),
-            'valor_350g' => str_replace(',', '.', $objeto->valor_350g),
-            'valor_400g' => str_replace(',', '.', $objeto->valor_400g),
             'descricao' => $objeto->descricao
         );
         return $dados;
@@ -141,12 +138,43 @@ class Papel_m extends CI_Model {
 
     public function deletar($id) {
         if (!empty($id)) {
-            $this->db->where('id', $id);
-            if ($this->db->delete('papel')) {
-                return true;
+            if($this->Papel_gramatura_m->deletar_papel($id)){
+                $this->db->where('id', $id);
+                if ($this->db->delete('papel')) {
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public function set_papel_gramatura($id){
+        foreach ($this->papel_gramaturas as $value) {
+            if($value->id === $id){
+                $value->selected = true;
+            }else{
+                $value->selected = false;
+            }
+        }
+    }
+
+    public function set_papel_gramatura_and_valor($id,$valor){
+        foreach ($this->papel_gramaturas as $value) {
+            if($value->id === $id){
+                $value->selected = true;
+                $value->valor = $valor;
+            }else{
+                $value->selected = false;
+            }
+        }
+    }
+
+    public function get_selected_papel_gramatura(){
+        foreach ($this->papel_gramaturas as $object) {
+            if($object->selected){
+                return $object;
+            }
+        }
     }
 
     private function changeToObject($result_db) {
@@ -157,21 +185,20 @@ class Papel_m extends CI_Model {
             $object->papel_linha = $this->Papel_linha_m->get_by_id($value['papel_linha']);
             $object->nome = $value['nome'];
             $object->papel_dimensao = $this->Papel_dimensao_m->get_by_id($value['papel_dimensao']);
-            $object->valor_80g = $value['valor_80g'];
-            $object->valor_120g = $value['valor_120g'];
-            $object->valor_180g = $value['valor_180g'];
-            $object->valor_250g = $value['valor_250g'];
-            $object->valor_300g = $value['valor_300g'];
-            $object->valor_350g = $value['valor_350g'];
-            $object->valor_400g = $value['valor_400g'];
+            $object->papel_gramaturas = $this->Papel_gramatura_m->get_by_papel_id($object->id);
             $object->descricao = $value['descricao'];
             $object_lista[] = $object;
         }
         return $object_lista;
     }
 
+    public function get_papel_gramaturas_json(){
+        return json_encode($this->papel_gramaturas);
+    }
+
     public function get_object_json(){
         $arr = array(
+            /*
             "80" => $this->valor_80g,
             "120" => $this->valor_120g,
             "180" => $this->valor_180g,
@@ -179,6 +206,7 @@ class Papel_m extends CI_Model {
             "300" => $this->valor_300g,
             "350" => $this->valor_350g,
             "400" => $this->valor_400g,
+            */
             );
         return json_encode($arr);
     }

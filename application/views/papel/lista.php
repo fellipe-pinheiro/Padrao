@@ -68,15 +68,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Linha</th>
                                             <th>Papel</th>
-                                            <th>Altura</th>
-                                            <th>Largura</th>
-                                            <th>Val_80g</th>
-                                            <th>Val_120g</th>
-                                            <th>Val_180g</th>
-                                            <th>Val_250g</th>
-                                            <th>Val_300g</th>
-                                            <th>Val_350g</th>
-                                            <th>Val_400g</th>
+                                            <th>Altura (mm)</th>
+                                            <th>Largura (mm)</th>
+                                            <th>Gramaturas (g)</th>
                                             <th>Descrição</th>
                                         </tr>
                                     </thead>
@@ -199,67 +193,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span class="help-block"></span>
                         </div>
                     </div>
-                    <!--Valor 80g-->
                     <div class="form-group">
-                        <?= form_label('Valor 80 ~ 100 (g): ', 'valor_80g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_80g" type="number" class="form-control" placeholder="Valor de 80g ~ 100g">
-                            <span class="help-block"></span>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</button>
                         </div>
                     </div>
-                    <!--Valor 120g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 120 (g): ', 'valor_120g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_120g" type="number" class="form-control" placeholder="Valor de 120g">
+                    <!--Papel Gramatura-->
+                    <div class="form-group hidden" id="default_gramatura">
+                        <?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label col-sm-2')) ?>
+                        <div class="form-group col-sm-4 form_group_gramatura">
+                            <input step="1" type="number" min="0" name="" class="form-control" placeholder="Gramatura ex: 80">
                             <span class="help-block"></span>
+                        </div>
+                        <div class="form-group col-sm-4 form_group_gramatura">
+                            <input step="0.01" type="number" min="0" name="" class="form-control" placeholder="Valor ex: 3,20">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
                     </div>
-                    <!--Valor 180g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 170 ~ 180 (g): ', 'valor_180g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_180g" type="number" class="form-control" placeholder="Valor de 170g ~ 180g">
-                            <span class="help-block"></span>
-                        </div>
+                    <div id="lista_gramaturas">
                     </div>
-                    <!--Valor 250g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 240 ~ 250 (g): ', 'valor_250g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_250g" type="number" class="form-control" placeholder="Valor de 240g ~ 250g">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Valor 300g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 300 ~ 320 (g): ', 'valor_300g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_300g" type="number" class="form-control" placeholder="Valor de 300g ~320g">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Valor 350g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 350g: ', 'valor_350g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_350g" type="number" class="form-control" placeholder="Valor de 350g">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Valor 400g-->
-                    <div class="form-group">
-                        <?= form_label('Valor 400g: ', 'valor_400g', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="0.00" name="valor_400g" type="number" class="form-control" placeholder="Valor de 400g">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>   
+                      
                     <!--Descrição-->
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
+                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -300,7 +261,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -508,12 +469,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="papel_linha-filtro_papel_altura" class="control-label"> Papel Altura</label>
-                        <input type="number" min="0" class="form-control" id="papel_linha-filtro_papel_altura" placeholder="Papel Altura">
+                        <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
+                        <input type="number" min="0" class="form-control" id="papel-filtro_altura" placeholder="Papel Altura">
                     </div>
                     <div class="form-group">
-                        <label for="papel_linha-filtro_papel_largura" class="control-label"> Papel Largura</label>
-                        <input type="number" min="0" class="form-control" id="papel_linha-filtro_papel_largura" placeholder="Papel Largura">
+                        <label for="papel-filtro_largura" class="control-label"> Papel Largura</label>
+                        <input type="number" min="0" class="form-control" id="papel-filtro_largura" placeholder="Papel Largura">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -534,6 +495,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .tab-pane{
         margin-top: 30px;
     }
+    .form_group_gramatura{
+        margin-left: 0px !important;
+        margin-bottom: 0px !important;
+        margin-right: 0px !important;
+        padding-right: 15px !important;
+    }
+    .gramatura_group{
+        margin-bottom: 0px !important;
+    }
 </style>
 <script type="text/javascript">
 
@@ -550,6 +520,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_add;
     var url_update;
     var form;
+    var count_gramatura = 0;
+    var visible_gramatura = 0;
 
     $(document).ready(function() {
         tb_papel = $("#tb_papel").DataTable({
@@ -614,22 +586,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 data: function ( data ) {
                     data.filtro_papel = $('#papel-filtro_papel').val();
                     data.filtro_linha = $('#papel-filtro_linha').val();
+                    data.filtro_altura = $('#papel-filtro_altura').val();
+                    data.filtro_largura = $('#papel-filtro_largura').val();
+                    data.filtro_linha = $('#papel-filtro_linha').val();
                 },
             },
             columns: [
                 {data: "id","visible": false},
-                {data: "pl_nome","visible": true},
-                {data: "p_nome","visible": true},
-                {data: "pd_altura","visible": true,"orderable": false},
-                {data: "pd_largura","visible": true,"orderable": false},
-                {data: "p_valor_80g","visible": true,"orderable": false},
-                {data: "p_valor_120g","visible": true,"orderable": false},
-                {data: "p_valor_180g","visible": true,"orderable": false},
-                {data: "p_valor_250g","visible": true,"orderable": false},
-                {data: "p_valor_300g","visible": true,"orderable": false},
-                {data: "p_valor_350g","visible": true,"orderable": false},
-                {data: "p_valor_400g","visible": true,"orderable": false},
-                {data: "p_descricao","visible": false,"orderable": false},
+                {data: "linha","visible": true},
+                {data: "papel","visible": true},
+                {data: "altura","visible": true,"orderable": false},
+                {data: "largura","visible": true,"orderable": false},
+                {data: "gramaturas","visible": true,"orderable": false},
+                {data: "descricao","visible": false,"orderable": false},
+
             ],
             order: [[1, 'asc']],
         });
@@ -863,13 +833,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 return false;
             }
             reset_form();
-
+            if(tab_active === "#tab_papel"){
+                $("#add_gramatura").click();
+            }
             save_method = 'add';
             $("input[name='id']").val("");
             $('.modal-title').text('Adicionar' + modal_title);
+            visible_gramatura = $(".gramatura_group").length;
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
+
             if(!get_tab_active()){
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
@@ -892,24 +866,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {   
                     data = switch_data(tab_active,data);
-                    $.map(data, function (value, index) {
-                        if($('[name="' + index + '"]').is("input, textarea")){
-                            $('[name="' + index + '"]').val(value);
-                        }else if($('[name="' + index + '"]').is("select")){
-                            if( $('[name="' + index + '"]').hasClass("selectpicker") ){
-                                $('[name="' + index + '"]').selectpicker('val', value.id);
-                            }else{
-                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                    if(tab_active == '#tab_papel'){
+                        $.map(data, function (value, index) {
+                            if($('[name="' + index + '"]').is("input, textarea")){
+                                $('[name="' + index + '"]').val(value);
+                            }else if($('[name="' + index + '"]').is("select")){
+                                if( $('[name="' + index + '"]').hasClass("selectpicker") ){
+                                    $('[name="' + index + '"]').selectpicker('val', value.id);
+                                }else{
+                                    $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                                }
+                            }else if(index === 'papel_gramaturas'){
+                                $.each(value,function(i, gramatura) {
+                                    clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
+                                });
                             }
-                        }
-                    });
+
+                        });
+                    }else{
+                        $.map(data, function (value, index) {
+                            if($('[name="' + index + '"]').is("input, textarea")){
+                                $('[name="' + index + '"]').val(value);
+                            }else if($('[name="' + index + '"]').is("select")){
+                                if( $('[name="' + index + '"]').hasClass("selectpicker") ){
+                                    $('[name="' + index + '"]').selectpicker('val', value.id);
+                                }else{
+                                    $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                                }
+                            }
+                        });
+                    }
                     $(md_form).modal('show');
                     $('.modal-title').text('Editar' + modal_title);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao buscar os dados');
-                }
+                },
+                complete: function ()
+                {
+                    visible_gramatura = $(".gramatura_group").length;
+                },
             });
         });
         $("#deletar").click(function () {
@@ -948,8 +945,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             check_filter_dirty();
         });
+        $("#add_gramatura").click(function(){
+            count_gramatura++;
+            visible_gramatura++;
+            clonar_gramatura(count_gramatura+"_ADD","","");
+        });
     });
 
+function clonar_gramatura(id,gramatura,valor){
+    var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
+    // adicionar funcao para deletar a linha
+    if (gramatura == "") {
+        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
+    } else {
+        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
+    }
+    // Alterar name e adicionar required
+    $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+    $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
+
+    c.appendTo("#lista_gramaturas");
+}
+function remover_gramatura_papel(id,add) {
+    if(visible_gramatura === 1){
+        $.alert({
+            title: 'Alerta!',
+            content: 'O papel precisa ter pelo menos uma gramatura.',
+        });
+        return false;
+    }else{
+        visible_gramatura--;
+    }
+    if (add) {
+        $("#"+id).remove();
+    } else {
+        var arr_g = new Array();
+        var arr_v = new Array();
+        // adicionar o D no name dos inputs
+        var name_gramatura = $($("#"+id+" input")[0]).prop("name");
+        arr_g = name_gramatura.split("_");
+        arr_g[2] = "DEL";
+        name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
+        $($("#"+id+" input")[0]).prop("name",name_gramatura);
+
+        var name_valor = $($("#"+id+" input")[1]).prop("name");
+        arr_v = name_valor.split("_");
+        arr_v[2] = "DEL";
+        name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
+        $($("#"+id+" input")[1]).prop("name",name_valor);
+        $("#"+id).hide();
+    }
+}
 function formulario_submit(e) {
     disable_button_salvar();
     if(!get_tab_active()){
@@ -1096,6 +1142,7 @@ function reset_form() {
     $('.form-group').removeClass('has-error');
     $('.help-block').empty();
     $('.selectpicker').selectpicker('val', '');
+    $("#lista_gramaturas").html("");
 }
 function reset_errors() {
     $('.form-group').removeClass('has-error');

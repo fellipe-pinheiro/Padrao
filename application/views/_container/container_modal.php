@@ -33,7 +33,7 @@ $controller = $this->router->class;
 								<option data-papel="''" value="" selected>Selecione</option>
 								<?php foreach ($dados['papel'] as $papel) {
 									?>
-									<option data-gramatura='<?=$papel->get_object_json()?>' data-papel="<?=$papel->papel_linha->id?>" value="<?=$papel->id?>" data-subtext="<?=$papel->papel_linha->nome?>"><?=$papel->nome?></option>
+									<option data-gramatura='<?=$papel->get_papel_gramaturas_json()?>' data-papel="<?=$papel->papel_linha->id?>" value="<?=$papel->id?>" data-subtext="<?=$papel->papel_linha->nome?>"><?=$papel->nome?></option>
 									<?php
 								}
 								?>
@@ -43,14 +43,6 @@ $controller = $this->router->class;
 						<div class="form-group col-sm-4">
 							<?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label')) ?>
 							<select name="gramatura" id="form_select_gramatura" class="form-control" required>
-								<option value="" selected="" disabled="disabled">Selecione</option>
-								<option value="80">80~100(g)</option>
-								<option value="120">120(g)</option>
-								<option value="180">170~180(g)</option>
-								<option value="250">240~250(g)</option>
-								<option value="300">300~320(g)</option>
-								<option value="350">350g</option>
-								<option value="400">400g</option>
 							</select>
 							<span class="help-block"></span>
 						</div>

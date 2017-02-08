@@ -229,7 +229,7 @@ if($controller === 'orcamento'){
 							foreach ($container->container_papel as $key => $container_papel) {
 								?>
 								<strong class="text-uppercase">Papel: </strong>
-								(<?=$container_papel->quantidade?>) <?=$container_papel->papel->nome?>  <?=$container_papel->gramatura?>g 
+								(<?=$container_papel->quantidade?>) <?=$container_papel->papel->nome?>  <?=$container_papel->papel->get_selected_papel_gramatura()->gramatura?>g 
 								<?php 
 								$empastamento = $container_papel->empastamento;
 								if(!empty($empastamento->adicionar)){
