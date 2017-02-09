@@ -84,25 +84,9 @@ class Papel_m extends CI_Model {
     }
 
     public function get_list() {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
         $result = $this->db->get('papel');
         return $this->Papel_m->changeToObject($result->result_array());
     }
-
-    /*
-    public function __get_list_to_select(){
-        //TODO verificar se está em uso....
-        $arr = array();
-        $papel_linha = $this->Papel_linha_m->get_list();
-        foreach ($papel_linha as $linha) {
-            $arr[$linha->nome] = "$linha->nome $this->nome $this->cor";
-        }
-        return $arr;
-    }
-    */
 
     public function inserir($objeto) {
         if (!empty($objeto)) {

@@ -241,10 +241,8 @@ class Container_m extends CI_Model {
 
 	public function get_impressao($owner,$id,$quantidade,$descricao){
 		//busca a impressão pelo id
-		$result = $this->Impressao_m->get_list($id);
-		$impressao = $result[0];
 		$container_impressao = new Container_impressao_m();
-		$container_impressao->impressao = $impressao;
+		$container_impressao->impressao = $this->Impressao_m->get_by_id($id);
 		$container_impressao->quantidade = $quantidade;
 		$container_impressao->descricao = $descricao;
 		$container_impressao->owner = $owner;
@@ -253,10 +251,8 @@ class Container_m extends CI_Model {
 
 	public function get_acabamento($owner,$id,$quantidade,$descricao){
 		//busca o acabamento pelo id
-		$result = $this->Acabamento_m->get_list($id);
-		$acabamento = $result[0];
 		$container_acabamento = new Container_acabamento_m();
-		$container_acabamento->acabamento = $acabamento;
+		$container_acabamento->acabamento = $this->Acabamento_m->get_by_id($id);
 		$container_acabamento->quantidade = $quantidade;
 		$container_acabamento->descricao = $descricao;
 		$container_acabamento->owner = $owner;
@@ -265,10 +261,8 @@ class Container_m extends CI_Model {
 
 	public function get_acessorio($owner,$id,$quantidade,$descricao){
 		//busca o acessório pelo id
-		$result = $this->Acessorio_m->get_list($id);
-		$acessorio = $result[0];
 		$container_acessorio = new Container_acessorio_m();
-		$container_acessorio->acessorio = $acessorio;
+		$container_acessorio->acessorio = $this->Acessorio_m->get_by_id($id);
 		$container_acessorio->quantidade = $quantidade;
 		$container_acessorio->descricao = $descricao;
 		$container_acessorio->owner = $owner;
@@ -277,10 +271,8 @@ class Container_m extends CI_Model {
 
 	public function get_fita($owner,$id,$quantidade,$descricao,$espessura){
 		//busca a fita pelo id
-		$result = $this->Fita_m->get_list($id);
-		$fita = $result[0];
 		$container_fita = new Container_fita_m();
-		$container_fita->fita = $fita;
+		$container_fita->fita = $this->Fita_m->get_by_id($id);
 		$container_fita->espessura = $espessura;
 		$container_fita->quantidade = $quantidade;
 		$container_fita->descricao = $descricao;

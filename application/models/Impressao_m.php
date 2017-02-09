@@ -15,8 +15,7 @@ class Impressao_m extends CI_Model {
     var $column_search = array('i.nome', 'ia.nome','i.descricao'); //set column field database for datatable searchable just nome , descricao are searchable
     var $order = array('i.id'=>'asc'); // default order 
 
-    // Ajax Nao alterar
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->select('
             i.id as i_id,
             i.nome as i_nome,
@@ -48,23 +47,23 @@ class Impressao_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $this->db->join('impressao_area as ia', 'i.impressao_area = ia.id', 'left');
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $this->db->join('impressao_area as ia', 'i.impressao_area = ia.id', 'left');
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -81,11 +80,7 @@ class Impressao_m extends CI_Model {
         return false;
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('impressao');
         return $this->Impressao_m->changeToObject($result->result_array());
     }

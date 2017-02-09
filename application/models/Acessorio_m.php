@@ -10,12 +10,11 @@ class Acessorio_m extends CI_Model {
     var $valor;
     // Ajax 
     var $table = 'acessorio';
-    var $column_order = array('id', 'nome', 'descricao', 'valor'); //set column field database for datatable orderable
-    var $column_search = array('id', 'nome', 'descricao', 'valor'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('id'=>'asc'); // default order 
+    var $column_order = array('id', 'nome', 'descricao', 'valor');
+    var $column_search = array('id', 'nome', 'descricao', 'valor');
+    var $order = array('id'=>'asc');
 
-    // Ajax Nao alterar
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->select('id,nome,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor');
         $this->db->from($this->table);
         $i = 0;
@@ -42,21 +41,21 @@ class Acessorio_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -67,24 +66,20 @@ class Acessorio_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('acessorio');
         if($result->num_rows() > 0 ){
-            $result =  $this->Acessorio_m->_changeToObject($result->result_array());
+            $result =  $this->Acessorio_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('acessorio');
-        return $this->Acessorio_m->_changeToObject($result->result_array());
+        return $this->Acessorio_m->changeToObject($result->result_array());
     }
 
     public function inserir(Acessorio_m $objeto) {
         if (!empty($objeto)) {
-            $dados = $this-> __get_dados($objeto);
+            $dados = $this-> get_dados($objeto);
             if ($this->db->insert('acessorio', $dados)) {
                 return $this->db->insert_id();
             }
@@ -94,7 +89,7 @@ class Acessorio_m extends CI_Model {
 
     public function editar(Acessorio_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = $this-> __get_dados($objeto);
+            $dados = $this-> get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('acessorio', $dados)) {
                 return true;
@@ -102,7 +97,8 @@ class Acessorio_m extends CI_Model {
         }
         return false;
     }
-    private function __get_dados(Acessorio_m $objeto){
+
+    private function get_dados(Acessorio_m $objeto){
         $dados = array(
             'id' => $objeto->id,
             'nome' => $objeto->nome,
@@ -112,7 +108,7 @@ class Acessorio_m extends CI_Model {
         return $dados;
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('acessorio')) {
@@ -122,7 +118,7 @@ class Acessorio_m extends CI_Model {
         return false;
     }
 
-    private function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Acessorio_m();
@@ -133,6 +129,11 @@ class Acessorio_m extends CI_Model {
             $object_lista[] = $object;
         }
         return $object_lista;
+    }
+
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("acessorio")->result_array();
     }
 
 }

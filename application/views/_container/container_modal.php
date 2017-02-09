@@ -295,14 +295,8 @@ $controller = $this->router->class;
 						<!-- Lista de acessorio -->
 						<i class="fa fa-diamond" aria-hidden="true"></i>
 						<?= form_label('Acessório: ', 'form_select_acessorio', array('class' => 'control-label')) ?>
-						<select name="acessorio" id="form_select_acessorio" class="form-control" autofocus="true">
+						<select name="acessorio" id="form_select_acessorio" class="form-control selectpicker" autofocus data-live-search="true">
 							<option value="" selected="selected">Selecione</option>
-							<?php foreach ($dados['acessorio'] as $acessorio) {
-								?>
-								<option value="<?=$acessorio->id?>"><?=$acessorio->nome?></option>
-								<?php
-							}
-							?>
 						</select>
 						<span class="help-block"></span>
 					</div>

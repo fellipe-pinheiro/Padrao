@@ -473,10 +473,9 @@ $controller = $this->router->class;
 	}
 	
 	function editar_acessorio_modal(owner,posicao,id_acessorio,quantidade,descricao){
-		$("#form_select_acessorio option[value=" + id_acessorio + "]").prop("selected", true);
+		ajax_carregar_acessorio(true,id_acessorio);
 		$("#form_qtd_acessorio").val(quantidade);
 		$("#form_descricao_acessorio").val(descricao);
-		//$("#form_md_acessorio").prop("action", "<?=$controller?>/session_acessorio_editar/" + owner + "/" + posicao);
 		$("#md_acessorio").modal();
 		pre_submit("#form_md_acessorio","<?=$controller?>/session_acessorio_editar/" + owner + "/" + posicao,"#md_acessorio",owner);
 	}
@@ -504,7 +503,7 @@ $controller = $this->router->class;
 		relevoSecoOff();
 		corteVincoOff();
 		almofadaOff();
-		$(".filter-option").text("");
+		//$(".filter-option").text("");
 		//selectpicker_papel_clear();
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
@@ -528,9 +527,10 @@ $controller = $this->router->class;
 	}
 
 	function abrir_acessorio_modal(owner){
-		//$("#form_md_acessorio").prop("action", "<?=$controller?>/session_acessorio_inserir/"+owner);
 		reset_form("#form_md_acessorio");
 		pre_submit("#form_md_acessorio","<?=$controller?>/session_acessorio_inserir/"+owner,"#md_acessorio",owner);
+		$('#form_select_acessorio').selectpicker('val', '');
+		ajax_carregar_acessorio();
 	}
 
 	function abrir_fita_modal(owner){
@@ -726,6 +726,37 @@ $controller = $this->router->class;
 			}
 		});
 	}
+
+	function ajax_carregar_acessorio(editar = false,id_acessorio = null) {
+		$('#form_select_acessorio')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("acessorio/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_acessorio').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_acessorio");
+		})
+		.always(function() {
+			$('#form_select_acessorio').selectpicker('refresh');
+			if(editar){
+				$('#form_select_acessorio').selectpicker('val', id_acessorio);
+			}
+		});
+	}
 	
 	function excluir_papel(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_papel_excluir",owner,posicao);
@@ -861,8 +892,8 @@ $controller = $this->router->class;
 			if (data.status){
 				$(modal).modal('hide');
 				reload_table(owner,data.msg);
-				selectpicker_papel_clear();
-				selectpicker_fita_clear();
+				//selectpicker_papel_clear();
+				//selectpicker_fita_clear();
 			}
 			else{
 				$.map(data.form_validation, function (value, index) {
@@ -885,6 +916,7 @@ $controller = $this->router->class;
 		e.preventDefault();
 	});
 
+	/*
 	function selectpicker_papel_clear() {
 		// MODAL PAPEL: 
 		//Seleciona vazio
@@ -908,7 +940,7 @@ $controller = $this->router->class;
 		$('#form_select_fita').selectpicker('refresh');
 		$('#form_select_fita').selectpicker('val', '');
 	}
-
+	*/
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
 	function excluir_item_posicao(url,owner,posicao) {
 		console.log('Função: excluir_item_posicao()');

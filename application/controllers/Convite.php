@@ -49,7 +49,7 @@ class Convite extends CI_Controller {
         //$data['impressao'] = $this->Impressao_m->get_list();
         //$data['impressao_area'] = $this->Impressao_area_m->get_list();
         //$data['acabamento'] = $this->Acabamento_m->get_list();
-        $data['acessorio'] = $this->Acessorio_m->get_list();
+        //$data['acessorio'] = $this->Acessorio_m->get_list();
         $data['fita'] = $this->Fita_m->get_list();
         $data['fita_material'] = $this->Fita_material_m->get_list();
         $data['mao_obra'] = $this->Mao_obra_m->get_list();

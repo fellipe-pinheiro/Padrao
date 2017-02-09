@@ -21,7 +21,6 @@ class Fita_m extends CI_Model {
     var $column_search = array('fl.nome', 'fm.nome'); //set column field database for datatable searchable just nome , descricao are searchable
     var $order = array('f.id'=>'asc'); // default order 
 
-    // Ajax Nao alterar
     private function _get_datatables_query() {
         $this->db->select('
             f.id as f_id,
@@ -65,7 +64,7 @@ class Fita_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
         $this->_get_datatables_query();
         if ($_POST['length'] != -1)
@@ -75,7 +74,7 @@ class Fita_m extends CI_Model {
         
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
         $this->_get_datatables_query();
         $this->__join();
@@ -86,7 +85,7 @@ class Fita_m extends CI_Model {
         $this->db->join('fita_laco as fl', 'f.fita_laco = fl.id', 'left');
         $this->db->join('fita_material as fm', 'f.fita_material = fm.id', 'left');
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -103,11 +102,7 @@ class Fita_m extends CI_Model {
         return false;
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('fita');
         return $this->Fita_m->_changeToObject($result->result_array());
     }

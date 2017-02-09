@@ -72,11 +72,7 @@ class Acabamento_m extends CI_Model {
         return false;
     }
 
-    public function get_list($id) {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('acabamento');
         return $this->Acabamento_m->changeToObject($result->result_array());
     }
