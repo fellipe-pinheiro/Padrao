@@ -45,9 +45,9 @@ class Acabamento extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
+        $this->validar_formulario("add");
         $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $objeto = $this->get_post();
         if ( $this->Acabamento_m->inserir($objeto)) {
             print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
         } else {
@@ -64,10 +64,10 @@ class Acabamento extends CI_Controller {
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
+        $this->validar_formulario("update");
         $id = $this->input->post('id');
         if ($id) {
-            $objeto = $this->_get_post();
+            $objeto = $this->get_post();
 
             if ($this->Acabamento_m->editar($objeto)) {
                 print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
@@ -84,7 +84,13 @@ class Acabamento extends CI_Controller {
         print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
     }
 
-    private function _get_post() {
+    public function ajax_get_personalizado(){
+        $arr = array();
+        $arr = $this->Acabamento_m->get_pesonalizado("id, nome");
+        print json_encode($arr);
+    }
+
+    private function get_post() {
         $objeto = new Acabamento_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -93,7 +99,7 @@ class Acabamento extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario($action) {
         $data = array();
         $data['status'] = TRUE;
 
@@ -109,6 +115,7 @@ class Acabamento extends CI_Controller {
             exit();
         }
     }
+    
     public function decimal_positive($value){
         if($value < 0){
             return false;

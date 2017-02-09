@@ -456,11 +456,8 @@ $controller = $this->router->class;
 	}
 	
 	function editar_impressao_modal(owner,posicao,id_impressao,id_area,quantidade,descricao){
-		
 		ajax_carregar_impressao_area(true,id_area);
 		ajax_carregar_impressao(id_area,true,id_impressao);
-
-		$("#form_select_impressao option[value=" + id_impressao + "]").prop("selected", true);
 		$("#form_qtd_impressao").val(quantidade);
 		$("#form_descricao_impressao").val(descricao);
 		$("#md_impressao").modal();
@@ -468,10 +465,9 @@ $controller = $this->router->class;
 	}
 	
 	function editar_acabamento_modal(owner,posicao,id_acabamento,quantidade,descricao){
-		$("#form_select_acabamento option[value=" + id_acabamento + "]").prop("selected", true);
+		ajax_carregar_acabamento(true,id_acabamento);
 		$("#form_qtd_acabamento").val(quantidade);
 		$("#form_descricao_acabamento").val(descricao);
-		//$("#form_md_acabamento").prop("action", "<?=$controller?>/session_acabamento_editar/" + owner + "/" + posicao);
 		$("#md_acabamento").modal();
 		pre_submit("#form_md_acabamento","<?=$controller?>/session_acabamento_editar/" + owner + "/" + posicao,"#md_acabamento",owner);
 	}
@@ -515,6 +511,33 @@ $controller = $this->router->class;
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 		remove_form_select_papel_option();
 		ajax_carregar_papel_linha();
+	}
+
+	function abrir_impressao_modal(owner){
+		reset_form("#form_md_impressao");
+		pre_submit("#form_md_impressao","<?=$controller?>/session_impressao_inserir/"+owner,"#md_impressao",owner);
+		remove_form_select_impressao_option();
+		ajax_carregar_impressao_area();
+	}
+
+	function abrir_acabamento_modal(owner){
+		reset_form("#form_md_acabamento");
+		pre_submit("#form_md_acabamento","<?=$controller?>/session_acabamento_inserir/"+owner,"#md_acabamento",owner);
+		$('#form_select_acabamento').selectpicker('val', '');
+		ajax_carregar_acabamento();
+	}
+
+	function abrir_acessorio_modal(owner){
+		//$("#form_md_acessorio").prop("action", "<?=$controller?>/session_acessorio_inserir/"+owner);
+		reset_form("#form_md_acessorio");
+		pre_submit("#form_md_acessorio","<?=$controller?>/session_acessorio_inserir/"+owner,"#md_acessorio",owner);
+	}
+
+	function abrir_fita_modal(owner){
+		//$("#form_md_fita").prop("action", "<?=$controller?>/session_fita_inserir/"+owner);
+		selectpicker_fita_clear();
+		reset_form("#form_md_fita");
+		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);
 	}
 
 	function ajax_carregar_papel_linha(editar = false,id_linha = null) {
@@ -573,7 +596,6 @@ $controller = $this->router->class;
 				$('#form_select_papel').selectpicker('val', id_papel);
 			}
 		});
-		// definir selectpicker
 	}
 
 	function ajax_carregar_gramatura(id,editar = false, id_gramatura = null) {
@@ -674,30 +696,35 @@ $controller = $this->router->class;
 		// definir selectpicker
 	}
 
-	function abrir_impressao_modal(owner){
-		reset_form("#form_md_impressao");
-		pre_submit("#form_md_impressao","<?=$controller?>/session_impressao_inserir/"+owner,"#md_impressao",owner);
-		remove_form_select_impressao_option();
-		ajax_carregar_impressao_area();
-	}
-
-	function abrir_acabamento_modal(owner){
-		//$("#form_md_acabamento").prop("action", "<?=$controller?>/session_acabamento_inserir/"+owner);
-		reset_form("#form_md_acabamento");
-		pre_submit("#form_md_acabamento","<?=$controller?>/session_acabamento_inserir/"+owner,"#md_acabamento",owner);
-	}
-
-	function abrir_acessorio_modal(owner){
-		//$("#form_md_acessorio").prop("action", "<?=$controller?>/session_acessorio_inserir/"+owner);
-		reset_form("#form_md_acessorio");
-		pre_submit("#form_md_acessorio","<?=$controller?>/session_acessorio_inserir/"+owner,"#md_acessorio",owner);
-	}
-
-	function abrir_fita_modal(owner){
-		//$("#form_md_fita").prop("action", "<?=$controller?>/session_fita_inserir/"+owner);
-		selectpicker_fita_clear();
-		reset_form("#form_md_fita");
-		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);
+	function ajax_carregar_acabamento(editar = false,id_acabamento = null) {
+		$('#form_select_acabamento')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("acabamento/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_acabamento').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_acabamento");
+		})
+		.always(function() {
+			$('#form_select_acabamento').selectpicker('refresh');
+			if(editar){
+				$('#form_select_acabamento').selectpicker('val', id_acabamento);
+			}
+		});
 	}
 	
 	function excluir_papel(owner,posicao) {

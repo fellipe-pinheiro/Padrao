@@ -254,15 +254,9 @@ $controller = $this->router->class;
 					<div class="form-group col-sm-8">
 						<!-- Lista de acabamento -->
 						<span class="glyphicon glyphicon-scissors"></span>
-						<?= form_label('Acabamento: ', 'form_select_acabamento', array('class' => 'control-label')) ?>
-						<select name="acabamento" id="form_select_acabamento" class="form-control" autofocus="true">
+						<label for="form_select_acabamento" class="control-label">Acabamento</label>
+						<select name="acabamento" id="form_select_acabamento" class="form-control selectpicker" autofocus data-live-search="true">
 							<option value="" selected="selected">Selecione</option>
-							<?php foreach ($dados['acabamento'] as $acabamento) {
-								?>
-								<option value="<?=$acabamento->id?>"><?=$acabamento->nome?></option>
-								<?php
-							}
-							?>
 						</select>
 						<span class="help-block"></span>
 					</div>

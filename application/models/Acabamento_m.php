@@ -14,7 +14,7 @@ class Acabamento_m extends CI_Model {
     var $column_search = array('nome', 'descricao');
     var $order = array('id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->select('id,nome,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor');
         $this->db->from($this->table);
         $i = 0;
@@ -43,7 +43,7 @@ class Acabamento_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
@@ -51,7 +51,7 @@ class Acabamento_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -66,24 +66,24 @@ class Acabamento_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('acabamento');
         if($result->num_rows() > 0){
-            $result =  $this->Acabamento_m->_changeToObject($result->result_array());
+            $result =  $this->Acabamento_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
     }
 
-    public function get_list($id = '') {
+    public function get_list($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             $this->db->limit(1);
         }
         $result = $this->db->get('acabamento');
-        return $this->Acabamento_m->_changeToObject($result->result_array());
+        return $this->Acabamento_m->changeToObject($result->result_array());
     }
 
     public function inserir(Acabamento_m $objeto) {
         if (!empty($objeto)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('acabamento', $dados)) {
                 return $this->db->insert_id();
             }
@@ -93,7 +93,7 @@ class Acabamento_m extends CI_Model {
 
     public function editar(Acabamento_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('acabamento', $dados)) {
                 return true;
@@ -101,7 +101,7 @@ class Acabamento_m extends CI_Model {
         }
         return false;
     }
-    public function __get_dados(Acabamento_m $objeto){
+    public function get_dados(Acabamento_m $objeto){
         $dados = array(
             'id' => $objeto->id,
             'nome' => $objeto->nome,
@@ -121,7 +121,7 @@ class Acabamento_m extends CI_Model {
         return false;
     }
 
-    private function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Acabamento_m();
@@ -134,4 +134,8 @@ class Acabamento_m extends CI_Model {
         return $object_lista;
     }
 
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("acabamento")->result_array();
+    }
 }
