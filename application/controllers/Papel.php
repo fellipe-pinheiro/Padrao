@@ -139,6 +139,18 @@ class Papel extends CI_Controller {
         return $objeto;
     }
 
+    public function ajax_get_personalizado($id_papel_linha){
+        $arr = array();
+        $arr = $this->Papel_m->get_pesonalizado($id_papel_linha,"id, nome");
+        print json_encode($arr);
+    }
+
+    public function ajax_get_personalizado_gramatura($id_papel){
+        $arr = array();
+        $arr = $this->Papel_gramatura_m->get_pesonalizado($id_papel,"id, gramatura");
+        print json_encode($arr);
+    }
+
     private function get_array_gramaturas_objects($id_papel) {
 
         $arr_gramaturas = $this->get_array_inputs_gramaturas("/gramatura_/",$this->input->post());

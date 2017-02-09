@@ -211,4 +211,10 @@ class Papel_m extends CI_Model {
         return json_encode($arr);
     }
 
+    public function get_pesonalizado($id_papel_linha,$colunas)
+    {
+        $this->db->select($colunas);
+        $this->db->where("papel_linha",$id_papel_linha);
+        return $this->db->get("papel")->result_array();
+    }
 }

@@ -4,6 +4,7 @@ $controller = $this->router->class;
 ?>
 <script>
 	$(document).ready(function () {
+		// 
 		//Empastamento:
 		$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
 		$('#empastamento_quantidade').attr("disabled", true);
@@ -74,9 +75,48 @@ $controller = $this->router->class;
 		}else{
 			console.log("controller não identificado");
 		}
-		$("#form_select_papel").change(function(){
-			fill_and_select_gramatura();
+
+		// Filtrar os papeis por linha
+		$("#form_select_linha").change(function(event) {
+			// $('#form_select_papel').selectpicker('val', '');
+			// $('#form_select_papel').selectpicker('destroy');
+			// $("#form_select_papel option").hide();
+			
+			var option = $(this).find('option:selected');
+			var id_linha = option.val();
+			ajax_carregar_papel(id_linha);
+			// if(id_papel_linha){
+			// 	$("#form_select_papel option[data-papel="+ id_papel_linha +"]").show();
+			// }else{
+			// 	$("#form_select_papel option").show();
+			// }
+			// $('#form_select_papel').selectpicker('render');
+			// $('#form_select_papel').selectpicker('refresh');
 		});
+
+		$("#form_select_papel").change(function(event){
+			var option = $(this).find('option:selected');
+			var id_papel = option.val();
+			ajax_carregar_gramatura(id_papel);
+		});
+
+		// Filtrar as fitas por material
+		$("#form_select_fita_material").change(function(event) {
+			$('#form_select_fita').selectpicker('val', '');
+			$('#form_select_fita').selectpicker('destroy');
+			$("#form_select_fita option").hide();
+			
+			var option = $(this).find('option:selected');
+			var value = option.val();
+			if(value){
+				$("#form_select_fita option[data-fita_material="+ value +"]").show();
+			}else{
+				$("#form_select_fita option").show();
+			}
+			$('#form_select_fita').selectpicker('render');
+			$('#form_select_fita').selectpicker('refresh');
+		});
+
 		$("#form_select_fita").change(function(){
 			var option = $(this).find('option:selected');
 			var espessura = option.data("espessura");
@@ -96,39 +136,6 @@ $controller = $this->router->class;
 			}
 		});
 
-		// Filtrar os papeis por linha
-		$("#form_select_linha").change(function(event) {
-			$('#form_select_papel').selectpicker('val', '');
-			$('#form_select_papel').selectpicker('destroy');
-			$("#form_select_papel option").hide();
-			
-			var option = $(this).find('option:selected');
-			var value = option.val();
-			if(value){
-				$("#form_select_papel option[data-papel="+ value +"]").show();
-			}else{
-				$("#form_select_papel option").show();
-			}
-			$('#form_select_papel').selectpicker('render');
-			$('#form_select_papel').selectpicker('refresh');
-		});
-
-		// Filtrar as fitas por material
-		$("#form_select_fita_material").change(function(event) {
-			$('#form_select_fita').selectpicker('val', '');
-			$('#form_select_fita').selectpicker('destroy');
-			$("#form_select_fita option").hide();
-			
-			var option = $(this).find('option:selected');
-			var value = option.val();
-			if(value){
-				$("#form_select_fita option[data-fita_material="+ value +"]").show();
-			}else{
-				$("#form_select_fita option").show();
-			}
-			$('#form_select_fita').selectpicker('render');
-			$('#form_select_fita').selectpicker('refresh');
-		});
 	});
 	//Altera Itens
 	function alteraEmpastamento(){
@@ -282,31 +289,13 @@ $controller = $this->router->class;
 		$('#almofada_quantidade').val(null);
 	}
 	/*====================================================================================*/
-	function fill_and_select_gramatura() {
-		var option = $("#form_select_papel").find('option:selected');
-		var arr_gramatura = option.data("gramatura");
-		var gramatura = $("#form_select_gramatura option:selected").text();
-		gramatura = gramatura.replace("g", "");
-		$("#form_select_gramatura").val('');
-		$("#form_select_gramatura").find('option').remove();
-		$("#form_select_gramatura").append('<option value="" selected>Selecione</option>');
-		$.each(arr_gramatura, function(index, val) {
-			$("#form_select_gramatura").append('<option value='+val.id+'>'+val.gramatura+'g</option>');
-			if(val.gramatura == gramatura){
-				$('#form_select_gramatura option[value='+val.id+']').attr('selected','selected');
-			}else{
-				$('#form_select_gramatura option[value=""]').attr('selected','selected');
-			}
-		});
-	}
 	//EDITA: MODAL
 	//edita o modal do papel cartao
-	function editar_papel_modal(owner,posicao,id_papel,nome_papel,gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
-		//$("#form_select_papel option[value=" + id_papel + "]").prop("selected", true);
-		$('#form_select_papel').selectpicker('val', id_papel);
-		fill_and_select_gramatura();
-		$("#form_select_gramatura option[value=" + gramatura + "]").prop("selected", true);
-		$($('#form_md_papel').find(".filter-option")[1]).text(nome_papel);//se usar o bootstrap-select, este seta o texto no campo
+	function editar_papel_modal(owner,posicao,id_papel,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
+		
+		ajax_carregar_papel_linha(true,id_linha);
+		ajax_carregar_papel(id_linha,true,id_papel);
+		ajax_carregar_gramatura(id_papel,true,id_gramatura);
 		$("#md_papel_container_owner").val(owner);
 
 		/*====================================================================================*/
@@ -510,10 +499,111 @@ $controller = $this->router->class;
 		corteVincoOff();
 		almofadaOff();
 		$(".filter-option").text("");
-		selectpicker_papel_clear();
+		//selectpicker_papel_clear();
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
+		ajax_carregar_papel_linha();
+	}
+	function ajax_carregar_papel_linha(editar = false,id_linha = null) {
+		$('#form_select_linha')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_linha').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel_linha");
+		})
+		.always(function() {
+			$('#form_select_linha').selectpicker('refresh');
+			if(editar){
+				$('#form_select_linha').selectpicker('val', id_linha);
+			}
+		});
+	}
+	function ajax_carregar_papel(id_linha,editar = false, id_papel = null) {
+		$('#form_select_papel')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado/")?>'+id_linha,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_papel').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+			$('#form_select_papel').selectpicker('refresh');
+			if(editar){
+				$('#form_select_papel').selectpicker('val', id_papel);
+			}
+		});
+		// definir selectpicker
+	}
+	function ajax_carregar_gramatura(id,editar = false, id_gramatura = null) {
+		var gramatura = $("#form_select_gramatura option:selected").text();
+		$('#form_select_gramatura')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado_gramatura/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			//console.log(id_gramatura);
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.gramatura == gramatura && !editar){
+					selected = true;
+				}else if(val.id == id_gramatura && editar){
+					selected = true;
+				}
+				$('#form_select_gramatura').append($('<option>', {
+				    value: val.id,
+				    text: val.gramatura,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+		});
+		// definir selectpicker
 	}
 	//limpa o formulario do cartao_impressao
 	function abrir_impressao_modal(owner){

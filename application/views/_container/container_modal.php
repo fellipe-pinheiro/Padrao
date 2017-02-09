@@ -18,12 +18,7 @@ $controller = $this->router->class;
 							<?= form_label('Filtrar pela Linha: ', 'form_select_linha', array('class' => 'control-label')) ?>
 							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus="true">
 								<option value="" selected>Selecione</option>
-								<?php foreach ( $dados['linha'] as $linha) {
-									?>
-									<option value="<?=$linha->id?>"><?=$linha->nome ?></option>
-									<?php
-								}
-								?>
+								
 							</select>
 							<span class="help-block"></span>
 						</div>
@@ -31,12 +26,7 @@ $controller = $this->router->class;
 							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
 							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel show-tick" data-live-search="true">
 								<option data-papel="''" value="" selected>Selecione</option>
-								<?php foreach ($dados['papel'] as $papel) {
-									?>
-									<option data-gramatura='<?=$papel->get_papel_gramaturas_json()?>' data-papel="<?=$papel->papel_linha->id?>" value="<?=$papel->id?>" data-subtext="<?=$papel->papel_linha->nome?>"><?=$papel->nome?></option>
-									<?php
-								}
-								?>
+								
 							</select>
 							<span class="help-block"></span>
 						</div>

@@ -122,4 +122,10 @@ class Papel_gramatura_m extends CI_Model {
         return $object_lista;
     }
 
+    public function get_pesonalizado($id_papel,$colunas)
+    {
+        $this->db->select($colunas);
+        $this->db->where("papel",$id_papel);
+        return $this->db->get("papel_gramatura")->result_array();
+    }
 }
