@@ -43,9 +43,9 @@ class Impressao_area extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
+        $this->validar_formulario();
         $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $objeto = $this->get_post();
         if ( $this->Impressao_area_m->inserir($objeto)) {
             print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
         } else {
@@ -62,19 +62,17 @@ class Impressao_area extends CI_Controller {
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
+        $data['status'] = FALSE;
+        $this->validar_formulario();
         $id = $this->input->post('id');
         if ($id) {
-            $objeto = $this->_get_post();
+            $objeto = $this->get_post();
 
             if ($this->Impressao_area_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Impressao_area_m->editar()'));
+                $data['status'] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
@@ -82,7 +80,13 @@ class Impressao_area extends CI_Controller {
         print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
     }
 
-    private function _get_post() {
+    public function ajax_get_personalizado(){
+        $arr = array();
+        $arr = $this->Impressao_area_m->get_pesonalizado("id, nome");
+        print json_encode($arr);
+    }
+
+    private function get_post() {
         $objeto = new Impressao_area_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -90,7 +94,7 @@ class Impressao_area extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
 

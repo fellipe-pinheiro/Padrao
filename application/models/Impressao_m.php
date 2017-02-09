@@ -75,7 +75,7 @@ class Impressao_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('impressao');
         if($result->num_rows() > 0){
-            $result =  $this->Impressao_m->__changeToObject($result->result_array());
+            $result =  $this->Impressao_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
@@ -87,12 +87,12 @@ class Impressao_m extends CI_Model {
             $this->db->limit(1);
         }
         $result = $this->db->get('impressao');
-        return $this->Impressao_m->__changeToObject($result->result_array());
+        return $this->Impressao_m->changeToObject($result->result_array());
     }
 
     public function inserir(Impressao_m $objeto) {
         if (!empty($objeto)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('impressao', $dados)) {
                 return $this->db->insert_id();
             }
@@ -102,7 +102,7 @@ class Impressao_m extends CI_Model {
 
     public function editar(Impressao_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('impressao', $dados)) {
                 return true;
@@ -110,7 +110,8 @@ class Impressao_m extends CI_Model {
         }
         return false;
     }
-    public function __get_dados(Impressao_m $objeto){
+
+    public function get_dados(Impressao_m $objeto){
         $dados = array(
             'id' => $objeto->id,
             'nome' => $objeto->nome,
@@ -131,13 +132,13 @@ class Impressao_m extends CI_Model {
         return false;
     }
 
-    function __changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Impressao_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object->impressao_area = $this->Impressao_m->__get_impressao_area($value['impressao_area']); //retorna o objeto: [impressao_area] e seta a variavel
+            $object->impressao_area = $this->Impressao_area_m->get_by_id($value['impressao_area']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object_lista[] = $object;
@@ -145,16 +146,9 @@ class Impressao_m extends CI_Model {
         return $object_lista;
     }
 
-    /*
-    Devido a um problema de fazer mais do que 2 ou mais foreach dentro da funcção: function __changeToObject($result_db = '')
-    separei nas funções __get_item que retorna um objeto da classe
-     */
-
-    //Retorna um objeto do tipo Impressao_area_m
-    private function __get_impressao_area($id) {
-        foreach ($this->Impressao_area_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
+    public function get_pesonalizado($id_area,$colunas){
+        $this->db->select($colunas);
+        $this->db->where("impressao_area",$id_area);
+        return $this->db->get("impressao")->result_array();
     }
 }

@@ -123,8 +123,7 @@ class Papel_linha_m extends CI_Model {
         return $object_lista;
     }
 
-    public function get_pesonalizado($colunas)
-    {
+    public function get_pesonalizado($colunas){
         $this->db->select($colunas);
         return $this->db->get("papel_linha")->result_array();
     }

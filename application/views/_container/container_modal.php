@@ -16,7 +16,7 @@ $controller = $this->router->class;
 						<?=form_input(array('type'=>'hidden','name'=>'owner','id'=>'md_papel_container_owner'));  ?>
 						<div class="form-group col-sm-4">
 							<?= form_label('Filtrar pela Linha: ', 'form_select_linha', array('class' => 'control-label')) ?>
-							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus="true">
+							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus>
 								<option value="" selected>Selecione</option>
 								
 							</select>
@@ -25,8 +25,7 @@ $controller = $this->router->class;
 						<div class="form-group col-sm-4">
 							<?= form_label('Papel: ', 'papel', array('class' => 'control-label')) ?>
 							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel show-tick" data-live-search="true">
-								<option data-papel="''" value="" selected>Selecione</option>
-								
+								<option value="" selected>Selecione</option>
 							</select>
 							<span class="help-block"></span>
 						</div>
@@ -205,33 +204,23 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-body row">
 					<!-- Lista de impressões -->
-					<div class="form-group col-sm-8">
+					<div class="form-group col-sm-4">
 						<span class="glyphicon glyphicon-print"></span>
-						<?= form_label('Impressão: ', 'form_select_impressao', array('class' => 'control-label')) ?>
-						<select name="impressao" id="form_select_impressao" class="form-control" autofocus="true">
-							<option value="" selected="selected">Selecione</option>
-							<?php 
-							foreach ($dados['impressao_area'] as $impressao_area) {
-								?>
-								<optgroup label="<?=$impressao_area->nome?>">
-									<?php
-									foreach ($dados['impressao'] as $impressao) {
-										if($impressao_area->id == $impressao->impressao_area->id){
-											?>
-											<option value="<?=$impressao->id?>"><?=$impressao->impressao_area->nome?> : <?=$impressao->nome?></option>
-											<?php
-										}
-									}
-									?>
-								</optgroup>
-								<?php
-							}
-							?>
-
+						<label for="form_select_impressao_area" class="control-label">Área de Impressão</label>
+						<select id="form_select_impressao_area" class="form-control" autofocus>
+							<option value="" selected>Selecione</option>
 						</select>
 						<span class="help-block"></span>
 					</div>
-					<div class="form-group col-sm-4">
+					<div class="form-group col-sm-5">
+						<span class="glyphicon glyphicon-print"></span>
+						<?= form_label('Impressão: ', 'form_select_impressao', array('class' => 'control-label')) ?>
+						<select name="impressao" id="form_select_impressao" class="form-control selectpicker" autofocus data-live-search="true">
+							<option value="" selected>Selecione</option>
+						</select>
+						<span class="help-block"></span>
+					</div>
+					<div class="form-group col-sm-3">
 						<?= form_label('Quantidade: ', 'form_qtd_impressao', array('class' => 'control-label')) ?>
 						<?= form_input(array('name'=>'quantidade','step'=>'1','type'=>'number','class'=>'form-control','id'=>'form_qtd_impressao','placeholder'=>'Quantidade', '', ''));  ?>
 						<span class="help-block"></span>

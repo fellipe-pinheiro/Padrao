@@ -64,19 +64,13 @@ class Impressao_area_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('impressao_area');
-        $result =  $this->Impressao_area_m->_changeToObject($result->result_array());
+        $result =  $this->Impressao_area_m->changeToObject($result->result_array());
         return $result[0];
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-            $result = $this->db->get('impressao_area');
-        } else {
-            $result = $this->db->get('impressao_area');
-        }
-        return $this->Impressao_area_m->_changeToObject($result->result_array());
+    public function get_list() {
+        $result = $this->db->get('impressao_area');
+        return $this->Impressao_area_m->changeToObject($result->result_array());
     }
 
     public function inserir(Impressao_area_m $objeto) {
@@ -116,7 +110,7 @@ class Impressao_area_m extends CI_Model {
         }
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('impressao_area')) {
@@ -131,7 +125,7 @@ class Impressao_area_m extends CI_Model {
         }
     }
 
-    function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Impressao_area_m();
@@ -141,6 +135,11 @@ class Impressao_area_m extends CI_Model {
             $object_lista[] = $object;
         }
         return $object_lista;
+    }
+
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("impressao_area")->result_array();
     }
 
 }

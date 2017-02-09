@@ -221,7 +221,7 @@ foreach ($arr as $key => $value) {
 													<td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?>
 													</td>
 													<td>
-														<button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>')" id="" class="btn btn-default btn-sm">
+														<button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->impressao->impressao_area->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>')" id="" class="btn btn-default btn-sm">
 															<span class="glyphicon glyphicon-pencil"></span>
 														</button>
 													</td>
