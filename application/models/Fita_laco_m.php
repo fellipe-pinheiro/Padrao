@@ -9,12 +9,11 @@ class Fita_laco_m extends CI_Model {
     var $descricao;
     // Ajax 
     var $table = 'fita_laco';
-    var $column_order = array('id', 'nome', 'descricao'); //set column field database for datatable orderable
-    var $column_search = array('nome', 'descricao'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('id'=>'asc'); // default order 
+    var $column_order = array('id', 'nome', 'descricao');
+    var $column_search = array('nome', 'descricao');
+    var $order = array('id'=>'asc');
 
-    // Ajax Nao alterar
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->from($this->table);
         $i = 0;
 
@@ -40,21 +39,21 @@ class Fita_laco_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -64,19 +63,13 @@ class Fita_laco_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('fita_laco');
-        $result =  $this->Fita_laco_m->_changeToObject($result->result_array());
+        $result =  $this->Fita_laco_m->changeToObject($result->result_array());
         return $result[0];
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-            $result = $this->db->get('fita_laco');
-        } else {
-            $result = $this->db->get('fita_laco');
-        }
-        return $this->Fita_laco_m->_changeToObject($result->result_array());
+    public function get_list() {
+        $result = $this->db->get('fita_laco');
+        return $this->Fita_laco_m->changeToObject($result->result_array());
     }
 
     public function inserir(Fita_laco_m $objeto) {
@@ -116,7 +109,7 @@ class Fita_laco_m extends CI_Model {
         }
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('fita_laco')) {
@@ -131,7 +124,7 @@ class Fita_laco_m extends CI_Model {
         }
     }
 
-    function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Fita_laco_m();

@@ -11,11 +11,11 @@ class Produto_m extends CI_Model {
     var $valor;
     // Ajax 
     var $table = 'produto as p';
-    var $column_order = array('p.id','pc.nome','p.nome','p.descricao','p.valor'); //set column field database for datatable orderable
-    var $column_search = array('p.id','pc.nome','p.nome','p.descricao','p.valor'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('p.id'=>'asc'); // default order 
+    var $column_order = array('p.id','pc.nome','p.nome','p.descricao','p.valor');
+    var $column_search = array('p.id','pc.nome','p.nome','p.descricao','p.valor');
+    var $order = array('p.id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         if($this->input->post('filtro_produto_id')){
             $this->db->where('p.id', $this->input->post('filtro_produto_id'));
         }
@@ -60,8 +60,9 @@ class Produto_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
+
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1){
             $this->db->limit($_POST['length'], $_POST['start']);
             $this->db->join('produto_categoria as pc', 'p.produto_categoria = pc.id', 'left');
@@ -69,16 +70,19 @@ class Produto_m extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $this->db->join('produto_categoria as pc', 'p.produto_categoria = pc.id', 'left');
         $query = $this->db->get();
         return $query->num_rows();
     }
+
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
@@ -89,10 +93,12 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
+
     public function get_list() {
         $result = $this->db->get('produto');
         return $this->Produto_m->changeToObject($result->result_array());
     }
+
     public function inserir($objeto) {
         if (!empty($objeto)) {
             $dados = array(
@@ -108,6 +114,7 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
+
     public function editar($objeto) {
         if (!empty($objeto->id)) {
             $dados = array(
@@ -124,6 +131,7 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
+
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
@@ -133,7 +141,8 @@ class Produto_m extends CI_Model {
         }
         return false;
     }
-    function changeToObject($result_db) {
+
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Produto_m();

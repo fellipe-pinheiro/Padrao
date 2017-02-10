@@ -13,10 +13,8 @@ class Container_produto_m extends CI_Model {
 
 	public function get_produto($id,$quantidade,$descricao,$comissao){
 		//busca a impressão pelo id
-		$result = $this->Produto_m->get_list($id);
-		$produto = $result[0];
 		$container_produto = new Container_produto_m();
-		$container_produto->produto = $produto;
+		$container_produto->produto = $this->Produto_m->get_by_id($id);
 		$container_produto->quantidade = $quantidade;
 		$container_produto->descricao = $descricao;
 		$container_produto->comissao = $comissao;
@@ -26,7 +24,7 @@ class Container_produto_m extends CI_Model {
 		$this->db->where('orcamento',$id);
 		$result = $this->db->get('orcamento_produto');
 		if($result->num_rows() > 0){
-			return $this->Container_produto_m->__changeToObject($result->result_array());
+			return $this->Container_produto_m->changeToObject($result->result_array());
 		}
 		return array();
 	}
@@ -35,7 +33,7 @@ class Container_produto_m extends CI_Model {
 		$this->db->limit(1);
 		$result = $this->db->get('orcamento_produto');
 		if($result->num_rows() > 0){
-			$result =  $this->Container_produto_m->__changeToObject($result->result_array());
+			$result =  $this->Container_produto_m->changeToObject($result->result_array());
 			return $result[0];
 		}
 		return false;
@@ -69,7 +67,7 @@ class Container_produto_m extends CI_Model {
 		$total = $total - $this->produto->valor;
         return round($total,2);
     }
-	private function __changeToObject($result_db = '') {
+	private function changeToObject($result_db) {
 		$object_lista = array();
 		foreach ($result_db as $key => $value) {
 			$object = new Container_produto_m();
@@ -78,14 +76,14 @@ class Container_produto_m extends CI_Model {
 			$object->produto->valor = $value['valor'];
 			$object->quantidade = $value['quantidade'];
 			$object->descricao = $value['descricao'];
-			$object->data_entrega = $this->__format_date($value['data_entrega']);
+			$object->data_entrega = $this->format_date($value['data_entrega']);
 			$object->cancelado = $value['cancelado'];
 			$object->comissao = $value['comissao'];
 			$object_lista[] = $object;
 		}
 		return $object_lista;
 	}
-	private function __format_date($date){
+	private function format_date($date){
 		if(!empty($date)){
 			list($ano,$mes,$dia) = explode('-', $date);
 			return $date = $dia.'/'.$mes.'/'.$ano;

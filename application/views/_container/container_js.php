@@ -534,7 +534,6 @@ $controller = $this->router->class;
 	}
 
 	function abrir_fita_modal(owner){
-		//$("#form_md_fita").prop("action", "<?=$controller?>/session_fita_inserir/"+owner);
 		selectpicker_fita_clear();
 		reset_form("#form_md_fita");
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);

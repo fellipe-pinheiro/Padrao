@@ -17,11 +17,11 @@ class Fita_m extends CI_Model {
     var $valor_70mm;
     // Ajax 
     var $table = 'fita as f';
-    var $column_order = array('f.id', 'fl.nome', 'fm.nome', 'f.valor_03mm','f.valor_07mm','f.valor_10mm','f.valor_15mm','f.valor_22mm','f.valor_38mm','f.valor_50mm','f.valor_70mm'); //set column field database for datatable orderable
-    var $column_search = array('fl.nome', 'fm.nome'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('f.id'=>'asc'); // default order 
+    var $column_order = array('f.id', 'fl.nome', 'fm.nome', 'f.valor_03mm','f.valor_07mm','f.valor_10mm','f.valor_15mm','f.valor_22mm','f.valor_38mm','f.valor_50mm','f.valor_70mm');
+    var $column_search = array('fl.nome', 'fm.nome');
+    var $order = array('f.id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->select('
             f.id as f_id,
             f.fita_laco as f_fita_laco,
@@ -66,7 +66,7 @@ class Fita_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $this->__join();
@@ -76,11 +76,12 @@ class Fita_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $this->__join();
         $query = $this->db->get();
         return $query->num_rows();
     }
+
     private function __join(){
         $this->db->join('fita_laco as fl', 'f.fita_laco = fl.id', 'left');
         $this->db->join('fita_material as fm', 'f.fita_material = fm.id', 'left');
@@ -96,7 +97,7 @@ class Fita_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('fita');
         if($result->num_rows() > 0){
-            $result =  $this->Fita_m->_changeToObject($result->result_array());
+            $result =  $this->Fita_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
@@ -104,7 +105,7 @@ class Fita_m extends CI_Model {
 
     public function get_list() {
         $result = $this->db->get('fita');
-        return $this->Fita_m->_changeToObject($result->result_array());
+        return $this->Fita_m->changeToObject($result->result_array());
     }
 
     public function inserir($objeto) {
@@ -127,6 +128,7 @@ class Fita_m extends CI_Model {
         }
         return false;
     }
+
     private function get_dados($objeto){
         $dados = array(
             'id' => $objeto->id,
@@ -144,7 +146,7 @@ class Fita_m extends CI_Model {
         return $dados;
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('fita')) {
@@ -154,7 +156,7 @@ class Fita_m extends CI_Model {
         return false;
     }
 
-    private function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Fita_m();
@@ -167,35 +169,14 @@ class Fita_m extends CI_Model {
             $object->valor_38mm = $value['valor_38mm'];
             $object->valor_50mm = $value['valor_50mm'];
             $object->valor_70mm = $value['valor_70mm'];
-            $object->fita_laco = $this->Fita_m->__get_fita_laco($value['fita_laco']); //retorna o objeto: [fita_laco] e seta a variavel
-            $object->fita_material = $this->Fita_m->__get_fita_material($value['fita_material']); //retorna o objeto: [fita_material] e seta a variavel
+            $object->fita_laco = $this->Fita_laco_m->get_by_id($value['fita_laco']);
+            $object->fita_material = $this->Fita_material_m->get_by_id($value['fita_material']);
             $object_lista[] = $object;
         }
         return $object_lista;
     }
 
-    /*
-    Devido a um problema de fazer mais do que 2 ou mais foreach dentro da funcção: function __changeToObject($result_db = '')
-    separei nas funções __get_item que retorna um objeto da classe
-     */
-
-    //Retorna um objeto do tipo Fita_laco_m
-    function __get_fita_laco($id) {
-        foreach ($this->Fita_laco_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
-    }
-    //Retorna um objeto do tipo Fita_material_m
-    function __get_fita_material($id) {
-        foreach ($this->Fita_material_m->get_list($id) as $key => $value) {
-            $object = $value;
-        }
-        return $object;
-    }
-
-    public function get_espessura_json()
-    {
+    public function get_espessura_json(){
         $arr = array(
             '3'=>$this->valor_03mm,
             '7'=>$this->valor_07mm,
