@@ -398,15 +398,8 @@ $controller = $this->router->class;
 				<div class="modal-body row">
 					<div class="form-group col-sm-8">
 						<?= form_label('Convite Modelo: ', 'convite_modelo', array('class' => 'control-label')) ?>
-						<select id="convite_modelo" autofocus="true" name="convite_modelo" class="form-control">
+						<select id="convite_modelo" autofocus name="convite_modelo" class="form-control selectpicker" data-live-search="true">
 							<option value="" disabled selected>Selecione</option>
-							<?php 
-							foreach ($dados['convite_modelo'] as $convite_modelo) {
-								?>
-								<option value="<?=$convite_modelo->id?>"><?=$convite_modelo->codigo?></option>
-								<?php 
-							} 
-							?>
 						</select>
 						<span class="help-block"></span>
 					</div>

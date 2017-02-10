@@ -21,8 +21,7 @@ class Convite_modelo_m extends CI_Model {
     var $column_search = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao');
     var $order = array('id'=>'asc');
 
-    // Ajax Nao alterar
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->from($this->table);
         $i = 0;
 
@@ -50,7 +49,7 @@ class Convite_modelo_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
@@ -58,7 +57,7 @@ class Convite_modelo_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -72,19 +71,13 @@ class Convite_modelo_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('convite_modelo');
-        $result =  $this->Convite_modelo_m->_changeToObject($result->result_array());
+        $result =  $this->Convite_modelo_m->changeToObject($result->result_array());
         return $result[0];
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-            $result = $this->db->get('convite_modelo');
-        } else {
-            $result = $this->db->get('convite_modelo');
-        }
-        return $this->Convite_modelo_m->_changeToObject($result->result_array());
+    public function get_list() {
+        $result = $this->db->get('convite_modelo');
+        return $this->Convite_modelo_m->changeToObject($result->result_array());
     }
 
     public function inserir(Convite_modelo_m $objeto) {
@@ -142,7 +135,7 @@ class Convite_modelo_m extends CI_Model {
         }
     }
 
-    public function deletar($id = '') {
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('convite_modelo')) {
@@ -157,7 +150,7 @@ class Convite_modelo_m extends CI_Model {
         }
     }
 
-    function _changeToObject($result_db = '') {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Convite_modelo_m();
@@ -175,6 +168,11 @@ class Convite_modelo_m extends CI_Model {
             $object_lista[] = $object;
         }
         return $object_lista;
+    }
+
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("convite_modelo")->result_array();
     }
 
 }

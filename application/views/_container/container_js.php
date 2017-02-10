@@ -801,6 +801,37 @@ $controller = $this->router->class;
 			}
 		});
 	}
+
+	function ajax_carregar_convite_modelo(editar = false,id_modelo = null) {
+		$('#convite_modelo')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("convite_modelo/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#convite_modelo').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_convite_modelo");
+		})
+		.always(function() {
+			$('#convite_modelo').selectpicker('refresh');
+			if(editar){
+				$('#convite_modelo').selectpicker('val', id_modelo);
+			}
+		});
+	}
 	
 	function excluir_papel(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_papel_excluir",owner,posicao);
@@ -881,14 +912,18 @@ $controller = $this->router->class;
 		$("#md_personalizado").modal();
 	}
 	
-	function convite_modal(acao,modelo,quantidade)	{
+	function convite_modal(acao,id_modelo,quantidade)	{
 		console.log("Função: convite_modal()");
 		reset_errors();
-		if(modelo == ''){
-			$("#convite_modelo option[value='']").prop("selected",true);
+		if(id_modelo == ''){
+			ajax_carregar_convite_modelo();
+			$('#convite_modelo').selectpicker('val', '');
+			//$("#convite_modelo option[value='']").prop("selected",true);
 			$("#quantidade_convite").val(null);
 		}else{
-			$("#convite_modelo option[value="+modelo+"]").prop("selected",true);
+			ajax_carregar_convite_modelo(true,id_modelo);
+			//$('#convite_modelo').selectpicker('val', id_modelo);
+			//$("#convite_modelo option[value="+id_modelo+"]").prop("selected",true);
 			$("#quantidade_convite").val(quantidade);
 		}
 		if(acao =="inserir"){
