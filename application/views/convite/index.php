@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr>
 										<td><?=++$count?></td>
 										<td>Mão de obra</td>
-										<td></td>
+										<td><?=$this->session->convite->mao_obra->nome?></td>
 										<td><?=$this->session->convite->quantidade?></td>
 										<td>R$ <?=number_format($this->session->convite->calcula_mao_obra(),2,',','.')?></td>
 										<td>R$ <?=number_format($this->session->convite->calcula_mao_obra_sub_total(),2,',','.')?></td>

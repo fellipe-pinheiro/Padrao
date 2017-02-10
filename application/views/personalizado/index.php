@@ -108,7 +108,7 @@ if(empty($mao_obra->id)){
 									<tr>
 										<td><?=++$count?></td>
 										<td>Mão de obra</td>
-										<td></td>
+										<td><?=$this->session->personalizado->mao_obra->nome?></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
 										<td>R$ <?=number_format($this->session->personalizado->calcula_mao_obra(),2,',','.')?></td>
 										<td>R$ <?=number_format($this->session->personalizado->calcula_mao_obra_sub_total(),2,',','.')?></td>

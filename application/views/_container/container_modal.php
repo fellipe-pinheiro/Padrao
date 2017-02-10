@@ -477,15 +477,8 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<div class="form-group">
 						<?= form_label('Mão de obra: ', 'mao_obra', array('class' => 'control-label')) ?>
-						<select id="md_mao_obra_select" name="mao_obra" class="form-control" autofocus="true">
+						<select id="md_mao_obra_select" name="mao_obra" class="form-control" autofocus>
 							<option value="" selected disabled>Selecione</option>
-							<?php 
-							foreach ($dados['mao_obra'] as $mao_obra) {
-								?>
-								<option value="<?=$mao_obra->id?>"><?=$mao_obra->nome?></option>
-								<?php 
-							} 
-							?>
 						</select>
 						<span class="help-block"></span>
 					</div>

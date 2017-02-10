@@ -43,7 +43,7 @@ class Convite extends CI_Controller {
         }
     }
     public function index() {
-        $data['convite_modelo'] = $this->Convite_modelo_m->get_list();
+        //$data['convite_modelo'] = $this->Convite_modelo_m->get_list();
         //$data['papel'] = $this->Papel_m->get_list();
         //$data['linha'] = $this->Papel_linha_m->get_list();
         //$data['impressao'] = $this->Impressao_m->get_list();
@@ -52,7 +52,7 @@ class Convite extends CI_Controller {
         //$data['acessorio'] = $this->Acessorio_m->get_list();
         //$data['fita'] = $this->Fita_m->get_list();
         //$data['fita_material'] = $this->Fita_material_m->get_list();
-        $data['mao_obra'] = $this->Mao_obra_m->get_list();
+        //$data['mao_obra'] = $this->Mao_obra_m->get_list();
         /*
         irá vir somente 1 array com o objeto na função abaixo: $this->Fita_espessura_m->get_list(), 
         caso não venha nada (array{}) crio um novo objeto 

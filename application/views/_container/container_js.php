@@ -615,7 +615,6 @@ $controller = $this->router->class;
 		})
 		.always(function() {
 		});
-		// definir selectpicker
 	}
 
 	function ajax_carregar_impressao_area(editar = false,id_impressao_area = null) {
@@ -832,6 +831,38 @@ $controller = $this->router->class;
 			}
 		});
 	}
+
+	function ajax_carregar_mao_obra(editar = false,id_mao_obra = null) {
+		$('#md_mao_obra_select')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("mao_obra/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#md_mao_obra_select').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_mao_obra");
+		})
+		.always(function() {
+			if(editar){
+				$("#md_mao_obra_select option[value='"+id_mao_obra+"']").attr("selected", "selected");
+			}else{
+				$("#md_mao_obra_select option[value='']").attr("selected", "selected");
+			}
+		});
+	}
 	
 	function excluir_papel(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_papel_excluir",owner,posicao);
@@ -869,17 +900,18 @@ $controller = $this->router->class;
 		main_excluir('<?=base_url('personalizado/session_personalizado_itens_excluir')?>','itens_personalizado');
 	}
 
-	function mao_obra_modal(acao,id){
+	function mao_obra_modal(acao,id_mao_obra = null){
 		console.log('Função: mao_obra_modal()');
 		if(acao === "inserir"){
 			pre_submit("#form_mao_obra","<?=$controller?>/session_mao_obra_inserir","#md_mao_obra",'');
 		}else if(acao === "editar"){
 			pre_submit("#form_mao_obra","<?=$controller?>/session_mao_obra_editar","#md_mao_obra",'');
 		}
-		if(id ===''){
-			$("#md_mao_obra_select option[value='']").attr("selected", "selected");
+		if(id_mao_obra ===''){
+			ajax_carregar_mao_obra();
 		}else{
-			$("#md_mao_obra_select option[value="+ id +"]").attr("selected", "selected");
+			ajax_carregar_mao_obra(true,id_mao_obra);
+			console.log("caiu")
 		}
 		$("#md_mao_obra").modal();
 	}
@@ -918,12 +950,9 @@ $controller = $this->router->class;
 		if(id_modelo == ''){
 			ajax_carregar_convite_modelo();
 			$('#convite_modelo').selectpicker('val', '');
-			//$("#convite_modelo option[value='']").prop("selected",true);
 			$("#quantidade_convite").val(null);
 		}else{
 			ajax_carregar_convite_modelo(true,id_modelo);
-			//$('#convite_modelo').selectpicker('val', id_modelo);
-			//$("#convite_modelo option[value="+id_modelo+"]").prop("selected",true);
 			$("#quantidade_convite").val(quantidade);
 		}
 		if(acao =="inserir"){
