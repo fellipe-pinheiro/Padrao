@@ -189,4 +189,12 @@ class Fita_m extends CI_Model {
             );
         return json_encode($arr);
     }
+
+    public function get_pesonalizado($id_material,$colunas){
+        $this->db->select($colunas);
+        $this->db->join('fita_laco as fl', 'fita.fita_laco = fl.id', 'left');
+        $this->db->where("fita_material",$id_material);
+        $this->db->from("fita");
+        return $this->db->get()->result_array();
+    }
 }
