@@ -47,15 +47,6 @@ class Personalizado extends CI_Controller {
     public function index() {
         $data['personalizado_modelo'] = $this->Personalizado_modelo_m->get_list();
         $data['personalizado_categoria'] = $this->Personalizado_categoria_m->get_list();
-        $data['papel'] = $this->Papel_m->get_list();
-        $data['linha'] = $this->Papel_linha_m->get_list();
-        $data['impressao'] = $this->Impressao_m->get_list();
-        $data['impressao_area'] = $this->Impressao_area_m->get_list();
-        $data['acabamento'] = $this->Acabamento_m->get_list();
-        $data['acessorio'] = $this->Acessorio_m->get_list();
-        $data['fita'] = $this->Fita_m->get_list();
-        $data['fita_material'] = $this->Fita_material_m->get_list();
-        $data['mao_obra'] = $this->Mao_obra_m->get_list();
         /*
         irá vir somente 1 array com o objeto na função abaixo: $this->Fita_espessura_m->get_list(), 
         caso não venha nada (array{}) crio um novo objeto 
