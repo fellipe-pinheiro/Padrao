@@ -78,7 +78,7 @@ class Acabamento_m extends CI_Model {
     }
 
     public function inserir(Acabamento_m $objeto) {
-        if (!empty($objeto)) {
+        if (empty($objeto->id)) {
             $dados = $this->get_dados($objeto);
             if ($this->db->insert('acabamento', $dados)) {
                 return $this->db->insert_id();

@@ -77,8 +77,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 									<tr>
 										<td><?=$count?></td>
-										<td>Convite</td>
-										<td><?=$this->session->convite->modelo->codigo?></td>
+										<td>Convite - Modelo: <?=$this->session->convite->modelo->codigo?></td>
+										<td><?=$this->session->convite->modelo->nome?></td>
 										<td><?=$this->session->convite->quantidade?></td>
 										<td>R$ <?=number_format($this->session->convite->calcula_convite(),2,',','.')?></td>
 										<td>R$ <?=number_format($this->session->convite->calcula_convite_sub_total(),2,',','.')?></td>

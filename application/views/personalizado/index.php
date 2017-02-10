@@ -33,7 +33,7 @@ if(empty($mao_obra->id)){
 	                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Menu <b class="caret"></b></a>
 	                                <ul class="dropdown-menu" role="menu">
 										<li>
-											<a onclick="personalizado_modal('inserir','','')" href="javascript:void(0)"><i class="glyphicon glyphicon-asterisk"></i> Novo</a>
+											<a onclick="personalizado_modal()" href="javascript:void(0)"><i class="glyphicon glyphicon-asterisk"></i> Novo</a>
 										</li>
 										<li>
 											<a onclick="mao_obra_modal('inserir',<?=$mao_id?>)" href="javascript:void(0)"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> <?=$mao_txt ?> mão de obra</a>
@@ -76,12 +76,12 @@ if(empty($mao_obra->id)){
 									?>
 									<tr>
 										<td><?=$count?></td>
-										<td><?=$this->session->personalizado->modelo->personalizado_categoria->nome?></td>
-										<td><?=$this->session->personalizado->modelo->codigo?></td>
+										<td><?=$this->session->personalizado->modelo->personalizado_categoria->nome?> - Modelo: <?=$this->session->personalizado->modelo->codigo?></td>
+										<td><?=$this->session->personalizado->modelo->nome?></td>
 										<td><?=$this->session->personalizado->quantidade?></td>
 										<td>R$ <?=number_format($this->session->personalizado->modelo->valor,2,',','.')?></td>
 										<td>R$ <?=number_format($this->session->personalizado->modelo->valor * $this->session->personalizado->quantidade,2,',','.')?></td>
-										<td><a onclick="personalizado_modal('editar',<?=$this->session->personalizado->modelo->id?>,<?=$this->session->personalizado->quantidade?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
+										<td><a onclick="personalizado_modal(true,<?=$this->session->personalizado->modelo->id?>,<?=$this->session->personalizado->modelo->personalizado_categoria->id?>,<?=$this->session->personalizado->quantidade?>)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil"></span></a></td>
 										<td><a onclick="excluir_personalizado()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
 									<?php

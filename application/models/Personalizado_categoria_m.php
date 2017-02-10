@@ -136,4 +136,9 @@ class Personalizado_categoria_m extends CI_Model {
         return $object_lista;
     }
 
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("personalizado_categoria")->result_array();
+    }
+
 }

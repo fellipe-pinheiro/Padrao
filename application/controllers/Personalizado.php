@@ -45,8 +45,6 @@ class Personalizado extends CI_Controller {
     }
 
     public function index() {
-        $data['personalizado_modelo'] = $this->Personalizado_modelo_m->get_list();
-        $data['personalizado_categoria'] = $this->Personalizado_categoria_m->get_list();
         /*
         irá vir somente 1 array com o objeto na função abaixo: $this->Fita_espessura_m->get_list(), 
         caso não venha nada (array{}) crio um novo objeto 

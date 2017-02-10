@@ -427,27 +427,17 @@ $controller = $this->router->class;
 					<h4 id="md_personalizado_titulo" class="modal-title"></h4>
 				</div>			
 				<div class="modal-body row">
-					<div class="form-group col-sm-8">
-						<?= form_label('Personalizado Modelo: ', 'personalizado_modelo', array('class' => 'control-label')) ?>
-						<select id="personalizado_modelo" autofocus="true" name="personalizado_modelo" class="form-control">
+					<div class="form-group col-sm-4">
+						<label for="personalizado_categoria" class="control-label">Categoria</label>
+						<select id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
 							<option value="" disabled selected>Selecione</option>
-							<?php 
-							foreach ($dados['personalizado_categoria'] as $personalizado_categoria) {
-								?>
-								<optgroup label="Categoria: <?=$personalizado_categoria->nome?>">
-									<?php
-									foreach ($dados['personalizado_modelo'] as $personalizado_modelo) {
-										if($personalizado_categoria->id == $personalizado_modelo->personalizado_categoria->id){
-											?>
-											<option value="<?=$personalizado_modelo->id?>"><?=$personalizado_modelo->personalizado_categoria->nome?> : <?=$personalizado_modelo->nome?></option>
-											<?php
-										}
-									}
-									?>
-								</optgroup>
-								<?php
-							}
-							?>
+						</select>
+						<span class="help-block"></span>
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="personalizado_modelo" class="control-label">Modelo</label>
+						<select id="personalizado_modelo" name="personalizado_modelo" class="form-control selectpicker" data-live-search="true">
+							<option value="" disabled selected>Selecione</option>
 						</select>
 						<span class="help-block"></span>
 					</div>

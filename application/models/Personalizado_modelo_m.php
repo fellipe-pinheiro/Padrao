@@ -89,63 +89,47 @@ class Personalizado_modelo_m extends CI_Model {
     }
 
     public function inserir(Personalizado_modelo_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'codigo' => $objeto->codigo,
-                'nome' => $objeto->nome,
-                'personalizado_categoria' => $objeto->personalizado_categoria,
-                'formato' => $objeto->formato,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor),
-                );
+        if (empty($objeto->id)) {
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('personalizado_modelo', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function editar(Personalizado_modelo_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'codigo' => $objeto->codigo,
-                'nome' => $objeto->nome,
-                'personalizado_categoria' => $objeto->personalizado_categoria,
-                'formato' => $objeto->formato,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor),
-                );
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('personalizado_modelo', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
+    }
+
+    public function get_dados($objeto){
+        $dados = array(
+            'id' => $objeto->id,
+            'codigo' => $objeto->codigo,
+            'nome' => $objeto->nome,
+            'personalizado_categoria' => $objeto->personalizado_categoria,
+            'formato' => $objeto->formato,
+            'descricao' => $objeto->descricao,
+            'valor' => str_replace(',', '.', $objeto->valor)
+        );
+        return $dados;
     }
 
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('personalizado_modelo')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private function changeToObject($result_db) {
@@ -162,6 +146,12 @@ class Personalizado_modelo_m extends CI_Model {
             $object_lista[] = $object;
         }
         return $object_lista;
+    }
+
+    public function get_pesonalizado($id_categoria,$colunas){
+        $this->db->select($colunas);
+        $this->db->where("personalizado_categoria",$id_categoria);
+        return $this->db->get("personalizado_modelo")->result_array();
     }
 
 }

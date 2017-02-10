@@ -117,6 +117,11 @@ $controller = $this->router->class;
 			}
 		});
 
+		$("#personalizado_categoria").change(function(event) {
+			var option = $(this).find('option:selected');
+			var id_categoria = option.val();
+			ajax_carregar_personalizado_modelo(id_categoria);
+		});
 	});
 
 	function alteraEmpastamento(){
@@ -490,14 +495,14 @@ $controller = $this->router->class;
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
-		remove_form_select_papel_option();
+		remove_form_select_option_papel();
 		ajax_carregar_papel_linha();
 	}
 
 	function abrir_impressao_modal(owner){
 		reset_form("#form_md_impressao");
 		pre_submit("#form_md_impressao","<?=$controller?>/session_impressao_inserir/"+owner,"#md_impressao",owner);
-		remove_form_select_impressao_option();
+		remove_form_select_option_impressao();
 		ajax_carregar_impressao_area();
 	}
 
@@ -518,7 +523,7 @@ $controller = $this->router->class;
 	function abrir_fita_modal(owner){
 		reset_form("#form_md_fita");
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);
-		remove_form_select_fita_option();
+		remove_form_select_option_fita();
 		ajax_carregar_fita_material();
 	}
 
@@ -555,7 +560,7 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_papel(id_linha,editar = false, id_papel = null) {
-		remove_form_select_papel_option();
+		remove_form_select_option_papel();
 		$.ajax({
 			url: '<?= base_url("papel/ajax_get_personalizado/")?>'+id_linha,
 			type: 'GET',
@@ -649,7 +654,7 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_impressao(id_area,editar = false, id_impressao = null) {
-		remove_form_select_impressao_option();
+		remove_form_select_option_impressao();
 
 		$.ajax({
 			url: '<?= base_url("impressao/ajax_get_personalizado/")?>'+id_area,
@@ -772,7 +777,7 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_fita(id_material,editar = false, id_fita = null) {
-		remove_form_select_fita_option();
+		remove_form_select_option_fita();
 		$.ajax({
 			url: '<?= base_url("fita/ajax_get_personalizado/")?>'+id_material,
 			type: 'GET',
@@ -863,6 +868,64 @@ $controller = $this->router->class;
 			}
 		});
 	}
+
+	function ajax_carregar_personalizado_categoria(editar = false,id_categoria = null) {
+		$('#personalizado_categoria')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("personalizado_categoria/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#personalizado_categoria').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_personalizado_categoria");
+		})
+		.always(function() {
+			$('#personalizado_categoria').selectpicker('refresh');
+			if(editar){
+				$('#personalizado_categoria').selectpicker('val', id_categoria);
+			}
+		});
+	}
+
+	function ajax_carregar_personalizado_modelo(id_categoria,editar = false, id_modelo = null) {
+		remove_form_select_option_personalizado_modelo();
+		$.ajax({
+			url: '<?= base_url("personalizado_modelo/ajax_get_personalizado/")?>'+id_categoria,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			console.log(data);
+			$.each(data, function(index, val) {
+				$('#personalizado_modelo').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+			$('#personalizado_modelo').selectpicker('refresh');
+			if(editar){
+				$('#personalizado_modelo').selectpicker('val', id_modelo);
+			}
+		});
+	}
 	
 	function excluir_papel(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_papel_excluir",owner,posicao);
@@ -922,24 +985,25 @@ $controller = $this->router->class;
 		$("#md_descricao").modal();
 	}
 	
-	function personalizado_modal(acao,modelo,quantidade)	{
+	function personalizado_modal(editar = false,id_modelo = "",id_categoria = "",quantidade = "")	{
 		console.log("Função: personalizado_modal()");
 		reset_errors();
-		if(modelo ==''){
+		if(id_modelo == ""){
+			remove_form_select_option_personalizado_modelo();
+			ajax_carregar_personalizado_categoria();
 			$("#personalizado_modelo option[value='']").prop("selected",true);
 			$("#quantidade_personalizado").val(null);
 		}else{
-			$("#personalizado_modelo option[value="+modelo+"]").prop("selected",true);
+			ajax_carregar_personalizado_categoria(true,id_categoria);
+			$("#personalizado_modelo option[value="+id_modelo+"]").prop("selected",true);
 			$("#quantidade_personalizado").val(quantidade);
 		}
-		if(acao =="inserir"){
+		if(!editar){
 			$("#md_personalizado_titulo").text('Novo personalizado');
 			pre_submit("#form_personalizado","<?=$controller?>/session_personalizado_novo","#md_personalizado",'personalizado');
-		}else if(acao =="editar"){
+		}else{
 			$("#md_personalizado_titulo").text('Editar personalizado');
 			pre_submit("#form_personalizado","<?=$controller?>/session_personalizado_editar","#md_personalizado",'personalizado');
-		}else{
-			console.log("Nenhuma ação foi definida");
 		}
 		$("#md_personalizado").modal();
 	}
@@ -1169,14 +1233,13 @@ $controller = $this->router->class;
 
 	//Verifica se há um modelo e quantidade
 	function is_empty_modelo_quantidade(form,url,itens,modal,owner) {
-		console.log('Função: is_empty_modelo_quantidade()');
 		$.ajax({
 			url: '<?=base_url($controller.'/is_empty_modelo_quantidade')?>',
 			type: 'POST',
 			dataType: 'JSON',
 		})
 		.done(function(data) {
-			console.log("success: is_empty_modelo_quantidade()");
+			console.log("success");
 			if(data.status){
 				$(itens).show()
 			}
@@ -1188,10 +1251,14 @@ $controller = $this->router->class;
 			}
 		})
 		.fail(function() {
-			console.log("error: is_empty_modelo_quantidade()");
+			console.log("error");
 		})
 		.always(function() {
-			console.log("complete: is_empty_modelo_quantidade()");
+			if(owner === 'convite'){
+				ajax_carregar_convite_modelo();
+			}else if(owner === 'personalizado'){
+				ajax_carregar_personalizado_categoria();
+			}
 		});	
 	}
 
@@ -1257,7 +1324,7 @@ $controller = $this->router->class;
         $('.help-block').empty(); // Limpar as msg de erro
     }
 
-    function remove_form_select_papel_option() {
+    function remove_form_select_option_papel() {
     	$('#form_select_papel').selectpicker('destroy');
 		$('#form_select_papel')
 	    .find('option')
@@ -1267,7 +1334,7 @@ $controller = $this->router->class;
 	    .val('');
 	}
 
-	function remove_form_select_impressao_option() {
+	function remove_form_select_option_impressao() {
 		$('#form_select_impressao').selectpicker('destroy');
 		$('#form_select_impressao')
 	    .find('option')
@@ -1277,9 +1344,19 @@ $controller = $this->router->class;
 	    .val('');
 	}
 
-	function remove_form_select_fita_option() {
+	function remove_form_select_option_fita() {
     	$('#form_select_fita').selectpicker('destroy');
 		$('#form_select_fita')
+	    .find('option')
+	    .remove()
+	    .end()
+	    .append('<option value="">Selecione</option>')
+	    .val('');
+	}
+
+	function remove_form_select_option_personalizado_modelo() {
+    	$('#personalizado_modelo').selectpicker('destroy');
+		$('#personalizado_modelo')
 	    .find('option')
 	    .remove()
 	    .end()

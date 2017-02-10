@@ -44,51 +44,53 @@ class Personalizado_modelo extends CI_Controller {
             "recordsFiltered" => $this->Personalizado_modelo_m->count_filtered(),
             "data" => $data,
             );
-        //output to json format
         print json_encode($output);
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $this->validar_formulario();
+        $data['status'] = FALSE;
+        $objeto = $this->get_post();
         if ( $this->Personalizado_modelo_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
         $data["personalizado_modelo"] = $this->Personalizado_modelo_m->get_by_id($id);
         $data["status"] = TRUE;
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
+        $data['status'] = FALSE;
+        $this->validar_formulario(true);
         $id = $this->input->post('id');
         if ($id) {
-            $objeto = $this->_get_post();
-
+            $objeto = $this->get_post();
             if ($this->Personalizado_modelo_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Personalizado_modelo_m->editar()'));
+                $data['status'] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Personalizado_modelo_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data['status'] = FALSE;
+        if($this->Personalizado_modelo_m->deletar($id)){
+            $data['status'] = TRUE;
+        }
+        print json_encode($data);
     }
 
-    private function _get_post() {
+    public function ajax_get_personalizado($id_categoria){
+        $arr = array();
+        $arr = $this->Personalizado_modelo_m->get_pesonalizado($id_categoria,"id, nome");
+        print json_encode($arr);
+    }
+
+    private function get_post() {
         $objeto = new Personalizado_modelo_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->codigo = $this->input->post('codigo');
@@ -100,10 +102,10 @@ class Personalizado_modelo extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Personalizado_modelo_m->get_by_id($this->input->post('id'));
             if($this->input->post('codigo') != $object->codigo){
                 $is_unique =  '|is_unique[personalizado_modelo.codigo]';
@@ -128,7 +130,6 @@ class Personalizado_modelo extends CI_Controller {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;
             print json_encode($data);
-            exit();
         }
     }
 

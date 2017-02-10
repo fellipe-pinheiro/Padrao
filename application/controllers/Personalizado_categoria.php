@@ -82,6 +82,12 @@ class Personalizado_categoria extends CI_Controller {
         print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
     }
 
+    public function ajax_get_personalizado(){
+        $arr = array();
+        $arr = $this->Personalizado_categoria_m->get_pesonalizado("id, nome");
+        print json_encode($arr);
+    }
+
     private function _get_post() {
         $objeto = new Personalizado_categoria_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
