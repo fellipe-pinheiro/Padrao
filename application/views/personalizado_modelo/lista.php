@@ -117,14 +117,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Categoria: ', 'personalizado_categoria', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select name="personalizado_categoria" id="personalizado_categoria" class="form-control" >
+                            <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true">
                                 <option disabled selected>Selecione</option>
-                                <?php foreach ($dados['personalizado_categoria'] as $key => $value) { 
-                                    ?>
-                                    <option value="<?= $value->id ?>"><?= $value->nome ?></option>
-                                    <?php 
-                                } 
-                                ?>
                             </select>
                             <span class="help-block"></span>
                         </div>
@@ -210,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descrição"') ?>
+                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -242,6 +236,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_add;
     var url_update;
     var form;
+    var categoria_atualizar = true;
 
     $(document).ready(function() {
         tb_personalizado_modelo = $("#tb_personalizado_modelo").DataTable({
@@ -392,6 +387,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
+            if(tab_active === "#tab_personalizado_modelo"){
+                ajax_carregar_personalizado_categoria();
+            }
             reset_form();
 
             save_method = 'add';
@@ -404,7 +402,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
-
             var id = dataTable.row(".selected").id();
 
             if (!id) {
@@ -427,7 +424,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             $('[name="' + index + '"]').val(value);
                         } else if ($('[name="' + index + '"]').is("select")) {
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                            if(tab_active === "#tab_personalizado_modelo"){
+                                ajax_carregar_personalizado_categoria(true,value.id);
+                            }else{
+                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                            }
                         }
                     });
                     $(md_form).modal('show');
@@ -454,6 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
+                            categoria_atualizar = true;
                             reload_table(dataTable);
                         } else {
                             alert("Erro ao excluir o registro");
@@ -467,15 +469,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-        $("#form_personalizado_modelo").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_categoria").submit(function (e) {
+        $("form").submit(function (e) {
 
             formulario_submit(e);
         });
     });
+
+    function ajax_carregar_personalizado_categoria(editar = false,id_categoria = null) {
+        if(categoria_atualizar){
+            $('#personalizado_categoria')
+            .find('option')
+            .remove()
+            .end()
+            .append('<option value="">Selecione</option>')
+            .val('');
+
+            $.ajax({
+                url: '<?= base_url("personalizado_categoria/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                categoria_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#personalizado_categoria').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
+                });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_personalizado_categoria");
+            })
+            .always(function() {
+                $('#personalizado_categoria').selectpicker('refresh');
+                if(editar){
+                    $('#personalizado_categoria').selectpicker('val', id_categoria);
+                }
+            });
+        }else{
+            if(editar){
+                $('#personalizado_categoria').selectpicker('val', id_categoria);
+            }else{
+                $('#personalizado_categoria').selectpicker('val', '');
+            }
+        }
+    }
     
     function formulario_submit(e) {
         disable_button_salvar();
@@ -497,12 +536,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: "JSON",
             success: function (data)
             {
-                if (data.status)
-                {
+                if (data.status){
                     $(md_form).modal('hide');
                     reload_table(dataTable);
-                } else
-                {
+                    if(tab_active === "#tab_categoria"){
+                        categoria_atualizar = true;
+                    }
+                } else{
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').parent().parent().addClass('has-error');
                         $('[name="' + index + '"]').next().text(value);
@@ -520,6 +560,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         reload_table(dataTable);
         e.preventDefault();
     }
+
     function get_tab_active() {
         tab_active = $(".nav-tabs li.active a")[0].hash;
         switch (tab_active) {
@@ -549,6 +590,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 return false;
         }
     }
+
     function switch_data(tab_active, data) {
         switch (tab_active) {
             case '#tab_personalizado_modelo':
@@ -559,6 +601,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 break;
         }
     }
+
     function row_select(table, tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
@@ -574,21 +617,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         tabela.ajax.reload(null, false);
     }
+
     function reset_form() {
         $(form)[0].reset();
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
     }
+
     function reset_errors() {
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
     }
+
     function enable_buttons() {
         $("#editar").attr("disabled", false);
         $("#deletar").attr("disabled", false);
     }
+
     function disable_buttons() {
         $("#editar").attr("disabled", true);
         $("#deletar").attr("disabled", true);
     }
+
 </script>

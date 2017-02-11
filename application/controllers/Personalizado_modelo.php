@@ -105,7 +105,7 @@ class Personalizado_modelo extends CI_Controller {
     private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
-        if($update && !empty($this->input->post('id'))){
+        if(!empty($this->input->post('id'))){
             $object = $this->Personalizado_modelo_m->get_by_id($this->input->post('id'));
             if($this->input->post('codigo') != $object->codigo){
                 $is_unique =  '|is_unique[personalizado_modelo.codigo]';
@@ -130,6 +130,7 @@ class Personalizado_modelo extends CI_Controller {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;
             print json_encode($data);
+            exit();
         }
     }
 
