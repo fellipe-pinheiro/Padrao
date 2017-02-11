@@ -455,7 +455,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
-                            categoria_atualizar = true;
+                            if(tab_active === "#tab_categoria"){
+                                categoria_atualizar = true;
+                            }
                             reload_table(dataTable);
                         } else {
                             alert("Erro ao excluir o registro");

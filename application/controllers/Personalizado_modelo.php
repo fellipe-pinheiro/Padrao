@@ -15,7 +15,6 @@ class Personalizado_modelo extends CI_Controller {
 
     public function index() {
         $data['titulo_painel'] = 'Modelos de Produtos personalizados';
-        $data['personalizado_categoria'] = $this->Personalizado_categoria_m->get_list();
         set_layout('conteudo', load_content('personalizado_modelo/lista', $data));
         load_layout();
     }

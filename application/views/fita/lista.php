@@ -803,7 +803,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
-                            fita_atualizar = true;
+                            if(tab_active != '#tab_fita'){                            
+                                fita_atualizar = true;
+                            }
                             reload_table(dataTable);
                         }else{
                             alert("Erro ao excluir o registro");
@@ -855,10 +857,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('#fita_material').selectpicker('val', id_fita_material);
                 }
             });
-        }else if(editar){
-            $('#fita_material').selectpicker('val', id_fita_material);
-        }else{
-            $('#fita_material').selectpicker('val', '');
+        }else {
+            if(editar){
+                $('#fita_material').selectpicker('val', id_fita_material);
+            }else{
+                $('#fita_material').selectpicker('val', '');
+            }
         }
     }
 
@@ -894,11 +898,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('#fita_laco').selectpicker('val', id_fita_laco);
                 }
             });
-        }else if(editar){
-            $('#fita_laco').selectpicker('val', id_fita_laco);
-        }else{
-            $('#fita_laco').selectpicker('val', '');
-        }
+        }else{  
+            if(editar){
+                $('#fita_laco').selectpicker('val', id_fita_laco);
+            }else{
+                $('#fita_laco').selectpicker('val', '');
+            }
+        } 
     }
 
     function formulario_submit(e) {
@@ -932,7 +938,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             confirmButton: 'Sim',
                             cancelButton: 'Não',
                             confirm: function(){
-                                $(form + " #fita_laco").val('');
+                                $(form + ' #fita_laco').selectpicker('val', '');
                             },
                             cancel: function(){
                                 $(md_form).modal('hide');

@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_input('nome', '', 'autofocus id="nome" class="form-control" placeholder="Nome"') ?>
+                            <input type="text" name="nome" id="nome" class="form-control" value="" autofocus="true" placeholder="Nome">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Fita material</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body form">
                     <!--ID-->
@@ -176,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
+                            <input type="text" name="nome" id="nome" class="form-control" value="" autofocus="true">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -490,11 +490,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log("erro ao ajax_carregar_impressao_area");
             })
             .always(function() {
+                if(editar){
+                    $("#impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
+                }else{
+                    $("#impressao_area option[value='']").prop('selected','selected');
+                }
             });
-        }else if(editar){
-            $("#impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
         }else{
-            $("#impressao_area option[value='']").prop('selected','selected');
+            if(editar){
+                $("#impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
+            }else{
+                $("#impressao_area option[value='']").prop('selected','selected');
+            }
         }
     }
 

@@ -14,8 +14,7 @@ class Impressao extends CI_Controller {
     }
 
     public function index() {
-        $data['impressao_area'] = $this->Impressao_area_m->get_list();
-        set_layout('conteudo', load_content('impressao/lista', $data));
+        set_layout('conteudo', load_content('impressao/lista', ""));
         load_layout();
     }
 
