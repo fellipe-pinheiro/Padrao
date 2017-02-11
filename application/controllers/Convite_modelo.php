@@ -76,6 +76,7 @@ class Convite_modelo extends CI_Controller {
             if ($this->Convite_modelo_m->editar($objeto)) {
                 $data["status"] = TRUE;
             }
+        }
         print json_encode($data);
     }
 
@@ -106,7 +107,7 @@ class Convite_modelo extends CI_Controller {
         print json_encode($arr);
     }
 
-    private function validar_formulario($update) {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
         if($update && !empty($this->input->post('id'))){
