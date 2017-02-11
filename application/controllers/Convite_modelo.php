@@ -51,38 +51,32 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario("add");
-        $data['status'] = TRUE;
+        $data['status'] = FALSE;
+        $this->validar_formulario();
         $objeto = $this->get_post();
         if ( $this->Convite_modelo_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["convite_modelo"] = $this->Convite_modelo_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if($id){
+            $data["convite_modelo"] = $this->Convite_modelo_m->get_by_id($id);
+            $data["status"] = TRUE;
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
+        $this->validar_formulario(true);
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Convite_modelo_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Convite_modelo_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
-        }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
@@ -112,10 +106,10 @@ class Convite_modelo extends CI_Controller {
         print json_encode($arr);
     }
 
-    private function validar_formulario($action) {
+    private function validar_formulario($update) {
         $data = array();
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Convite_modelo_m->get_by_id($this->input->post('id'));
             if($this->input->post('codigo') != $object->codigo){
                 $is_unique =  '|is_unique[convite_modelo.codigo]';
