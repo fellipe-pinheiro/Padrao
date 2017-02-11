@@ -17,22 +17,22 @@ class Fita_laco_m extends CI_Model {
         $this->db->from($this->table);
         $i = 0;
 
-        foreach ($this->column_search as $item) { // loop column 
-            if ($_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+        foreach ($this->column_search as $item) {
+            if ($_POST['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
                 }
                 $i++;
             }
 
-        if (isset($_POST['order'])) { // here order processing
+        if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
@@ -73,55 +73,43 @@ class Fita_laco_m extends CI_Model {
     }
 
     public function inserir(Fita_laco_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+        if (empty($objeto->id)) {
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('fita_laco', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function editar(Fita_laco_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('fita_laco', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
+    }
+
+    private function get_dados($objeto){
+        $dados = array(
+            'id' => $objeto->id,
+            'nome' => $objeto->nome,
+            'descricao' => $objeto->descricao
+        );
+        return $dados;
     }
 
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('fita_laco')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private function changeToObject($result_db) {
@@ -136,4 +124,8 @@ class Fita_laco_m extends CI_Model {
         return $object_lista;
     }
 
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        return $this->db->get("fita_laco")->result_array();
+    }
 }

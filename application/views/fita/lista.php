@@ -168,14 +168,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Fita Laço: ', 'fita_laco', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select autofocus name="fita_laco" id="fita_laco" class="form-control" >
+                            <select autofocus name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true">
                                 <option value="" disabled selected>Selecione</option>
-                                <?php foreach ($dados['fita_laco'] as $key => $value) { 
-                                    ?>
-                                    <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                    <?php 
-                                } 
-                                ?>
                             </select>
                             <span class="help-block"></span>
                         </div>
@@ -185,14 +179,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Fita Material: ', 'fita_material', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select name="fita_material" id="fita_material" class="form-control" >
+                            <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true">
                                 <option value="" disabled selected>Selecione</option>
-                                <?php foreach ($dados['fita_material'] as $key => $value) { 
-                                    ?>
-                                    <option value="<?=$value->id?>"><?=$value->nome?></option>
-                                    <?php 
-                                } 
-                                ?>
                             </select>
                             <span class="help-block"></span>
                         </div>
@@ -469,6 +457,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_add;
     var url_update;
     var form;
+    var fita_atualizar = true;
 
     $(document).ready(function() {
         tb_fita = $("#tb_fita").DataTable({
@@ -742,8 +731,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
+            if(tab_active === "#tab_fita"){
+                ajax_carregar_fita_material();
+                ajax_carregar_fita_laco();
+            }
             reset_form();
-            console.log($(form +' .modal-title'));
             save_method = 'add';
             $("input[name='id']").val("");
             $(form +' .modal-title').text('Adicionar' + modal_title);
@@ -776,7 +768,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if($('[name="' + index + '"]').is("input, textarea")){
                             $('[name="' + index + '"]').val(value);
                         }else if($('[name="' + index + '"]').is("select")){
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                            if(tab_active === "#tab_fita"){
+                                if(index == "fita_laco"){
+                                    ajax_carregar_fita_laco(true,value.id);
+                                }else if(index == "fita_material"){
+                                    ajax_carregar_fita_material(true,value.id);
+                                }
+                            }else{
+                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
+                            }
                         }
                     });
                     $(md_form).modal('show');
@@ -803,6 +803,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
+                            fita_atualizar = true;
                             reload_table(dataTable);
                         }else{
                             alert("Erro ao excluir o registro");
@@ -816,181 +817,259 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-        $("#form_fita").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_laco").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_espessura").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_material").submit(function (e) {
+        $("form").submit(function (e) {
 
             formulario_submit(e);
         });
     });
-
-function formulario_submit(e) {
-
-    disable_button_salvar();
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
-    }
-    reset_errors();
     
-    var url_submit;
-    if (save_method == 'add') {
-        url_submit = url_add;
-    } else {
-        url_submit = url_update;
-    }
-    $.ajax({
-        url: url_submit,
-        type: "POST",
-        data: $(form).serialize(),
-        dataType: "JSON",
-        success: function (data)
-        {
-            if (data.status)
-            {   
-                if(tab_active == '#tab_fita' && save_method == 'add'){
-                    $.confirm({
-                        title: 'Fita inserida com sucesso!',
-                        content: 'Deseja inserir mais uma fita de mesmo material?',
-                        confirmButton: 'Sim',
-                        cancelButton: 'Não',
-                        confirm: function(){
-                            $(form + " #fita_laco").val('');
-                        },
-                        cancel: function(){
-                            $(md_form).modal('hide');
-                        }
-                    });
-                }else{
-                    $(md_form).modal('hide');
-                }
-            }
-            else
-            {
-                $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
-                });
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Erro ao Adicionar ou Editar');
-        },
-        complete:function(){
-            enable_button_salvar();
-            reload_table(dataTable);
-        }
-    });
-    e.preventDefault();
-}
-function get_tab_active() {
-    tab_active = $(".nav-tabs li.active a")[0].hash;
-    switch(tab_active) {
-        case '#tab_fita':
-        dataTable = tb_fita;
-        md_form = '#md_form_fita';
-        modal_title = ' Fita';
-        url_edit = "<?= base_url('fita/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('fita/ajax_add') ?>";
-        url_update = "<?php echo site_url('fita/ajax_update') ?>";
-        url_delete = "<?= base_url('fita/ajax_delete/') ?>";
-        form = '#form_fita';
-        return true;
-        break;
-        case '#tab_laco':
-        dataTable = tb_laco;
-        md_form = '#md_form_laco';
-        modal_title = ' Laço';
-        url_edit = "<?= base_url('fita_laco/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('fita_laco/ajax_add') ?>";
-        url_update = "<?php echo site_url('fita_laco/ajax_update') ?>";
-        url_delete = "<?= base_url('fita_laco/ajax_delete/') ?>";
-        form = '#form_laco';
-        return true;
-        break;
-        case '#tab_espessura':
-        dataTable = tb_espessura;
-        md_form = '#md_form_espessura';
-        modal_title = ' Espessura';
-        url_edit = "<?= base_url('fita_espessura/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('fita_espessura/ajax_add') ?>";
-        url_update = "<?php echo site_url('fita_espessura/ajax_update') ?>";
-        url_delete = "<?= base_url('fita_espessura/ajax_delete/') ?>";
-        form = '#form_espessura';
-        return true;
-        break;
-        case '#tab_material':
-        dataTable = tb_material;
-        md_form = '#md_form_material';
-        modal_title = ' Material';
-        url_edit = "<?= base_url('fita_material/ajax_edit/') ?>";
-        url_add = "<?php echo site_url('fita_material/ajax_add') ?>";
-        url_update = "<?php echo site_url('fita_material/ajax_update') ?>";
-        url_delete = "<?= base_url('fita_material/ajax_delete/') ?>";
-        form = '#form_material';
-        return true;
-        break;
-        default:
-        return false;    
-    }
-}
-function switch_data(tab_active,data) {
-    switch(tab_active){
-        case '#tab_fita':
-        return data.fita;
-        break;
-        case '#tab_laco':
-        return data.fita_laco;
-        break;
-        case '#tab_espessura':
-        return data.fita_espessura;
-        break;
-        case '#tab_material':
-        return data.fita_material;
-        break;
-    }
-}
-function row_select(table,tr) {
-    if ($(tr).hasClass("selected")) {
-        $(tr).removeClass("selected");
-        disable_buttons();
-    }
-    else {
-        table.$("tr.selected").removeClass("selected");
-        $(tr).addClass("selected");
-        enable_buttons();
-    }
-}
-function reload_table(tabela) {
+    function ajax_carregar_fita_material(editar = false,id_fita_material = null) {
+        if(fita_atualizar){
+            $('#fita_material')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Selecione</option>')
+                .val('');
 
-    tabela.ajax.reload(null, false);
-}
-function reset_form() {
-    $(form)[0].reset();
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function reset_errors() {
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function enable_buttons() {
-    $("#editar").attr("disabled", false);
-    $("#deletar").attr("disabled", false);
-}
-function disable_buttons() {
-    $("#editar").attr("disabled", true);
-    $("#deletar").attr("disabled", true);
-}
+            $.ajax({
+                url: '<?= base_url("fita_material/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                fita_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#fita_material').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
+                });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_fita_material");
+            })
+            .always(function() {
+                $('#fita_material').selectpicker('refresh');
+                if(editar){
+                    $('#fita_material').selectpicker('val', id_fita_material);
+                }
+            });
+        }else if(editar){
+            $('#fita_material').selectpicker('val', id_fita_material);
+        }else{
+            $('#fita_material').selectpicker('val', '');
+        }
+    }
+
+    function ajax_carregar_fita_laco(editar = false,id_fita_laco = null) {
+        if(fita_atualizar){
+            $('#fita_laco')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Selecione</option>')
+                .val('');
+
+            $.ajax({
+                url: '<?= base_url("fita_laco/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                fita_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#fita_laco').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
+                });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_fita_laco");
+            })
+            .always(function() {
+                $('#fita_laco').selectpicker('refresh');
+                if(editar){
+                    $('#fita_laco').selectpicker('val', id_fita_laco);
+                }
+            });
+        }else if(editar){
+            $('#fita_laco').selectpicker('val', id_fita_laco);
+        }else{
+            $('#fita_laco').selectpicker('val', '');
+        }
+    }
+
+    function formulario_submit(e) {
+
+        disable_button_salvar();
+        if(!get_tab_active()){
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        reset_errors();
+        
+        var url_submit;
+        if (save_method == 'add') {
+            url_submit = url_add;
+        } else {
+            url_submit = url_update;
+        }
+        $.ajax({
+            url: url_submit,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+            success: function (data)
+            {
+                if (data.status)
+                {   
+                    if(tab_active == '#tab_fita' && save_method == 'add'){
+                        $.confirm({
+                            title: 'Fita inserida com sucesso!',
+                            content: 'Deseja inserir mais uma fita de mesmo material?',
+                            confirmButton: 'Sim',
+                            cancelButton: 'Não',
+                            confirm: function(){
+                                $(form + " #fita_laco").val('');
+                            },
+                            cancel: function(){
+                                $(md_form).modal('hide');
+                            }
+                        });
+                    }else{
+                        if(tab_active != '#tab_fita'){                            
+                            fita_atualizar = true;
+                        }
+                        $(md_form).modal('hide');
+                    }
+                }
+                else
+                {
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
+                        $('[name="' + index + '"]').next().text(value);
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Erro ao Adicionar ou Editar');
+            },
+            complete:function(){
+                enable_button_salvar();
+                reload_table(dataTable);
+            }
+        });
+        e.preventDefault();
+    }
+
+    function get_tab_active() {
+        tab_active = $(".nav-tabs li.active a")[0].hash;
+        switch(tab_active) {
+            case '#tab_fita':
+            dataTable = tb_fita;
+            md_form = '#md_form_fita';
+            modal_title = ' Fita';
+            url_edit = "<?= base_url('fita/ajax_edit/') ?>";
+            url_add = "<?php echo site_url('fita/ajax_add') ?>";
+            url_update = "<?php echo site_url('fita/ajax_update') ?>";
+            url_delete = "<?= base_url('fita/ajax_delete/') ?>";
+            form = '#form_fita';
+            return true;
+            break;
+            case '#tab_laco':
+            dataTable = tb_laco;
+            md_form = '#md_form_laco';
+            modal_title = ' Laço';
+            url_edit = "<?= base_url('fita_laco/ajax_edit/') ?>";
+            url_add = "<?php echo site_url('fita_laco/ajax_add') ?>";
+            url_update = "<?php echo site_url('fita_laco/ajax_update') ?>";
+            url_delete = "<?= base_url('fita_laco/ajax_delete/') ?>";
+            form = '#form_laco';
+            return true;
+            break;
+            case '#tab_espessura':
+            dataTable = tb_espessura;
+            md_form = '#md_form_espessura';
+            modal_title = ' Espessura';
+            url_edit = "<?= base_url('fita_espessura/ajax_edit/') ?>";
+            url_add = "<?php echo site_url('fita_espessura/ajax_add') ?>";
+            url_update = "<?php echo site_url('fita_espessura/ajax_update') ?>";
+            url_delete = "<?= base_url('fita_espessura/ajax_delete/') ?>";
+            form = '#form_espessura';
+            return true;
+            break;
+            case '#tab_material':
+            dataTable = tb_material;
+            md_form = '#md_form_material';
+            modal_title = ' Material';
+            url_edit = "<?= base_url('fita_material/ajax_edit/') ?>";
+            url_add = "<?php echo site_url('fita_material/ajax_add') ?>";
+            url_update = "<?php echo site_url('fita_material/ajax_update') ?>";
+            url_delete = "<?= base_url('fita_material/ajax_delete/') ?>";
+            form = '#form_material';
+            return true;
+            break;
+            default:
+            return false;    
+        }
+    }
+
+    function switch_data(tab_active,data) {
+        switch(tab_active){
+            case '#tab_fita':
+            return data.fita;
+            break;
+            case '#tab_laco':
+            return data.fita_laco;
+            break;
+            case '#tab_espessura':
+            return data.fita_espessura;
+            break;
+            case '#tab_material':
+            return data.fita_material;
+            break;
+        }
+    }
+
+    function row_select(table,tr) {
+        if ($(tr).hasClass("selected")) {
+            $(tr).removeClass("selected");
+            disable_buttons();
+        }
+        else {
+            table.$("tr.selected").removeClass("selected");
+            $(tr).addClass("selected");
+            enable_buttons();
+        }
+    }
+
+    function reload_table(tabela) {
+
+        tabela.ajax.reload(null, false);
+    }
+
+    function reset_form() {
+        $(form)[0].reset();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+
+    function reset_errors() {
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+
+    function enable_buttons() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+
+    function disable_buttons() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
+    }
+
 </script>

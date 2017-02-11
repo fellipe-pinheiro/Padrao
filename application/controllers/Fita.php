@@ -15,9 +15,7 @@ class Fita extends CI_Controller {
     }
 
     public function index() {
-        $data['fita_laco'] = $this->Fita_laco_m->get_list();
-        $data['fita_material'] = $this->Fita_material_m->get_list();
-        set_layout('conteudo', load_content('fita/lista', $data));
+        set_layout('conteudo', load_content('fita/lista', ""));
         load_layout();
     }
 
@@ -115,15 +113,6 @@ class Fita extends CI_Controller {
         $arr = $this->Fita_m->get_pesonalizado($id_material,$colunas);
         print json_encode($arr);
     }
-
-    /*
-    public function ajax_get_personalizado_espessura($id_fita){
-        $arr = array();
-        $colunas = "fita.valor_03mm as 3,fl.nome as nome";
-        $arr = $this->Fita_m->get_pesonalizado($id_material,$colunas);
-        print json_encode($arr);
-    }
-    */
 
     private function validar_formulario($action) {
         $data = array();

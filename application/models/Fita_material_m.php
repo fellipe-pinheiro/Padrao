@@ -73,55 +73,43 @@ class Fita_material_m extends CI_Model {
     }
 
     public function inserir(Fita_material_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+        if (empty($objeto->id)) {
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('fita_material', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function editar(Fita_material_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('fita_material', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
+    }
+
+    private function get_dados($objeto){
+        $dados = array(
+            'id' => $objeto->id,
+            'nome' => $objeto->nome,
+            'descricao' => $objeto->descricao
+        );
+        return $dados;
     }
 
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('fita_material')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private function changeToObject($result_db) {
