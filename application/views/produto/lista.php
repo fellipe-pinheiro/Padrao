@@ -116,14 +116,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('*Categoria: ', 'produto_categoria', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <select name="produto_categoria" id="produto_categoria" class="form-control" >
+                        <select name="produto_categoria" id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
                             <option disabled selected>Selecione</option>
-                            <?php foreach ($dados['produto_categoria'] as $key => $value) {
-                                ?>
-                                <option value="<?= $value->id ?>"><?= $value->nome ?></option>
-                                <?php
-                            }
-                            ?>
                         </select>
                         <span class="help-block"></span>
                     </div>
@@ -273,6 +267,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_add;
     var url_update;
     var form;
+    var produto_atualizar = true;
 
     $(document).ready(function () {
         tb_produto = $("#tb_produto").DataTable({
@@ -431,6 +426,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
+            if(tab_active === "#tab_produto"){
+                ajax_carregar_categoria();
+            }
             reset_form();
 
             save_method = 'add';
@@ -466,7 +464,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             $('[name="' + index + '"]').val(value);
                         } else if ($('[name="' + index + '"]').is("select")) {
-                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                            if(tab_active === "#tab_produto"){
+                                ajax_carregar_categoria(true,value.id);
+                            }else{
+                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                            }
                         }
                     });
                     $(md_form).modal('show');
@@ -493,6 +495,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
+                            if(tab_active === '#tab_categoria'){
+                                produto_atualizar = true;
+                            }
                             reload_table(dataTable);
                         } else {
                             alert("Erro ao excluir o registro");
@@ -506,15 +511,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-        $("#form_produto").submit(function (e) {
-
-            formulario_submit(e);
-        });
-        $("#form_categoria").submit(function (e) {
+        $("form").submit(function (e) {
 
             formulario_submit(e);
         });
     });
+
+    function ajax_carregar_categoria(editar = false,id_categoria = null) {
+        if(produto_atualizar){
+            $('#produto_categoria')
+            .find('option')
+            .remove()
+            .end()
+            .append('<option value="">Selecione</option>')
+            .val('');
+
+            $.ajax({
+                url: '<?= base_url("produto_categoria/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                produto_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#produto_categoria').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
+                });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_categoria");
+            })
+            .always(function() {
+                $('#produto_categoria').selectpicker('refresh');
+                if(editar){
+                    $('#produto_categoria').selectpicker('val', id_categoria);
+                }
+            });
+        }else{
+            if(editar){
+                $('#produto_categoria').selectpicker('val', id_categoria);
+            }else{
+                $('#produto_categoria').selectpicker('val', '');
+            }
+        }
+    }
 
     function formulario_submit(e) {
         disable_button_salvar();
@@ -552,6 +594,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         });
                     }else{
                         $(md_form).modal('hide');
+                        if(tab_active == '#tab_categoria'){
+                            produto_atualizar = true;
+                        }
                     }
                 } else{
                     $.map(data.form_validation, function (value, index) {
@@ -571,6 +616,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         e.preventDefault();
     }
+
     function get_tab_active() {
         tab_active = $(".nav-tabs li.active a")[0].hash;
         switch (tab_active) {
@@ -600,6 +646,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 return false;
         }
     }
+
     function switch_data(tab_active, data) {
         switch (tab_active) {
             case '#tab_produto':
@@ -610,6 +657,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 break;
         }
     }
+
     function row_select(table, tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
@@ -620,27 +668,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             enable_buttons();
         }
     }
+
     function reload_table(tabela) {
 
         tabela.ajax.reload(null, false);
     }
+
     function reset_form() {
         $(form)[0].reset();
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
     }
+
     function reset_errors() {
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
     }
+
     function enable_buttons() {
         $("#editar").attr("disabled", false);
         $("#deletar").attr("disabled", false);
     }
+
     function disable_buttons() {
         $("#editar").attr("disabled", true);
         $("#deletar").attr("disabled", true);
     }
+
     function filtro(tabela, acao) {
         if (!get_tab_active()) {
             console.log('Não foi possível carregar get_tab_active()');
@@ -659,4 +713,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataTable.ajax.reload(null, false);
         }
     }
+
 </script>
