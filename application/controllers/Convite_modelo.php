@@ -13,8 +13,7 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function index() {
-        $data = null;
-        set_layout('conteudo', load_content('convite_modelo/lista', $data));
+        set_layout('conteudo', load_content('convite_modelo/lista', ''));
         load_layout();
     }
 

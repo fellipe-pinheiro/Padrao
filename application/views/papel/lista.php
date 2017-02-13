@@ -446,13 +446,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label for="papel-filtro_linha" class="control-label"> Linha</label>
                         <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
                             <option value="">Selecione</option>
-                            <?php
-                            foreach ($dados['papel_linha'] as $key => $value) {
-                                ?>
-                                <option value="<?=$value->nome?>"><?=$value->nome?></option>
-                                <?php
-                            }
-                            ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -469,9 +462,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="glyphicon glyphicon-erase"></span> Limpar Filtro
                     </button>
                     <button type="button" class="btn btn-default" onclick="filtro('filtrar')">
-                        <span class="glyphicon glyphicon-filter"></span>
+                        <span class="glyphicon glyphicon-filter"></span> Filtrar
                     </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -558,6 +550,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {   
                     text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
                     action: function () {
+                        ajax_carregar_papel_linha();
                         $('.modal-title').text('Filtro');
                         $("#md_filtro_papel").modal('show');
                     }
@@ -980,6 +973,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 .end()
                 .append('<option value="">Selecione</option>')
                 .val('');
+            $('#papel-filtro_linha')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Selecione</option>')
+                .val('');
 
             $.ajax({
                 url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
@@ -993,6 +992,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         value: val.id,
                         text: val.nome
                     }));
+                    $('#papel-filtro_linha').append($('<option>', {
+                        value: val.nome,
+                        text: val.nome
+                    }));
                 });
             })
             .fail(function() {
@@ -1000,6 +1003,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .always(function() {
                 $('#papel_linha').selectpicker('refresh');
+                $('#papel-filtro_linha').selectpicker('refresh');
                 if(editar){
                     $('#papel_linha').selectpicker('val', id_linha);
                 }

@@ -13,7 +13,7 @@ class Fonte extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Fita material';
+        $data['titulo_painel'] = 'Fonte';
         set_layout('conteudo', load_content('fonte/lista', $data));
         load_layout();
     }

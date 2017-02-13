@@ -441,7 +441,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     success: function (data)
                     {
                         if (data.status) {
-                            impressao_atualizar = true;
+                            if(tab_active === '#tab_area'){
+                                impressao_atualizar = true;
+                            }
                             reload_table(dataTable);
                         } else {
                             alert("Erro ao excluir o registro");
