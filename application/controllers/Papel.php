@@ -16,9 +16,7 @@ class Papel extends CI_Controller {
     }
 
     public function index() {
-        $data['papel_linha'] = $this->Papel_linha_m->get_list();
-        $data['papel_dimensao'] = $this->Papel_dimensao_m->get_list();
-        set_layout('conteudo', load_content('papel/lista', $data));
+        set_layout('conteudo', load_content('papel/lista', ""));
         load_layout();
     }
 

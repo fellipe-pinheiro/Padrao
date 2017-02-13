@@ -156,14 +156,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Linha: ', 'papel_linha', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select name="papel_linha" id="papel_linha" class="form-control selectpicker show-tick" data-live-search="true" autofocus="">
+                            <select name="papel_linha" id="papel_linha" class="form-control selectpicker show-tick" data-live-search="true" autofocus>
                                 <option value="" disabled selected>Selecione</option>
-                                <?php foreach ($dados['papel_linha'] as $key => $value) { 
-                                    ?>
-                                    <option value="<?= $value->id ?>"><?= $value->nome ?></option>
-                                    <?php 
-                                } 
-                                ?>
                             </select>
                             <span class="help-block"></span>
                         </div>
@@ -180,15 +174,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Dimensão: ', 'papel_dimensao', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <select name="papel_dimensao" id="papel_dimensao" class="form-control" >
+                            <select name="papel_dimensao" id="papel_dimensao" class="form-control selectpicker" data-live-search="true">
                                 <option value="" selected disabled>Selecione</option>
-                                <?php
-                                foreach ($dados['papel_dimensao'] as $key => $value) {
-                                    ?>
-                                    <option value="<?=$value->id?>"><?=$value->altura?> x <?=$value->largura?></option>
-                                    <?php
-                                }
-                                ?>
                             </select>
                             <span class="help-block"></span>
                         </div>
@@ -293,7 +280,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" disabled="true" placeholder="Nome"') ?>
+                            <?= form_input('nome', '', 'id="nome" class="form-control"  placeholder="Nome"') ?>
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -302,7 +289,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group">
                         <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-2')) ?>
                         <div class="col-sm-10">
-                            <?= form_input(array('name'=>'codigo','type'=>'text', 'id'=>'codigo', 'class'=>'form-control', 'placeholder'=>'Código', 'disabled'=>'true'), '') ?>
+                            <input type="text" name="codigo" id="codigo" class="form-control" value="" placeholder="Código">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -522,6 +509,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var form;
     var count_gramatura = 0;
     var visible_gramatura = 0;
+    var papel_atualizar = true;
 
     $(document).ready(function() {
         tb_papel = $("#tb_papel").DataTable({
@@ -835,6 +823,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             reset_form();
             if(tab_active === "#tab_papel"){
                 $("#add_gramatura").click();
+                ajax_carregar_papel_linha();
+                ajax_carregar_papel_dimensao();
+            }
+            if(tab_active === "#tab_acabamento"){
+                $("#codigo").attr("readonly",false);
             }
             save_method = 'add';
             $("input[name='id']").val("");
@@ -866,12 +859,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {   
                     data = switch_data(tab_active,data);
+
                     if(tab_active == '#tab_papel'){
                         $.map(data, function (value, index) {
                             if($('[name="' + index + '"]').is("input, textarea")){
                                 $('[name="' + index + '"]').val(value);
                             }else if($('[name="' + index + '"]').is("select")){
-                                if( $('[name="' + index + '"]').hasClass("selectpicker") ){
+                                if(index === "papel_linha"){
+                                    ajax_carregar_papel_linha(true,value.id);
+                                }else if(index === "papel_dimensao"){
+                                    ajax_carregar_papel_dimensao(true,value.id);
+                                }else if( $('[name="' + index + '"]').hasClass("selectpicker") ){
                                     $('[name="' + index + '"]').selectpicker('val', value.id);
                                 }else{
                                     $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected","selected");
@@ -881,10 +879,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
                                 });
                             }
-
                         });
                     }else{
                         $.map(data, function (value, index) {
+                            if(tab_active === "#tab_acabamento"){
+                                $("#codigo").attr("readonly",true);
+                            }
                             if($('[name="' + index + '"]').is("input, textarea")){
                                 $('[name="' + index + '"]').val(value);
                             }else if($('[name="' + index + '"]').is("select")){
@@ -916,26 +916,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: url_delete + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table(dataTable);
-                        }else{
-                            alert("Erro ao excluir o registro");
-                        }
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
+            if(tab_active === "#tab_acabamento"){
+                value = dataTable.row(".selected").data().codigo;
+                if($.inArray(value, ["empastamento","laminacao","relevo_seco","corte_vinco","almofada","douracao","corte_laser","faca"]) > -1){
+                    $.alert({
+                        title: "Atenção",
+                        content: "O <strong>"+ nome + " </strong>não pode ser excluido. Este item faz parte de uma variavel do sistema."
+                    });
+                    return false;
+                }
             }
+            $.confirm({
+                title: 'Confirme!',
+                content: "O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.",
+                confirm: function(){
+                    $.ajax({
+                        url: url_delete + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
+                                    papel_atualizar = true;
+                                }
+                                reload_table(dataTable);
+                            }else{
+                                alert("Erro ao excluir o registro");
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Operação cancelada!')
+                }
+            });
         });
         $("form").submit(function (e) {
 
@@ -952,227 +972,325 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
 
-function clonar_gramatura(id,gramatura,valor){
-    var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
-    // adicionar funcao para deletar a linha
-    if (gramatura == "") {
-        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
-    } else {
-        $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
-    }
-    // Alterar name e adicionar required
-    $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
-    $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
+    function ajax_carregar_papel_linha(editar = false,id_linha = null) {
+        if(papel_atualizar){
+            $('#papel_linha')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Selecione</option>')
+                .val('');
 
-    c.appendTo("#lista_gramaturas");
-}
-function remover_gramatura_papel(id,add) {
-    if(visible_gramatura === 1){
-        $.alert({
-            title: 'Alerta!',
-            content: 'O papel precisa ter pelo menos uma gramatura.',
-        });
-        return false;
-    }else{
-        visible_gramatura--;
-    }
-    if (add) {
-        $("#"+id).remove();
-    } else {
-        var arr_g = new Array();
-        var arr_v = new Array();
-        // adicionar o D no name dos inputs
-        var name_gramatura = $($("#"+id+" input")[0]).prop("name");
-        arr_g = name_gramatura.split("_");
-        arr_g[2] = "DEL";
-        name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
-        $($("#"+id+" input")[0]).prop("name",name_gramatura);
-
-        var name_valor = $($("#"+id+" input")[1]).prop("name");
-        arr_v = name_valor.split("_");
-        arr_v[2] = "DEL";
-        name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
-        $($("#"+id+" input")[1]).prop("name",name_valor);
-        $("#"+id).hide();
-    }
-}
-function formulario_submit(e) {
-    disable_button_salvar();
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
-    }
-    reset_errors();
-    var url_submit;
-    if (save_method == 'add') {
-        url_submit = url_add;
-    } else {
-        url_submit = url_update;
-    }
-    $.ajax({
-        url: url_submit,
-        type: "POST",
-        data: $(form).serialize(),
-        dataType: "JSON",
-        success: function (data)
-        {
-            if (data.status)
-            {   
-                if(tab_active == '#tab_papel' && save_method == 'add'){
-                    $.confirm({
-                        title: 'Papel inserido com sucesso!',
-                        content: 'Deseja inserir mais um papel da mesma linha?',
-                        confirmButton: 'Sim',
-                        cancelButton: 'Não',
-                        confirm: function(){
-                            $(form + " #nome").val('');
-                        },
-                        cancel: function(){
-                            $(md_form).modal('hide');
-                        }
-                    });
-                }else{
-                    $(md_form).modal('hide');
-                }
-            }
-            else
-            {
-                $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+            $.ajax({
+                url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                papel_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#papel_linha').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
                 });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_papel_linha");
+            })
+            .always(function() {
+                $('#papel_linha').selectpicker('refresh');
+                if(editar){
+                    $('#papel_linha').selectpicker('val', id_linha);
+                }
+            });
+        }else{
+            if(editar){
+                $('#papel_linha').selectpicker('val', id_linha);
+            }else{
+                $('#papel_linha').selectpicker('val', '');
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Erro ao Adicionar ou Editar');
-        },
-        complete: function () 
-        {
-            enable_button_salvar();
-            reload_table(dataTable);
         }
-    });
-    e.preventDefault();
-}
-function get_tab_active() {
-    tab_active = $(".nav-tabs li.active a")[0].hash;
-    switch(tab_active) {
-        case '#tab_papel':
-            dataTable = tb_papel;
-            md_form = '#md_papel';
-            modal_title = ' Papel';
-            url_edit = "<?= base_url('papel/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel/ajax_update') ?>";
-            url_delete = "<?= base_url('papel/ajax_delete/') ?>";
-            form = '#form_papel';
-            return true;
-            break;
-        case '#tab_linha':
-            dataTable = tb_linha;
-            md_form = '#md_linha';
-            modal_title = ' Linha';
-            url_edit = "<?= base_url('papel_linha/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel_linha/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel_linha/ajax_update') ?>";
-            url_delete = "<?= base_url('papel_linha/ajax_delete/') ?>";
-            form = '#form_linha';
-            return true;
-            break;
-        case '#tab_acabamento':
-            dataTable = tb_acabamento;
-            md_form = '#md_acabamento';
-            modal_title = ' Papel Acabamento';
-            url_edit = "<?= base_url('papel_acabamento/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel_acabamento/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel_acabamento/ajax_update') ?>";
-            url_delete = "<?= base_url('papel_acabamento/ajax_delete/') ?>";
-            form = '#form_acabamento';
-            return true;
-            break;
-        case '#tab_dimensao':
-            dataTable = tb_dimensao;
-            md_form = '#md_dimensao';
-            modal_title = ' Papel Dimensão';
-            url_edit = "<?= base_url('papel_dimensao/ajax_edit/') ?>";
-            url_add = "<?php echo site_url('papel_dimensao/ajax_add') ?>";
-            url_update = "<?php echo site_url('papel_dimensao/ajax_update') ?>";
-            url_delete = "<?= base_url('papel_dimensao/ajax_delete/') ?>";
-            form = '#form_dimensao';
-            return true;
-            break;
-        default:
-        return false;    
     }
-}
-function switch_data(tab_active,data) {
-    switch(tab_active){
-        case '#tab_papel':
-            return data.papel;
-            break;
-        case '#tab_linha':
-            return data.linha;
-            break;
-        case '#tab_acabamento':
-            return data.papel_acabamento;
-            break;
-        case '#tab_dimensao':
-            return data.papel_dimensao;
-            break;
-    }
-}
-function row_select(table,tr) {
-    if ($(tr).hasClass("selected")) {
-        $(tr).removeClass("selected");
-        disable_buttons();
-    }
-    else {
-        table.$("tr.selected").removeClass("selected");
-        $(tr).addClass("selected");
-        enable_buttons();
-    }
-}
-function reload_table(tabela) {
 
-    tabela.ajax.reload(null, false);
-}
-function reset_form() {
-    $(form)[0].reset();
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-    $('.selectpicker').selectpicker('val', '');
-    $("#lista_gramaturas").html("");
-}
-function reset_errors() {
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-}
-function enable_buttons() {
-    $("#editar").attr("disabled", false);
-    $("#deletar").attr("disabled", false);
-}
-function disable_buttons() {
-    $("#editar").attr("disabled", true);
-    $("#deletar").attr("disabled", true);
-}
-function open_papel_acabamento_docs() {
+    function ajax_carregar_papel_dimensao(editar = false,id_dimensao = null) {
+        if(papel_atualizar){
+            $('#papel_dimensao')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Selecione</option>')
+                .val('');
 
-    $("#md_acabamento_docs").modal('show');
-}
-function filtro(acao) {
-    if(!get_tab_active()){
-        console.log('Não foi possível carregar get_tab_active()');
-        return false;
+            $.ajax({
+                url: '<?= base_url("papel_dimensao/ajax_get_personalizado")?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                papel_atualizar = false;
+                $.each(data, function(index, val) {
+                    $('#papel_dimensao').append($('<option>', {
+                        value: val.id,
+                        text: val.nome
+                    }));
+                });
+            })
+            .fail(function() {
+                console.log("erro ao ajax_carregar_papel_dimensao");
+            })
+            .always(function() {
+                $('#papel_dimensao').selectpicker('refresh');
+                if(editar){
+                    $('#papel_dimensao').selectpicker('val', id_dimensao);
+                }
+            });
+        }else{
+            if(editar){
+                $('#papel_dimensao').selectpicker('val', id_dimensao);
+            }else{
+                $('#papel_dimensao').selectpicker('val', '');
+            }
+        }
     }
-    if(acao === 'filtrar'){
-        dataTable.ajax.reload(null,false);
-        $("#md_filtro_papel").modal('hide');
-    }else if(acao === 'reset'){
-        $('#form-filter-papel')[0].reset();
-        $('#form-filter-papel ul>li.selected.active').removeClass('selected active');
-        $('#papel-filtro_linha').selectpicker('val', '');
-        dataTable.ajax.reload(null,false);
+
+    function clonar_gramatura(id,gramatura,valor){
+        var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
+        // adicionar funcao para deletar a linha
+        if (gramatura == "") {
+            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
+        } else {
+            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
+        }
+        // Alterar name e adicionar required
+        $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+        $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
+
+        c.appendTo("#lista_gramaturas");
     }
-}
+
+    function remover_gramatura_papel(id,add) {
+        if(visible_gramatura === 1){
+            $.alert({
+                title: 'Alerta!',
+                content: 'O papel precisa ter pelo menos uma gramatura.',
+            });
+            return false;
+        }else{
+            visible_gramatura--;
+        }
+        if (add) {
+            $("#"+id).remove();
+        } else {
+            var arr_g = new Array();
+            var arr_v = new Array();
+            // adicionar o D no name dos inputs
+            var name_gramatura = $($("#"+id+" input")[0]).prop("name");
+            arr_g = name_gramatura.split("_");
+            arr_g[2] = "DEL";
+            name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
+            $($("#"+id+" input")[0]).prop("name",name_gramatura);
+
+            var name_valor = $($("#"+id+" input")[1]).prop("name");
+            arr_v = name_valor.split("_");
+            arr_v[2] = "DEL";
+            name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
+            $($("#"+id+" input")[1]).prop("name",name_valor);
+            $("#"+id).hide();
+        }
+    }
+
+    function formulario_submit(e) {
+        disable_button_salvar();
+        if(!get_tab_active()){
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        reset_errors();
+        var url_submit;
+        if (save_method == 'add') {
+            url_submit = url_add;
+        } else {
+            url_submit = url_update;
+        }
+        $.ajax({
+            url: url_submit,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+            success: function (data)
+            {
+                if (data.status)
+                {   
+                    if(tab_active == '#tab_papel' && save_method == 'add'){
+                        $.confirm({
+                            title: 'Papel inserido com sucesso!',
+                            content: 'Deseja inserir mais um papel da mesma linha?',
+                            confirmButton: 'Sim',
+                            cancelButton: 'Não',
+                            confirm: function(){
+                                $(form + " #nome").val('');
+                            },
+                            cancel: function(){
+                                $(md_form).modal('hide');
+                            }
+                        });
+                    }else{
+                        if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
+                                papel_atualizar = true;
+                            }
+                        $(md_form).modal('hide');
+                    }
+                }
+                else
+                {
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Erro ao Adicionar ou Editar');
+            },
+            complete: function () 
+            {
+                enable_button_salvar();
+                reload_table(dataTable);
+            }
+        });
+        e.preventDefault();
+    }
+
+    function get_tab_active() {
+        tab_active = $(".nav-tabs li.active a")[0].hash;
+        switch(tab_active) {
+            case '#tab_papel':
+                dataTable = tb_papel;
+                md_form = '#md_papel';
+                modal_title = ' Papel';
+                url_edit = "<?= base_url('papel/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('papel/ajax_add') ?>";
+                url_update = "<?php echo site_url('papel/ajax_update') ?>";
+                url_delete = "<?= base_url('papel/ajax_delete/') ?>";
+                form = '#form_papel';
+                return true;
+                break;
+            case '#tab_linha':
+                dataTable = tb_linha;
+                md_form = '#md_linha';
+                modal_title = ' Linha';
+                url_edit = "<?= base_url('papel_linha/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('papel_linha/ajax_add') ?>";
+                url_update = "<?php echo site_url('papel_linha/ajax_update') ?>";
+                url_delete = "<?= base_url('papel_linha/ajax_delete/') ?>";
+                form = '#form_linha';
+                return true;
+                break;
+            case '#tab_acabamento':
+                dataTable = tb_acabamento;
+                md_form = '#md_acabamento';
+                modal_title = ' Papel Acabamento';
+                url_edit = "<?= base_url('papel_acabamento/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('papel_acabamento/ajax_add') ?>";
+                url_update = "<?php echo site_url('papel_acabamento/ajax_update') ?>";
+                url_delete = "<?= base_url('papel_acabamento/ajax_delete/') ?>";
+                form = '#form_acabamento';
+                return true;
+                break;
+            case '#tab_dimensao':
+                dataTable = tb_dimensao;
+                md_form = '#md_dimensao';
+                modal_title = ' Papel Dimensão';
+                url_edit = "<?= base_url('papel_dimensao/ajax_edit/') ?>";
+                url_add = "<?php echo site_url('papel_dimensao/ajax_add') ?>";
+                url_update = "<?php echo site_url('papel_dimensao/ajax_update') ?>";
+                url_delete = "<?= base_url('papel_dimensao/ajax_delete/') ?>";
+                form = '#form_dimensao';
+                return true;
+                break;
+            default:
+            return false;    
+        }
+    }
+
+    function switch_data(tab_active,data) {
+        switch(tab_active){
+            case '#tab_papel':
+                return data.papel;
+                break;
+            case '#tab_linha':
+                return data.linha;
+                break;
+            case '#tab_acabamento':
+                return data.papel_acabamento;
+                break;
+            case '#tab_dimensao':
+                return data.papel_dimensao;
+                break;
+        }
+    }
+
+    function row_select(table,tr) {
+        if ($(tr).hasClass("selected")) {
+            $(tr).removeClass("selected");
+            disable_buttons();
+        }
+        else {
+            table.$("tr.selected").removeClass("selected");
+            $(tr).addClass("selected");
+            enable_buttons();
+        }
+    }
+
+    function reload_table(tabela) {
+
+        tabela.ajax.reload(null, false);
+    }
+
+    function reset_form() {
+        $(form)[0].reset();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+        $('.selectpicker').selectpicker('val', '');
+        $("#lista_gramaturas").html("");
+    }
+
+    function reset_errors() {
+        $('.form-group').removeClass('has-error');
+        $('.help-block').empty();
+    }
+
+    function enable_buttons() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+
+    function disable_buttons() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
+    }
+
+    function open_papel_acabamento_docs() {
+
+        $("#md_acabamento_docs").modal('show');
+    }
+
+    function filtro(acao) {
+        if(!get_tab_active()){
+            console.log('Não foi possível carregar get_tab_active()');
+            return false;
+        }
+        if(acao === 'filtrar'){
+            dataTable.ajax.reload(null,false);
+            $("#md_filtro_papel").modal('hide');
+        }else if(acao === 'reset'){
+            $('#form-filter-papel')[0].reset();
+            $('#form-filter-papel ul>li.selected.active').removeClass('selected active');
+            $('#papel-filtro_linha').selectpicker('val', '');
+            dataTable.ajax.reload(null,false);
+        }
+    }
+
 </script>

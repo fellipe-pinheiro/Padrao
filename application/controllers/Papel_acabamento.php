@@ -46,56 +46,54 @@ class Papel_acabamento extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario(false);
-        $data['status'] = TRUE;
-        $objeto = $this->get_post();
+        $data['status'] = FALSE;
+        $this->validar_formulario();
+        $objeto = $this->get_post(true);
         if ( $this->Papel_acabamento_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
         $data["papel_acabamento"] = $this->Papel_acabamento_m->get_by_id($id);
         $data["status"] = TRUE;
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
+        $data["status"] = FALSE;
         $this->validar_formulario(true);
-        $id = $this->input->post('id');
-        if ($id) {
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Papel_acabamento_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Papel_acabamento_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Papel_acabamento_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if($this->Papel_acabamento_m->deletar($id)){
+            $data["status"] = TRUE;                
+        }
+        print json_encode($data);
     }
 
-    private function get_post() {
+    private function get_post($add = false) {
         $objeto = new Papel_acabamento_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
-        $objeto->codigo = $this->input->post('codigo');
+        if($add){
+            $objeto->codigo = $this->input->post('codigo');
+        }
         $objeto->descricao = $this->input->post('descricao');
         $objeto->valor = $this->input->post('valor');
         return $objeto;
     }
 
-    private function validar_formulario($update) {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
         if($update && !empty($this->input->post('id'))){
@@ -108,11 +106,9 @@ class Papel_acabamento extends CI_Controller {
         }else{
             $is_unique =  '|is_unique[papel_acabamento.codigo]';
         }
-        //Comentado para não dar erro de validação com o usuário
-        
-        //$this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
-        //$this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
-        //$this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|callback_check_white_spaces'.$is_unique);
+        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
+        $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
+        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|callback_check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required');
 
@@ -123,6 +119,7 @@ class Papel_acabamento extends CI_Controller {
             exit();
         }
     }
+
     public function check_white_spaces($str){
         if(preg_match('/\s/',$str)){
             return false;
