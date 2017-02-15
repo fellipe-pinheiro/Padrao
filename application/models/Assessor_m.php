@@ -14,12 +14,11 @@ class Assessor_m extends CI_Model {
     var $descricao;
     // Ajax
     var $table = 'assessor';
-    var $column_order = array('id', 'nome', 'sobrenome','empresa','telefone', 'email','comissao','descricao'); //set column field database for datatable orderable
-    var $column_search = array('nome', 'sobrenome','email','empresa'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('id'=>'asc'); // default order 
+    var $column_order = array('id', 'nome', 'sobrenome','empresa','telefone', 'email','comissao','descricao');
+    var $column_search = array('nome', 'sobrenome','email','empresa');
+    var $order = array('id'=>'asc');
 
-    // Ajax Nao alterar
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         if($this->input->post('filtro_id')){
             $this->db->where('id', $this->input->post('filtro_id'));
         }
@@ -60,35 +59,37 @@ class Assessor_m extends CI_Model {
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('assessor');
         if($result->num_rows() > 0){
-            $result =  $this->Assessor_m->_changeToObject($result->result_array());
+            $result =  $this->Assessor_m->changeToObject($result->result_array());
             return $result[0];
         }
         return new Assessor_m();
     }
+
     public function get_by_pedido_id($id){
         $this->db->select('
             ped.id as pedido_id,
@@ -103,41 +104,39 @@ class Assessor_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get();
         if($result->num_rows() > 0){
-            $result =  $this->Assessor_m->_changeToObject($result->result_array());
+            $result =  $this->Assessor_m->changeToObject($result->result_array());
             return $result[0];
         }
         return new Assessor_m();
     }
 
-    public function get_list($id = '') {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('assessor');
-        return $this->Assessor_m->_changeToObject($result->result_array());
+        return $this->Assessor_m->changeToObject($result->result_array());
     }
+
     public function inserir(Assessor_m $objeto) {
         if (!empty($objeto)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             if($this->db->insert('assessor', $dados)) {
                 return $this->db->insert_id();
             }
         }
         return false;
     }
+
     public function editar(Assessor_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = $this->__get_dados($objeto);
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('assessor', $dados)) {
                 return $objeto->id;
             }
-        } else {
-            return false;
         }
+        return false;
     }
-    private function __get_dados(Assessor_m $objeto){
+
+    private function get_dados(Assessor_m $objeto){
         $dados = array(
             'id' => $objeto->id,
             'nome' => $objeto->nome,
@@ -150,7 +149,8 @@ class Assessor_m extends CI_Model {
             );
         return $dados;
     }
-    public function deletar($id = '') {
+
+    public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('assessor')) {
@@ -159,7 +159,8 @@ class Assessor_m extends CI_Model {
         }
         return false;
     }
-    function _changeToObject($result_db = '') {
+    
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Assessor_m();

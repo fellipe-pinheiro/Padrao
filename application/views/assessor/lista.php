@@ -214,9 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
             ajax: {
                 url: "<?= base_url('assessor/ajax_list') ?>",
                 type: "POST",
@@ -229,14 +228,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
             },
             columns: [
-                {data: "id", "visible": true},
+                {data: "id", "visible": false},
                 {data: "nome", "visible": true},
                 {data: "sobrenome", "visible": true},
                 {data: "empresa", "visible": true},
                 {data: "telefone", "visible": true},
                 {data: "email", "visible": true},
                 {data: "comissao", "visible": true},
-                {data: "descricao", "visible": true},
+                {data: "descricao", "visible": false},
             ]
         });
         //button filter event click
@@ -343,12 +342,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 dataType: "JSON",
                 success: function (data)
                 {
-                    if (data.status)
-                    {
+                    if (data.status){
                         $('#modal_form').modal('hide');
                         reload_table();
-                    } else
-                    {
+                    } else{
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').parent().parent().addClass('has-error');
                             $('[name="' + index + '"]').next().text(value);
