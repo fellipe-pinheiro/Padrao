@@ -33,10 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 ?>
                                 <li class="dropdown-header">Orçamento</li>
                                 <li>
-                                    <a onclick="orcamento_modal('novo')" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                                </li>
-                                <li>
-                                    <a onclick="orcamento_modal('excluir')" href="javascript:void(0)"><i class="glyphicon glyphicon-erase"></i> Limpar</a>
+                                    <a onclick="orcamento_modal()" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Novo</a>
                                 </li>
                                 <li>
                                     <a onclick="session_orcamento_info()" href="javascript:void(0)"><i class="glyphicon glyphicon-info-sign"></i> Informações</a>
@@ -64,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <a href="<?= base_url('personalizado') ?>"><i class="fa fa-paint-brush" aria-hidden="true"></i> Personalizado</a>
                                 </li>
                                 <li>
-                                    <a onclick="produto_modal('inserir', '', '', '', '', '')" href="javascript:void(0)"><i class="glyphicon glyphicon-gift"></i> Produto
+                                    <a onclick="produto_modal('inserir')" href="javascript:void(0)"><i class="glyphicon glyphicon-gift"></i> Produto
                                     </a>
                                 </li>
                             </ul>
@@ -89,21 +86,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </nav>
         <div class="col-md-12">
             <div class="row">
+                <input type="hidden" id="panel_cliente_id" class="form-control" value="<?=$this->session->orcamento->cliente->id?>">
                 <div class="col-sm-3">
-                    <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                    <label for="" class="control-label">Cliente: </label>
+                    <input type="text" class="form-control input-sm panel_cliente_nome" value="<?=$this->session->orcamento->cliente->nome?> <?=$this->session->orcamento->cliente->sobrenome?>" readonly>
                 </div>
                 <div class="col-sm-3">
-                    <?= form_label('E-mail:', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->cliente->email, 'readonly class="form-control input-sm"') ?>
+                    <label for="" class="control-label">E-mail:</label>
+                    <input type="text" class="form-control input-sm panel_cliente_email" value="<?=$this->session->orcamento->cliente->email?>" readonly>
                 </div>
                 <div class="col-sm-3">
                     <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm panel_assessor_nome"') ?>
                 </div>
                 <div class="col-sm-3">
                     <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm"') ?>
+                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm panel_assessor_email"') ?>
                 </div>
             </div>
             <br>
@@ -131,8 +129,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td>Convite</td>
                                 <td><?= $convite->modelo->nome ?></td>
                                 <td class="data_entrega form-group">
-                                    <form id="convite-<?= $key ?>">
-                                        <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                    <form id="convite-<?= $key ?>" class="form_data_entrega">
+                                        <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
                                         <span class="help-block"></span>
                                         <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                     </form>
@@ -154,8 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td>Personalizado</td>
                                 <td><?= $personalizado->modelo->nome ?></td>
                                 <td class="data_entrega form-group">
-                                    <form id="personalizado-<?= $key ?>">
-                                        <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                    <form id="personalizado-<?= $key ?>" class="form_data_entrega">
+                                        <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
                                         <span class="help-block"></span>
                                         <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                     </form>
@@ -177,8 +175,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?= $container->produto->produto_categoria->nome ?></td>
                                 <td><?= $container->produto->nome ?></td>
                                 <td class="data_entrega form-group">
-                                    <form id="produto-<?= $key ?>">
-                                        <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                    <form id="produto-<?= $key ?>" class="form_data_entrega">
+                                        <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
                                         <span class="help-block"></span>
                                         <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
                                     </form>
@@ -186,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?= $container->quantidade ?></td>
                                 <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
                                 <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>',<?= $container->produto->produto_categoria->id ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
                                 <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
                             </tr>
                             <?php
@@ -239,33 +237,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="modal-title">Produto</h4>
                 </div>			
                 <div class="modal-body row">
-                    <div class="form-group col-md-8">
-                        <?= form_label('Produto: ', 'produto', array('class' => 'control-label')) ?>
-                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" autofocus="true">
+                    <div class="form-group col-md-4">
+                        <label for="produto_categoria" class="control-label">Categoria:</label>
+                        <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
                             <option disabled selected>Selecione</option>
-                            <?php
-                            foreach ($dados['produto_categoria'] as $categoria) {
-                                ?>
-                                <optgroup label="<?= $categoria->nome ?>">
-                                    <?php
-                                    foreach ($dados['produto'] as $produto) {
-                                        if ($categoria->id == $produto->produto_categoria->id) {
-                                            ?>
-                                            <option value="<?= $produto->id ?>"><?= $produto->nome ?></option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </optgroup>
-                                <?php
-                            }
-                            ?>
+                        </select>
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="produto" class="control-label">Produto:</label>
+                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" autofocus>
+                            <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group col-md-4">
                         <?= form_label('Quantidade: ', 'quantidade_produto', array('class' => 'control-label')) ?>
-                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" placeholder="Quantidade de produtos" />
+                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" />
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group col-md-12">
@@ -379,7 +367,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('assessor/assessor_modal'); ?>
 <!-- Modal: Orcamento Info -->
 <div class="modal fade" id="md_orcamento_info">
-    <form class="form_ajax" id="form_orcamento_info"  action="#" method="POST" accept-charset="utf-8">
+    <form id="form_orcamento_info"  action="#" method="POST" accept-charset="utf-8">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -434,20 +422,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <button onclick="orcamento_cliente('Clientes')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= form_label('Cliente: ', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">Cliente:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_cliente_nome" value="<?=$this->session->orcamento->cliente->nome . ' ' . $this->session->orcamento->cliente->sobrenome?>" readonly>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= form_label('E-mail:', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->cliente->email, 'readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">E-mail:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_cliente_email" value="<?=$this->session->orcamento->cliente->email?>" readonly>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= form_label('Telefone:', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->cliente->telefone, 'readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">Telefone:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_cliente_telefone" value="<?=$this->session->orcamento->cliente->telefone?>" readonly>
                                 </div>
                                 <div class="col-sm-2">
-                                    <?= form_label('CPF:', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->cliente->cpf, 'readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">CPF:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_cliente_cpf" value="<?=$this->session->orcamento->cliente->cpf?>" readonly>
                                 </div>
                             </div>
                             <hr>
@@ -461,20 +449,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <button onclick="orcamento_assessor('excluir', '')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-trash"></i></button>
                                 </div>
                                 <div class="col-sm-2">
-                                    <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">Assessor(a):</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_nome" value="<?=$this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome?>" readonly>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= form_label('Empresa: ', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->assessor->empresa, 'id="" readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">Empresa:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_empresa" value="<?=$this->session->orcamento->assessor->empresa?>" readonly>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">E-mail:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_email" value="<?=$this->session->orcamento->assessor->email?>" readonly>
                                 </div>
                                 <div class="col-sm-2">
-                                    <?= form_label('Telefone: ', '', array('class' => 'control-label')) ?>
-                                    <?= form_input('', $this->session->orcamento->assessor->telefone, 'id="" readonly class="form-control input-sm"') ?>
+                                    <label for="" class="control-label">Telefone:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_telefone" value="<?=$this->session->orcamento->assessor->telefone?>" readonly>
                                 </div>
                             </div>
                         </div>
@@ -664,7 +652,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Modal: Desconto -->
 <div class="modal fade" id="md_desconto">
     <div class="modal-dialog modal-sm">
-        <form  class="form_ajax" id="form_desconto" action="" method="post" accept-charset="utf-8" role="form">
+        <form  id="form_desconto" action="" method="post" accept-charset="utf-8" role="form">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -673,7 +661,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="modal-body">
                     <div class="form-group">
                         <?= form_label('Desconto: ', 'desconto', array('class' => 'control-label')) ?>
-                        <input type="number" name="desconto" id="desconto" class="form-control" value="" step="0.01">
+                        <input type="number" name="desconto" id="desconto" class="form-control" value="" step="0.01" min="0">
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -767,6 +755,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     var tabela_cliente;
     var tabela_assessor;
+    /*Variaveis globais para o crud do cliente e assessor*/
+    var form_crud;
+    var url_crud;
+    var url_edit_id;
+    var md_form_crud;
+    var md_tb_crud;
+    var owner_crud;
+    var criarPedido = false;
+    /*Variaveis globais para o ajax*/
+    var form_ajax;
+    var url_ajax;
+    var modal_ajax;
+
+    var data_entrega_show = false;
 
     $(document).ready(function () {
         apply_this_document_ready();
@@ -783,11 +785,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         //Verifica se o orçamento info já foi preechido
         session_orcamento_info(false);
         is_empty_orcamento_info(false);
+        $.each($("td form.form_data_entrega input.input_data_entrega"), function(index, val) {
+             if($(val).val() != ""){
+                $('.data_entrega').show();
+                return;
+             }
+        });
+        /*
         is_set_delivery_date();
-        $('#form_orcamento_info').on('submit', function (e) {
+        //apagar 
+        if (data.status && !data.date_found) {
+                $('.data_entrega').hide();
+            } else {
+                $('.data_entrega').show();
+            }
+        apagar//
+        $("#form_orcamento_info").on('submit', function (e) {
 
             is_empty_orcamento_cliente(false);
         });
+        */
         $("#qtd_parcelas").click(function (event) {
             if ($("#qtd_parcelas").val() == 1) {
                 $("#vencimento_dia").attr("disabled", true);
@@ -796,7 +813,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $("#vencimento_dia").attr("disabled", false);
             }
         });
-
         //button filter event click
         $('#btn-filter-cliente').click(function () {
             //just reload table
@@ -855,19 +871,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $(".form_crud").submit(function (e) {
-            console.log('Função: $(".form_crud").submit');
-            //call_loadingModal();
             disable_button();
             reset_errors();
             var form = form_crud;
             var url = url_crud;
             var modal_form = md_form_crud;
             var owner = owner_crud;
-            console.log('agora');
-            console.log(form);
-            console.log(url);
-            console.log(modal_form);
-            console.log(owner);
             $.ajax({
                 url: url,
                 type: "POST",
@@ -890,7 +899,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     close_loadingModal();
                     reset_errors_crud();
-                    console.log(data.form_validation);
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
                         $('[name="' + index + '"]').next().text(value);
@@ -910,7 +918,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log("error: Erro ao Adicionar ou Editar Crud");
+                console.log("error");
             })
             .always(function () {
                 console.log("complete");
@@ -918,23 +926,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
             e.preventDefault();
         });
-        function reload_table_cliente() {
-
-            tabela_cliente.ajax.reload(null, false);
-        }
-        function reload_table_assessor() {
-
-            tabela_assessor.ajax.reload(null, false);
-        }
-        function enable_buttons_crud() {
-            $("#editar").attr("disabled", false);
-            $("#deletar").attr("disabled", false);
-        }
-        function disable_buttons_crud() {
-            $("#editar").attr("disabled", true);
-            $("#deletar").attr("disabled", true);
-        }
-        /*FIM: dataTable CRUD*/
     }
     function reset_form_crud() {
         $('#form_cliente')[0].reset();
@@ -947,15 +938,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty();
     }
-    /*Inicio: CRUD*/
-    /*Variaveis globais para o crud do cliente e assessor*/
-    var form_crud;
-    var url_crud;
-    var url_edit_id;
-    var md_form_crud;
-    var md_tb_crud;
-    var owner_crud;
-    var criarPedido = false;
     function pre_crud(owner, action, form, md_tb, md_form, url) {
         console.log('Função: pre_crud()');
         reset_errors_crud();
@@ -1046,7 +1028,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
-    /*Fim: CRUD*/
     function orcamento_info_modal() {
 
         $('#md_orcamento_info').modal();
@@ -1092,7 +1073,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (acao === 'inserir') {
             $("#md_assessores").modal();
         } else if (acao === 'excluir') {
-            main_excluir("<?= base_url('orcamento/ajax_session_assessor/excluir') ?>");
+            $.ajax({
+                url: '<?= base_url('orcamento/ajax_session_assessor/excluir')?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                console.log("success");
+                if(data.status){
+                    $(".panel_assessor_nome").val("");
+                    $(".panel_assessor_email").val("");
+                    $(".panel_assessor_empresa").val("");
+                    $(".panel_assessor_telefone").val("");
+                    $.alert({
+                        title: "Sucesso!",
+                        content: "Assessor excluido com sucesso!"
+                    });
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+                    
         }
     }
     function orcamento_cliente() {
@@ -1173,23 +1178,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {id: id}
         })
         .done(function (data) {
-            console.log("success: session_cliente_inserir()");
-            reload_table();
+            console.log("success");
+            $("#panel_cliente_id").val(data.cliente.id);
+            $(".panel_cliente_nome").val(data.cliente.nome +" "+data.cliente.sobrenome);
+            $(".panel_cliente_email").val(data.cliente.email);
+            $(".panel_cliente_telefone").val(data.cliente.telefone);
+            $(".panel_cliente_cpf").val(data.cliente.cpf);
             $("#md_clientes").modal('hide');
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log('error: session_cliente_inserir()');
+            console.log("error");
             $.alert({
                 title: 'Aviso!',
                 content: 'Não foi possível inserir o cliente no orçamento! Tente novamente.',
             });
         })
-        .always(function () {
-            console.log("complete: session_cliente_inserir()");
-        });
     }
     function session_assessor_inserir(id) {
-        console.log('Função: session_assessor_inserir()');
+        console.log('session_assessor_inserir()');
         $.ajax({
             url: '<?= base_url("orcamento/ajax_session_assessor/inserir") ?>',
             type: 'POST',
@@ -1197,20 +1203,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {id: id}
         })
         .done(function (data) {
-            console.log("success: session_assessor_inserir()");
+            console.log("success");
             if (data.status) {
-                reload_table();
+                $(".panel_assessor_nome").val(data.assessor.nome +" "+data.assessor.sobrenome);
+                $(".panel_assessor_email").val(data.assessor.email);
+                $(".panel_assessor_empresa").val(data.assessor.empresa);
+                $(".panel_assessor_telefone").val(data.assessor.telefone);
                 $("#md_assessores").modal('hide');
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("error: session_assessor_inserir()");
+            console.log("error");
         })
-        .always(function () {
-            console.log("complete: session_assessor_inserir()");
-        });
     }
     function orcamento_desconto(acao, valor) {
+        reset_errors();
         if (acao === 'inserir') {
             pre_submit("#form_desconto", "<?= base_url('orcamento/ajax_session_desconto/inserir') ?>", "#md_desconto");
             $("#desconto").val(valor);
@@ -1223,111 +1230,134 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             main_excluir("<?= base_url('orcamento/ajax_session_desconto/excluir') ?>");
         }
     }
-    function orcamento_modal(acao) {
-        if (acao === "novo") {
-            console.log("orcamento_modal()");
-            console.log("orcamento/ajax_session_orcamento_novo");
-            $.confirm({
-                title: 'Confirmação!',
-                content: 'Deseja iniciar um novo orçamento?',
-                confirm: function () {
-                    call_loadingModal('Criando um novo orcamento...');
-                    $.ajax({
-                        url: '<?= base_url('orcamento/ajax_session_orcamento_novo') ?>',
-                        type: 'POST',
-                        dataType: 'json',
-                    })
-                    .done(function (data) {
-                        if (data.status) {
-                            console.log("success: orcamento/ajax_session_orcamento_novo");
-                            reload_table();
-                            session_orcamento_info();
-                        } else {
-                            console.log(data.msg);
-                        }
-                    })
-                    .fail(function () {
-                        console.log("error:orcamento/ajax_session_orcamento_novo");
-                    })
-                    .always(function () {
-                        console.log("complete: orcamento_modal()");
-                    });
-                },
-                cancel: function () {
-                    $.alert({
-                        title: 'Cancelado!',
-                        content: 'A operação foi cancelada.'
-                    });
-                }
-            });
-        } else if (acao === "excluir") {
-            console.log("orcamento/ajax_session_orcamento_excluir");
-            $.confirm({
-                title: 'Confirmação!',
-                content: 'Deseja excluir o orçamento?',
-                confirm: function () {
-                    console.log("orcamento_excluir");
-                    call_loadingModal('Excluindo orcamento...');
-                    $.ajax({
-                        url: '<?= base_url('orcamento/ajax_session_orcamento_excluir') ?>',
-                        type: 'POST',
-                        dataType: 'json',
-                    })
-                    .done(function (data) {
-                        if (data.status) {
-                            console.log("success: orcamento/ajax_session_orcamento_excluir");
-                            clear_all_forms();
-                            reload_table();
-                            session_orcamento_info();
-                        } else {
-                            console.log(data.msg);
-                        }
-                    })
-                    .fail(function () {
-                        console.log("error: orcamento/ajax_session_orcamento_excluir");
-                    })
-                    .always(function () {
-                        console.log("complete: orcamento_modal()");
-                    });
-                },
-                cancel: function () {
-                    $.alert({
-                        title: 'Cancelado',
-                        content: 'A operação cancelada com exito!'
-                    });
-                }
-            });
-        }
+    function orcamento_modal() {
+        $.confirm({
+            title: 'Confirmação!',
+            content: 'Deseja iniciar um novo orçamento?',
+            confirm: function () {
+                call_loadingModal('Criando um novo orcamento...');
+                $.ajax({
+                    url: '<?= base_url('orcamento/ajax_session_orcamento_novo') ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                })
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        clear_all_forms();
+                        reload_table(true);
+                        session_orcamento_info();
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function() {
+                    apply_this_document_ready();
+                });
+            },
+            cancel: function () {
+                $.alert({
+                    title: 'Cancelado!',
+                    content: 'A operação foi cancelada.'
+                });
+            }
+        });
     }
-    function produto_modal(acao, posicao, id, nome, quantidade, descricao) {
-        console.log('Função: produto_modal()');
+    function produto_modal(acao, posicao = "", id = "", nome = "", quantidade = "", descricao = "", id_categoria = "") {
         if (acao === "inserir") {
-            console.log('ação: inserir');
+            ajax_carregar_categoria();
             reset_form("#form_produto");
             $(".filter-option").text("");
             pre_submit("#form_produto", "<?= base_url('produto/session_produto_inserir') ?>", "#md_produto");
         } else if (acao === "editar") {
-            console.log('ação: editar');
             pre_submit("#form_produto", 'produto/session_produto_editar/' + posicao, "#md_produto");
-            $("#produto option[value=" + id + "]").prop('selected', true);
+            //$("#produto option[value=" + id + "]").prop('selected', true);
+            //$(".filter-option").text(nome);
+            $('#produto').selectpicker('val', id);
             $("#quantidade_produto").val(quantidade);
             $("#descricao_produto").val(descricao);
-            $(".filter-option").text(nome);
+            ajax_carregar_categoria(true,id_categoria);
+            ajax_carregar_produto(id_categoria,editar = true, id)
         } else {
             console.log('error:não foi passado uma ação no produto_modal()');
         }
         $("#md_produto").modal();
     }
+    function ajax_carregar_categoria(editar = false,id_categoria = null) {
+        $('#produto_categoria')
+        .find('option')
+        .remove()
+        .end()
+        .append('<option value="">Selecione</option>')
+        .val('');
+        $('#produto').selectpicker('val', '');
+
+        $.ajax({
+            url: '<?= base_url("produto_categoria/ajax_get_personalizado")?>',
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(function(data) {
+            $.each(data, function(index, val) {
+                $('#produto_categoria').append($('<option>', {
+                    value: val.id,
+                    text: val.nome
+                }));
+            });
+        })
+        .fail(function() {
+            console.log("erro ao ajax_carregar_categoria");
+        })
+        .always(function() {
+            $('#produto_categoria').selectpicker('refresh');
+            if(editar){
+                $('#produto_categoria').selectpicker('val', id_categoria);
+            }
+        });
+    }
+    $("#produto_categoria").change(function(event) {
+        var option = $(this).find('option:selected');
+        var id_categoria = option.val();
+        ajax_carregar_produto(id_categoria);
+    });
+    function ajax_carregar_produto(id_categoria,editar = false, id_produto = null) {
+        $('#produto')
+        .find('option')
+        .remove()
+        .end()
+        .append('<option value="">Selecione</option>')
+        .val('');
+        $.ajax({
+            url: '<?= base_url("produto/ajax_get_personalizado/")?>'+id_categoria,
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(function(data) {
+            $.each(data, function(index, val) {
+                $('#produto').append($('<option>', {
+                    value: val.id,
+                    text: val.nome
+                }));
+            });
+        })
+        .fail(function() {
+            console.log("erro ao ajax_carregar_produto");
+        })
+        .always(function() {
+            $('#produto').selectpicker('refresh');
+            if(editar){
+                $('#produto').selectpicker('val', id_produto);
+            }
+        });
+    }
     function produto_excluir_posicao(posicao) {
-        console.log("Função: produto_excluir_posicao()");
         main_excluir('produto/session_produto_excluir/' + posicao);
     }
     function convite_excluir_posicao(posicao) {
-        console.log("Função: convite_excluir_posicao()");
         main_excluir('convite/session_orcamento_convite_excluir/' + posicao);
     }
     function personalizado_excluir_posicao(posicao) {
-        console.log("Função: convite_excluir_posicao()");
         main_excluir('personalizado/session_orcamento_personalizado_excluir/' + posicao);
     }
     function delivery_date(owner, form) {
@@ -1363,9 +1393,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
     function criar_orcamento() {
         criarPedido = false;
-        console.log("Função: criar_orcamento()");
-        console.log("Preparando para salvar");
-        console.log("Verificando se há algo em edição...");
         call_loadingModal('Preparando para salvar...');
         is_editing_container_itens();
     }
@@ -1442,7 +1469,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: 'json'
         })
         .done(function (data) {
-            console.log("success: is_set_delivery_date()");
+            console.log("success");
             if (data.status && !data.date_found) {
                 $('.data_entrega').hide();
             } else {
@@ -1450,14 +1477,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         })
         .fail(function () {
-            console.log("error: is_set_delivery_date()");
+            console.log("error");
         })
-        .always(function () {
-            console.log("complete: is_set_delivery_date()");
-        });
     }
     function is_editing_container_itens() {
-        console.log('Função: is_editing_container_itens()');
         $.ajax({
             url: '<?= base_url('orcamento/ajax_is_editing_container_itens') ?>',
             type: 'POST',
@@ -1483,7 +1506,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
             } else {
-                console.log("success: Nada em edição.");
+                console.log("success");
                 is_empty_orcamento_info();
             }
         })
@@ -1491,38 +1514,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error:orcamento/ajax_is_editing_container_itens");
         })
         .always(function () {
-            console.log("complete: is_editing_container_itens()");
+            console.log("complete");
         });
     }
     function is_empty_orcamento_info(salvar = true) {
-        console.log('Função: is_empty_orcamento_info()');
-        $.ajax({
-            url: '<?= base_url('orcamento/ajax_is_empty_orcamento_info') ?>',
-            type: 'POST',
-            dataType: 'JSON',
-        })
-        .done(function (data) {
-            console.log("success: is_empty_orcamento_info()");
-            if (salvar) {
+        if(salvar){
+            $.ajax({
+                url: '<?= base_url('orcamento/ajax_is_empty_orcamento_info') ?>',
+                type: 'POST',
+                dataType: 'JSON',
+            })
+            .done(function (data) {
+                console.log("success");
                 if (data.status) {
                     is_empty_orcamento_itens();
                 } else {
                     close_loadingModal();
                     show_orcamento_info_error(data);
                 }
-            } else {
-                if (!data.status) {
-                    $("#md_orcamento_info").modal();
-                    //show_orcamento_info_error(data);
-                }
+            })
+            .fail(function () {
+                console.log("error");
+            })
+        }else{
+            if($("#loja").val() == "" || $("#evento").val() == "" || $("#data_evento").val() == ""){
+                $("#md_orcamento_info").modal();
             }
-        })
-        .fail(function () {
-            console.log("error: is_empty_orcamento_info()");
-        })
-        .always(function () {
-            console.log("complete: is_empty_orcamento_info()");
-        });
+        }
     }
     function show_orcamento_info_error(data) {
         var itens = "";
@@ -1585,7 +1603,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (criarPedido) {
             is_criar_pedido = 'true';
         }
-        console.log('Função: is_empty_orcamento_cliente()');
         $.ajax({
             url: '<?= base_url('orcamento/ajax_is_empty_orcamento_cliente') ?>',
             type: 'POST',
@@ -1593,13 +1610,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data: {is_criar_pedido: is_criar_pedido},
         })
         .done(function (data) {
-            console.log("success: orcamento/ajax_is_empty_orcamento_cliente");
+            console.log("success");
             if (data.status) {
                 if (save) {
-                    is_empty_orcamento_assessor();
+                    call_loadingModal('Salvando...');
+                    salvar();
                 }
             } else {
-                console.log(data.msg);
                 close_loadingModal();
                 $.confirm({
                     title: 'Cliente!',
@@ -1618,12 +1635,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .fail(function () {
             console.log("error");
         })
-        .always(function () {
-            console.log("complete");
-        });
     }
     function is_empty_orcamento_assessor() {
-        console.log('Função: is_empty_orcamento_assessor');
+        //Função desativada
         $.ajax({
             url: '<?= base_url('orcamento/ajax_is_empty_orcamento_assessor') ?>',
             type: 'POST',
@@ -1631,10 +1645,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .done(function (data) {
             if (data.status) {
-                console.log("Orçamento pronto para salvar");
                 salvar();
             } else {
-                close_loadingModal();
+                //close_loadingModal();
                 $.confirm({
                     title: "Assessor",
                     content: "Deseja adicionar um assessor?",
@@ -1644,22 +1657,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $('#md_assessores').modal();
                     },
                     cancel: function () {
-                        call_loadingModal('Salvando...');
-                        salvar();
+                        //call_loadingModal('Salvando...');
+                        //salvar();
                     }
                 });
             }
         })
         .fail(function () {
-            console.log("error: is_empty_orcamento_assessor");
+            console.log("error");
         })
         .always(function () {
-            console.log("complete: is_empty_orcamento_assessor");
+            console.log("complete");
         });
     }
     function salvar() {
-        console.log("Função:salvar");
-        console.log("Salvando orçamento...");
         if (criarPedido) {
             url = '<?= base_url('pedido/ajax_salvar') ?>';
         } else {
@@ -1671,7 +1682,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: 'json',
         })
         .done(function (data) {
-            console.log("success:salvar()");
+            console.log("success");
             close_loadingModal();
             if (data.status) {
                 call_loadingModal("Finalizando...");
@@ -1696,18 +1707,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .fail(function () {
             close_loadingModal();
-            console.log("error:salvar()");
+            console.log("error");
         })
         .always(function () {
-            console.log("complete:salvar()");
+            console.log("complete");
         });
     }
     function clean_session_orcamento(id) {
         //newWindow = window.open();
         //Limpa o formulário
-        $.each($('form'), function (index, value) {
-            value.reset();
-        });
+        // $.each($('form'), function (index, value) {
+        //     value.reset();
+        // });
         $.ajax({
             url: '<?= base_url('orcamento/ajax_clean_session_orcamento') ?>',
             type: 'POST',
@@ -1734,7 +1745,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         window.open(url, '_blank');
                     },
                 });
-                reload_table();
+                reload_table(true);
+                clear_all_forms();
             }
         })
         .fail(function () {
@@ -1743,124 +1755,194 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .always(function () {
             criarPedido = false;
             close_loadingModal();
+            apply_this_document_ready();
             console.log("complete");
         });
     }
-//AJAX
-/*Variaveis globais para o ajax*/
-var form_ajax;
-var url_ajax;
-var modal_ajax;
-function pre_submit(form, url, modal) {
-    console.log('pre_submit');
-    form_ajax = form;
-    url_ajax = url;
-    modal_ajax = modal;
-}
-//Adiciona ou Edita produto
-$(".form_ajax").submit(function (e) {
-    console.log('Função: $(".form_ajax")');
-    disable_button();
-    reset_errors();
-    var form = form_ajax;
-    var url = url_ajax;
-    var modal = modal_ajax;
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: $(form).serialize(),
-        dataType: "JSON",
-    }).done(function (data) {
-        console.log('success: $(".form_ajax")');
-        if (data.status) {
-            $(modal).modal('hide');
-            reload_table();
-        } else {
-            $.map(data.form_validation, function (value, index) {
-                $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                $('[name="' + index + '"]').next().text(value);
-            });
-        }
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('error: $(".form_ajax")');
-        console.log(textStatus);
-        $.alert({
-            title: 'Atenção!',
-            content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
-        });
-    })
-    .always(function () {
-       enable_button();
-   });
-    e.preventDefault();
-});
-function main_excluir(url) {
-    console.log("Função: main_excluir()");
-
-    $.confirm({
-        title: 'Confirmação',
-        content: 'Deseja realmente excluir?',
-        confirm: function () {
-            call_loadingModal();
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-            })
-            .done(function (data) {
-                console.log("success: main_excluir()");
-            })
-            .fail(function () {
-                console.log("error:  main_excluir()");
-            })
-            .always(function (data) {
-                console.log("complete: main_excluir()");
-                reload_table();
-            });
-        },
-        cancel: function () {
-            $.alert({
-                title: '',
-                content: 'A operação foi cancelada!',
-            });
-        }
-    });
-}
-function reload_table() {
-    console.log("Função: reload_table()");
-    $.ajax({
-        url: '<?= base_url('orcamento') ?>',
-        type: 'POST',
-        dataType: 'html',
-    })
-    .done(function (data) {
-        console.log("success: reload_table()");
-    })
-    .fail(function () {
-        console.log("error:reload_table()");
-    })
-    .always(function (data) {
-        console.log("complete:reload_table()");
-        close_loadingModal();
-        $('#orcamento_info').html($('#orcamento_info', data).html());
-        $('#painel_principal').html($('#painel_principal', data).html());
-        apply_this_document_ready();
-    });
-}
-function call_loadingModal(msg = "") {
-    if (msg === "") {
-        msg = "Processando os dados..."
+    function pre_submit(form, url, modal) {
+        console.log('pre_submit');
+        form_ajax = form;
+        url_ajax = url;
+        modal_ajax = modal;
     }
-    $('body').loadingModal({
-        position: 'auto',
-        text: msg,
-        color: '#fff',
-        opacity: '0.7',
-        backgroundColor: 'rgb(0,0,0)',
-        animation: 'threeBounce'
+    //Adiciona ou Edita produto
+    $(".form_ajax").submit(function (e) {
+        disable_button();
+        reset_errors();
+        var form = form_ajax;
+        var url = url_ajax;
+        var modal = modal_ajax;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+        }).done(function (data) {
+            console.log('success');
+            if (data.status) {
+                $(modal).modal('hide');
+                reload_table();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('error');
+            $.alert({
+                title: 'Atenção!',
+                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+            });
+        })
+        .always(function () {
+           enable_button();
+           apply_this_document_ready();
+       });
+        e.preventDefault();
     });
-}
-function close_loadingModal() {
+    $("#form_desconto").submit(function (e) {
+        disable_button();
+        reset_errors();
+        var form = form_ajax;
+        var url = url_ajax;
+        var modal = modal_ajax;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+        }).done(function (data) {
+            console.log('success');
+            if (data.status) {
+                $(modal).modal('hide');
+                reload_table();
+                apply_this_document_ready();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('error');
+            $.alert({
+                title: 'Atenção!',
+                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+            });
+        })
+        .always(function () {
+           enable_button();
+       });
+        e.preventDefault();
+    });
+    $("#form_orcamento_info").submit(function (e) {
+        if($("#panel_cliente_id").val() == ""){
+            $.alert({
+                title: "Atenção!",
+                content: "Nenhum cliente foi definido para este orçamento. Adicione um cliente antes de continuar."
+            });
+            return false;
+        }
+        disable_button();
+        reset_errors();
+        var form = form_ajax;
+        var url = url_ajax;
+        var modal = modal_ajax;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+        }).done(function (data) {
+            console.log('success');
+            if (data.status) {
+                $(modal).modal('hide');
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').next().text(value);
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('error');
+            $.alert({
+                title: 'Atenção!',
+                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+            });
+        })
+        .always(function () {
+           enable_button();
+       });
+        e.preventDefault();
+    });
+    function main_excluir(url) {
+        $.confirm({
+            title: 'Confirmação',
+            content: 'Deseja realmente excluir?',
+            confirm: function () {
+                call_loadingModal();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                })
+                .done(function (data) {
+                    console.log("success");
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function (data) {
+                    console.log("complete");
+                    reload_table();
+                    apply_this_document_ready();
+                });
+            },
+            cancel: function () {
+                $.alert({
+                    title: '',
+                    content: 'A operação foi cancelada!',
+                });
+            }
+        });
+    }
+    function reload_table(orcamento_info = false) {
+        $.ajax({
+            url: '<?= base_url('orcamento') ?>',
+            type: 'POST',
+            dataType: 'html',
+        })
+        .done(function (data) {
+            console.log("success");
+            $('#painel_principal').html($('#painel_principal', data).html());
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function (data) {
+            console.log("complete");
+            close_loadingModal();
+            if(orcamento_info){
+                $('#orcamento_info').html($('#orcamento_info', data).html());
+            }
+            apply_this_document_ready();
+        });
+    }
+    function call_loadingModal(msg = "") {
+        if (msg === "") {
+            msg = "Processando os dados..."
+        }
+        $('body').loadingModal({
+            position: 'auto',
+            text: msg,
+            color: '#fff',
+            opacity: '0.7',
+            backgroundColor: 'rgb(0,0,0)',
+            animation: 'threeBounce'
+        });
+    }
+    function close_loadingModal() {
         // hide the loading modal
         $('body').loadingModal('hide');
         // destroy the plugin
@@ -1871,6 +1953,9 @@ function close_loadingModal() {
         $('form').each(function () {
             this.reset()
         });
+        $("#loja").val("")
+        $("#evento").val("")
+        $("#data_evento").val("")
     }
     function reset_errors() {
         console.log('reset_errors()');
@@ -1911,5 +1996,21 @@ function close_loadingModal() {
             return null;
             console.log("Erro ao buscar o valor do pedido");
         })
+    }
+    function reload_table_cliente() {
+
+        tabela_cliente.ajax.reload(null, false);
+    }
+    function reload_table_assessor() {
+
+        tabela_assessor.ajax.reload(null, false);
+    }
+    function enable_buttons_crud() {
+        $("#editar").attr("disabled", false);
+        $("#deletar").attr("disabled", false);
+    }
+    function disable_buttons_crud() {
+        $("#editar").attr("disabled", true);
+        $("#deletar").attr("disabled", true);
     }
 </script>
