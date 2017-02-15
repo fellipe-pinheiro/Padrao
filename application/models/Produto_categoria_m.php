@@ -126,6 +126,7 @@ class Produto_categoria_m extends CI_Model {
 
     public function get_pesonalizado($colunas){
         $this->db->select($colunas);
+        $this->db->order_by("nome", "asc");
         return $this->db->get("produto_categoria")->result_array();
     }
 

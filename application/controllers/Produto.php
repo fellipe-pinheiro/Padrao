@@ -84,6 +84,11 @@ class Produto extends CI_Controller {
         $this->Produto_m->deletar($id);
         print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
     }
+    public function ajax_get_personalizado($id_categoria){
+        $arr = array();
+        $arr = $this->Produto_m->get_pesonalizado($id_categoria,"id, nome");
+        print json_encode($arr);
+    }
     private function _get_post() {
         $objeto = new Produto_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
@@ -119,19 +124,16 @@ class Produto extends CI_Controller {
         $this->__validar_formulario_produto();
         $this->session->orcamento->produto[] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> inserido com sucesso'));
-        exit();
     }
     public function session_produto_editar(){
         $posicao = $this->uri->segment(3);
         $this->session->orcamento->produto[$posicao] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> editado com sucesso'));
-        exit();
     }
     public function session_produto_excluir(){
         $posicao = $this->uri->segment(3);
         unset($this->session->orcamento->produto[$posicao]);
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> excluido com sucesso'));
-        exit();
     }
     private function set_produto(){
         $comissao = 0;

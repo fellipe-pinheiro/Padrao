@@ -97,6 +97,7 @@ class Acabamento_m extends CI_Model {
         }
         return false;
     }
+
     public function get_dados(Acabamento_m $objeto){
         $dados = array(
             'id' => $objeto->id,
@@ -132,6 +133,7 @@ class Acabamento_m extends CI_Model {
 
     public function get_pesonalizado($colunas){
         $this->db->select($colunas);
+        $this->db->order_by("nome", "asc");
         return $this->db->get("acabamento")->result_array();
     }
 }

@@ -195,6 +195,7 @@ class Fita_m extends CI_Model {
         $this->db->join('fita_laco as fl', 'fita.fita_laco = fl.id', 'left');
         $this->db->where("fita_material",$id_material);
         $this->db->from("fita");
+        $this->db->order_by("fl.nome", "asc");
         return $this->db->get()->result_array();
     }
 }

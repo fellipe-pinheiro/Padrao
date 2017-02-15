@@ -198,6 +198,7 @@ class Papel_m extends CI_Model {
     public function get_pesonalizado($id_papel_linha,$colunas){
         $this->db->select($colunas);
         $this->db->where("papel_linha",$id_papel_linha);
+        $this->db->order_by("nome", "asc");
         return $this->db->get("papel")->result_array();
     }
 }

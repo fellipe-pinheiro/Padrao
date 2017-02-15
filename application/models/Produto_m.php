@@ -154,4 +154,11 @@ class Produto_m extends CI_Model {
         }
         return $object_lista;
     }
+
+    public function get_pesonalizado($id_categoria,$colunas){
+        $this->db->select($colunas);
+        $this->db->where("produto_categoria",$id_categoria);
+        $this->db->order_by("nome", "asc");
+        return $this->db->get("produto")->result_array();
+    }
 }

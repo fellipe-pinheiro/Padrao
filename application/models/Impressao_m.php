@@ -144,6 +144,7 @@ class Impressao_m extends CI_Model {
     public function get_pesonalizado($id_area,$colunas){
         $this->db->select($colunas);
         $this->db->where("impressao_area",$id_area);
+        $this->db->order_by("nome", "asc");
         return $this->db->get("impressao")->result_array();
     }
 }

@@ -126,6 +126,7 @@ class Fita_material_m extends CI_Model {
 
     public function get_pesonalizado($colunas){
         $this->db->select($colunas);
+        $this->db->order_by("nome", "asc");
         return $this->db->get("fita_material")->result_array();
     }
 

@@ -908,7 +908,6 @@ $controller = $this->router->class;
 			dataType: 'json',
 		})
 		.done(function(data) {
-			console.log(data);
 			$.each(data, function(index, val) {
 				$('#personalizado_modelo').append($('<option>', {
 				    value: val.id,

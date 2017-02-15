@@ -126,6 +126,7 @@ class Papel_dimensao_m extends CI_Model {
 
     public function get_pesonalizado($colunas){
         $this->db->select($colunas);
+        $this->db->order_by("altura", "asc");
         return $this->db->get("papel_dimensao")->result_array();
     }
 
