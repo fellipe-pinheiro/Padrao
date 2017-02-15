@@ -66,8 +66,6 @@ class Orcamento extends CI_Controller {
 
     public function index() {
         $data['titulo_painel'] = 'Orçamento';
-        //$data['produto'] = $this->Produto_m->get_list();
-        //$data['produto_categoria'] = $this->Produto_categoria_m->get_list();
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         $data['eventos'] = $this->Evento_m->get_pesonalizado("id, nome");
         $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
@@ -399,14 +397,17 @@ class Orcamento extends CI_Controller {
             $data['status'] = FALSE;
             $data['msg'] = 'Nenhum cliente foi definido para este orçamento. <p>Clique em cliente para definir um cliente.</p>';
         }
-        //Se for um pedido, verificar se o cpf/cnpj estão no setados
-        if ($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'fisica' && empty($this->session->orcamento->cliente->cpf)) {
-            $data['status'] = FALSE;
-            $data['msg'] = 'Tentativa de criar um pedido sem o CPF do cliente. Edite o CPF do cliente e tente novamente.';
-        }
-        if ($this->input->post('is_criar_pedido') && $this->session->orcamento->cliente->pessoa_tipo == 'juridica' && empty($this->session->orcamento->cliente->cnpj)) {
-            $data['status'] = FALSE;
-            $data['msg'] = 'Tentativa de criar um pedido sem o CNPJ do cliente. Edite o CNPJ do cliente e tente novamente.';
+        if ($this->input->post('is_criar_pedido')){
+            $data['cliente_id'] = $this->session->orcamento->cliente->id;
+            $data['cliente_pessoa_tipo'] = $this->session->orcamento->cliente->pessoa_tipo;
+            //Se for um pedido, verificar se o cpf/cnpj estão no setados
+            if ($this->session->orcamento->cliente->pessoa_tipo == 'fisica' && empty($this->session->orcamento->cliente->cpf)) {
+                $data['status'] = FALSE;
+                $data['msg'] = 'Tentativa de criar um pedido sem o CPF do cliente. Edite o CPF e tente novamente.';
+            }else if ($this->session->orcamento->cliente->pessoa_tipo == 'juridica' && empty($this->session->orcamento->cliente->cnpj)) {
+                $data['status'] = FALSE;
+                $data['msg'] = 'Tentativa de criar um pedido sem o CNPJ do cliente. Edite o CNPJ e tente novamente.';
+            }
         }
         print json_encode($data);
     }

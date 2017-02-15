@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Opções do orçamento</li>
                                 <li>
-                                    <a onclick="orcamento_cliente('Clientes')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a>
+                                    <a onclick="orcamento_cliente()" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Cliente</a>
                                 </li>
                                 <li>
                                     <a onclick="orcamento_assessor('inserir', 'Assessores')" href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> Assessor</a>
@@ -419,7 +419,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="row">
                                 <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Cliente*</h4>
                                 <div class="col-sm-1">
-                                    <button onclick="orcamento_cliente('Clientes')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
+                                    <button onclick="orcamento_cliente()" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="" class="control-label">Cliente:</label>
@@ -885,6 +885,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .done(function (data) {
                 console.log("success");
+                enable_button();
                 if (data.status)
                 {
                     $(modal_form).modal('hide');
@@ -1025,6 +1026,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             error: function (jqXHR, textStatus, errorThrown)
             {
                 alert('Erro ao buscar os dados');
+            },
+            complete: function(){
+                enable_button();
             }
         });
     }
@@ -1114,9 +1118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 language: {
                     url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
                 },
-                processing: true, //Feature control the processing indicator.
-                serverSide: true, //Feature control DataTables' server-side processing mode.
-                // Load data for the table's content from an Ajax source
+                processing: true,
+                serverSide: true,
                 ajax: {
                     url: "<?= base_url('cliente/ajax_list') ?>",
                     type: "POST",
@@ -1416,11 +1419,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             } else {
                 $('#md_forma_pagamento').modal('show');
-
-                //console.log("Preparando para criar pedido");
-                //console.log("Verificando se há algo em edição...");
-                //call_loadingModal('Preparando para criar o pedido...');
-                //is_editing_container_itens();
             }
         })
         .fail(function () {
@@ -1618,18 +1616,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             } else {
                 close_loadingModal();
-                $.confirm({
+                //Abre o modal do formulário do cliente com o ID
+                form_crud = '#form_cliente';
+                url_crud = '<?= base_url('cliente/ajax_update') ?>';
+                md_tb_crud = '#md_clientes';
+                md_form_crud = '#md_form_cliente';
+                owner_crud = 'cliente';
+                url_edit_id = "<?= base_url('cliente/ajax_edit/') ?>" + data.cliente_id;
+                editar(data.cliente_id, md_tb_crud, md_form_crud);
+                $.alert({
                     title: 'Cliente!',
-                    content: data.msg,
-                    confirmButton: 'Cliente',
-                    cancelButton: 'Cancelar',
-                    confirm: function () {
-                        orcamento_cliente();
-                    },
-                    cancel: function () {
-                        $.alert('Operação cancelada! Defina o cliente manualmente antes de salvar.');
-                    }
+                    content: data.msg
                 });
+                if(data.cliente_pessoa_tipo == 'fisica'){
+                    setTimeout(function() {
+                        $("#form_cliente ul li a[href='#fisica']").tab('show');
+                        $('#form_cliente #cpf').focus();
+                    }, 2000);
+                }else if(data.cliente_pessoa_tipo == 'juridica'){
+                    setTimeout(function() {
+                        $("#form_cliente ul li a[href='#juridica']").tab('show');
+                        $('#form_cliente #cnpj').focus();
+                    }, 2000);
+                    console.log(data.cliente_pessoa_tipo);
+                }
             }
         })
         .fail(function () {
@@ -1982,7 +1992,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType: 'JSON',
         })
         .done(function (data) {
-            console.log(data);
             //Limpa o select antes de inserir os novos options
             $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
             $.each(data, function (i, item) {
