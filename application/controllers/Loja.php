@@ -60,46 +60,47 @@ class Loja extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->_get_post();
-        if ( $this->Loja_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+        $data['status'] = FALSE;
+        $this->validar_formulario();
+        $objeto = $this->get_post();
+        if ( $this->Loja_m->inserir($objeto) ) {
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["loja"] = $this->Loja_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["loja"] = $this->Loja_m->get_by_id($id);
+            $data["status"] = TRUE;
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
-            $objeto = $this->_get_post();
-
+        $data["status"] = FALSE;
+        $this->validar_formulario(true);
+        if ($this->input->post('id')) {
+            $objeto = $this->get_post();
             if ($this->Loja_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Loja_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Loja_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Loja_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
-    private function _get_post() {
+    private function get_post() {
         $objeto = new Loja_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->unidade = $this->input->post('unidade');
@@ -122,10 +123,10 @@ class Loja extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Loja_m->get_by_id($this->input->post('id'));
             if($this->input->post('unidade') != $object->unidade){
                 $is_unique =  '|is_unique[loja.unidade]';
@@ -139,7 +140,8 @@ class Loja extends CI_Controller {
         $this->form_validation->set_message('is_unique','Este campo já exite na tabela.');
         $this->form_validation->set_rules('unidade', 'Unidade', 'trim|required|max_length[50]'.$is_unique);
         $this->form_validation->set_rules('razao_social', 'Razao Social', 'trim|required|max_length[150]');
-        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|required|max_length[18]');
+        $this->form_validation->set_message('validar_cnpj','O CNPJ informado é inválido');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|required|max_length[18]|validar_cnpj');
         $this->form_validation->set_rules('ie', 'I.E', 'trim|max_length[30]');
         $this->form_validation->set_rules('im', 'I.M', 'trim|max_length[30]');
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[15]');

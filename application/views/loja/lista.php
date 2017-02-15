@@ -95,14 +95,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <?= form_label('Unidade*: ', 'unidade', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
-                        <?= form_input('unidade', '', 'id="unidade" class="form-control" placeholder="Unidade"') ?>
+                        <?= form_input('unidade', '', 'id="unidade" class="form-control" placeholder="Unidade" autofocus') ?>
                         <span class="help-block"></span>
                     </div>
                 </div>
 
                 <!-- Razão Social -->
                 <div class="form-group">
-                    <?= form_label('Razão Social*: ', 'razao_social', array('class' => 'control-label col-sm-2')) ?>
+                    <?= form_label('*Razão Social: ', 'razao_social', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
                         <?= form_input('razao_social', '', 'id="razao_social" class="form-control" placeholder="Razão Social"') ?>
                         <span class="help-block"></span>
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <!--Telefone3-->
                 <div class="form-group">
-                    <?= form_label('*Telefone3: ', 'telefone3', array('class' => 'control-label col-sm-2')) ?>
+                    <?= form_label('Telefone3: ', 'telefone3', array('class' => 'control-label col-sm-2')) ?>
                     <div class="col-sm-10">
                         <?= form_input('telefone3', '', 'id="telefone3" class="form-control sp_celphones" placeholder="Telefone3"') ?>
                         <span class="help-block"></span>
