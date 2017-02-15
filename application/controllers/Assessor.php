@@ -52,7 +52,7 @@ class Assessor extends CI_Controller {
         $this->validar_formulario();
         $data['status'] = FALSE;
         $objeto = $this->get_post();
-        if ($this->Assessor_m->inserir($objeto)) {
+        if ($data["id"] = $this->Assessor_m->inserir($objeto)) {//Retornando o id para o crud da view do orçamento
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -69,7 +69,7 @@ class Assessor extends CI_Controller {
         $this->validar_formulario();
         if ($this->input->post('id')) {
             $objeto = $this->get_post();
-            if ($this->Assessor_m->editar($objeto)) {
+            if ($data["id"] = $this->Assessor_m->editar($objeto)) {//Retornando o id para o crud da view do orçamento
                 $data["status"] = TRUE;
             }
         }
