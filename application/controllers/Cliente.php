@@ -85,47 +85,45 @@ class Cliente extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->_get_post();
-        $result = $this->Cliente_m->inserir($objeto);
-        if ($result) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso','id'=>$result));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+        $this->validar_formulario();
+        $data['status'] = FALSE;
+        $objeto = $this->get_post();
+        if ($data["id"] = $this->Cliente_m->inserir($objeto)) {//Retornando o id para o crud da view do orçamento
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["cliente"] = $this->Cliente_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["cliente"] = $this->Cliente_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
-            $objeto = $this->_get_post();
-            $result = $this->Cliente_m->editar($objeto);
-            if ($result) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso','id'=>$result));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Cliente_m->editar()'));
+        $data["status"] = FALSE;
+        $this->validar_formulario(true);
+        if ($this->input->post('id')) {
+            $objeto = $this->get_post();
+            if ($data["id"] = $this->Cliente_m->editar($objeto)) {//Retornando o id para o crud da view do orçamento
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Cliente_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if($this->Cliente_m->deletar($id)){
+            $data["status"] = TRUE;
+        }
+        print json_encode($data);
     }
 
-    private function _get_post() {
+    private function get_post() {
         $objeto = new Cliente_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->pessoa_tipo = $this->input->post('pessoa_tipo');
@@ -155,10 +153,10 @@ class Cliente extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Cliente_m->get_by_id($this->input->post('id'));
             ($this->input->post('email') != $object->email) ? $is_unique_email =  '|is_unique[cliente.email]' : $is_unique_email =  '';
             ($this->input->post('email2') != $object->email2) ? $is_unique_email2 =  '|is_unique[cliente.email2]' : $is_unique_email2 =  '';
@@ -179,7 +177,7 @@ class Cliente extends CI_Controller {
         $this->form_validation->set_rules('pessoa_tipo', 'Pessoa', 'trim|required|max_length[10]');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[20]');
         $this->form_validation->set_rules('sobrenome', 'Sobrenome', 'trim|required|max_length[50]');
-        $this->form_validation->set_message('is_unique','Já exixte um campo com este email. Dados duplicados não são permitidos.');
+        $this->form_validation->set_message('is_unique','Já exixte um cadastro com este valor.');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[100]|valid_email'.$is_unique_email);
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[15]');
         //Contato 2
@@ -188,8 +186,10 @@ class Cliente extends CI_Controller {
         $this->form_validation->set_rules('email2', 'Email2', 'trim|max_length[100]|valid_email'.$is_unique_email2);
         $this->form_validation->set_rules('telefone2', 'Telefone2', 'trim|max_length[15]');
         //Documentos
-        $this->form_validation->set_rules('rg', 'RG', 'trim|callback_validation_is_valid_rg');
-        $this->form_validation->set_rules('cpf', 'CPF', 'trim|callback_validation_is_valid_cpf'.$is_unique_cpf);
+        $this->form_validation->set_message('validar_rg','O RG informado é inválido');
+        $this->form_validation->set_rules('rg', 'RG', 'trim|validar_rg');
+        $this->form_validation->set_message('validar_cpf','O CPF informado é inválido');
+        $this->form_validation->set_rules('cpf', 'CPF', 'trim|validar_cpf'.$is_unique_cpf);
         //Endereço
         $this->form_validation->set_rules('endereco', 'Endereco', 'trim|max_length[50]');
         $this->form_validation->set_rules('numero', 'Número', 'trim');
@@ -202,7 +202,8 @@ class Cliente extends CI_Controller {
         $this->form_validation->set_rules('observacao', 'Observação', 'trim');
         //Dados da empresa
         $this->form_validation->set_rules('razao_social', 'Razao Social', 'trim|max_length[150]'.$required);
-        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|max_length[18]'.$is_unique_cnpj);
+        $this->form_validation->set_message('validar_cnpj','O CNPJ informado é inválido');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|max_length[18]|validar_cnpj'.$is_unique_cnpj);
         $this->form_validation->set_rules('ie', 'I.E', 'trim|max_length[30]');
         $this->form_validation->set_rules('im', 'I.M', 'trim|max_length[30]');
 
@@ -212,111 +213,6 @@ class Cliente extends CI_Controller {
             $data['status'] = FALSE;
             print json_encode($data);
             exit();
-        }
-    }
-    public function validation_is_valid_cpf($strCPF) {
-        $this->form_validation->set_message('validation_is_valid_cpf','O CPF informado é inválido');
-        if(!empty($strCPF)){
-            $strCPF = preg_replace('/[^0-9]/', '', (string) $strCPF);
-
-            if ($strCPF == '00000000000' || $strCPF == '11111111111' || $strCPF == '22222222222' || $strCPF == '33333333333' || $strCPF == '44444444444' || $strCPF == '55555555555' || $strCPF == '66666666666' || $strCPF == '77777777777' || $strCPF == '88888888888' || $strCPF == '99999999999') {
-                return false;
-            }
-            $arrayCPF = str_split($strCPF);
-            if(count($arrayCPF) != 11){
-                return false;
-            }
-            $soma = 0;
-            for ($i=1; $i<=9; $i++) {
-                $soma = $soma + intval($arrayCPF[$i-1]) * (11 - $i);
-            }
-            $resto = ($soma * 10) % 11;
-            if (($resto === 10) || ($resto === 11))  $resto = 0;
-            if ($resto != intval($arrayCPF[9]) ) return false;
-            $soma = 0;
-            for ($i = 1; $i <= 10; $i++) { 
-                $soma = $soma + intval($arrayCPF[$i-1]) * (12 - $i);
-            }
-            $resto = ($soma * 10) % 11;
-            if (($resto === 10) || ($resto === 11))  $resto = 0;
-            if ($resto != intval($arrayCPF[10] ) ) return false;
-            return true;
-        }else{
-            return true;
-        }
-    }
-    public function validation_is_valid_rg($rg){
-        $rg = preg_replace('/[^0-9]/', '', (string) $rg);
-        $rg = str_split($rg);
-        $tamanho = count($rg);
-        $vetor = array($tamanho);
-
-        if($tamanho>=1){
-            $vetor[0] = intval($rg[0]) * 2; 
-        }
-        if($tamanho>=2){
-            $vetor[1] = intval($rg[1]) * 3; 
-        }
-        if($tamanho>=3){
-            $vetor[2] = intval($rg[2]) * 4; 
-        }
-        if($tamanho>=4){
-            $vetor[3] = intval($rg[3]) * 5; 
-        }
-        if($tamanho>=5){
-            $vetor[4] = intval($rg[4]) * 6; 
-        }
-        if($tamanho>=6){
-            $vetor[5] = intval($rg[5]) * 7; 
-        }
-        if($tamanho>=7){
-            $vetor[6] = intval($rg[6]) * 8; 
-        }
-        if($tamanho>=8){
-            $vetor[7] = intval($rg[7]) * 9; 
-        }
-        if($tamanho>=9){
-            $vetor[8] = intval($rg[8]) * 100; 
-        }
-
-        $total = 0;
-
-        if($tamanho>=1){
-            $total += $vetor[0];
-        }
-        if($tamanho>=2){
-            $total += $vetor[1]; 
-        }
-        if($tamanho>=3){
-            $total += $vetor[2]; 
-        }
-        if($tamanho>=4){
-            $total += $vetor[3]; 
-        }
-        if($tamanho>=5){
-            $total += $vetor[4]; 
-        }
-        if($tamanho>=6){
-            $total += $vetor[5]; 
-        }
-        if($tamanho>=7){
-            $total += $vetor[6];
-        }
-        if($tamanho>=8){
-            $total += $vetor[7]; 
-        }
-        if($tamanho>=9){
-            $total += $vetor[8]; 
-        }
-
-
-        $resto = $total % 11;
-        if($resto!=0){
-            $this->form_validation->set_message('validation_is_valid_rg','O RG informado é inválido');
-            return false;
-        }
-        else{
-            return true;
         }
     }
 }
