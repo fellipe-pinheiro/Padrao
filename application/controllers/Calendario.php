@@ -43,14 +43,14 @@ class Calendario extends CI_Controller {
     }
 
     public function entrega() {
-        $data['lojas'] = $this->Loja_m->get_list();
+        $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         set_layout('titulo', 'Calendário | Entrega', true);
         set_layout('conteudo', load_content('calendario/entrega', $data));
         load_layout();
     }
 
     public function producao() {
-        $data['lojas'] = $this->Loja_m->get_list();
+        $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         set_layout('titulo', 'Calendário | Produção', true);
         set_layout('conteudo', load_content('calendario/producao', $data));
         load_layout();
@@ -203,7 +203,7 @@ class Calendario extends CI_Controller {
                     $larguar_final = $value->larguar_final;
                 }
 
-                $value->formato = $this->__calcula_formato($value->pap_inteiro_alt,$value->pap_inteiro_larg,$altura_final,$larguar_final);
+                $value->formato = $this->calcula_formato($value->pap_inteiro_alt,$value->pap_inteiro_larg,$altura_final,$larguar_final);
             }
 
             $list[$key]->folhas = ceil(( $value->qtd_pedido * $value->qtd_papel ) / $value->formato);
@@ -257,7 +257,7 @@ class Calendario extends CI_Controller {
         print json_encode($output);
     }
 
-    private function __calcula_formato($papel_dimensao_altura, $papel_dimensao_largura, $altura,$largura){
+    private function calcula_formato($papel_dimensao_altura, $papel_dimensao_largura, $altura,$largura){
         $formato1 = intval(($papel_dimensao_largura / $largura)) * intval(($papel_dimensao_altura / $altura));
         $formato2 = intval(($papel_dimensao_altura / $largura)) * intval(($papel_dimensao_largura / $altura));
         //verifica qual o maior
