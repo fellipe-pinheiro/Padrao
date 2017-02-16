@@ -76,12 +76,7 @@ class Mao_obra_m extends CI_Model {
 
     public function inserir(Mao_obra_m $objeto) {
         if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor)
-                );
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('mao_obra', $dados)) {
                 return $this->db->insert_id();
             }
@@ -91,18 +86,23 @@ class Mao_obra_m extends CI_Model {
 
     public function editar(Mao_obra_m $objeto) {
         if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor)
-                );
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('mao_obra', $dados)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private function get_dados($objeto){
+        $dados = array(
+            'id' => $objeto->id,
+            'nome' => $objeto->nome,
+            'descricao' => $objeto->descricao,
+            'valor' => str_replace(',', '.', $objeto->valor)
+            );
+        return $dados;
     }
 
     public function deletar($id) {

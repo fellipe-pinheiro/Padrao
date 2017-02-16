@@ -44,43 +44,44 @@ class Mao_obra extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario("add");
-        $data['status'] = TRUE;
+        $data['status'] = FALSE;
+        $this->validar_formulario();
         $objeto = $this->get_post();
         if ( $this->Mao_obra_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["mao_obra"] = $this->Mao_obra_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["mao_obra"] = $this->Mao_obra_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
+        $data["status"] = FALSE;
+        $this->validar_formulario();
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Mao_obra_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Mao_obra_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Mao_obra_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Mao_obra_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
     public function ajax_get_personalizado(){
@@ -105,7 +106,7 @@ class Mao_obra extends CI_Controller {
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|callback_decimal_positive');
+        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -113,12 +114,5 @@ class Mao_obra extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-
-    public function decimal_positive($value){
-        if($value < 0){
-            return false;
-        }
-        return true;
     }
 }

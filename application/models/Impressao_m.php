@@ -106,7 +106,7 @@ class Impressao_m extends CI_Model {
         return false;
     }
 
-    public function get_dados(Impressao_m $objeto){
+    private function get_dados(Impressao_m $objeto){
         $dados = array(
             'id' => $objeto->id,
             'nome' => $objeto->nome,
