@@ -43,8 +43,8 @@ class Papel_dimensao extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario();
         $data['status'] = FALSE;
+        $this->validar_formulario();
         $objeto = $this->get_post();
         if ( $this->Papel_dimensao_m->inserir($objeto)) {
             $data['status'] = TRUE;
@@ -53,8 +53,11 @@ class Papel_dimensao extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["papel_dimensao"] = $this->Papel_dimensao_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["papel_dimensao"] = $this->Papel_dimensao_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -71,9 +74,11 @@ class Papel_dimensao extends CI_Controller {
     }
 
     public function ajax_delete($id) {
-        $data['status'] = TRUE;
-        if($this->Papel_dimensao_m->deletar($id)){
-            $data['status'] = TRUE;
+        $data['status'] = FALSE;
+        if(!empty($id)){
+            if($this->Papel_dimensao_m->deletar($id)){
+                $data['status'] = TRUE;
+            }
         }
         print json_encode($data);
     }
@@ -97,8 +102,8 @@ class Papel_dimensao extends CI_Controller {
         $data['status'] = TRUE;
 
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('altura', 'Altura', 'trim|required|max_length[4]|alpha_numeric_spaces|callback_decimal_positive|is_natural_no_zero');
-        $this->form_validation->set_rules('largura', 'Largura', 'trim|required|max_length[4]|alpha_numeric_spaces|callback_decimal_positive|is_natural_no_zero');
+        $this->form_validation->set_rules('altura', 'Altura', 'trim|required|max_length[4]|alpha_numeric_spaces|decimal_positive|is_natural_no_zero');
+        $this->form_validation->set_rules('largura', 'Largura', 'trim|required|max_length[4]|alpha_numeric_spaces|decimal_positive|is_natural_no_zero');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -106,12 +111,5 @@ class Papel_dimensao extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-
-    public function decimal_positive($value){
-        if($value < 0){
-            return false;
-        }
-        return true;
     }
 }

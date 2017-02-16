@@ -106,6 +106,7 @@ class Papel_acabamento extends CI_Controller {
         }
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
+        $this->form_validation->set_message('is_unique', 'Este código já existe no banco de dados!');
         $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required');
