@@ -548,7 +548,7 @@ $pedido_id = $dados['numero_pedido'];
 					<div class="form-group">
 						<?= form_label('*Data vencimento: ', 'vencimento', array('class' => 'control-label col-sm-4')) ?>
 						<div class="col-sm-8">
-							<input type="date" name="vencimento" id="vencimento" class="form-control" placeholder="vencimento" readonly />
+							<input type="date" name="vencimento" id="vencimento" class="form-control" placeholder="vencimento" readonly>
 							<span class="help-block"></span>
 						</div>
 					</div>
@@ -556,7 +556,7 @@ $pedido_id = $dados['numero_pedido'];
 					<div class="form-group">
 						<?= form_label('*Data pagamento: ', 'data_pagamento', array('class' => 'control-label col-sm-4')) ?>
 						<div class="col-sm-8">
-							<input type="date" name="data_pagamento" id="data_pagamento" class="form-control" placeholder="Data pagamento" />
+							<input type="text" name="data_pagamento" id="data_pagamento" class="form-control datetimepicker" placeholder="Data pagamento" value="<?=date("d/m/Y")?>">
 							<span class="help-block"></span>
 						</div>
 					</div>
@@ -633,7 +633,7 @@ $pedido_id = $dados['numero_pedido'];
 					<div class="form-group">
 						<?= form_label('*Data pagamento: ', 'quitacao_data_pagamento', array('class' => 'control-label col-sm-4')) ?>
 						<div class="col-sm-8">
-							<input type="date" name="data_pagamento" id="quitacao_data_pagamento" class="form-control" placeholder="Data pagamento" />
+							<input type="text" name="data_pagamento" id="quitacao_data_pagamento" class="form-control datetimepicker" placeholder="Data pagamento" value="<?=date('d/m/Y')?>">
 							<span class="help-block"></span>
 						</div>
 					</div>

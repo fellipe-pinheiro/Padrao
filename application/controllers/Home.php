@@ -131,5 +131,13 @@ class Home extends CI_Controller {
         var_dump($this->validar_cnpj('81.888.736/0001-41'));
     }
 
+    public function testa_data_db(){
+        var_dump(date_to_db('20-04-1982'));
+        var_dump(date_to_db('1982-04-20'));
+        
+        var_dump(date_to_db('20/04/1982'));
+        var_dump(date_to_db('1982/04/20'));
+    }
+
     
 }

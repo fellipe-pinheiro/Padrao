@@ -43,9 +43,9 @@ class Cliente_conta extends CI_Controller {
         //Materia Prima Convite
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_catalogo_m');
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
+        $this->load->model('Papel_gramatura_m');
         $this->load->model('Impressao_m');
         $this->load->model('Impressao_area_m');
         $this->load->model('Acabamento_m');
@@ -66,7 +66,8 @@ class Cliente_conta extends CI_Controller {
         $data['pedido_creditos'] = $this->Cliente_conta_m->get_by_pedido($id,false,false);
         $data['adicional'] = $this->Adicional_m->get_by_pedido_id($id,null);
         $data['cliente'] = $this->Cliente_m->get_by_pedido_id($id);
-        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
+        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
+        //$data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
         $data['numero_pedido'] = $id;
 
         $data['total_debitos_pedido'] = 0;
@@ -104,12 +105,13 @@ class Cliente_conta extends CI_Controller {
     }
 
     public function ajax_quitar_parcelas(){
-        $this->__validar_formulario_quitacao();
+        $this->validar_formulario_quitacao();
         $data["status"] = TRUE;
         $id = $this->input->post('id');
         $owner = $this->input->post('quitacao_owner');
         $forma_pagamento = $this->input->post('forma_pagamento');
         $codigo_bancario = $this->input->post('codigo_bancario');
+        $data_pagamento = date_to_db($this->input->post('data_pagamento'));
 
         if($owner === 'pedido'){
             $debitos = $this->Cliente_conta_m->get_by_pedido($id, true,false);
@@ -163,7 +165,7 @@ class Cliente_conta extends CI_Controller {
             }
 
             //$pos_descricao = " referente ao Débito ID: " . $parcela['id'];
-            $cliente_conta = $this->__get_post_efetuar_pagamento( $parcela['id'], $parcela['valor'], $forma_pagamento, $descricao.$pos_descricao, $codigo_bancario);
+            $cliente_conta = $this->get_post_efetuar_pagamento( $parcela['id'], $parcela['valor'], $forma_pagamento, $descricao.$pos_descricao, $codigo_bancario, $data_pagamento);
             $cliente_conta->inserir();
         }
         if ($this->db->trans_status() === FALSE) {
@@ -176,7 +178,7 @@ class Cliente_conta extends CI_Controller {
         exit();
     }
 
-    private function __validar_formulario_quitacao(){
+    private function validar_formulario_quitacao(){
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('id', 'ID', 'trim|required');
@@ -257,14 +259,15 @@ class Cliente_conta extends CI_Controller {
 
     public function ajax_efetuar_pagamento(){
         $data["status"] = TRUE;
-        $this->__validar_formulario_efetuar_pagamento();
+        $this->validar_formulario_efetuar_pagamento();
         $id = $this->input->post('id');
         $valor_pagamento = $this->input->post('valor_pagamento');
         $forma_pagamento = $this->input->post('forma_pagamento');
         $descricao = 'Pagamento do débito ID: '.$id;
         $codigo_bancario = $this->input->post('codigo_bancario');
+        $data_pagamento = date_to_db($this->input->post('data_pagamento'));
 
-        $cliente_conta = $this->__get_post_efetuar_pagamento( $id, $valor_pagamento, $forma_pagamento, $descricao, $codigo_bancario);
+        $cliente_conta = $this->get_post_efetuar_pagamento( $id, $valor_pagamento, $forma_pagamento, $descricao, $codigo_bancario, $data_pagamento);
         if(!$cliente_conta->inserir()){
             $data["status"] = FALSE;
         }
@@ -273,7 +276,7 @@ class Cliente_conta extends CI_Controller {
         exit();
     }
 
-    private function __validar_formulario_efetuar_pagamento() {
+    private function validar_formulario_efetuar_pagamento() {
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('id', 'ID', 'trim|required|callback_validation_chk_parcela_pagamento');
@@ -290,14 +293,15 @@ class Cliente_conta extends CI_Controller {
         }
     }
 
-    private function __get_post_efetuar_pagamento( $id, $valor_pagamento, $forma_pagamento, $descricao, $codigo_bancario ) {
+    private function get_post_efetuar_pagamento( $id, $valor_pagamento, $forma_pagamento, $descricao, $codigo_bancario ,$data_pagamento) {
+        
         $objeto = $this->Cliente_conta_m->get_by_id($id);
         $objeto->debito_referencia = $objeto->id;
         $objeto->id = null;
         $objeto->usuario = $this->session->user_id;
         $objeto->debito = 0;
         $objeto->valor = str_replace(',', '.', $valor_pagamento);
-        $objeto->data = date('Y-m-d H:i:s');
+        $objeto->data = $data_pagamento;
         $objeto->forma_pagamento = $forma_pagamento;
         $objeto->descricao = $descricao;
         $objeto->codigo_bancario = $codigo_bancario;
@@ -314,6 +318,8 @@ class Cliente_conta extends CI_Controller {
     }
 
     public function validation_chk_data_pagamento($date){
+        list($dia,$mes,$ano) = explode('/', $date);
+        $date = $ano.'-'.$mes.'-'.$dia;
         $today = date('Y/m/d');
         $data_pedido = $this->input->post('data');
         if( strtotime($date) <= strtotime($today) && strtotime($date) >= strtotime($data_pedido)) {
