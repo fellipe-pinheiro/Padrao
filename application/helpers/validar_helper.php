@@ -154,3 +154,27 @@ function check_white_spaces($string){//Verifica se a string tem espaços PS: uti
     return true;
 }
 
+function date_before_today($date) {
+    $date = date_to_db($date);
+    $today = date('Y/m/d');
+    if (strtotime($date) >= strtotime($today)) {
+        return true;
+    }
+    return false;
+}
+
+function validate_date($data) {
+	if (strpos($data, '/') !== false) {
+    	list($dia, $mes, $ano) = explode('/', $data);
+    	if(strlen($dia) === 4){
+    		list($ano, $mes, $dia) = explode('/', $data);
+    	}
+	}else if (strpos($data, '-') !== false) {
+		list($dia, $mes, $ano) = explode('-', $data);
+		if(strlen($dia) === 4){
+    		list($ano, $mes, $dia) = explode('-', $data);
+    	}
+	}
+    return checkdate($mes, $dia, $ano);
+}
+

@@ -1,5 +1,5 @@
 <?php 
-function date_to_db($data=''){ //[dd/mm/yyyy] [yyyy/mm/dd] [dd-mm-yyyy] [yyyy-mm-dd]
+function date_to_db($data=''){ //[dd/mm/yyyy] [yyyy/mm/dd] [dd-mm-yyyy] [yyyy-mm-dd] => Return [yyyy-mm-dd]
 	if (!empty($data)) {
 		if (strpos($data, '/') !== false) {
 			list($dia, $mes, $ano) = explode('/', $data);
@@ -38,11 +38,7 @@ function int_to_db($number){
 	}
 }
 
-function date_before_today($date) {
-    $date = date_to_db($date);
-    $today = date('Y/m/d');
-    if (strtotime($date) >= strtotime($today)) {
-        return true;
-    }
-    return false;
+function round_down($number, $precision = 3) {
+    $fig = (int) str_pad('1', $precision, '0');
+    return (floor($number * $fig) / $fig);
 }
