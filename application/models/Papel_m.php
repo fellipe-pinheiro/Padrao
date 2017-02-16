@@ -180,21 +180,6 @@ class Papel_m extends CI_Model {
         return json_encode($this->papel_gramaturas);
     }
 
-    public function get_object_json(){
-        $arr = array(
-            /*
-            "80" => $this->valor_80g,
-            "120" => $this->valor_120g,
-            "180" => $this->valor_180g,
-            "250" => $this->valor_250g,
-            "300" => $this->valor_300g,
-            "350" => $this->valor_350g,
-            "400" => $this->valor_400g,
-            */
-            );
-        return json_encode($arr);
-    }
-
     public function get_pesonalizado($id_papel_linha,$colunas){
         $this->db->select($colunas);
         $this->db->where("papel_linha",$id_papel_linha);
