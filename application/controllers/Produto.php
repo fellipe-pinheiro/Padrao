@@ -17,8 +17,6 @@ class Produto extends CI_Controller {
     }
     public function index() {
         $data['titulo_painel'] = 'Produtos';
-        $data["produto"] = empty($this->Produto_m->get_list())? $data["produto"] = array() : $data["produto"] = $this->Produto_m->get_list();
-        $data['produto_categoria'] = $this->Produto_categoria_m->get_list();
         set_layout('conteudo', load_content('produto/lista', $data));
         load_layout();
     }
