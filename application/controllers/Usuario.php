@@ -71,11 +71,6 @@ class Usuario extends CI_Controller {
             );
 
             $password = $email;
-            var_dump($identity);
-            var_dump($password);
-            var_dump($email);
-            var_dump($additional_data);
-            die();
             if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
 
                 $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
