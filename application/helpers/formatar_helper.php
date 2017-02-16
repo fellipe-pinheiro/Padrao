@@ -1,7 +1,7 @@
 <?php 
-function date_to_db($data=''){
+function date_to_db($data=''){ //[dd/mm/yyyy] [yyyy/mm/dd] [dd-mm-yyyy] [yyyy-mm-dd]
 	if (!empty($data)) {
-		if (strpos($data, '/') !== false) {// Aceita os formatos: dd/mm/yyyy - yyyy/mm/dd
+		if (strpos($data, '/') !== false) {
 			list($dia, $mes, $ano) = explode('/', $data);
 			if(strlen($dia) === 2){
 	        	return $data = $ano . '-' . $mes . '-' . $dia;
@@ -9,7 +9,7 @@ function date_to_db($data=''){
 				list($ano, $mes, $dia) = explode('/', $data);
 				return $data = $ano . '-' . $mes . '-' . $dia;
 			}
-		}else if(strpos($data, '-') !== false){// Aceita os formatos: dd-mm-yyyy - yyyy-mm-dd
+		}else if(strpos($data, '-') !== false){
 			list($dia, $mes, $ano) = explode('-', $data);
 			if(strlen($dia) === 2){
 	        	return $data = $ano . '-' . $mes . '-' . $dia;
@@ -36,4 +36,13 @@ function int_to_db($number){
 	if (!empty($number)) {
 		return round($number, 0);
 	}
+}
+
+function date_before_today($date) {
+    $date = date_to_db($date);
+    $today = date('Y/m/d');
+    if (strtotime($date) >= strtotime($today)) {
+        return true;
+    }
+    return false;
 }

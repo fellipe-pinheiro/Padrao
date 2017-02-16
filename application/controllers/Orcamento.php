@@ -69,8 +69,8 @@ class Orcamento extends CI_Controller {
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         $data['eventos'] = $this->Evento_m->get_pesonalizado("id, nome");
         $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
-        $data['estados'] = array("AC" => "Acre", "AL" => "Alagoas", "AM" => "Amazonas", "AP" => "Amapá", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espírito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RO" => "Rondônia", "RS" => "Rio Grande do Sul", "RR" => "Roraima", "SC" => "Santa Catarina", "SE" => "Sergipe", "SP" => "São Paulo", "TO" => "Tocantins");
-        $data['estados_json'] = json_encode($data['estados']);
+        $data['estados'] = get_array_estados();
+        $data['estados_json'] = json_encode(get_array_estados());
         set_layout('conteudo', load_content('orcamento/index', $data));
         load_layout();
     }
@@ -273,7 +273,8 @@ class Orcamento extends CI_Controller {
     private function validar_formulario_orcamento_info() {
         $this->form_validation->set_rules('evento', 'Evento', 'trim|required');
         $this->form_validation->set_rules('loja', 'Loja', 'trim|required');
-        $this->form_validation->set_rules('data_evento', 'Data Evento', 'callback_validation_date_before_today');
+        $this->form_validation->set_message('date_before_today', 'A data é anterior a data de hoje ' . date('d/m/Y'));
+        $this->form_validation->set_rules('data_evento', 'Data Evento', 'date_before_today');
         $this->form_validation->set_rules('descricao', 'Descricao', 'trim');
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -322,8 +323,8 @@ class Orcamento extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_message('validation_decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|callback_validation_decimal_positive|callback_validation_no_leading_zeroes');
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|decimal_positive|no_leading_zeroes');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -445,36 +446,6 @@ class Orcamento extends CI_Controller {
         $this->session->unset_userdata('personalizado');
         $this->novo_orcamento();
         print json_encode($data);
-    }
-
-    private function format_date($date) {
-        list($dia, $mes, $ano) = explode('/', $date);
-        return $date = $ano . '-' . $mes . '-' . $dia;
-    }
-
-    public function validation_decimal_positive($value) {
-        if ($value < 0) {
-            return false;
-        }
-        return true;
-    }
-
-    public function validation_date_before_today($date) {
-        if (strpos($date, '/') !== false) {
-            $date = $this->format_date($date);
-        }
-        $this->form_validation->set_message('validation_date_before_today', 'A data é anterior a data de hoje ' . date('d/m/Y'));
-        $today = date('Y/m/d');
-        if (strtotime($date) >= strtotime($today)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function validation_no_leading_zeroes($value) {
-
-        return preg_replace('/^0+/', '', $value);
     }
 
 }
