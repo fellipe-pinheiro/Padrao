@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>CEP</th>
                             </tr>
                         </thead>
-                        <tbody id="fbody">
+                        <tbody>
                         </tbody>
                     </table>
                 </div>
