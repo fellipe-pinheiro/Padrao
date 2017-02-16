@@ -57,16 +57,18 @@ class Personalizado_modelo extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["personalizado_modelo"] = $this->Personalizado_modelo_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["personalizado_modelo"] = $this->Personalizado_modelo_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
     public function ajax_update() {
         $data['status'] = FALSE;
         $this->validar_formulario(true);
-        $id = $this->input->post('id');
-        if ($id) {
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
             if ($this->Personalizado_modelo_m->editar($objeto)) {
                 $data['status'] = TRUE;
@@ -77,8 +79,10 @@ class Personalizado_modelo extends CI_Controller {
 
     public function ajax_delete($id) {
         $data['status'] = FALSE;
-        if($this->Personalizado_modelo_m->deletar($id)){
-            $data['status'] = TRUE;
+        if(!empty($id)){
+            if($this->Personalizado_modelo_m->deletar($id)){
+                $data['status'] = TRUE;
+            }
         }
         print json_encode($data);
     }
