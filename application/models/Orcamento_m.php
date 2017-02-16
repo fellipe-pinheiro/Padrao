@@ -19,11 +19,11 @@ class Orcamento_m extends CI_Model {
 
     // Ajax 
     var $table = 'orcamento as orc';
-    var $column_order = array('orc.id','cliente_nome','orc.data','orc.data_evento','cliente_email','cliente_telefone','cliente_cpf','cliente_cnpj','cliente_razao_social','cliente_pessoa_tipo','evento_nome','loja_unidade','orc.descricao'); //set column field database for datatable orderable
-    var $column_search = array('orc.id','CONCAT(cli.nome," ", cli.sobrenome)','cli.email','cli.cpf','cli.telefone','cli.cnpj','cli.razao_social', 'CONCAT(asr.nome," ", asr.sobrenome)','asr.email','date_format(orc.data,"%d/%m/%Y")','date_format(orc.data_evento,"%d/%m/%Y")','evt.nome','loj.unidade'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('orc.id'=>'asc'); // default order 
+    var $column_order = array('orc.id','cliente_nome','orc.data','orc.data_evento','cliente_email','cliente_telefone','cliente_cpf','cliente_cnpj','cliente_razao_social','cliente_pessoa_tipo','evento_nome','loja_unidade','orc.descricao');
+    var $column_search = array('orc.id','CONCAT(cli.nome," ", cli.sobrenome)','cli.email','cli.cpf','cli.telefone','cli.cnpj','cli.razao_social', 'CONCAT(asr.nome," ", asr.sobrenome)','asr.email','date_format(orc.data,"%d/%m/%Y")','date_format(orc.data_evento,"%d/%m/%Y")','evt.nome','loj.unidade');
+    var $order = array('orc.id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         //Orcamento
         $this->db->select(
             'orc.id, 
@@ -54,7 +54,7 @@ class Orcamento_m extends CI_Model {
             $this->db->where('orc.id', $this->input->post('orc_id'));
         }
         if($this->input->post('data_orcamento')){
-            $this->db->where('date_format(orc.data,"%Y-%m-%d")', $this->__format_date($this->input->post('data_orcamento')));
+            $this->db->where('date_format(orc.data,"%Y-%m-%d")', date_to_db($this->input->post('data_orcamento')));
         }
         if($this->input->post('cli_id')){
             $this->db->where('cli.id', $this->input->post('cli_id'));
@@ -66,7 +66,7 @@ class Orcamento_m extends CI_Model {
             $this->db->like('cli.sobrenome', $this->input->post('cli_sobrenome'));
         }
         if($this->input->post('data_evento')){
-            $this->db->where('date_format(orc.data_evento,"%Y-%m-%d")', $this->__format_date($this->input->post('data_evento')));
+            $this->db->where('date_format(orc.data_evento,"%Y-%m-%d")', date_to_db($this->input->post('data_evento')));
         }
         if($this->input->post('telefone')){
             $this->db->where('cli.telefone',$this->input->post('telefone'));
@@ -86,52 +86,57 @@ class Orcamento_m extends CI_Model {
         $this->db->from($this->table);
         $i = 0;
 
-        foreach ($this->column_search as $item) { // loop column 
-            if ($_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+        foreach ($this->column_search as $item) {
+            if ($_POST['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
                 }
                 $i++;
             }
 
-        if (isset($_POST['order'])) { // here order processing
+        if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
+
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
-        $this->__join();
+        $this->join();
         $query = $this->db->get();
         return $query->result();
     }
+
     public function count_filtered() {
-        $this->_get_datatables_query();
-        $this->__join();
+        $this->get_datatables_query();
+        $this->join();
         $query = $this->db->get();
         return $query->num_rows();
     }
-    private function __join(){
+
+    private function join(){
         $this->db->join('cliente as cli', 'orc.cliente = cli.id', 'left');
         $this->db->join('assessor as asr', 'orc.assessor = asr.id', 'left');
         $this->db->join('evento as evt', 'orc.evento = evt.id', 'left');
         $this->db->join('loja as loj', 'orc.loja = loj.id', 'left');
     }
+
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
     public function inserir(){
         //orcamento
         date_default_timezone_set('America/Sao_Paulo');
@@ -162,7 +167,7 @@ class Orcamento_m extends CI_Model {
                     return false;
                 }else{
                     if (strpos($convite->data_entrega, '/') !== false) {
-                        $data_entrega = $this->__format_date($convite->data_entrega);
+                        $data_entrega = date_to_db($convite->data_entrega);
                     }else{
                         $data_entrega = $convite->data_entrega;
                     }
@@ -192,7 +197,7 @@ class Orcamento_m extends CI_Model {
                     return false;
                 }else{
                     if (strpos($personalizado->data_entrega, '/') !== false) {
-                        $data_entrega = $this->__format_date($personalizado->data_entrega);
+                        $data_entrega = date_to_db($personalizado->data_entrega);
                     }else{
                         $data_entrega = $personalizado->data_entrega;
                     }
@@ -219,7 +224,7 @@ class Orcamento_m extends CI_Model {
             $produtos = $this->produto;
             foreach ($produtos as $produto) {
                 if (strpos($produto->data_entrega, '/') !== false) {
-                    $data_entrega = $this->__format_date($produto->data_entrega);
+                    $data_entrega = date_to_db($produto->data_entrega);
                 }else{
                     $data_entrega = $produto->data_entrega;
                 }
@@ -241,20 +246,18 @@ class Orcamento_m extends CI_Model {
         }
         return true;
     }
-    private function __format_date($date){
-        list($dia,$mes,$ano) = explode('/', $date);
-        return $date = $ano.'-'.$mes.'-'.$dia;
-    }
+
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('orcamento');
         if($result->num_rows() > 0){
-            $result =  $this->Orcamento_m->__changeToObject($result->result_array());
+            $result =  $this->Orcamento_m->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
     }
+
     public function calcula_total_convites(){
         $total = 0;
         foreach ($this->convite as $key => $value) {
@@ -263,6 +266,7 @@ class Orcamento_m extends CI_Model {
         //return $total;
         return round($total, 2);
     }
+
     public function calcula_total_personalizados(){
         $total = 0;
         foreach ($this->personalizado as $key => $value) {
@@ -271,6 +275,7 @@ class Orcamento_m extends CI_Model {
         //return $total;
         return round($total, 2);
     }
+
     public function calcula_total_produtos(){
         $total = 0;
         foreach ($this->produto as $key => $value) {
@@ -279,20 +284,24 @@ class Orcamento_m extends CI_Model {
         //return $total;
         return round($total, 2);
     }
+
     public function calcula_custos_administrativos(){
         //esta função não está sendo utilizada. Os cálculos dos custos de comissão já estão sendo cobrados nos convites, nos personalizados e nos produtos.
         return ($this->calcula_sub_total() /100) * $this->assessor->comissao;
     }
+
     public function calcula_sub_total(){
 
         return  $this->calcula_total_convites() + $this->calcula_total_produtos() + $this->calcula_total_personalizados();
     }
+
     public function calcula_total(){
 
         $total = $this->calcula_sub_total() - $this->desconto;
         return round($total, 2);
     }
-    private function __changeToObject($result_db) {
+    
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Orcamento_m();
