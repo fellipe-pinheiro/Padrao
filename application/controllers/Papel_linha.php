@@ -51,8 +51,11 @@ class Papel_linha extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["linha"] = $this->Papel_linha_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["linha"] = $this->Papel_linha_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -70,8 +73,10 @@ class Papel_linha extends CI_Controller {
 
     public function ajax_delete($id) {
         $data["status"] = FALSE;
-        if($this->Papel_linha_m->deletar($id)){
-            $data["status"] = TRUE;
+        if(!empty($id)){
+            if($this->Papel_linha_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
         }
         print json_encode($data);
     }

@@ -74,11 +74,7 @@ class Papel_linha_m extends CI_Model {
 
     public function inserir($objeto) {
         if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+            $dados = $this->get_dados($objeto);
             if ($this->db->insert('papel_linha', $dados)) {
                 return $this->db->insert_id();
             }
@@ -88,17 +84,22 @@ class Papel_linha_m extends CI_Model {
 
     public function editar($objeto) {
         if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao
-                );
+            $dados = $this->get_dados($objeto);
             $this->db->where('id', $objeto->id);
             if ($this->db->update('papel_linha', $dados)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private function get_dados($objeto){
+        $dados = array(
+            'id' => $objeto->id,
+            'nome' => $objeto->nome,
+            'descricao' => $objeto->descricao
+            );
+        return $dados; 
     }
 
     public function deletar($id) {
