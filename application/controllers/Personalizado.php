@@ -105,7 +105,7 @@ class Personalizado extends CI_Controller {
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('personalizado_modelo', 'Personalizado modelo', 'required');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -302,26 +302,26 @@ class Personalizado extends CI_Controller {
         $this->form_validation->set_rules('papel', 'Papel', 'required');
         $this->form_validation->set_rules('gramatura', 'Gramatura', 'required');
         if(!empty($this->input->post('empastamento_adicionar'))){
-            $this->form_validation->set_rules('empastamento_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('empastamento_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('laminacao_adicionar'))){
-            $this->form_validation->set_rules('laminacao_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('laminacao_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('douracao_adicionar'))){
-            $this->form_validation->set_rules('douracao_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('douracao_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('corte_laser_adicionar'))){
-            $this->form_validation->set_rules('corte_laser_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
-            $this->form_validation->set_rules('corte_laser_minutos', 'Minutos', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('corte_laser_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
+            $this->form_validation->set_rules('corte_laser_minutos', 'Minutos', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('relevo_seco_adicionar'))){
-            $this->form_validation->set_rules('relevo_seco_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('relevo_seco_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('corte_vinco_adicionar'))){
-            $this->form_validation->set_rules('corte_vinco_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('corte_vinco_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
         if(!empty($this->input->post('almofada_adicionar'))){
-            $this->form_validation->set_rules('almofada_quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');    
+            $this->form_validation->set_rules('almofada_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    
         }
 
         if (!$this->form_validation->run()) {
@@ -361,7 +361,7 @@ class Personalizado extends CI_Controller {
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('impressao', 'Impressão', 'required');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
@@ -401,7 +401,7 @@ class Personalizado extends CI_Controller {
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('acabamento', 'Acabamento', 'required');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
@@ -441,7 +441,7 @@ class Personalizado extends CI_Controller {
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('acessorio', 'Acessório', 'required');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
@@ -541,7 +541,7 @@ class Personalizado extends CI_Controller {
         
         $this->form_validation->set_rules('fita', 'Acessório', 'required');
         $this->form_validation->set_rules('espessura', 'Acessório', 'required|callback_check_espessura_valor');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
@@ -580,8 +580,5 @@ class Personalizado extends CI_Controller {
         }  
         print json_encode($data);
         exit();  
-    }
-    public function no_leading_zeroes($value){
-        return preg_replace('/^0+/','', $value);
     }
 }

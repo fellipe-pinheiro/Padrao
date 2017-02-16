@@ -21,6 +21,10 @@ function date_to_db($data=''){
 	return "";
 }
 
+function no_leading_zeroes($string){//retira os zeros da frente de um número ex: 0009 => 9
+    return preg_replace('/^0+/','', $string);
+}
+
 function number_to_db($number){
 	if (!empty($number)) {
 		$number = str_replace(",",".",$number);

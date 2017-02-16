@@ -49,47 +49,48 @@ class Produto extends CI_Controller {
         exit();
     }
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $this->validar_formulario();
+        $data['status'] = FALSE;
+        $objeto = $this->get_post();
         if ( $this->Produto_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
     public function ajax_edit($id) {
-        $data["produto"] = $this->Produto_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["produto"] = $this->Produto_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
     public function ajax_update() {
-        $this->_validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
-            $objeto = $this->_get_post();
-
+        $data["status"] = FALSE;
+        $this->validar_formulario();
+        if ($this->input->post('id')) {
+            $objeto = $this->get_post();
             if ($this->Produto_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Produto_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
-    public function ajax_delete($id) {
-        $this->Produto_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+    public function ajax_delete($id){
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Produto_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
     public function ajax_get_personalizado($id_categoria){
         $arr = array();
         $arr = $this->Produto_m->get_pesonalizado($id_categoria,"id, nome");
         print json_encode($arr);
     }
-    private function _get_post() {
+    private function get_post() {
         $objeto = new Produto_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -98,14 +99,14 @@ class Produto extends CI_Controller {
         $objeto->valor = $this->input->post('valor');
         return $objeto;
     }
-    private function _validar_formulario($action) {
+    private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('produto_categoria', 'Produto categoria', 'trim|required');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|callback_decimal_positive');
+        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -114,18 +115,14 @@ class Produto extends CI_Controller {
             exit();
         }
     }
-    public function decimal_positive($value){
-        if($value < 0){
-            return false;
-        }
-        return true;
-    }
+    
     public function session_produto_inserir(){
-        $this->__validar_formulario_produto();
+        $this->validar_formulario_produto();
         $this->session->orcamento->produto[] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> inserido com sucesso'));
     }
     public function session_produto_editar(){
+        $this->validar_formulario_produto();
         $posicao = $this->uri->segment(3);
         $this->session->orcamento->produto[$posicao] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> editado com sucesso'));
@@ -143,12 +140,12 @@ class Produto extends CI_Controller {
         $produto = $this->Container_produto_m->get_produto($this->input->post('produto'),$this->input->post('quantidade'),$this->input->post('descricao'),$comissao);
         return $produto;
     }
-    private function __validar_formulario_produto(){
+    private function validar_formulario_produto(){
         $data = array();
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('produto', 'Produto', 'required');
-        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|callback_no_leading_zeroes');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
@@ -157,8 +154,5 @@ class Produto extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-    public function no_leading_zeroes($value){
-        return preg_replace('/^0+/','', $value);
     }
 }

@@ -139,5 +139,12 @@ class Home extends CI_Controller {
         var_dump(date_to_db('1982/04/20'));
     }
 
+    public function testa_no_leading_zeroes(){
+        var_dump(no_leading_zeroes('01'));
+        var_dump(no_leading_zeroes('010'));
+        var_dump(no_leading_zeroes('0111'));
+        var_dump(no_leading_zeroes('0111'));
+    }
+
     
 }

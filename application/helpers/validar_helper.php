@@ -146,3 +146,4 @@ function validar_cnpj($cnpj){
 	$resto = $soma % 11;
 	return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
 }
+
