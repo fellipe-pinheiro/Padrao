@@ -53,8 +53,11 @@ class Produto_categoria extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["produto_categoria"] = $this->Produto_categoria_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["produto_categoria"] = $this->Produto_categoria_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -63,7 +66,6 @@ class Produto_categoria extends CI_Controller {
         $this->validar_formulario();
         if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Produto_categoria_m->editar($objeto)) {
                 $data['status'] = TRUE;
             }
@@ -73,8 +75,10 @@ class Produto_categoria extends CI_Controller {
 
     public function ajax_delete($id) {
         $data['status'] = FALSE;
-        if($this->Produto_categoria_m->deletar($id)){
-            $data['status'] = TRUE;
+        if(!empty($id)){
+            if($this->Produto_categoria_m->deletar($id)){
+                $data['status'] = TRUE;
+            }
         }
         print json_encode($data);
     }
