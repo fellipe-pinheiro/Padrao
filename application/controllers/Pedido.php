@@ -58,7 +58,7 @@ class Pedido extends CI_Controller {
         $this->load->model('Fita_espessura_m');
         init_layout();
         set_layout('titulo', 'Pedido', FALSE);
-        empty($this->session->pedido) ? $this->__criar_pedido() : '';
+        empty($this->session->pedido) ? $this->criar_pedido() : '';
         restrito_logado();
     }
 
@@ -68,7 +68,7 @@ class Pedido extends CI_Controller {
         load_layout();
     }
 
-    private function __criar_pedido() {
+    private function criar_pedido() {
         $this->session->pedido = new Pedido_m();
         $this->session->pedido->cliente_conta = array();
         $this->session->pedido->cancelado = 0;
@@ -163,8 +163,8 @@ class Pedido extends CI_Controller {
         $id = $this->uri->segment(3);
         $data['pedido'] = $this->Pedido_m->get_by_id($id);
         $data['documento_numero'] = "<strong>Pedido Nº " . sprintf('%08d', $data['pedido']->id) . "</strong>";
-        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_list();
-        $data['lojas'] = $this->Loja_m->get_list();
+        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
+        $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         set_layout('conteudo', load_content('pedido/editar', $data));
         load_layout();
     }
@@ -822,7 +822,7 @@ class Pedido extends CI_Controller {
     }
 
     public function ajax_forma_pagamento() {
-        $this->__criar_pedido();
+        $this->criar_pedido();
         $data['status'] = TRUE;
         $this->__validar_formulario_forma_pagamento();
         $this->session->pedido->condicoes = $this->input->post('condicoes');

@@ -703,7 +703,7 @@ $loja = $orcamento->loja;
                                     <!-- Primeiro vencimento -->
                                     <div class="form-group">
                                         <?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label')) ?>
-                                        <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker">
+                                        <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" value="<?=date('d/m/Y')?>">
                                         <span class="help-block"></span>
                                     </div>
                                     <!-- Próximos vencimentos -->
