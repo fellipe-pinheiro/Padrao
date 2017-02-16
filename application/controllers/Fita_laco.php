@@ -53,8 +53,11 @@ class Fita_laco extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["fita_laco"] = $this->Fita_laco_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["fita_laco"] = $this->Fita_laco_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
