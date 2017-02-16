@@ -199,8 +199,9 @@ class Papel extends CI_Controller {
         foreach ($names_gramatura as $name) {
             $this->form_validation->set_rules($name, 'Gramatura', 'trim|required|is_natural_no_zero');    
         }
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         foreach ($names_valor as $name) {
-            $this->form_validation->set_rules($name, 'Valor', 'trim|required|callback_decimal_positive');    
+            $this->form_validation->set_rules($name, 'Valor', 'trim|required|decimal_positive');    
         }
         $this->form_validation->set_rules('papel_linha', 'Linha', 'trim|required');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
@@ -213,13 +214,5 @@ class Papel extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-
-    public function decimal_positive($value){
-        if($value < 0){
-            $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-            return false;
-        }
-        return true;
     }
 }
