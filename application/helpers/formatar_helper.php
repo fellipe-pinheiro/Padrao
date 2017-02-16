@@ -37,5 +37,3 @@ function int_to_db($number){
 		return round($number, 0);
 	}
 }
-
- ?>
