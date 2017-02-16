@@ -43,43 +43,44 @@ class Personalizado_categoria extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->_get_post();
+        $data['status'] = FALSE;
+        $this->validar_formulario();
+        $objeto = $this->get_post();
         if ( $this->Personalizado_categoria_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["personalizado_categoria"] = $this->Personalizado_categoria_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["personalizado_categoria"] = $this->Personalizado_categoria_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
-            $objeto = $this->_get_post();
-
+        $data["status"] = FALSE;
+        $this->validar_formulario(true);
+        if ($this->input->post('id')) {
+            $objeto = $this->get_post();
             if ($this->Personalizado_categoria_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Personalizado_categoria_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Personalizado_categoria_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Personalizado_categoria_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
     public function ajax_get_personalizado(){
@@ -88,7 +89,7 @@ class Personalizado_categoria extends CI_Controller {
         print json_encode($arr);
     }
 
-    private function _get_post() {
+    private function get_post() {
         $objeto = new Personalizado_categoria_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -96,10 +97,10 @@ class Personalizado_categoria extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
-        $data = array();
+    private function validar_formulario($update = false) {
         $data['status'] = TRUE;
-        if($action == 'update' && !empty($this->input->post('id'))){
+        $data = array();
+        if($update && !empty($this->input->post('id'))){
             $object = $this->Personalizado_categoria_m->get_by_id($this->input->post('id'));
             if($this->input->post('nome') != $object->nome){
                 $is_unique =  '|is_unique[personalizado_categoria.nome]';
