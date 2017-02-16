@@ -175,8 +175,8 @@ class Pedido extends CI_Controller {
         $id = $this->input->post('id');
         //$posicao = $this->input->post('posicao');
         $input_post = $this->input->post('input_post');
-        $this->__validar_formulario_altera_data_entrega($input_post);
-        $data_entrega = $this->__format_date($this->input->post($input_post));
+        $this->validar_formulario_altera_data_entrega($input_post);
+        $data_entrega = date_to_db($this->input->post($input_post));
 
         if ($owner === 'convite') {
             if (!$this->Convite_m->altera_data_entrega($id, $data_entrega)) {
@@ -200,8 +200,8 @@ class Pedido extends CI_Controller {
         $owner = $this->uri->segment(3);
         $id = $this->input->post('id');
         $input_post = $this->input->post('input_post');
-        $this->__validar_formulario_altera_data_entrega($input_post);
-        $data_entrega = $this->__format_date($this->input->post($input_post));
+        $this->validar_formulario_altera_data_entrega($input_post);
+        $data_entrega = date_to_db($this->input->post($input_post));
 
         if ($owner === 'convite') {
             if (!$this->Container_adicional_m->altera_data_entrega($id, $data_entrega, 'adicional_convite')) {
@@ -220,8 +220,10 @@ class Pedido extends CI_Controller {
         exit();
     }
 
-    public function __validar_formulario_altera_data_entrega($input_post) {
-        $this->form_validation->set_rules($input_post, 'Data Entrega', 'callback_validation_date_before_today|callback_validation_valid_date');
+    public function validar_formulario_altera_data_entrega($input_post) {
+        $this->form_validation->set_message('date_before_today', 'A data inserida é anterior a data de hoje ' . date('d/m/Y'));
+        $this->form_validation->set_message('validate_date', 'A data inserida é inválida!');
+        $this->form_validation->set_rules($input_post, 'Data Entrega', 'date_before_today|validate_date');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -244,17 +246,17 @@ class Pedido extends CI_Controller {
 
         //Valida os convites
         if (!empty($convites)) {
-            $this->__validar_formulario_criar_adicional_pedido_produtos($convites, 'convite');
+            $this->validar_formulario_criar_adicional_pedido_produtos($convites, 'convite');
         }
         //Valida os personalizados
         if (!empty($personalizados)) {
-            $this->__validar_formulario_criar_adicional_pedido_produtos($personalizados, 'personalizado');
+            $this->validar_formulario_criar_adicional_pedido_produtos($personalizados, 'personalizado');
         }
         //Valida os produtos
         if (!empty($produtos)) {
-            $this->__validar_formulario_criar_adicional_pedido_produtos($produtos, 'produto');
+            $this->validar_formulario_criar_adicional_pedido_produtos($produtos, 'produto');
         }
-        $this->__validar_formulario_criar_adicional_pedido();
+        $this->validar_formulario_criar_adicional_pedido();
 
         if (!empty($this->input->post('input-adicional-desconto'))) {
             $desconto_pedido_adicional = $this->input->post('input-adicional-desconto');
@@ -282,29 +284,29 @@ class Pedido extends CI_Controller {
         //Se houver convite para ser inserido como adicional, gravar na tabela
         if (!empty($convites)) {
             foreach ($convites as $key => $convite) {
-                $valor_total_pedido_adicional += $this->__get_container_adicional($key, $convite->cancelado, 'convite', $adicional->id, $convite->id, 0, $convite->calcula_unitario());
+                $valor_total_pedido_adicional += $this->get_container_adicional($key, $convite->cancelado, 'convite', $adicional->id, $convite->id, 0, $convite->calcula_unitario());
             }
         }
         if (!empty($personalizados)) {
             foreach ($personalizados as $key => $personalizado) {
-                $valor_total_pedido_adicional += $this->__get_container_adicional($key, $personalizado->cancelado, 'personalizado', $adicional->id, $personalizado->id, 0, $personalizado->calcula_unitario());
+                $valor_total_pedido_adicional += $this->get_container_adicional($key, $personalizado->cancelado, 'personalizado', $adicional->id, $personalizado->id, 0, $personalizado->calcula_unitario());
             }
         }
         if (!empty($produtos)) {
             foreach ($produtos as $key => $produto) {
-                $valor_total_pedido_adicional += $this->__get_container_adicional($key, $produto->cancelado, 'produto', $adicional->id, $produto->id, 0, $produto->calcula_unitario());
+                $valor_total_pedido_adicional += $this->get_container_adicional($key, $produto->cancelado, 'produto', $adicional->id, $produto->id, 0, $produto->calcula_unitario());
             }
         }
 
         //$custos_adm = round(($valor_total_pedido_adicional / 100) * $pedido->orcamento->assessor->comissao, 2); //$custos_adm não esta sendo utilizado, pois ja está embutido nos produtos
         $valor_total_pedido_adicional += -$adicional->desconto;
-        $valor_parcela = $this->__round_down($valor_total_pedido_adicional / $this->input->post('qtd_parcelas'));
+        $valor_parcela = round_down($valor_total_pedido_adicional / $this->input->post('qtd_parcelas'));
         $num_total_parcelas = $this->input->post('qtd_parcelas');
         $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
         for ($parcela = 1; $parcela <= $this->input->post('qtd_parcelas'); $parcela++) {
 
             $descricao = "Parcela " . ($parcela) . "/" . $num_total_parcelas . " do Adicional Nº " . $pedido->id . "/" . $adicional->id;
-            $cliente_conta = $this->__get_cliente_conta($parcela, $primeiro_vencimento, $valor_total_pedido_adicional, $valor_parcela, $descricao, 1, $adicional->id);
+            $cliente_conta = $this->get_cliente_conta($parcela, $primeiro_vencimento, $valor_total_pedido_adicional, $valor_parcela, $descricao, 1, $adicional->id);
             $cliente_conta->pedido = $pedido->id;
             $cliente_conta->inserir();
         }
@@ -320,7 +322,7 @@ class Pedido extends CI_Controller {
         exit();
     }
 
-    private function __get_container_adicional($key, $objeto_cancelado, $owner, $adicional_id, $objeto_id, $cancelado, $objeto_valor_unitario) {
+    private function get_container_adicional($key, $objeto_cancelado, $owner, $adicional_id, $objeto_id, $cancelado, $objeto_valor_unitario) {
         $sub_total = 0;
         $valor_extra = $this->input->post('valor_extra-adicional-' . $owner . '-' . $key);
         if (empty($valor_extra)) {
@@ -333,7 +335,7 @@ class Pedido extends CI_Controller {
             $container_adicional->adicional = $adicional_id;
             $container_adicional->objeto = $objeto_id;
             $container_adicional->quantidade = $this->input->post('qtd-adicional-' . $owner . '-' . $key);
-            $container_adicional->data_entrega = $this->__format_date($this->input->post('data_entrega-adicional-' . $owner . '-' . $key));
+            $container_adicional->data_entrega = date_to_db($this->input->post('data_entrega-adicional-' . $owner . '-' . $key));
             $container_adicional->valor_extra = $valor_extra;
             $container_adicional->cancelado = $cancelado;
 
@@ -345,11 +347,12 @@ class Pedido extends CI_Controller {
         }
     }
 
-    private function __validar_formulario_criar_adicional_pedido() {
+    private function validar_formulario_criar_adicional_pedido() {
         //input-adicional-desconto
-        $this->form_validation->set_rules('input-adicional-desconto', 'Desconto', 'trim|callback_validation_decimal_positive');
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('input-adicional-desconto', 'Desconto', 'trim|decimal_positive');
         $this->form_validation->set_rules('loja', 'Loja', 'trim|required');
-        $this->__condicoes_forma_pagamento();
+        $this->condicoes_forma_pagamento();
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -359,17 +362,20 @@ class Pedido extends CI_Controller {
         }
     }
 
-    private function __validar_formulario_criar_adicional_pedido_produtos($objetos, $produto) {
+    private function validar_formulario_criar_adicional_pedido_produtos($objetos, $produto) {
 
         foreach ($objetos as $key => $objeto) {
             //Padrão ex: Checkbox checkbox-adicional-convite-0
             if ($this->input->post('checkbox-adicional-' . $produto . '-' . $key) && !$objeto->cancelado) {
                 //Padrão ex: Input data_entrega data_entrega-adicional-convite-0
-                $this->form_validation->set_rules('data_entrega-adicional-' . $produto . '-' . $key, 'Data Entrega', 'trim|required|callback_validation_date_before_today|callback_validation_valid_date');
+                $this->form_validation->set_message('date_before_today', 'A data inserida é anterior a data de hoje ' . date('d/m/Y'));
+                $this->form_validation->set_message('validate_date', 'A data inserida é inválida!');
+                $this->form_validation->set_rules('data_entrega-adicional-' . $produto . '-' . $key, 'Data Entrega', 'trim|required|date_before_today|validate_date');
                 //Padrão ex: Input quantidade qtd-adicional-convite-0
-                $this->form_validation->set_rules('qtd-adicional-' . $produto . '-' . $key, 'qtd', 'trim|required|callback_validation_decimal_positive|callback_validation_no_leading_zeroes|is_natural_no_zero');
+                $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+                $this->form_validation->set_rules('qtd-adicional-' . $produto . '-' . $key, 'qtd', 'trim|required|decimal_positive|no_leading_zeroes|is_natural_no_zero');
                 //Padrão ex: Input valor_extra valor_extra-adicional-convite-0
-                $this->form_validation->set_rules('valor_extra-adicional-' . $produto . '-' . $key, 'Valor extra', 'trim|callback_validation_decimal_positive');
+                $this->form_validation->set_rules('valor_extra-adicional-' . $produto . '-' . $key, 'Valor extra', 'trim|decimal_positive');
             }
         }
     }
@@ -377,7 +383,7 @@ class Pedido extends CI_Controller {
     public function ajax_cancelar_pedido() {
         //Cancela todo o pedido e seus respectivos adicionais
         $data['status'] = TRUE;
-        $this->__validar_formulario_ajax_cancelar();
+        $this->validar_formulario_ajax_cancelar();
         $this->db->trans_begin();
         $id = $this->input->post('id');
         $pedido = $this->Pedido_m->get_by_id($id);
@@ -394,13 +400,13 @@ class Pedido extends CI_Controller {
 
         //$comissao = $this->calcula_comissao($valor_total, $assessor_comissao, $porcentagem_total);
 
-        $this->__create_cliente_conta_cancelamento($valor_total, $pedido->id, $forma_pagamento, "Cancelamento do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+        $this->create_cliente_conta_cancelamento($valor_total, $pedido->id, $forma_pagamento, "Cancelamento do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
         //Insere valor dos custos administrativos (valor negativo)
-        //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+        //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
         //Insere o valor da multa acumulada somente para o pedido (valor positivo)
         //TODO constante do vencimento
         if (!empty($multa_valor) && $multa_valor > 0) {
-            $this->__create_cliente_conta_cancelamento($multa_valor, $pedido->id, $forma_pagamento, "Multa pelo cancelamento do Pedido N° " . $pedido->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 0, null);
+            $this->create_cliente_conta_cancelamento($multa_valor, $pedido->id, $forma_pagamento, "Multa pelo cancelamento do Pedido N° " . $pedido->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 0, null);
         }
 
         if (!empty($pedido->adicional)) {
@@ -411,8 +417,8 @@ class Pedido extends CI_Controller {
                     $valor_total = $adicional->cancelar();
                     //$comissao = ($valor_total / 100) * $pedido->orcamento->assessor->comissao;
                     //$comissao = $this->calcula_comissao($valor_total, $assessor_comissao, $porcentagem_total);
-                    $this->__create_cliente_conta_cancelamento($valor_total, $adicional->pedido, $forma_pagamento, "Cancelamento do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
-                    //$this->__create_cliente_conta_cancelamento($comissao, $adicional->pedido, $forma_pagamento, "Cancelamento dos custos adm do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                    $this->create_cliente_conta_cancelamento($valor_total, $adicional->pedido, $forma_pagamento, "Cancelamento do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                    //$this->create_cliente_conta_cancelamento($comissao, $adicional->pedido, $forma_pagamento, "Cancelamento dos custos adm do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
                 }
             }
         }
@@ -431,7 +437,7 @@ class Pedido extends CI_Controller {
     public function ajax_cancelar_adicional() {
         //Cancela o Adicional com todos os produtos que não foram cancelados
         $data['status'] = TRUE;
-        $this->__validar_formulario_ajax_cancelar();
+        $this->validar_formulario_ajax_cancelar();
         $this->db->trans_begin();
         $id = $this->input->post('id');
         $adicional = $this->Adicional_m->get_by_id($id);
@@ -449,13 +455,13 @@ class Pedido extends CI_Controller {
         //$comissao = ($valor_total / 100) * $adicional->assessor->comissao;
         //$comissao = $this->calcula_comissao($valor_total, $assessor_comissao, $porcentagem_total);
 
-        $this->__create_cliente_conta_cancelamento($valor_total, $adicional->pedido, $forma_pagamento, "Cancelamento do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+        $this->create_cliente_conta_cancelamento($valor_total, $adicional->pedido, $forma_pagamento, "Cancelamento do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
         //Insere valor dos custos administrativos (valor negativo)
-        //$this->__create_cliente_conta_cancelamento($comissao, $adicional->pedido, $forma_pagamento, "Cancelamento dos custos adm do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+        //$this->create_cliente_conta_cancelamento($comissao, $adicional->pedido, $forma_pagamento, "Cancelamento dos custos adm do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
         //Insere o valor da multa (valor positivo)
         //TODO constante do vencimento
         if (!empty($multa_valor) && $multa_valor > 0) {
-            $this->__create_cliente_conta_cancelamento($multa_valor, $adicional->pedido, $forma_pagamento, "Multa pelo cancelamento do Adicional N° " . $adicional->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 1, $adicional->id);
+            $this->create_cliente_conta_cancelamento($multa_valor, $adicional->pedido, $forma_pagamento, "Multa pelo cancelamento do Adicional N° " . $adicional->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 1, $adicional->id);
         }
 
         if ($this->db->trans_status() === FALSE) {
@@ -472,7 +478,7 @@ class Pedido extends CI_Controller {
     public function ajax_cancelar_pedido_item() {
         //Cancela todos os itens do pedido e dos adicionais com o mesmo ID
         //Ex: todos os convites que tem o mesmo ID da tabela orcamento_convite
-        $this->__validar_formulario_ajax_cancelar();
+        $this->validar_formulario_ajax_cancelar();
         $this->db->trans_begin();
         $data['status'] = TRUE;
         $id_pedido = $this->uri->segment(3);
@@ -498,8 +504,8 @@ class Pedido extends CI_Controller {
                         //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                         //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                        $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
-                        //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
                         break;
                     }
                 }
@@ -514,8 +520,8 @@ class Pedido extends CI_Controller {
                                 //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                                 //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                                $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
-                                //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
                                 break;
                             }
                         }
@@ -534,8 +540,8 @@ class Pedido extends CI_Controller {
                         //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                         //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                        $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
-                        //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
                         break;
                     }
                 }
@@ -550,8 +556,8 @@ class Pedido extends CI_Controller {
                                 //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                                 //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                                $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
-                                //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
                                 break;
                             }
                         }
@@ -570,8 +576,8 @@ class Pedido extends CI_Controller {
                         //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                         //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                        $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
-                        //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
+                        //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Pedido N° " . $pedido->id, 1, null, 0, 0, null);
                         break;
                     }
                 }
@@ -586,8 +592,8 @@ class Pedido extends CI_Controller {
                                 //$comissao = ($valor_total_itens / 100) * $pedido->orcamento->assessor->comissao;
                                 //$comissao = $this->calcula_comissao($valor_total_itens, $assessor_comissao, $porcentagem_total);
 
-                                $this->__create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
-                                //$this->__create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                $this->create_cliente_conta_cancelamento($valor_total_itens, $pedido->id, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+                                //$this->create_cliente_conta_cancelamento($comissao, $pedido->id, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . " do Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
                                 break;
                             }
                         }
@@ -597,7 +603,7 @@ class Pedido extends CI_Controller {
             //TODO constante do vencimento
             //A multa é acumulada e aplicada somente para o pedido
             if (!empty($multa_valor) && $multa_valor > 0) {
-                $this->__create_cliente_conta_cancelamento($multa_valor, $pedido->id, $forma_pagamento, $produto_nome, "Multa pelo cancelamento do produto : " . $produto_nome . " do Pedido N° " . $pedido->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 0, null);
+                $this->create_cliente_conta_cancelamento($multa_valor, $pedido->id, $forma_pagamento, $produto_nome, "Multa pelo cancelamento do produto : " . $produto_nome . " do Pedido N° " . $pedido->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 0, null);
             }
             $this->Container_produto_m->cancelar($id);
             $this->Container_adicional_m->cancel_all($id, 'adicional_produto', 'orcamento_produto');
@@ -618,7 +624,7 @@ class Pedido extends CI_Controller {
     }
 
     public function ajax_cancelar_adicional_item() {
-        $this->__validar_formulario_ajax_cancelar();
+        $this->validar_formulario_ajax_cancelar();
         $this->db->trans_begin();
         $data['status'] = TRUE;
         $id_pedido = $this->uri->segment(3);
@@ -673,13 +679,13 @@ class Pedido extends CI_Controller {
         //$comissao = ($valor_item / 100) * $adicional->assessor->comissao;
         //$comissao = $this->calcula_comissao($valor_item, $assessor_comissao, $porcentagem_total);
         //Insere valor do produto (valor negativo)
-        $this->__create_cliente_conta_cancelamento($valor_item, $id_pedido, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . "/ Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+        $this->create_cliente_conta_cancelamento($valor_item, $id_pedido, $forma_pagamento, "Cancelamento do produto: " . $produto_nome . "/ Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
         //Insere valor dos custos administrativos (valor negativo)
-        //$this->__create_cliente_conta_cancelamento($comissao, $id_pedido, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . "/ Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
+        //$this->create_cliente_conta_cancelamento($comissao, $id_pedido, $forma_pagamento, "Cancelamento dos custos adm do produto: " . $produto_nome . "/ Adicional N° " . $adicional->id, 1, null, 0, 1, $adicional->id);
         //Insere o valor da multa (valor positivo)
         //TODO constante do vencimento
         if (!empty($multa_valor) && $multa_valor > 0) {
-            $this->__create_cliente_conta_cancelamento($multa_valor, $id_pedido, $forma_pagamento, "Multa pelo cancelamento do produto : " . $produto_nome . "/ Adicional N° " . $adicional->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 1, $adicional->id);
+            $this->create_cliente_conta_cancelamento($multa_valor, $id_pedido, $forma_pagamento, "Multa pelo cancelamento do produto : " . $produto_nome . "/ Adicional N° " . $adicional->id, 0, date("Y-m-d", strtotime(date('Y-m-d') . ' + 7 days')), 1, 1, $adicional->id);
         }
 
         //se não haver ativos, cancela o adicional
@@ -697,9 +703,10 @@ class Pedido extends CI_Controller {
         exit();
     }
 
-    private function __validar_formulario_ajax_cancelar() {
+    private function validar_formulario_ajax_cancelar() {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim|max_length[100]');
-        $this->form_validation->set_rules('multa_valor', 'Valor da multa', 'trim|callback_validation_decimal_positive');
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('multa_valor', 'Valor da multa', 'trim|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -709,7 +716,7 @@ class Pedido extends CI_Controller {
         }
     }
 
-    private function __create_cliente_conta_cancelamento($valor, $id_pedido, $forma_pagamento, $pre_descricao, $cancelado, $vencimento, $multa, $adicional, $adicional_id) {
+    private function create_cliente_conta_cancelamento($valor, $id_pedido, $forma_pagamento, $pre_descricao, $cancelado, $vencimento, $multa, $adicional, $adicional_id) {
         $objeto = new Cliente_conta_m();
         $objeto->id = null;
         $objeto->usuario = $this->session->user_id;
@@ -754,15 +761,15 @@ class Pedido extends CI_Controller {
         $data['status'] = FALSE;
         $item = $this->uri->segment(3);
         if ($item === 'convite') {
-            $this->__validar_date_delivery('convite-', $posicao);
+            $this->validar_date_delivery('convite-', $posicao);
             $this->session->orcamento->convite[$posicao]->data_entrega = $this->input->post('data_entrega-convite-' . $posicao);
             $data['status'] = TRUE;
         } else if ($item === 'personalizado') {
-            $this->__validar_date_delivery('personalizado-', $posicao);
+            $this->validar_date_delivery('personalizado-', $posicao);
             $this->session->orcamento->personalizado[$posicao]->data_entrega = $this->input->post('data_entrega-personalizado-' . $posicao);
             $data['status'] = TRUE;
         } else if ($item === 'produto') {
-            $this->__validar_date_delivery('produto-', $posicao);
+            $this->validar_date_delivery('produto-', $posicao);
             $this->session->orcamento->produto[$posicao]->data_entrega = $this->input->post('data_entrega-produto-' . $posicao);
             $data['status'] = TRUE;
         }
@@ -770,8 +777,10 @@ class Pedido extends CI_Controller {
         exit();
     }
 
-    private function __validar_date_delivery($item, $posicao) {
-        $this->form_validation->set_rules('data_entrega-' . $item . $posicao, 'Data Entrega', 'callback_validation_date_before_today|callback_validation_valid_date');
+    private function validar_date_delivery($item, $posicao) {
+        $this->form_validation->set_message('date_before_today', 'A data inserida é anterior a data de hoje ' . date('d/m/Y'));
+        $this->form_validation->set_message('validate_date', 'A data inserida é inválida!');
+        $this->form_validation->set_rules('data_entrega-' . $item . $posicao, 'Data Entrega', 'date_before_today|validate_date');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -824,23 +833,23 @@ class Pedido extends CI_Controller {
     public function ajax_forma_pagamento() {
         $this->criar_pedido();
         $data['status'] = TRUE;
-        $this->__validar_formulario_forma_pagamento();
+        $this->validar_formulario_forma_pagamento();
         $this->session->pedido->condicoes = $this->input->post('condicoes');
         $num_total_parcelas = $this->input->post('qtd_parcelas');
         $primeiro_vencimento = date_to_db($this->input->post('primeiro_vencimento'));
         $total_pedido = $this->session->orcamento->calcula_total();
-        $valor_parcela = $this->__round_down($total_pedido / $this->input->post('qtd_parcelas'));
+        $valor_parcela = round_down($total_pedido / $this->input->post('qtd_parcelas'));
 
         for ($parcela = 1; $parcela <= $num_total_parcelas; $parcela++) {
             $descricao = "Parcela " . ($parcela) . "/" . $num_total_parcelas;
-            $cliente_conta = $this->__get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, 0, null);
+            $cliente_conta = $this->get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, 0, null);
             $this->session->pedido->cliente_conta[] = $cliente_conta;
         }
         print json_encode($data);
         exit();
     }
 
-    private function __get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, $adicional, $adicional_id) {
+    private function get_cliente_conta($parcela, $primeiro_vencimento, $total_pedido, $valor_parcela, $descricao, $adicional, $adicional_id) {
 
         $cliente_conta = new Cliente_conta_m();
         $cliente_conta->id = null;
@@ -862,20 +871,15 @@ class Pedido extends CI_Controller {
         $cliente_conta->adicional_id = $adicional_id;
 
         if ($parcela == 1) {
-            $total_parcelas = $this->__round_down(($total_pedido / $this->input->post('qtd_parcelas'))) * $this->input->post('qtd_parcelas');
+            $total_parcelas = round_down(($total_pedido / $this->input->post('qtd_parcelas'))) * $this->input->post('qtd_parcelas');
             $diferenca = round($total_pedido - $total_parcelas, 2);
             $cliente_conta->valor += round($diferenca, 2);
         }
         return $cliente_conta;
     }
 
-    private function __round_down($number, $precision = 3) {
-        $fig = (int) str_pad('1', $precision, '0');
-        return (floor($number * $fig) / $fig);
-    }
-
-    private function __validar_formulario_forma_pagamento() {
-        $this->__condicoes_forma_pagamento();
+    private function validar_formulario_forma_pagamento() {
+        $this->condicoes_forma_pagamento();
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;
@@ -884,13 +888,15 @@ class Pedido extends CI_Controller {
         }
     }
 
-    private function __condicoes_forma_pagamento() {
-        $this->form_validation->set_rules('qtd_parcelas', 'Quantidade de parcelas', 'trim|required|max_length[2]|callback_validation_decimal_positive|callback_validation_no_leading_zeroes|is_natural_no_zero');
+    private function condicoes_forma_pagamento() {
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('qtd_parcelas', 'Quantidade de parcelas', 'trim|required|max_length[2]|decimal_positive|no_leading_zeroes|is_natural_no_zero');
         if ($this->input->post('qtd_parcelas') > 1) {
             $this->form_validation->set_rules('vencimento_dia', 'Dias de vencimento', 'trim|required');
         }
         $this->form_validation->set_rules('forma_pagamento', 'Forma de pagamento', 'trim|required');
-        $this->form_validation->set_rules('primeiro_vencimento', 'Primeiro vencimento', 'trim|required|callback_validation_date_before_today');
+        $this->form_validation->set_message('date_before_today', 'A data inserida é anterior a data de hoje ' . date('d/m/Y'));
+        $this->form_validation->set_rules('primeiro_vencimento', 'Primeiro vencimento', 'trim|required|date_before_today');
         $this->form_validation->set_rules('condicoes', 'Condições', 'trim');
     }
 
@@ -914,44 +920,6 @@ class Pedido extends CI_Controller {
             $this->db->trans_commit();
         }
         print json_encode($data);
-    }
-
-    public function validation_date_before_today($date) {
-
-        if (strpos($date, '/') !== false) {
-            $date = $this->__format_date($date);
-        }
-        $this->form_validation->set_message('validation_date_before_today', 'A data inserida é anterior a data de hoje ' . date('d/m/Y'));
-        $today = date('Y/m/d');
-        if (strtotime($date) >= strtotime($today)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function validation_valid_date($date) {
-        $this->form_validation->set_message('validation_valid_date', 'A data inserida é inválida!');
-        list($dia, $mes, $ano) = explode('/', $date);
-        return checkdate($mes, $dia, $ano);
-    }
-
-    public function validation_decimal_positive($value) {
-        $this->form_validation->set_message('validation_decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        if ($value < 0) {
-            return false;
-        }
-        return true;
-    }
-
-    public function validation_no_leading_zeroes($value) {
-
-        return preg_replace('/^0+/', '', $value);
-    }
-
-    private function __format_date($date) {
-        list($dia, $mes, $ano) = explode('/', $date);
-        return $date = $ano . '-' . $mes . '-' . $dia;
     }
 
 }
