@@ -11,38 +11,37 @@ class Papel_acabamento_m extends CI_Model {
     var $valor;
     // Ajax 
     var $table = 'papel_acabamento';
-    var $column_order = array('id', 'nome','codigo', 'descricao', 'valor'); //set column field database for datatable orderable
-    var $column_search = array('nome','codigo', 'descricao'); //set column field database for datatable searchable just nome , descricao are searchable
-    var $order = array('id'=>'asc'); // default order 
+    var $column_order = array('id', 'nome','codigo', 'descricao', 'valor');
+    var $column_search = array('nome','codigo', 'descricao');
+    var $order = array('id'=>'asc');
 
-    // Ajax Nao alterar
     private function _get_datatables_query() {
         $this->db->from($this->table);
         $i = 0;
 
-        foreach ($this->column_search as $item) { // loop column 
-            if ($_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+        foreach ($this->column_search as $item) {
+            if ($_POST['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
                 }
                 $i++;
             }
 
-        if (isset($_POST['order'])) { // here order processing
+        if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
-    // Ajax Nao alterar
+    
     public function get_datatables() {
         $this->_get_datatables_query();
         if ($_POST['length'] != -1)
@@ -50,13 +49,13 @@ class Papel_acabamento_m extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    // Ajax Nao alterar
+    
     public function count_filtered() {
         $this->_get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
-    // Ajax Nao alterar
+    
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
@@ -66,7 +65,7 @@ class Papel_acabamento_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel_acabamento');
-        $result =  $this->Papel_acabamento_m->_changeToObject($result->result_array());
+        $result =  $this->Papel_acabamento_m->changeToObject($result->result_array());
         return $result[0];
     }
 
@@ -74,17 +73,13 @@ class Papel_acabamento_m extends CI_Model {
         $this->db->where('codigo', $codigo);
         $this->db->limit(1);
         $result = $this->db->get('papel_acabamento');
-        $result =  $this->Papel_acabamento_m->_changeToObject($result->result_array());
+        $result =  $this->Papel_acabamento_m->changeToObject($result->result_array());
         return $result[0];
     }    
 
-    public function get_list($id) {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
+    public function get_list() {
         $result = $this->db->get('papel_acabamento');
-        return $this->Papel_acabamento_m->_changeToObject($result->result_array());
+        return $this->Papel_acabamento_m->changeToObject($result->result_array());
     }
 
     public function inserir($objeto) {
@@ -107,11 +102,11 @@ class Papel_acabamento_m extends CI_Model {
         if (!empty($objeto->id)) {
             $dados = array(
                 'id' => $objeto->id,
-                //Comentado para o usuário não excluir
-                //'nome' => $objeto->nome,
-                //'codigo' => $objeto->codigo,
+                'nome' => $objeto->nome,
                 'descricao' => $objeto->descricao,
                 'valor' => str_replace(',', '.', $objeto->valor)
+                //Comentado para o usuário não editar
+                //'codigo' => $objeto->codigo,
                 );
             $this->db->where('id', $objeto->id);
             if ($this->db->update('papel_acabamento', $dados)) {
@@ -131,7 +126,7 @@ class Papel_acabamento_m extends CI_Model {
         return false;
     }
 
-    function _changeToObject($result_db) {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_acabamento_m();

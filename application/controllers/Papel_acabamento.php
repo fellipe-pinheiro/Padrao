@@ -48,7 +48,7 @@ class Papel_acabamento extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post(true);
+        $objeto = $this->get_post();
         if ( $this->Papel_acabamento_m->inserir($objeto)) {
             $data['status'] = TRUE;
         }
@@ -81,13 +81,11 @@ class Papel_acabamento extends CI_Controller {
         print json_encode($data);
     }
 
-    private function get_post($add = false) {
+    private function get_post() {
         $objeto = new Papel_acabamento_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
-        if($add){
-            $objeto->codigo = $this->input->post('codigo');
-        }
+        $objeto->codigo = $this->input->post('codigo');
         $objeto->descricao = $this->input->post('descricao');
         $objeto->valor = $this->input->post('valor');
         return $objeto;
