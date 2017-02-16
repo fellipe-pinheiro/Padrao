@@ -106,15 +106,10 @@ class Impressao_area_m extends CI_Model {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('impressao_area')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private function changeToObject($result_db) {

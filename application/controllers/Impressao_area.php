@@ -43,31 +43,29 @@ class Impressao_area extends CI_Controller {
     }
 
     public function ajax_add() {
+        $data['status'] = FALSE;
         $this->validar_formulario();
-        $data['status'] = TRUE;
         $objeto = $this->get_post();
         if ( $this->Impressao_area_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["impressao_area"] = $this->Impressao_area_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["impressao_area"] = $this->Impressao_area_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $id = $this->input->post('id');
-        if ($id) {
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Impressao_area_m->editar($objeto)) {
                 $data['status'] = TRUE;
             }
@@ -76,8 +74,13 @@ class Impressao_area extends CI_Controller {
     }
 
     public function ajax_delete($id) {
-        $this->Impressao_area_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data['status'] = FALSE;
+        if(!empty($id)){
+            if($this->Impressao_area_m->deletar($id)){
+                $data['status'] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
     public function ajax_get_personalizado(){
