@@ -43,46 +43,47 @@ class Forma_pagamento extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->_validar_formulario("add");
-        $data['status'] = TRUE;
-        $objeto = $this->__get_post();
+        $data['status'] = FALSE;
+        $this->validar_formulario();
+        $objeto = $this->get_post();
         if ( $this->Forma_pagamento_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["forma_pagamento"] = $this->Forma_pagamento_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["forma_pagamento"] = $this->Forma_pagamento_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->_validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
-            $objeto = $this->__get_post();
-
+        $data["status"] = FALSE;
+        $this->validar_formulario();
+        if ($this->input->post('id')) {
+            $objeto = $this->get_post();
             if ($this->Forma_pagamento_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Forma_pagamento_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Forma_pagamento_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Forma_pagamento_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
-    private function __get_post() {
+    private function get_post() {
         $objeto = new Forma_pagamento_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
         $objeto->nome = $this->input->post('nome');
@@ -90,7 +91,7 @@ class Forma_pagamento extends CI_Controller {
         return $objeto;
     }
 
-    private function _validar_formulario($action) {
+    private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
 
