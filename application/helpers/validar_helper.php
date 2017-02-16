@@ -147,3 +147,10 @@ function validar_cnpj($cnpj){
 	return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
 }
 
+function check_white_spaces($string){//Verifica se a string tem espaços PS: utilizado para validar códigos
+    if(preg_match('/\s/',$string)){
+        return false;
+    }
+    return true;
+}
+

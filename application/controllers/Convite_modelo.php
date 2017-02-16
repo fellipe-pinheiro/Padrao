@@ -121,7 +121,7 @@ class Convite_modelo extends CI_Controller {
         }
         $this->form_validation->set_message('is_unique','Já exixte um campo com este nome. Dados duplicados não são permitidos.');
         $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
-        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|callback_check_white_spaces'.$is_unique);
+        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('altura_final', 'Altura final', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_rules('largura_final', 'Largura final', 'trim|required|max_length[5]|is_natural');
@@ -140,10 +140,4 @@ class Convite_modelo extends CI_Controller {
         }
     }
 
-    public function check_white_spaces($str){
-        if(preg_match('/\s/',$str)){
-            return false;
-        }
-        return true;
-    }
 }

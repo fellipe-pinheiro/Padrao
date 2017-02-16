@@ -117,13 +117,13 @@ class Personalizado_modelo extends CI_Controller {
         $this->form_validation->set_message('is_unique','Já exixte um campo com este código. Dados duplicados não são permitidos.');
 
         $this->form_validation->set_message('check_white_spaces', 'O código não deve ser uma palavra composta');
-        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|callback_check_white_spaces'.$is_unique);
+        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('personalizado_categoria', 'Categoria', 'trim|required');
         $this->form_validation->set_rules('formato', 'Formato', 'trim|required|is_natural_no_zero|max_length[3]');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|callback_decimal_positive');
+        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -131,19 +131,5 @@ class Personalizado_modelo extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-
-    public function decimal_positive($value){
-        if($value < 0){
-            return false;
-        }
-        return true;
-    }
-
-    public function check_white_spaces($str){
-        if(preg_match('/\s/',$str)){
-            return false;
-        }
-        return true;
     }
 }
