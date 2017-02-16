@@ -121,14 +121,14 @@ class Fita extends CI_Controller {
         $this->form_validation->set_rules('fita_laco', 'Fita laco', 'trim|required');
         $this->form_validation->set_rules('fita_material', 'Fita material', 'trim|required');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('valor_03mm', 'valor_03mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_07mm', 'valor_07mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_10mm', 'valor_10mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_15mm', 'valor_15mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_22mm', 'valor_22mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_38mm', 'valor_38mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_50mm', 'valor_50mm', 'trim|required|callback_decimal_positive');
-        $this->form_validation->set_rules('valor_70mm', 'valor_70mm', 'trim|required|callback_decimal_positive');
+        $this->form_validation->set_rules('valor_03mm', 'valor_03mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_07mm', 'valor_07mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_10mm', 'valor_10mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_15mm', 'valor_15mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_22mm', 'valor_22mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_38mm', 'valor_38mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_50mm', 'valor_50mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_rules('valor_70mm', 'valor_70mm', 'trim|required|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -136,12 +136,5 @@ class Fita extends CI_Controller {
             print json_encode($data);
             exit();
         }
-    }
-
-    public function decimal_positive($value){
-        if($value < 0){
-            return false;
-        }
-        return true;
     }
 }
