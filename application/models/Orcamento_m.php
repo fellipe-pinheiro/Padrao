@@ -321,7 +321,7 @@ class Orcamento_m extends CI_Model {
             $object->usuario->active = null;
 
             $object->assessor = $this->Assessor_m->get_by_id($value['assessor']);
-            $object->assessor->comissao = $value['assessor_comissao'];
+            $object->assessor->comissao = empty($value['assessor_comissao'])? 0 : $value['assessor_comissao'];
             $object->convite = $this->Convite_m->get_by_orcamento_id($object->id);
             $object->produto = $this->Container_produto_m->get_by_orcamento_id($object->id);
             $object->personalizado = $this->Personalizado_m->get_by_orcamento_id($object->id);
