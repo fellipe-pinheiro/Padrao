@@ -70,118 +70,120 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title"></h4>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_convite_modelo">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title row"></h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" id="id" class="form-control input-sm">
+                        <!--Nome-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control input-sm" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--Código-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="codigo" class="control-label">Código:</label>
+                                <input type="text" name="codigo" id="codigo" class="form-control input-sm" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        
+                        <!--altura_final-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="altura_final" class="control-label">Altura Final (mm):</label>
+                                <input type="number" name="altura_final" id="altura_final" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--largura_final-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="largura_final" class="control-label">Largura Final (mm):</label>
+                                <input type="number" name="largura_final" id="largura_final" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--cartao_altura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
+                                <input type="number" name="cartao_altura" id="cartao_altura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--cartao_largura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                            <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
+                                <input type="number" name="cartao_largura" id="cartao_largura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--envelope_altura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
+                                <input type="number" name="envelope_altura" id="envelope_altura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--envelope_largura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
+                                <input type="number" name="envelope_largura" id="envelope_largura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--empastamento_borda-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
+                                <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            
+                        </div>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control input-sm" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                </div>
             </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_convite_modelo" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--codigo-->
-                <div class="form-group">
-                    <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'codigo', 'type' => 'text', 'id' => 'codigo', 'class' => 'form-control', 'placeholder' => 'Código'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--altura_final-->
-                <div class="form-group">
-                    <?= form_label('*Altura Final (mm): ', 'altura_final', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'altura_final', 'type' => 'number', 'id' => 'altura_final', 'class' => 'form-control', 'placeholder' => 'Altura Final  do convite pronto'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--largura_final-->
-                <div class="form-group">
-                    <?= form_label('*Largura Final (mm): ', 'largura_final', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'largura_final', 'type' => 'number', 'id' => 'largura_final', 'class' => 'form-control', 'placeholder' => 'Largura Final do convite pronto'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--cartao_altura-->
-                <div class="form-group">
-                    <?= form_label('*Cartão Altura (mm): ', 'cartao_altura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'cartao_altura', 'type' => 'number', 'id' => 'cartao_altura', 'class' => 'form-control', 'placeholder' => 'Cartão Altura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--cartao_largura-->
-                <div class="form-group">
-                    <?= form_label('*Cartão Largura (mm): ', 'cartao_largura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'cartao_largura', 'type' => 'number', 'id' => 'cartao_largura', 'class' => 'form-control', 'placeholder' => 'Cartão Largura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--envelope_altura-->
-                <div class="form-group">
-                    <?= form_label('*Envelope Altura (mm): ', 'envelope_altura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'envelope_altura', 'type' => 'number', 'id' => 'envelope_altura', 'class' => 'form-control', 'placeholder' => 'Envelope Altura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--envelope_largura-->
-                <div class="form-group">
-                    <?= form_label('*Envelope Largura (mm): ', 'envelope_largura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'envelope_largura', 'type' => 'number', 'id' => 'envelope_largura', 'class' => 'form-control', 'placeholder' => 'Envelope Largura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--empastamento_borda-->
-                <div class="form-group">
-                    <?= form_label('*Empastamento borda (mm): ', 'empastamento_borda', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'empastamento_borda', 'type' => 'number', 'id' => 'empastamento_borda', 'class' => 'form-control', 'placeholder' => 'Empastamento borda (mm)'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    </form>    
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -273,7 +275,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             save_method = 'add';
             $("input[name='id']").val("");
 
-            $('.modal-title').text('Adicionar Convite Modelo'); // Definir um titulo para o modal
+            $('.modal-title').text('Adicionar Modelo'); // Definir um titulo para o modal
             $('#modal_form').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
@@ -300,7 +302,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar Convite Modelo');
+                    $('.modal-title').text('Editar Modelo ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -356,8 +358,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     } else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
