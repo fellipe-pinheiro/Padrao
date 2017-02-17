@@ -54,6 +54,9 @@ $(document).ready(function() {
         offset: {top:10}
     	});
 	}
+	$("form").on('change', 'input, select, textarea', function(event) {
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
 });
 $(document).on('click', '.panel-heading span.clickable', function(e){
 	var $this = $(this);
@@ -141,11 +144,11 @@ function is_datatable_exists(dt_table) {
 	return false;
 }
 function disable_button_salvar(){
-	$('.btnSubmit').text('Salvando...');
+	$('.btnSubmit').text('Salvando...').addClass('spinner');
 	$('.btnSubmit').attr('disabled', true);
 }
 function enable_button_salvar() {
-	$('.btnSubmit').text('Salvar');
+	$('.btnSubmit').text('Salvar').removeClass('spinner');
 	$('.btnSubmit').attr('disabled', false);
 }
 function carregaCep(){
