@@ -954,8 +954,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 else
                 {
                     $.map(data.form_validation, function (value, index) {
-                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                        $('[name="' + index + '"]').next().text(value);
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                     });
                 }
             },
