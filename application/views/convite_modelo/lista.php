@@ -83,12 +83,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="modal-body">
                     <fieldset>
                         <!--ID-->
-                        <input type="hidden" name="id" id="id" class="form-control input-sm">
+                        <input type="hidden" name="id" id="id" class="form-control">
                         <!--Nome-->
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control input-sm" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="codigo" class="control-label">Código:</label>
-                                <input type="text" name="codigo" id="codigo" class="form-control input-sm" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="altura_final" class="control-label">Altura Final (mm):</label>
-                                <input type="number" name="altura_final" id="altura_final" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="largura_final" class="control-label">Largura Final (mm):</label>
-                                <input type="number" name="largura_final" id="largura_final" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
-                                <input type="number" name="cartao_altura" id="cartao_altura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                             <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
-                                <input type="number" name="cartao_largura" id="cartao_largura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
-                                <input type="number" name="envelope_altura" id="envelope_altura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
-                                <input type="number" name="envelope_largura" id="envelope_largura" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -160,7 +160,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
-                                <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control input-sm" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control input-sm" rows="3" placeholder="Descrição"></textarea>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
@@ -262,11 +262,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_convite_modelo tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -297,8 +295,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.convite_modelo, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
-
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
                     $('#modal_form').modal('show');
@@ -337,7 +338,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#form_convite_modelo").submit(function (e) {
             disable_button_salvar();
-            reset_errors();
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('convite_modelo/ajax_add') ?>";
@@ -374,6 +374,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             reload_table();
             e.preventDefault();
         });
+        form_small();
     });
 
     function reload_table() {
@@ -381,19 +382,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
     function reset_form() {
         $('#form_convite_modelo')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 </script>
