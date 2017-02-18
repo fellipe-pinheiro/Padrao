@@ -150,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="md_form_fita">
-    <?= form_open("#", 'class="form-horizontal" id="form_fita" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_fita">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -160,115 +160,117 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Fita</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--Fita Laço-->
-                    <div class="form-group">
-                        <?= form_label('Fita Laço: ', 'fita_laco', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select autofocus name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true">
-                                <option value="" disabled selected>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                        <!--fita_laco-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="fita_laco" class="control-label">Laço:</label>
+                                <select name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                    <option value="" disabled selected>Selecione</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Fita Material-->
-                    <div class="form-group">
-                        <?= form_label('Fita Material: ', 'fita_material', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true">
-                                <option value="" disabled selected>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                        <!--fita_material-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="fita_material" class="control-label">Material:</label>
+                                <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                    <option value="" disabled selected>Selecione</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 03mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_03mm: ', 'valor_03mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_03mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_03mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_03mm" class="control-label"><i></i> valor_03mm:</label>
+                                <input type="number" name="valor_03mm" id="valor_03mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 07mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_07mm: ', 'valor_07mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_07mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_07mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_07mm" class="control-label"><i></i> valor_07mm:</label>
+                                <input type="number" name="valor_07mm" id="valor_07mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 10mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_10mm: ', 'valor_10mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_10mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_10mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_10mm" class="control-label"><i></i> valor_10mm:</label>
+                                <input type="number" name="valor_10mm" id="valor_10mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 15mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_15mm: ', 'valor_15mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_15mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_15mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_15mm" class="control-label"><i></i> valor_15mm:</label>
+                                <input type="number" name="valor_15mm" id="valor_15mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 22mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_22mm: ', 'valor_22mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_22mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_22mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_22mm" class="control-label"><i></i> valor_22mm:</label>
+                                <input type="number" name="valor_22mm" id="valor_22mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 38mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_38mm: ', 'valor_38mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_38mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_38mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_38mm" class="control-label"><i></i> valor_38mm:</label>
+                                <input type="number" name="valor_38mm" id="valor_38mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 50mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_50mm: ', 'valor_50mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_50mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_50mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_50mm" class="control-label"><i></i> valor_50mm:</label>
+                                <input type="number" name="valor_50mm" id="valor_50mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <!--Valor 70mm-->
-                    <div class="form-group">
-                        <?= form_label('Valor_70mm: ', 'valor_70mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01"  value="0.00" name="valor_70mm" type="number" class="form-control" placeholder="Valor">
-                            <span class="help-block"></span>
+                        <!--valor_70mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor_70mm" class="control-label"><i></i> valor_70mm:</label>
+                                <input type="number" name="valor_70mm" id="valor_70mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
 
+                    <fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_form_laco">
-    <?= form_open("#", 'class="form-horizontal" id="form_laco" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_laco">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -278,37 +280,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Fita material</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do laço" placeholder="Nome do laço">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_form_espessura">
-    <?= form_open("#", 'class="form-horizontal" id="form_espessura" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_espessura">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -319,85 +323,86 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="modal-title">Fita Espessura</h4>
                 </div>
                 <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--esp_03mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_03mm: ', 'esp_03mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_03mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_03mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_03mm" class="control-label">esp_03mm:</label>
+                                <input type="text" name="esp_03mm" id="esp_03mm" class="form-control" required="required" title="Espessura 03mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_07mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_07mm: ', 'esp_07mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_07mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_07mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_07mm" class="control-label">esp_07mm:</label>
+                                <input type="text" name="esp_07mm" id="esp_07mm" class="form-control" required="required" title="Espessura 07mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_10mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_10mm: ', 'esp_10mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_10mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_10mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_10mm" class="control-label">esp_10mm:</label>
+                                <input type="text" name="esp_10mm" id="esp_10mm" class="form-control" required="required" title="Espessura 10mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_15mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_15mm: ', 'esp_15mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_15mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_15mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_15mm" class="control-label">esp_15mm:</label>
+                                <input type="text" name="esp_15mm" id="esp_15mm" class="form-control" required="required" title="Espessura 15mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_22mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_22mm: ', 'esp_22mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_22mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_22mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_22mm" class="control-label">esp_22mm:</label>
+                                <input type="text" name="esp_22mm" id="esp_22mm" class="form-control" required="required" title="Espessura 22mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_38mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_38mm: ', 'esp_38mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_38mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_38mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_38mm" class="control-label">esp_38mm:</label>
+                                <input type="text" name="esp_38mm" id="esp_38mm" class="form-control" required="required" title="Espessura 38mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_50mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_50mm: ', 'esp_50mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_50mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_50mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_50mm" class="control-label">esp_50mm:</label>
+                                <input type="text" name="esp_50mm" id="esp_50mm" class="form-control" required="required" title="Espessura 50mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--esp_70mm-->
-                    <div class="form-group">
-                        <?= form_label('*esp_70mm: ', 'esp_70mm', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('esp_70mm', '', 'id="nome" class="form-control" placeholder="Nome para esta espessura"') ?>
-                            <span class="help-block"></span>
+                        <!--esp_70mm-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="esp_70mm" class="control-label">esp_70mm:</label>
+                                <input type="text" name="esp_70mm" id="esp_70mm" class="form-control" required="required" title="Espessura 70mm" placeholder="Nome para esta espessura">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_form_material">
-    <?= form_open("#", 'class="form-horizontal" id="form_material" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_material">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -407,34 +412,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Fita material</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -734,6 +741,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if(tab_active === "#tab_fita"){
                 ajax_carregar_fita_material();
                 ajax_carregar_fita_laco();
+                clear_valor_mm();
             }
             reset_form();
             save_method = 'add';
@@ -765,6 +773,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {   
                     data = switch_data(tab_active,data);
                     $.map(data, function (value, index) {
+                        if(tab_active === "#tab_fita"){
+                            check_valor_mm();
+                        }
                         if($('[name="' + index + '"]').is("input, textarea")){
                             $('[name="' + index + '"]').val(value);
                         }else if($('[name="' + index + '"]').is("select")){
@@ -780,7 +791,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                     $(md_form).modal('show');
-                    $(form +' .modal-title').text('Editar' + modal_title);
+                    $(form +' .modal-title').text('Editar' + modal_title + ' ID: ' + id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -795,35 +806,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: url_delete + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            if(tab_active != '#tab_fita'){                            
-                                fita_atualizar = true;
-                            }
-                            reload_table(dataTable);
-                        }else{
-                            alert("Erro ao excluir o registro");
-                        }
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
+            if(tab_active === "#tab_fita"){
+                nome = dataTable.row(".selected").data().fita_laco;
             }
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function(){
+                    $.ajax({
+                        url: url_delete + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                if(tab_active != '#tab_fita'){                            
+                                    fita_atualizar = true;
+                                }
+                                reload_table(dataTable);
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
+                            }else{
+                                alert("Erro ao excluir o registro");
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Cancelado!')
+                }
+            });
         });
         $("form").submit(function (e) {
 
             formulario_submit(e);
         });
+        $("#form_fita").on('keyup', '.valor_mm', function(event) { // Retira a classe de erro do formulário
+            valor = $(this).val().replace(",", ".");
+            if(valor > 0){
+                $(this).prev().children().removeClass('glyphicon glyphicon-warning-sign');   
+            }else{
+                $(this).prev().children().addClass('glyphicon glyphicon-warning-sign');
+            }
+        });
     });
+    
+    function clear_valor_mm() {
+        $.each($("#form_fita .valor_mm"), function(index, el) {
+            $(el).prev().children().removeClass('glyphicon glyphicon-warning-sign');   
+        });
+    }
+
+    function check_valor_mm() {
+        $.each($("#form_fita .valor_mm"), function(index, el) {
+            valor = $(el).val().replace(",", ".");
+            if(valor == 0){
+                $(el).prev().children().addClass('glyphicon glyphicon-warning-sign');
+            }else{
+                $(el).prev().children().removeClass('glyphicon glyphicon-warning-sign');   
+            }
+        });
+    }
     
     function ajax_carregar_fita_material(editar = false,id_fita_material = null) {
         if(fita_atualizar){
@@ -972,6 +1021,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function get_tab_active() {
+        form_small();
         tab_active = $(".nav-tabs li.active a")[0].hash;
         switch(tab_active) {
             case '#tab_fita':
@@ -1043,12 +1093,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function row_select(table,tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
-            disable_buttons();
         }
         else {
             table.$("tr.selected").removeClass("selected");
             $(tr).addClass("selected");
-            enable_buttons();
         }
     }
 
@@ -1059,23 +1107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function reset_form() {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 
 </script>
