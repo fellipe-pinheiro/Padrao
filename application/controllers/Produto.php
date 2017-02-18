@@ -15,11 +15,13 @@ class Produto extends CI_Controller {
         set_layout('titulo', 'Produto', FALSE);
         restrito_logado();
     }
+
     public function index() {
-        $data['titulo_painel'] = 'Produtos';
+        $data['categorias'] = $this->Produto_categoria_m->get_pesonalizado("id, nome");
         set_layout('conteudo', load_content('produto/lista', $data));
         load_layout();
     }
+
     public function ajax_list() {
         $list = $this->Produto_m->get_datatables();
         $data = array();
@@ -46,6 +48,7 @@ class Produto extends CI_Controller {
         print json_encode($output);
         exit();
     }
+
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
@@ -55,6 +58,7 @@ class Produto extends CI_Controller {
         }
         print json_encode($data);
     }
+
     public function ajax_edit($id) {
         $data["status"] = FALSE;
         if(!empty($id)){
@@ -63,6 +67,7 @@ class Produto extends CI_Controller {
         }
         print json_encode($data);
     }
+
     public function ajax_update() {
         $data["status"] = FALSE;
         $this->validar_formulario();
@@ -74,6 +79,7 @@ class Produto extends CI_Controller {
         }
         print json_encode($data);
     }
+
     public function ajax_delete($id){
         $data["status"] = FALSE;
         if(!empty($id)){
@@ -83,11 +89,13 @@ class Produto extends CI_Controller {
         }
         print json_encode($data);
     }
+
     public function ajax_get_personalizado($id_categoria){
         $arr = array();
         $arr = $this->Produto_m->get_pesonalizado($id_categoria,"id, nome");
         print json_encode($arr);
     }
+
     private function get_post() {
         $objeto = new Produto_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
@@ -97,6 +105,7 @@ class Produto extends CI_Controller {
         $objeto->valor = $this->input->post('valor');
         return $objeto;
     }
+
     private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
@@ -119,17 +128,20 @@ class Produto extends CI_Controller {
         $this->session->orcamento->produto[] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> inserido com sucesso'));
     }
+
     public function session_produto_editar(){
         $this->validar_formulario_produto();
         $posicao = $this->uri->segment(3);
         $this->session->orcamento->produto[$posicao] = $this->set_produto();
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> editado com sucesso'));
     }
+
     public function session_produto_excluir(){
         $posicao = $this->uri->segment(3);
         unset($this->session->orcamento->produto[$posicao]);
         print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> excluido com sucesso'));
     }
+
     private function set_produto(){
         $comissao = 0;
         if(!empty($this->session->orcamento->assessor->comissao)){
@@ -138,6 +150,7 @@ class Produto extends CI_Controller {
         $produto = $this->Container_produto_m->get_produto($this->input->post('produto'),$this->input->post('quantidade'),$this->input->post('descricao'),$comissao);
         return $produto;
     }
+
     private function validar_formulario_produto(){
         $data = array();
         $data['status'] = TRUE;
