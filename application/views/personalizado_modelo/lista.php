@@ -446,7 +446,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var nome = dataTable.row(".selected").data().nome;
             $.confirm({
                 title: 'Atenção!',
-                content: 'Deseja realmente excluir o ID: ' + id + ' ' + nome,
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
                 type: 'orange',
                 typeAnimated: true,
                 confirm: function(){

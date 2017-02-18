@@ -315,26 +315,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             var id = tabela.row(".selected").id();
             var nome = tabela.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: "<?= base_url('convite_modelo/ajax_delete/') ?>" + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table();
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                type: 'orange',
+                typeAnimated: true,
+                confirm: function(){
+                    $.ajax({
+                        url: "<?= base_url('convite_modelo/ajax_delete/') ?>" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                reload_table();
+                            } else {
+                                alert("Erro ao excluir o registro");
+                            }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Cancelado!')
+                }
+            });
         });
         $("#form_convite_modelo").submit(function (e) {
             disable_button_salvar();
