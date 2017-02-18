@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -238,8 +238,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $.confirm({
                 title: 'Atenção!',
                 content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
                 confirm: function(){
-                    $.alert('Confirmado!');
                     $.ajax({
                         url: "<?= base_url('acabamento/ajax_delete/') ?>" + id,
                         type: "POST",
@@ -248,6 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             if (data.status) {
                                 reload_table();
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
                             }else{
                                 $.alert({
                                     title: 'Alerta!',
@@ -294,8 +296,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },

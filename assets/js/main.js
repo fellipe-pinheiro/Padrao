@@ -54,12 +54,7 @@ $(document).ready(function() {
         offset: {top:10}
     	});
 	}
-	$("form").on('keyup', 'input, textarea', function(event) { // Retira a classe de erro do formulário
-		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
-	});
-	$("form").on('change', 'select', function(event) { // Retira a classe de erro do formulário
-		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
-	});
+	remove_error_on_change_and_keyup();
 });
 $(document).on('click', '.panel-heading span.clickable', function(e){
 	var $this = $(this);
@@ -73,6 +68,14 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 	}
 });
+function remove_error_on_change_and_keyup() {
+	$("form").on('keyup', 'input, textarea', function(event) { // Retira a classe de erro do formulário
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+	$("form").on('change', 'select', function(event) { // Retira a classe de erro do formulário
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+}
 function show_datails(id) {
 	$("#"+id).toggleClass("hidden");
 	$($("#"+id).prev().children()[0]).find('span').toggleClass("glyphicon glyphicon-plus-sign");
