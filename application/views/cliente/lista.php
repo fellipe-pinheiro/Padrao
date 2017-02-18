@@ -445,16 +445,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         form_small();
     });
+
     function reload_table() {
 
         tabela_cliente.ajax.reload(null, false); //reload datatable ajax
     }
+
     function reset_form() {
         $('#form_cliente')[0].reset(); // Zerar formulario
         $('.form-group').removeClass('has-error'); // Limpar os erros
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty(); // Limpar as msg de erro
     }
+    
     function reset_errors() {
         $('.form-group').removeClass('has-error'); // Limpar os erros
         $('.error_validation').removeClass('glyphicon-remove');
