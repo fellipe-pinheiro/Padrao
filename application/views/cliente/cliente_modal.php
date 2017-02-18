@@ -35,7 +35,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="pessoa_tipo" class="control-label">Pessoa:</label>
-                                                    <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control" autofocus="true">
+                                                    <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control" autofocus="true" required="required">
                                                         <option value="" selected>Selecione</option>
                                                         <option value="fisica">Física</option>
                                                         <option value="juridica">Jurídica</option>
@@ -47,7 +47,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="nome" class="control-label">Nome:</label>
-                                                    <input type="text" name="nome" id="nome" class="form-control" value="" title="Nome do responsável" placeholder="Nome do responsável">
+                                                    <input type="text" name="nome" id="nome" class="form-control" value="" title="Nome do responsável" placeholder="Nome do responsável" required="required">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="sobrenome" class="control-label">Sobrenome:</label>
-                                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" title="Sobrenome do responsável" placeholder="Sobrenome do responsável">
+                                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" title="Sobrenome do responsável" placeholder="Sobrenome do responsável" required="required">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -63,7 +63,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="email" class="control-label">Email:</label>
-                                                    <input type="email" name="email" id="email" class="form-control" value="" title="Email" placeholder="Email">
+                                                    <input type="email" name="email" id="email" class="form-control" value="" title="Email" placeholder="Email" required="required">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -75,7 +75,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="telefone" class="control-label">Telefone:</label>
-                                                    <input type="text" name="telefone" id="telefone" class="form-control sp_celphones" value="" title="Telefone" placeholder="Telefone">
+                                                    <input type="text" name="telefone" id="telefone" class="form-control sp_celphones" value="" title="Telefone" placeholder="Telefone" required="required">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
