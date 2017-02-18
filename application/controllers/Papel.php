@@ -185,7 +185,9 @@ class Papel extends CI_Controller {
                     # code...
                     break;
             }
-            $arr_gramaturas[] = $arr;
+            if(!empty($arr)){
+                $arr_gramaturas[] = $arr;
+            }
         }
 
         return $arr_gramaturas;
