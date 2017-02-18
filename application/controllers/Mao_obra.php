@@ -99,7 +99,7 @@ class Mao_obra extends CI_Controller {
         return $objeto;
     }
 
-    private function validar_formulario($action) {
+    private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
 
