@@ -306,16 +306,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
             e.preventDefault();
         });
         form_small();
     });
 
     function reload_table() {
-        
+
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
 
