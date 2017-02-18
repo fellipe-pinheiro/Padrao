@@ -235,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </form>
 </div>
 <div class="modal fade" id="md_linha">
-    <?= form_open("#", 'class="form-horizontal" id="form_linha" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_linha">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -245,26 +245,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Linha</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do acessório" placeholder="Nome do acessório">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -272,10 +273,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_acabamento">
-    <?= form_open("#", 'class="form-horizontal" id="form_acabamento" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_acabamento">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -285,46 +286,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Papel Acabamento</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control"  placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--nome-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do acessório" placeholder="Nome do acessório">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--codigo-->
-                    <div class="form-group">
-                        <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input type="text" name="codigo" id="codigo" class="form-control" value="" placeholder="Código">
-                            <span class="help-block"></span>
+                        <!--codigo-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="codigo" class="control-label">Código:</label>
+                                <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,30}$">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--valor-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="valor" class="control-label">Valor:</label>
+                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--Valor-->
-                    <div class="form-group">
-                        <?= form_label('*Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -332,10 +330,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_dimensao">
-    <?= form_open("#", 'class="form-horizontal" id="form_dimensao" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_dimensao">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -345,27 +343,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Dimensões de papéis</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Altura-->
-                    <div class="form-group">
-                        <?= form_label('Altura: ', 'altura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'altura','type'=>'number', 'id'=>'altura', 'class'=>'form-control', 'placeholder'=>'Altura')) ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--altura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="altura" class="control-label">Altura (mm):</label>
+                                <input type="number" name="altura" id="altura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Altura do papel inteiro Ex: 660">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--largura-->
-                    <div class="form-group">
-                        <?= form_label('Largura: ', 'largura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'largura','type'=>'number', 'id'=>'largura', 'class'=>'form-control', 'placeholder'=>'Largura')) ?>
-                            <span class="help-block"></span>
+                        <!--largura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="largura" class="control-label">Largura (mm):</label>
+                                <input type="number" name="largura" id="largura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Largura do papel inteiro Ex: 960">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -373,7 +371,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_acabamento_docs">
     <div class="modal-dialog modal-lg">
@@ -592,7 +590,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "descricao","visible": false,"orderable": false},
 
             ],
-            order: [[1, 'asc']],
+            order: [[2, 'asc']],//linha
         });
         if(!get_tab_active()){
             console.log('Não foi possível carregar get_tab_active()');
@@ -653,6 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],
                     ajax: {
                         url: "<?= base_url('papel_linha/ajax_list') ?>",
                         type: "POST"
@@ -791,6 +790,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],//altura
                     ajax: {
                         url: "<?= base_url('papel_dimensao/ajax_list') ?>",
                         type: "POST"
@@ -919,6 +919,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
+            if(tab_active === "#tab_dimensao"){
+                var altura = dataTable.row(".selected").data().altura;
+                var largura = dataTable.row(".selected").data().largura;
+                nome = altura + 'x' + largura;
+            }
             if(tab_active === "#tab_acabamento"){
                 value = dataTable.row(".selected").data().codigo;
                 if($.inArray(value, ["empastamento","laminacao","relevo_seco","corte_vinco","almofada","douracao","corte_laser","faca"]) > -1){
@@ -930,9 +935,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             $.confirm({
-                title: 'Confirme!',
-                content: "O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.",
-                confirm: function(){
+                title: 'Confirmação!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function () {
                     $.ajax({
                         url: url_delete + id,
                         type: "POST",
@@ -955,7 +962,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                 },
-                cancel: function(){
+                cancel: function () {
                     $.alert('Operação cancelada!')
                 }
             });

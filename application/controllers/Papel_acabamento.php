@@ -14,8 +14,7 @@ class Papel_acabamento extends CI_Controller {
 
     public function index() {
         restrito_logado();
-        $data['titulo_painel'] = 'Papel acabamento';
-        set_layout('conteudo', load_content('papel_acabamento/lista', $data));
+        set_layout('conteudo', load_content('papel_acabamento/lista', ""));
         load_layout();
     }
 
