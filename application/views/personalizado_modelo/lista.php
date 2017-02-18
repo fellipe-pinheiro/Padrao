@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <div class="modal fade" id="md_form_personalizado_modelo">
-    <?= form_open("#", 'class="form-horizontal" id="form_personalizado_modelo" role="form"') ?>
+    <form action="" method="POST" role="form" class="form-horizontal" id="form_personalizado_modelo">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -109,65 +109,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Personalizado modelo</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Personalizado Categoria-->
-                    <div class="form-group">
-                        <?= form_label('Categoria: ', 'personalizado_categoria', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true">
-                                <option disabled selected>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--personalizado_categoria-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="personalizado_categoria" class="control-label">Categoria:</label>
+                                <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                    <option disabled selected>Selecione</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                        <!--nome-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--codigo-->
-                    <div class="form-group">
-                        <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'codigo','type'=>'text', 'id'=>'codigo', 'class'=>'form-control', 'placeholder'=>'Código'), '') ?>
-                            <span class="help-block"></span>
+                        <!--codigo-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="codigo" class="control-label">Código:</label>
+                                <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,20}$">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--formato-->
-                    <div class="form-group">
-                        <?= form_label('*Formato: ', 'formato', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'formato','type'=>'number', 'id'=>'formato', 'class'=>'form-control', 'placeholder'=>'Somente números'), '') ?>
-                            <span class="help-block"></span>
+                        <!--formato-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="formato" class="control-label">Formato:</label>
+                                <input type="number" name="formato" id="formato" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="999" placeholder="Aproveitamento do papel">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--valor-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="valor" class="control-label">Valor:</label>
+                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--Valor-->
-                    <div class="form-group">
-                        <?= form_label('*Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor" type="number" class="form-control" placeholder="0,00" />
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
+                    <fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -175,10 +171,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_form_categoria">
-    <?= form_open("#", 'class="form-horizontal" id="form_categoria" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_categoria">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -186,28 +182,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Categoria de personalizados</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--Nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome da categoria" autofocus>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -215,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -432,7 +429,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                     $(md_form).modal('show');
-                    $('.modal-title').text('Editar' + modal_title);
+                    $('.modal-title').text('Editar' + modal_title + " ID: " + id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -447,34 +444,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: url_delete + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            if(tab_active === "#tab_categoria"){
-                                categoria_atualizar = true;
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o ID: ' + id + ' ' + nome,
+                type: 'orange',
+                typeAnimated: true,
+                confirm: function(){
+                    $.ajax({
+                        url: url_delete + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                if(tab_active === "#tab_categoria"){
+                                    categoria_atualizar = true;
+                                }
+                                reload_table(dataTable);
+                            } else {
+                                alert("Erro ao excluir o registro");
                             }
-                            reload_table(dataTable);
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Cancelado!')
+                }
+            });
         });
         $("form").submit(function (e) {
 
             formulario_submit(e);
         });
+        form_small();
     });
 
     function ajax_carregar_personalizado_categoria(editar = false,id_categoria = null) {
@@ -524,7 +531,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log('Não foi possível carregar get_tab_active()');
             return false;
         }
-        reset_errors();
         var url_submit;
         if (save_method == 'add') {
             url_submit = url_add;
@@ -546,8 +552,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 } else{
                     $.map(data.form_validation, function (value, index) {
-                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                        $('[name="' + index + '"]').next().text(value);
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                     });
                 }
             },
@@ -569,7 +575,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             case '#tab_personalizado_modelo':
                 dataTable = tb_personalizado_modelo;
                 md_form = '#md_form_personalizado_modelo';
-                modal_title = ' Modelo Personalizado';
+                modal_title = ' Modelo';
                 url_edit = "<?= base_url('personalizado_modelo/ajax_edit/') ?>";
                 url_add = "<?php echo site_url('personalizado_modelo/ajax_add') ?>";
                 url_update = "<?php echo site_url('personalizado_modelo/ajax_update') ?>";
@@ -607,11 +613,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function row_select(table, tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
-            disable_buttons();
         } else {
             table.$("tr.selected").removeClass("selected");
             $(tr).addClass("selected");
-            enable_buttons();
         }
     }
 
@@ -622,23 +626,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function reset_form() {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 
 </script>
