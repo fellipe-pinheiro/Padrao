@@ -219,11 +219,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_cliente tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela_cliente.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -338,14 +336,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
             e.preventDefault();
         });
         $("#input_cep").blur(carregaCep);
     });
     function reload_table() {
+
         tabela_cliente.ajax.reload(null, false); //reload datatable ajax
     }
     function reset_form() {
@@ -358,13 +357,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $('.form-group').removeClass('has-error'); // Limpar os erros
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
     }
 </script>
