@@ -183,8 +183,8 @@
                                         <!--endereco-->
                                         <div class="col-sm-3">
                                             <div class="form-group input-padding">
-                                                <label for="endereco" class="control-label">Endereço:</label>
-                                                <input type="text" name="endereco" id="input_endereco" class="form-control" value="" title="Endereço" placeholder="Endereço">
+                                                <label for="endereco" class="control-label">Logradouro:</label>
+                                                <input type="text" name="endereco" id="input_endereco" class="form-control" value="" title="Logradouro" placeholder="Logradouro">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -253,7 +253,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="cep" class="control-label">CEP:</label>
-                                            <input type="text" name="cep" id="input_cep" class="form-control" value="" title="CEP" placeholder="CEP">
+                                            <input type="text" name="cep" id="input_cep" class="form-control cep" value="" title="CEP" placeholder="CEP">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>

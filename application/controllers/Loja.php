@@ -141,7 +141,7 @@ class Loja extends CI_Controller {
         $this->form_validation->set_rules('unidade', 'Unidade', 'trim|required|max_length[50]'.$is_unique);
         $this->form_validation->set_rules('razao_social', 'Razao Social', 'trim|required|max_length[150]');
         $this->form_validation->set_message('validar_cnpj','O CNPJ informado é inválido');
-        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|required|max_length[18]|validar_cnpj');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|max_length[18]|validar_cnpj');
         $this->form_validation->set_rules('ie', 'I.E', 'trim|max_length[30]');
         $this->form_validation->set_rules('im', 'I.M', 'trim|max_length[30]');
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[15]');
