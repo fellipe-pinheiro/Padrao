@@ -447,8 +447,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $.confirm({
                 title: 'Atenção!',
                 content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
-                type: 'orange',
-                typeAnimated: true,
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
                 confirm: function(){
                     $.ajax({
                         url: url_delete + id,
@@ -461,6 +461,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     categoria_atualizar = true;
                                 }
                                 reload_table(dataTable);
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
                             } else {
                                 alert("Erro ao excluir o registro");
                             }
