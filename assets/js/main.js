@@ -54,7 +54,10 @@ $(document).ready(function() {
         offset: {top:10}
     	});
 	}
-	$("form").on('change', 'input, select, textarea', function(event) {
+	$("form").on('keyup', 'input, textarea', function(event) { // Retira a classe de erro do formulário
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+	$("form").on('change', 'select', function(event) { // Retira a classe de erro do formulário
 		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
 	});
 });
@@ -151,6 +154,10 @@ function enable_button_salvar() {
 	$('.btnSubmit').text('Salvar').removeClass('spinner');
 	$('.btnSubmit').attr('disabled', false);
 }
+function reset_errors() { // Retira os erros do formulário
+    $('.form-group').removeClass('has-error');
+    $('.help-block').empty();
+}
 function carregaCep(){
 	var cep = $("#input_cep").val();
 	if(cep.length != 9){
@@ -188,6 +195,20 @@ function carregaCep(){
 		console.log("complete");
 	});
 }
+
+function form_small() {
+	$('form input, form select, form textarea').each(
+	    function(index){  
+	        $(this).addClass('input-sm');
+	    }
+	);
+	$('form button').each(
+	    function(index){  
+	        $(this).addClass('btn-sm');
+	    }
+	);
+}
+
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {
