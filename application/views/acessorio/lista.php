@@ -315,13 +315,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
     function reload_table() {
+        
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
 
     function reset_form() {
         $('#form_acessorio')[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+        reset_errors();
     }
 
 </script>

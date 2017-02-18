@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="md_form_impressao">
-    <?= form_open("#", 'class="form-horizontal" id="form_impressao" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_impressao">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,59 +106,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Impressão</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input type="text" name="nome" id="nome" class="form-control" value="" autofocus="true" placeholder="Nome">
-                            <span class="help-block"></span>
+                        <!--nome-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome da impressão" placeholder="Nome da impressão">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--impressao_area-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="impressao_area" class="control-label">Área:</label>
+                                <select name="impressao_area" id="impressao_area" class="form-control" required="required">
+                                    <option disabled selected>Selecione</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--valor-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="valor" class="control-label">Valor:</label>
+                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
                     </div>
-
-                    <!--Impressao Area-->
-                    <div class="form-group">
-                        <?= form_label('Impressao Area: ', 'impressao_area', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="impressao_area" id="impressao_area" class="form-control">
-                                <option disabled selected>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Valor-->
-                    <div class="form-group">
-                        <?= form_label('Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" min="0" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                </div>
+                </fieldset>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_form_area">
-    <?= form_open("#", 'class="form-horizontal" id="form_area" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_area">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,26 +169,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title"></h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
 
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input type="text" name="nome" id="nome" class="form-control" value="" autofocus="true">
-                            <span class="help-block"></span>
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" title="Nome do modelo" placeholder="Nome do modelo" required="required" autofocus>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -195,7 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -418,7 +421,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                     $(md_form).modal('show');
-                    $(form + ' .modal-title').text('Editar' + modal_title);
+                    $(form + ' .modal-title').text('Editar' + modal_title + ' ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -433,29 +436,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: url_delete + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            if(tab_active === '#tab_area'){
-                                impressao_atualizar = true;
+            $.confirm({
+                title: 'Confirmação!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function () {
+                    $.ajax({
+                        url: url_delete + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                if(tab_active === '#tab_area'){
+                                    impressao_atualizar = true;
+                                }
+                                reload_table(dataTable);
+                            } else {
+                                alert("Erro ao excluir o registro");
                             }
-                            reload_table(dataTable);
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function () {
+                    $.alert('Cancelado!')
+                }
+            });
         });
         $("form").submit(function (e) {
             formulario_submit(e);
@@ -463,6 +475,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $(".check_filter_dirty").change(function (event) {
             check_filter_dirty();
         });
+        form_small();
     });
 
     function ajax_carregar_impressao_area(editar = false,id_impressao_area = null) {
@@ -537,8 +550,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 } else
                 {
                     $.map(data.form_validation, function (value, index) {
-                        $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                        $('[name="' + index + '"]').next().text(value);
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                     });
                 }
             },
@@ -548,10 +561,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             complete: function () {
                 enable_button_salvar();
+                reload_table(dataTable);
             }
         });
-        enable_button_salvar();
-        reload_table(dataTable);
         e.preventDefault();
     }
 
@@ -599,37 +611,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function row_select(table, tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
-            disable_buttons();
         } else {
             table.$("tr.selected").removeClass("selected");
             $(tr).addClass("selected");
-            enable_buttons();
         }
     }
 
     function reload_table(tabela) {
+
         tabela.ajax.reload(null, false);
     }
 
     function reset_form() {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 
 </script>

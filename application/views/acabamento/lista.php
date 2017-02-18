@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
                                 <span class="help-block"></span>
                             </div>
                         </div>

@@ -474,45 +474,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
-                {
-                    extend: 'print',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                {   
+                    extend:'colvis',
+                    text:'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }
+                        ],
+                    fade: true
                 }
                 ],
-                fade: true
-            }
-            ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
@@ -523,17 +523,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": false},
-            {data: "fita_laco","visible": true},
-            {data: "fita_material","visible": true},
-            {data: "valor_03mm","visible": true,"orderable": false},
-            {data: "valor_07mm","visible": true,"orderable": false},
-            {data: "valor_10mm","visible": true,"orderable": false},
-            {data: "valor_15mm","visible": true,"orderable": false},
-            {data: "valor_22mm","visible": true,"orderable": false},
-            {data: "valor_38mm","visible": true,"orderable": false},
-            {data: "valor_50mm","visible": true,"orderable": false},
-            {data: "valor_70mm","visible": true,"orderable": false}
+                {data: "id","visible": false},
+                {data: "fita_laco","visible": true},
+                {data: "fita_material","visible": true},
+                {data: "valor_03mm","visible": true,"orderable": false},
+                {data: "valor_07mm","visible": true,"orderable": false},
+                {data: "valor_10mm","visible": true,"orderable": false},
+                {data: "valor_15mm","visible": true,"orderable": false},
+                {data: "valor_22mm","visible": true,"orderable": false},
+                {data: "valor_38mm","visible": true,"orderable": false},
+                {data: "valor_50mm","visible": true,"orderable": false},
+                {data: "valor_70mm","visible": true,"orderable": false}
             ]
         });
         if(!get_tab_active()){
@@ -557,43 +557,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     dom: 'lBfrtip',
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas'
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
+                        {   
+                            extend:'colvis',
+                            text:'Visualizar colunas'
                         },
                         {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                ],
+                            fade: true
+                        }
                         ],
-                        fade: true
-                    }
-                    ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
                     },
@@ -604,9 +604,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                    {data: "id","visible": false},
-                    {data: "nome","visible": true},
-                    {data: "descricao","visible": true,"orderable": false}
+                        {data: "id","visible": false},
+                        {data: "nome","visible": true},
+                        {data: "descricao","visible": true,"orderable": false}
                     ]
                 });
             }else {
@@ -632,15 +632,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                    {data: "id","visible": false},
-                    {data: "esp_03mm","visible": true},
-                    {data: "esp_07mm","visible": true},
-                    {data: "esp_10mm","visible": true},
-                    {data: "esp_15mm","visible": true},
-                    {data: "esp_22mm","visible": true},
-                    {data: "esp_38mm","visible": true},
-                    {data: "esp_50mm","visible": true},
-                    {data: "esp_70mm","visible": true}
+                        {data: "id","visible": false},
+                        {data: "esp_03mm","visible": true},
+                        {data: "esp_07mm","visible": true},
+                        {data: "esp_10mm","visible": true},
+                        {data: "esp_15mm","visible": true},
+                        {data: "esp_22mm","visible": true},
+                        {data: "esp_38mm","visible": true},
+                        {data: "esp_50mm","visible": true},
+                        {data: "esp_70mm","visible": true}
                     ]
                 });
             }else {
@@ -660,43 +660,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     dom: 'lBfrtip',
                     lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
                     buttons: [
-                    {   
-                        extend:'colvis',
-                        text:'Visualizar colunas'
-                    },
-                    {
-                        extend: 'collection',
-                        text: 'Exportar',
-                        autoClose: true,
-                        buttons: [
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
+                        {   
+                            extend:'colvis',
+                            text:'Visualizar colunas'
                         },
                         {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
+                            extend: 'collection',
+                            text: 'Exportar',
+                            autoClose: true,
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                ],
+                            fade: true
+                        }
                         ],
-                        fade: true
-                    }
-                    ],
                     language: {
                         url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
                     },
@@ -707,9 +707,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                    {data: "id", "visible": false},
-                    {data: "nome", "visible": true},
-                    {data: "descricao", "visible": true,"orderable": false},
+                        {data: "id", "visible": false},
+                        {data: "nome", "visible": true},
+                        {data: "descricao", "visible": true,"orderable": false},
                     ]
                 });
             }else {
