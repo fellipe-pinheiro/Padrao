@@ -13,8 +13,7 @@ class Papel_dimensao extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Dimensão dos papéis';
-        set_layout('conteudo', load_content('papel_dimensao/lista', $data));
+        set_layout('conteudo', load_content('papel_dimensao/lista', ""));
         load_layout();
     }
 
@@ -90,10 +89,18 @@ class Papel_dimensao extends CI_Controller {
     }
 
     private function get_post() {
+        //gravando a altura como o menor valor para ordenação na query que será altura asc
+        if($this->input->post('altura') >= $this->input->post('largura')){
+            $dimensao_menor = $this->input->post('largura');
+            $dimensao_maior = $this->input->post('altura');
+        }else{
+            $dimensao_menor = $this->input->post('altura');
+            $dimensao_maior = $this->input->post('largura');
+        }
         $objeto = new Papel_dimensao_m();
         $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->altura = $this->input->post('altura');
-        $objeto->largura = $this->input->post('largura');
+        $objeto->altura = $dimensao_menor;
+        $objeto->largura = $dimensao_maior;
         return $objeto;
     }
 
