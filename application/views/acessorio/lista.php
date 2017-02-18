@@ -61,7 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modal_form">
     <form action="#" method="POST" role="form" class="form-horizontal" id="form_acessorio">
         <div class="modal-dialog" role="document">
@@ -161,9 +160,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
             ajax: {
                 url: "<?= base_url('acessorio/ajax_list') ?>",
                 type: "POST"

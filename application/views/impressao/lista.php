@@ -271,6 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
+            order: [[1, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('impressao/ajax_list') ?>",
                 type: "POST"
@@ -346,6 +347,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],//nome
                     ajax: {
                         url: "<?= base_url('impressao_area/ajax_list') ?>",
                         type: "POST"

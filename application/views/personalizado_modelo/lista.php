@@ -285,6 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
+            order: [[2, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('personalizado_modelo/ajax_list') ?>",
                 type: "POST"

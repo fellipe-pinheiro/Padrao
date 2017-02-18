@@ -518,6 +518,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
+            order: [[1, 'asc']],//laço
             ajax: {
                 url: "<?= base_url('fita/ajax_list') ?>",
                 type: "POST"
@@ -599,6 +600,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],//nome
                     ajax: {
                         url: "<?= base_url('fita_laco/ajax_list') ?>",
                         type: "POST"
@@ -702,6 +704,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],//nome
                     ajax: {
                         url: "<?= base_url('fita_material/ajax_list') ?>",
                         type: "POST"
