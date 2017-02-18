@@ -450,14 +450,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
-                        <input type="text" id="papel-filtro_papel" class="form-control">
-                    </div>
-                    <div class="form-group">
                         <label for="papel-filtro_linha" class="control-label"> Linha</label>
                         <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
                             <option value="">Selecione</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
+                        <input type="text" id="papel-filtro_papel" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
