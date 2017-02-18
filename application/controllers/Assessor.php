@@ -14,8 +14,7 @@ class Assessor extends CI_Controller {
 
     public function index() {
         restrito_logado();
-        $data['titulo_painel'] = 'Assessores';
-        set_layout('conteudo', load_content('assessor/lista', $data));
+        set_layout('conteudo', load_content('assessor/lista', ""));
         load_layout();
     }
 

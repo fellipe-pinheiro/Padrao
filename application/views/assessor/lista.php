@@ -74,95 +74,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Assessor</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_assessor" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Sobrenome-->
-                <div class="form-group">
-                    <?= form_label('*Sobrenome: ', 'sobrenome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('sobrenome', '', 'id="sobrenome" class="form-control" placeholder="Sobrenome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Empresa-->
-                <div class="form-group">
-                    <?= form_label('Empresa: ', 'empresa', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('empresa', '', 'id="empresa" class="form-control" placeholder="Empresa"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Email-->
-                <div class="form-group">
-                    <?= form_label('*E-mail: ', 'email', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('email', '', 'id="email" class="form-control" placeholder="Email"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Telefone-->
-                <div class="form-group">
-                    <?= form_label('*Telefone: ', 'telefone', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('telefone', '', 'id="telefone1" class="form-control" placeholder="Telefone"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Comissão-->
-                <div class="form-group">
-                    <?= form_label('Comissão / BV (%): ', 'comissao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input(array('name' => 'comissao', 'type' => 'number', 'id' => 'comissao', 'class' => 'form-control', 'placeholder' => 'Comissão em porcentagem. EX: 10'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
-        </div>
-    </div>
-</div>
 <?php $this->load->view('assessor/assessor_modal'); ?>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -216,6 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
+            order: [[1, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('assessor/ajax_list') ?>",
                 type: "POST",
@@ -254,11 +166,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_assessor tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela_assessor.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -268,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("input[name='id']").val("");
 
             $('.modal-title').text('Adicionar assessor'); // Definir um titulo para o modal
-            $('#modal_form').modal('show'); // Abrir modal
+            $('#md_form_assessor').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
             // Buscar ID da linha selecionada
@@ -289,11 +199,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.assessor, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
-                    $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar assessor');
+                    $('#md_form_assessor').modal('show');
+                    $('.modal-title').text('Editar assessor ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -305,26 +219,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             var id = tabela_assessor.row(".selected").id();
             var nome = tabela_assessor.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: "<?= base_url('assessor/ajax_delete/') ?>" + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table();
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
+            $.confirm({
+                title: 'Confirmação!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function () {
+                    $.ajax({
+                        url: "<?= base_url('assessor/ajax_delete/') ?>" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                reload_table();
+                            } else {
+                                alert("Erro ao excluir o registro");
+                            }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function () {
+                    $.alert('Operação cancelada!')
+                }
+            });
         });
         $("#form_assessor").submit(function (e) {
             disable_button_salvar();
@@ -343,12 +266,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     if (data.status){
-                        $('#modal_form').modal('hide');
+                        $('#md_form_assessor').modal('hide');
                         reload_table();
                     } else{
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
@@ -358,31 +281,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
             e.preventDefault();
         });
+        form_small();
     });
 
     function reload_table() {
+
         tabela_assessor.ajax.reload(null, false); //reload datatable ajax
     }
+
     function reset_form() {
         $('#form_assessor')[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 </script>
