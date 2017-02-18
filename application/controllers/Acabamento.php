@@ -14,8 +14,7 @@ class Acabamento extends CI_Controller {
 
     public function index() {
         restrito_logado();
-        $data['titulo_painel'] = 'Acabamentos';
-        set_layout('conteudo', load_content('acabamento/lista', $data));
+        set_layout('conteudo', load_content('acabamento/lista', ""));
         load_layout();
     }
 
