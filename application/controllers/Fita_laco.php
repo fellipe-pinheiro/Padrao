@@ -13,8 +13,7 @@ class Fita_laco extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Fita laco';
-        set_layout('conteudo', load_content('fita_laco/lista', $data));
+        set_layout('conteudo', load_content('fita_laco/lista', ""));
         load_layout();
     }
 

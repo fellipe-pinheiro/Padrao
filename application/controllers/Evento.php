@@ -13,8 +13,7 @@ class Evento extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Eventos';
-        set_layout('conteudo', load_content('evento/lista', $data));
+        set_layout('conteudo', load_content('evento/lista', ""));
         load_layout();
     }
 
@@ -52,8 +51,11 @@ class Evento extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["status"] = TRUE;
-        $data["evento"] = $this->Evento_m->get_by_id($id);
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["evento"] = $this->Evento_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -71,8 +73,10 @@ class Evento extends CI_Controller {
 
     public function ajax_delete($id) {
         $data['status'] = FALSE;
-        if($this->Evento_m->deletar($id)){
-            $data['status'] = TRUE;
+        if(!empty($id)){
+            if($this->Evento_m->deletar($id)){
+                $data['status'] = TRUE;
+            }
         }
         print json_encode($data);
     }

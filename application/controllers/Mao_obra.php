@@ -13,8 +13,7 @@ class Mao_obra extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Mão de obra';
-        set_layout('conteudo', load_content('mao_obra/lista', $data));
+        set_layout('conteudo', load_content('mao_obra/lista', ""));
         load_layout();
     }
 

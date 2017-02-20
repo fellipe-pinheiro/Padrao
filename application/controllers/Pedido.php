@@ -63,8 +63,7 @@ class Pedido extends CI_Controller {
     }
 
     public function index() {
-        $data = null;
-        set_layout('conteudo', load_content('pedido/index', $data));
+        set_layout('conteudo', load_content('pedido/index', ""));
         load_layout();
     }
 

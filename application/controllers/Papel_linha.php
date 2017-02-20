@@ -13,7 +13,7 @@ class Papel_linha extends CI_Controller {
     }
 
     public function index() {
-        set_layout('conteudo', load_content('papel_linha/lista', $data));
+        set_layout('conteudo', load_content('papel_linha/lista', ""));
         load_layout();
     }
 

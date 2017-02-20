@@ -61,7 +61,7 @@ class Convite_modelo extends CI_Controller {
 
     public function ajax_edit($id) {
         $data["status"] = FALSE;
-        if($id){
+        if(!empty($id)){
             $data["convite_modelo"] = $this->Convite_modelo_m->get_by_id($id);
             $data["status"] = TRUE;
         }
@@ -69,6 +69,7 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function ajax_update() {
+        $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
             $objeto = $this->get_post();
@@ -80,8 +81,13 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function ajax_delete($id) {
-        $this->Convite_modelo_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Convite_modelo_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
     private function get_post() {

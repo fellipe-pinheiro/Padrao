@@ -52,43 +52,44 @@ class Fita extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario("add");
-        $data['status'] = TRUE;
+        $data['status'] = FALSE;
+        $this->validar_formulario();
         $objeto = $this->get_post();
         if ( $this->Fita_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
-            $data['status'] = FALSE;
-            $data['status'] = "Erro ao executar o metodo Ajax_add()";
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["fita"] = $this->Fita_m->get_by_id($id);
-        $data["status"] = TRUE;
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["fita"] = $this->Fita_m->get_by_id($id);
+        }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_update() {
-        $this->validar_formulario("update");
-        $id = $this->input->post('id');
-        if ($id) {
+        $data["status"] = FALSE;
+        $this->validar_formulario();
+        if ($this->input->post('id')) {
             $objeto = $this->get_post();
-
             if ($this->Fita_m->editar($objeto)) {
-                print json_encode(array("status" => TRUE, 'msg' => 'Registro alterado com sucesso'));
-            } else {
-                print json_encode(array("status" => FALSE, 'msg' => 'Erro ao executar o metodo Fita_m->editar()'));
+                $data["status"] = TRUE;
             }
-        } else {
-            print json_encode(array("status" => FALSE, 'msg' => 'ID do registro não foi passado'));
         }
+        print json_encode($data);
     }
 
     public function ajax_delete($id) {
-        $this->Fita_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Fita_m->deletar($id)){
+                $data["status"] = TRUE;   
+            }
+        }
+        print json_encode($data);
     }
 
     private function get_post() {
@@ -114,7 +115,7 @@ class Fita extends CI_Controller {
         print json_encode($arr);
     }
 
-    private function validar_formulario($action) {
+    private function validar_formulario() {
         $data = array();
         $data['status'] = TRUE;
 

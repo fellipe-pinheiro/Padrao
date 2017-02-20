@@ -13,7 +13,6 @@ class Loja extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Lojas';
         $data['estados'] = get_array_estados();
         $data['estados_json'] = json_encode(get_array_estados());
         set_layout('conteudo', load_content('loja/lista', $data));

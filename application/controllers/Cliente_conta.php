@@ -175,7 +175,6 @@ class Cliente_conta extends CI_Controller {
             $this->db->trans_commit();
         }
         print json_encode($data);
-        exit();
     }
 
     private function validar_formulario_quitacao(){
@@ -201,7 +200,6 @@ class Cliente_conta extends CI_Controller {
             $data["status"] = FALSE;
         }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_list() {
@@ -254,7 +252,6 @@ class Cliente_conta extends CI_Controller {
         $data["valor_restante"] = $valor_restante;
         $data["status"] = TRUE;
         print json_encode($data);
-        exit();
     }
 
     public function ajax_efetuar_pagamento(){
@@ -273,7 +270,6 @@ class Cliente_conta extends CI_Controller {
         }
         //$data['id_pedido'] = $this->input->post('pedido');
         print json_encode($data);
-        exit();
     }
 
     private function validar_formulario_efetuar_pagamento() {
@@ -282,7 +278,8 @@ class Cliente_conta extends CI_Controller {
         $this->form_validation->set_rules('id', 'ID', 'trim|required|callback_validation_chk_parcela_pagamento');
         $this->form_validation->set_rules('data_pagamento', 'Data de pagamento', 'trim|required|callback_validation_chk_data_pagamento');
         $this->form_validation->set_rules('forma_pagamento', 'Forma de pagamento', 'trim|required');
-        $this->form_validation->set_rules('valor_pagamento', 'Valor pagamento', 'trim|required|callback_validation_decimal_positive_no_zero|callback_validation_chk_valor_pagamento');
+        $this->form_validation->set_message('decimal_positive_no_zero', 'Insira um valor positivo');
+        $this->form_validation->set_rules('valor_pagamento', 'Valor pagamento', 'trim|required|decimal_positive_no_zero|callback_validation_chk_valor_pagamento');
         $this->form_validation->set_rules('codigo_bancario', 'Codigo bancário', 'trim|max_length[50]');
 
         if (!$this->form_validation->run()) {
@@ -309,25 +306,14 @@ class Cliente_conta extends CI_Controller {
         return $objeto;
     }
 
-    public function validation_decimal_positive_no_zero($value){
-        $this->form_validation->set_message('validation_decimal_positive_no_zero', 'Insira um valor positivo');
-        if($value <= 0){
-            return false;
-        }
-        return true;
-    }
-
     public function validation_chk_data_pagamento($date){
-        list($dia,$mes,$ano) = explode('/', $date);
-        $date = $ano.'-'.$mes.'-'.$dia;
+        $date = date_to_db($date);
         $today = date('Y/m/d');
         $data_pedido = $this->input->post('data');
         if( strtotime($date) <= strtotime($today) && strtotime($date) >= strtotime($data_pedido)) {
             return true;
         }else{
-            list($ano,$mes,$dia) = explode('-', $data_pedido);
-            $data_pedido = $dia.'/'.$mes.'/'.$ano;
-            $this->form_validation->set_message('validation_chk_data_pagamento','A data é inválida! A data é anterior a data do pedido '.$data_pedido.' ou posterior a data de hoje'.date('d/m/Y'));
+            $this->form_validation->set_message('validation_chk_data_pagamento','A data é inválida! A data é anterior a data do pedido '.date_to_form($data_pedido).' ou posterior a data de hoje '.date('d/m/Y'));
             return false;
         }
     }

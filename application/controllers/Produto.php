@@ -124,22 +124,27 @@ class Produto extends CI_Controller {
     }
     
     public function session_produto_inserir(){
+        $data["status"] = FALSE;
         $this->validar_formulario_produto();
         $this->session->orcamento->produto[] = $this->set_produto();
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> inserido com sucesso'));
+        $data["status"] = TRUE;
+        print json_encode($data);
     }
 
     public function session_produto_editar(){
+        $data["status"] = FALSE;
         $this->validar_formulario_produto();
         $posicao = $this->uri->segment(3);
         $this->session->orcamento->produto[$posicao] = $this->set_produto();
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> editado com sucesso'));
+        $data["status"] = TRUE;
+        print json_encode($data);
     }
 
     public function session_produto_excluir(){
+        $data["status"] = TRUE;
         $posicao = $this->uri->segment(3);
         unset($this->session->orcamento->produto[$posicao]);
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Produto</strong> excluido com sucesso'));
+        print json_encode($data);
     }
 
     private function set_produto(){

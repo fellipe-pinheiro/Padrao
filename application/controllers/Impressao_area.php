@@ -13,8 +13,7 @@ class Impressao_area extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Impressões área';
-        set_layout('conteudo', load_content('impressao_area/lista', $data));
+        set_layout('conteudo', load_content('impressao_area/lista', ""));
         load_layout();
     }
 

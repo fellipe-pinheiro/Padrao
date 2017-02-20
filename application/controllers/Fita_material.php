@@ -13,8 +13,7 @@ class Fita_material extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Fita material';
-        set_layout('conteudo', load_content('fita_material/lista', $data));
+        set_layout('conteudo', load_content('fita_material/lista', ""));
         load_layout();
     }
 
