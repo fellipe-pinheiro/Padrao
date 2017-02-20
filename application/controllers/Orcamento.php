@@ -265,9 +265,24 @@ class Orcamento extends CI_Controller {
         $this->session->orcamento->loja = $this->Loja_m->get_by_id($this->input->post('loja'));
         $this->session->orcamento->evento = $this->input->post('evento');
         $this->session->orcamento->data_evento = date_to_db($this->input->post('data_evento'));
-        $this->session->orcamento->descricao = $this->input->post('descricao');
         print json_encode($data);
         exit();
+    }
+
+    public function ajax_session_orcamento_descricao(){
+        $data['status'] = TRUE;
+        $this->session->orcamento->descricao = $this->input->post('descricao');
+        print json_encode($data);
+    }
+
+    private function validar_formulario_form_descricao(){
+        $this->form_validation->set_rules('descricao', 'Descricao', 'trim');
+        if (!$this->form_validation->run()) {
+            $data['form_validation'] = $this->form_validation->error_array();
+            $data['status'] = FALSE;
+            print json_encode($data);
+            exit();
+        }
     }
 
     private function validar_formulario_orcamento_info() {
@@ -275,7 +290,6 @@ class Orcamento extends CI_Controller {
         $this->form_validation->set_rules('loja', 'Loja', 'trim|required');
         $this->form_validation->set_message('date_before_today', 'A data é anterior a data de hoje ' . date('d/m/Y'));
         $this->form_validation->set_rules('data_evento', 'Data Evento', 'date_before_today');
-        $this->form_validation->set_rules('descricao', 'Descricao', 'trim');
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;

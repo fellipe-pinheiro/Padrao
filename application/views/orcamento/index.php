@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </nav>
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="row">
                 <input type="hidden" id="panel_cliente_id" class="form-control" value="<?=$this->session->orcamento->cliente->id?>">
                 <div class="col-sm-3">
@@ -106,123 +106,152 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <br>
             <div class="table-responsive">
-                <table class="table table-hover table-condensed">
-                    <tr>
-                        <th>#</th>
-                        <th>Categoria</th>
-                        <th>Produto</th>
-                        <th class="data_entrega">Data Entrega</th>
-                        <th>Qtd</th>
-                        <th>Unitário</th>
-                        <th>Sub-total</th>
-                        <th>Editar</th>
-                        <th>Excluir</th>
-                    </tr>
-                    <tbody>
-                        <?php
-                        $count = 1;
-                        //CONVITES
-                        foreach ($this->session->orcamento->convite as $key => $convite) {
-                            ?>
+                <!-- Tabela do orçamento -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-hover table-condensed">
                             <tr>
-                                <td><?= $count ?></td>
-                                <td>Convite</td>
-                                <td><?= $convite->modelo->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="convite-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $convite->quantidade ?></td>
-                                <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                <th>#</th>
+                                <th>Categoria</th>
+                                <th>Produto</th>
+                                <th class="data_entrega">Data Entrega</th>
+                                <th>Qtd</th>
+                                <th>Unitário</th>
+                                <th>Sub-total</th>
+                                <th>Editar</th>
+                                <th>Excluir</th>
                             </tr>
-                            <?php
-                            $count ++;
-                        }
-                        //PERSONALIZADOS
-                        foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
-                            ?>
-                            <tr>
-                                <td><?= $count ?></td>
-                                <td>Personalizado</td>
-                                <td><?= $personalizado->modelo->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="personalizado-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $personalizado->quantidade ?></td>
-                                <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
-                            </tr>
-                            <?php
-                            $count ++;
-                        }
-                        //PRODUTOS
-                        foreach ($this->session->orcamento->produto as $key => $container) {
-                            ?>
-                            <tr>
-                                <td><?= $count ?></td>
-                                <td><?= $container->produto->produto_categoria->nome ?></td>
-                                <td><?= $container->produto->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="produto-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $container->quantidade ?></td>
-                                <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>',<?= $container->produto->produto_categoria->id ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                            </tr>
-                            <?php
-                            $count ++;
-                        }
-                        ?>
-                    </tbody>
-                    <tfoot>
-                        <?php
-                        if (!empty($this->session->orcamento->desconto)) {
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="data_entrega"></td>
-                                <td></td>
-                                <td>Desconto</td>
-                                <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
-                                <td><a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th class="data_entrega"></th>
-                            <th></th>
-                            <th>Total a pagar</th>
-                            <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                            <tbody>
+                                <?php
+                                $count = 1;
+                                //CONVITES
+                                foreach ($this->session->orcamento->convite as $key => $convite) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td>Convite</td>
+                                        <td><?= $convite->modelo->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="convite-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $convite->quantidade ?></td>
+                                        <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                //PERSONALIZADOS
+                                foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td>Personalizado</td>
+                                        <td><?= $personalizado->modelo->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="personalizado-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $personalizado->quantidade ?></td>
+                                        <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                //PRODUTOS
+                                foreach ($this->session->orcamento->produto as $key => $container) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td><?= $container->produto->produto_categoria->nome ?></td>
+                                        <td><?= $container->produto->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="produto-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $container->quantidade ?></td>
+                                        <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>',<?= $container->produto->produto_categoria->id ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td>
+                                        <a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                ?>
+                            </tbody>
+                            <tfoot>
+                                <?php
+                                if (!empty($this->session->orcamento->desconto)) {
+                                    ?>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="data_entrega"></td>
+                                        <td></td>
+                                        <td>Desconto</td>
+                                        <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
+                                        <td>
+                                            <a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="data_entrega"></th>
+                                    <th></th>
+                                    <th>Total a pagar</th>
+                                    <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Descrição -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form  class="form_ajax" id="form_descricao" action="" method="post" accept-charset="utf-8" role="form">
+                        <div class="form-group">
+                            <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
+                            <textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3" onchange="session_orcamento_descricao()"><?= $this->session->orcamento->descricao ?></textarea>
+                            <span class="help-block"></span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -237,26 +266,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="modal-title">Produto</h4>
                 </div>			
                 <div class="modal-body row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-sm-4">
                         <label for="produto_categoria" class="control-label">Categoria:</label>
                         <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-sm-4">
                         <label for="produto" class="control-label">Produto:</label>
                         <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" autofocus>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-sm-4">
                         <?= form_label('Quantidade: ', 'quantidade_produto', array('class' => 'control-label')) ?>
                         <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" />
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12">
                         <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
                         <textarea id="descricao_produto" name="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                         <span class="help-block"></span>
@@ -464,18 +493,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label for="" class="control-label">Telefone:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_assessor_telefone" value="<?=$this->session->orcamento->assessor->telefone?>" readonly>
                                 </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <form  class="form_ajax" id="form_descricao" action="" method="post" accept-charset="utf-8" role="form">
-                                    <div class="form-group">
-                                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
-                                        <textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3"><?= $this->session->orcamento->descricao ?></textarea>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -1086,6 +1103,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (modal_open) {
             $('#md_orcamento_info').modal();
         }
+    }
+    function session_orcamento_descricao() {
+        $.ajax({
+            url: '<?=base_url('orcamento/ajax_session_orcamento_descricao')?>',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#form_descricao').serialize(),
+        })
+        .done(function(data) {
+            console.log("success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
     }
     function session_cliente_inserir(id) {
         $.ajax({
@@ -1704,7 +1735,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }).done(function (data) {
             console.log('success');
             if (data.status) {
-                $(modal).modal('hide');
+                if(modal != ''){
+                    $(modal).modal('hide');
+                }
                 reload_table();
             } else {
                 $.map(data.form_validation, function (value, index) {
