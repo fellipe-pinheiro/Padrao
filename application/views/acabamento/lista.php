@@ -121,42 +121,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {   
-                extend:'colvis',
-                text:'Visualizar colunas',
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                {   
+                    extend:'colvis',
+                    text:'Visualizar colunas',
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -169,10 +169,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-            {data: "id","visible": false},
-            {data: "nome","visible": true},
-            {data: "descricao","visible": false},
-            {data: "valor","visible": true}
+                {data: "id","visible": false},
+                {data: "nome","visible": true},
+                {data: "descricao","visible": false},
+                {data: "valor","visible": true}
             ]
         });
         // Resaltar a linha selecionada

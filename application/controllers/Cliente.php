@@ -116,8 +116,10 @@ class Cliente extends CI_Controller {
 
     public function ajax_delete($id) {
         $data["status"] = FALSE;
-        if($this->Cliente_m->deletar($id)){
-            $data["status"] = TRUE;
+        if(!empty($id)){
+            if($this->Cliente_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
         }
         print json_encode($data);
     }

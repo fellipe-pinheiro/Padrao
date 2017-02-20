@@ -97,7 +97,6 @@ class Assessor extends CI_Controller {
     }
 
     private function validar_formulario() {
-        $data = array();
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[20]');

@@ -146,5 +146,12 @@ class Home extends CI_Controller {
         var_dump(no_leading_zeroes('0111'));
     }
 
+    public function teste_data_to_form(){
+        var_dump(date_to_form('1982-04-20'));
+        var_dump(date_to_form('20-04-1982'));
+        var_dump(date_to_form('20/04/1982'));
+        var_dump(date_to_form('1982/04/20'));
+    }
+
     
 }
