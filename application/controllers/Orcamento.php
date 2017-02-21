@@ -338,7 +338,7 @@ class Orcamento extends CI_Controller {
         $data['status'] = TRUE;
 
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
-        $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|decimal_positive|no_leading_zeroes');
+        $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|decimal_positive|no_leading_zeroes|numeric');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

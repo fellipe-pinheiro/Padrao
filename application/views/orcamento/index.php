@@ -96,19 +96,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="text" class="form-control input-sm panel_cliente_email" value="<?=$this->session->orcamento->cliente->email?>" readonly>
                 </div>
                 <div class="col-sm-3">
-                    <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm panel_assessor_nome"') ?>
+                    <label for="" class="control-label">Assessor(a):</label>
+                    <input type="text" name="" class="form-control input-sm panel_assessor_nome" value="<?=$this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome?>" title="Assessor" readonly>
                 </div>
                 <div class="col-sm-3">
-                    <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm panel_assessor_email"') ?>
+                    <label for="" class="control-label">E-mail:</label>
+                    <input type="text" name="" id="input" class="form-control input-sm panel_assessor_email" value="<?=$this->session->orcamento->assessor->email?>" title="email" readonly>
                 </div>
             </div>
             <br>
-            <div class="table-responsive">
-                <!-- Tabela do orçamento -->
-                <div class="row">
-                    <div class="col-sm-12">
+            
+            <!-- Tabela do orçamento -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
                         <table class="table table-hover table-condensed">
                             <tr>
                                 <th>#</th>
@@ -246,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-sm-12">
                     <form  class="form_ajax" id="form_descricao" action="" method="post" accept-charset="utf-8" role="form">
                         <div class="form-group">
-                            <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
+                            <label for="descricao" class="control-label">Descrição:</label>
                             <textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3" onchange="session_orcamento_descricao()"><?= $this->session->orcamento->descricao ?></textarea>
                             <span class="help-block"></span>
                         </div>
@@ -377,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>I.M</th>
                                 </tr>
                             </thead>
-                            <tbody id="fbody">
+                            <tbody>
                             </tbody>
                         </table>
                     </div>
@@ -587,7 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>			
                 <div class="modal-body">
                     <div class="form-group">
-                        <?= form_label('Desconto: ', 'desconto', array('class' => 'control-label')) ?>
+                        <label for="desconto" class="control-label">Desconto:</label>
                         <input type="number" name="desconto" id="desconto" class="form-control" value="" step="0.01" min="0">
                         <span class="help-block"></span>
                     </div>
@@ -609,69 +610,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="modal-title">Forma de pagamento</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- Forma de pagamento -->
-                    <div class="form-group">
-                        <?= form_label('Forma de pagamento: ', 'forma_pagamento', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
-                                <option value="" selected >Selecione</option>
-                                <?php
-                                foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
-                                    ?>
-                                    <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                            <span class="help-block"></span>
+                    <fieldset>
+                        <div class="row">
+                            <!-- Forma de pagamento -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="forma_pagamento" class="control-label">Forma de pagamento:</label>
+                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
+                                        <option value="" selected >Selecione</option>
+                                        <?php
+                                        foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
+                                            ?>
+                                            <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- Quantidade de parcelas -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="qtd_parcelas" class="control-label">Quantidade de Parcelas:</label>
+                                    <select name="qtd_parcelas" id="qtd_parcelas" class="form-control">
+                                        <option value="" selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Quantidade de parcelas -->
-                    <div class="form-group">
-                        <?= form_label('Quantidade de Parcelas: ', 'qtd_parcelas', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="qtd_parcelas" id="qtd_parcelas" class="form-control">
-                                <option value="" selected disabled>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!-- Primeiro vencimento -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="primeiro_vencimento" class="control-label">1º Vencimento:</label>
+                                    <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" placeholder="1° Vencimento dd/mm/aaaa">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- Próximos vencimentos -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="vencimento_dia" class="control-label">Próximos vencimentos:</label>
+                                    <select name="vencimento_dia" id="vencimento_dia" class="form-control">
+                                        <option value="" selected >Selecione</option>
+                                        <option value="01">Todo dia 1</option>
+                                        <option value="05">Todo dia 5</option>
+                                        <option value="10">Todo dia 10</option>
+                                        <option value="15">Todo dia 15</option>
+                                        <option value="20">Todo dia 20</option>
+                                        <option value="25">Todo dia 25</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Primeiro vencimento -->
-                    <div class="form-group">
-                        <?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" placeholder="1° Vencimento dd/mm/aaaa">
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!--Condições-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                <label for="condicoes" class="control-label">Condições:</label>
+                                    <textarea name="condicoes" id="condicoes" class="form-control" rows="3" placeholder="Condições"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Próximos vencimentos -->
-                    <div class="form-group">
-                        <?= form_label('Próximos vencimentos: ', 'vencimento_dia', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="vencimento_dia" id="vencimento_dia" class="form-control">
-                                <option value="" selected >Selecione</option>
-                                <option value="01">Todo dia 1</option>
-                                <option value="05">Todo dia 5</option>
-                                <option value="10">Todo dia 10</option>
-                                <option value="15">Todo dia 15</option>
-                                <option value="20">Todo dia 20</option>
-                                <option value="25">Todo dia 25</option>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Condições-->
-                    <div class="form-group">
-                        <?= form_label('Condições: ', 'condicoes', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <textarea name="condicoes" id="condicoes" class="form-control" rows="3" placeholder="Condições"></textarea>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button onclick="finalizar_pedido()" type="button" class="btn btn-default btnSubmit">Salvar</button>
+                    <button onclick="finalizar_pedido(event)" type="button" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
@@ -797,13 +806,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#form_cliente").submit(function (event) {
             event.preventDefault();
-            disable_button_salvar();
-            reset_errors();
             if($("#form_cliente #pessoa_tipo").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #pessoa_tipo").focus();
                 mapear_erro($("#form_cliente #pessoa_tipo"),"O campo Pessoa é obrigatório.");
-                enable_button_salvar();
                 return;
             }
             if($("#form_cliente #pessoa_tipo").val() == "juridica"){
@@ -811,7 +817,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#form_cliente a[href='#juridica']").tab('show');
                     $("#form_cliente #razao_social").focus();
                     mapear_erro($("#form_cliente #razao_social"),"O campo Razão Social é obrigatório.");
-                    enable_button_salvar();
                     return;
                 }
             }
@@ -819,35 +824,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #nome").focus();
                 mapear_erro($("#form_cliente #nome"),"O campo Nome é obrigatório.");
-                enable_button_salvar();
                 return;
             }
             if($("#form_cliente #sobrenome").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #sobrenome").focus();
                 mapear_erro($("#form_cliente #sobrenome"),"O campo Sobrenome é obrigatório.");
-                enable_button_salvar();
                 return;
             }
             if($("#form_cliente #email").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #email").focus();
                 mapear_erro($("#form_cliente #email"),"O campo Email é obrigatório.");
-                enable_button_salvar();
                 return;
             }
             if(!validar_email( $("#form_cliente #email").val() )){
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #email").focus();
                 mapear_erro($("#form_cliente #email"),"O campo Email deve conter um endereço de e-mail válido.");
-                enable_button_salvar();
                 return;
             }
             if($("#form_cliente #telefone").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
                 $("#form_cliente #telefone").focus();
                 mapear_erro($("#form_cliente #telefone"),"O campo Telefone é obrigatório.");
-                enable_button_salvar();
                 return;
             }
             if($("#form_cliente #cpf").val() != ""){
@@ -855,7 +855,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#form_cliente a[href='#fisica']").tab('show');
                     $("#form_cliente #cpf").focus();
                     mapear_erro($("#form_cliente #cpf"),"O CPF informado é inválido!");
-                    enable_button_salvar();
                     return;
                 }
             }
@@ -864,10 +863,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $("#form_cliente a[href='#juridica']").tab('show');
                     $("#form_cliente #cnpj").focus();
                     mapear_erro($("#form_cliente #cnpj"),"O CNPJ informado é inválido!");
-                    enable_button_salvar();
                     return;
                 }
             }
+            disable_button_salvar();
+            reset_errors();
             var form = form_crud;
             var url = url_crud;
             var modal_form = md_form_crud;
@@ -955,6 +955,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log("complete");
                 enable_button_salvar();
             });
+        });
+        $("#form_forma_pagamento #qtd_parcelas").change(function(event) { // Limpa o erro dos próximos vencimentos caso selecione 1 parcela
+            if($("#form_forma_pagamento #qtd_parcelas").val() == 1){
+                $("#form_forma_pagamento #vencimento_dia").closest(".form-group").removeClass('has-error').find('.help-block').empty();
+            }
         });
     }
     function reset_form_crud() {
@@ -1406,7 +1411,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         main_excluir('personalizado/session_orcamento_personalizado_excluir/' + posicao);
     }
     function delivery_date(owner, form) {
-        reset_errors();
         if (owner === "convite") {
             set_date_delivery('<?= base_url('pedido/ajax_set_date_delivery/convite') ?>', form);
         } else if (owner === "personalizado") {
@@ -1416,6 +1420,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
     function set_date_delivery(url, form) {
+        reset_errors();
         $.ajax({
             url: url,
             type: 'POST',
@@ -1470,9 +1475,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete: criar_pedido()");
         });
     }
-    function finalizar_pedido() {
-        disable_button_salvar();
+    function finalizar_pedido(event) {
+        event.preventDefault();
+        if($("#form_forma_pagamento #forma_pagamento").val() == ""){
+            $("#form_forma_pagamento #forma_pagamento").focus();
+            mapear_erro($("#form_forma_pagamento #forma_pagamento"),"O campo Forma de pagamento é obrigatório.");
+            return;
+        }
+        if($("#form_forma_pagamento #qtd_parcelas").val() == ""){
+            $("#form_forma_pagamento #qtd_parcelas").focus();
+            mapear_erro($("#form_forma_pagamento #qtd_parcelas"),"O campo Quantidade de parcelas é obrigatório.");
+            return;
+        }
+        if($("#form_forma_pagamento #primeiro_vencimento").val() == ""){
+            $("#form_forma_pagamento #primeiro_vencimento").focus();
+            mapear_erro($("#form_forma_pagamento #primeiro_vencimento"),"O campo 1º Vencimento é obrigatório.");
+            return;
+        }
+        if( !date_before_today( $("#form_forma_pagamento #primeiro_vencimento").val() ) ) {
+            $("#form_forma_pagamento #primeiro_vencimento").focus();
+            mapear_erro($('#form_forma_pagamento #primeiro_vencimento'),'A data é anterior a data de hoje ' + get_data_hoje('dd/mm/yyyy'));
+            return;
+        }
+        if($("#form_forma_pagamento #qtd_parcelas").val() > 1){
+            if($("#form_forma_pagamento #vencimento_dia").val() == ""){
+                $("#form_forma_pagamento #vencimento_dia").focus();
+                mapear_erro($("#form_forma_pagamento #vencimento_dia"),"O campo Quantidade de parcelas é obrigatório.");
+                return;
+            }
+        }
         reset_errors();
+        disable_button_salvar();
         $.ajax({
             url: '<?= base_url('pedido/ajax_forma_pagamento') ?>',
             type: 'POST',
@@ -1857,33 +1890,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
     $("#form_produto").submit(function (event) {
         event.preventDefault();
-        disable_button_salvar();
-        reset_errors();
-
         if($("#form_produto #produto_categoria").val() == ""){
             $("#form_produto #produto_categoria").focus();
             mapear_erro($("#form_produto #produto_categoria"),"O campo Categoria é obrigatório.");
-            enable_button_salvar();
             return;
         }
         if($("#form_produto #produto").val() == ""){
             $("#form_produto #produto").focus();
             mapear_erro($("#form_produto #produto"),"O campo Produto é obrigatório.");
-            enable_button_salvar();
             return;
         }
         if($("#form_produto #quantidade_produto").val() == ""){
             $("#form_produto #quantidade_produto").focus();
             mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade é obrigatório.");
-            enable_button_salvar();
             return;
         }
         if($("#form_produto #quantidade_produto").val() <= 0){
             $("#form_produto #quantidade_produto").focus();
             mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade não pode ser zero ou menor que zero.");
-            enable_button_salvar();
             return;
         }
+        disable_button_salvar();
+        reset_errors();
         var form = form_ajax;
         var url = url_ajax;
         var modal = modal_ajax;
@@ -1919,6 +1947,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
     $("#form_desconto").submit(function (event) {
         event.preventDefault();
+        if($("#form_desconto #desconto").val() != ""){
+            if($("#form_desconto #desconto").val() < 0){
+                $("#form_desconto #desconto").focus();
+                mapear_erro($("#form_desconto #desconto"),"O Desconto não pode ser um valor negativo!");
+                return;
+            }
+            if($.isNumeric($("#form_desconto #desconto").val())){
+                $("#form_desconto #desconto").focus();
+                mapear_erro($("#form_desconto #desconto"),"O campo Desconto deve conter apenas números.");
+                return;
+            }
+        }
         disable_button_salvar();
         reset_errors();
         var form = form_ajax;
@@ -1954,27 +1994,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
     $("#form_orcamento_info").submit(function (event) {
         event.preventDefault();
-        if($("#loja").val() == ""){
-            $("#loja").focus();
+        if($('#form_orcamento_info #loja').val() == ""){
+            $('#form_orcamento_info #loja').focus();
             mapear_erro($('#form_orcamento_info #loja'),'O campo Loja é obrigatório.');
             return;
         }
-        if($("#evento").val() == ""){
-            $("#evento").focus();
+        if($('#form_orcamento_info #evento').val() == ""){
+            $('#form_orcamento_info #evento').focus();
             mapear_erro($('#form_orcamento_info #evento'),'O campo Evento é obrigatório.');
             return;
         }
-        if($("#data_evento").val() == ""){
+        if($('#form_orcamento_info #data_evento').val() == ""){
+            $('#form_orcamento_info #data_evento').focus()
             mapear_erro($('#form_orcamento_info #data_evento'),'O campo Data Evento é obrigatório.');
-            $("#data_evento").focus()
             return;
         }
-        if( !date_before_today( $("#data_evento").val() ) ) {
-            $("#data_evento").focus();
+        if( !date_before_today( $('#form_orcamento_info #data_evento').val() ) ) {
+            $('#form_orcamento_info #data_evento').focus();
             mapear_erro($('#form_orcamento_info #data_evento'),'A data é anterior a data de hoje ' + get_data_hoje('dd/mm/yyyy'));
             return;
         }
-        if($("#panel_cliente_id").val() == ""){
+        if($("#form_orcamento_info #panel_cliente_id").val() == ""){
             orcamento_cliente();
             return;
         }
@@ -2108,7 +2148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .done(function (data) {
             //Limpa o select antes de inserir os novos options
-            $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
+            $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected>Selecione</option>');
             $.each(data, function (i, item) {
                 $("#qtd_parcelas").append($('<option>', {
                     value: item.value,
