@@ -295,102 +295,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         });
         $("#form_cliente").submit(function (event) {
-            disable_button_salvar();
-            reset_errors();
-            if($("#pessoa_tipo").val() == ""){
+            event.preventDefault();
+            if($("#form_cliente #pessoa_tipo").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
-                $("#pessoa_tipo").focus();
-                $.alert({
-                    title:'Pessoa',
-                    content: 'O campo Pessoa não foi preenchido!'
-                });
-                enable_button_salvar();
-                event.preventDefault();
+                $("#form_cliente #pessoa_tipo").focus();
+                mapear_erro($("#form_cliente #pessoa_tipo"),"O campo Pessoa é obrigatório.");
                 return;
             }
-            if($("#pessoa_tipo").val() == "juridica"){
-                if($("#razao_social").val() == ""){
+            if($("#form_cliente #pessoa_tipo").val() == "juridica"){
+                if($("#form_cliente #razao_social").val() == ""){
                     $("#form_cliente a[href='#juridica']").tab('show');
-                    $("#razao_social").focus();
-                    $.alert({
-                        title:'Razão Social',
-                        content: 'O campo Razão Social não foi preenchido!'
-                    });
-                    enable_button_salvar();
-                    event.preventDefault();
+                    $("#form_cliente #razao_social").focus();
+                    mapear_erro($("#form_cliente #razao_social"),"O campo Razão Social é obrigatório.");
                     return;
                 }
             }
-            if($("#nome").val() == ""){
+            if($("#form_cliente #nome").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
-                $("#nome").focus();
-                $.alert({
-                    title:'Nome',
-                    content: 'Preencha o campo nome!'
-                });
-                enable_button_salvar();
-                event.preventDefault();
+                $("#form_cliente #nome").focus();
+                mapear_erro($("#form_cliente #nome"),"O campo Nome é obrigatório.");
                 return;
             }
-            if($("#sobrenome").val() == ""){
+            if($("#form_cliente #sobrenome").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
-                $("#sobrenome").focus();
-                $.alert({
-                    title:'Sobrenome',
-                    content: 'Preencha o campo sobrenome!'
-                });
-                enable_button_salvar();
-                event.preventDefault();
+                $("#form_cliente #sobrenome").focus();
+                mapear_erro($("#form_cliente #sobrenome"),"O campo Sobrenome é obrigatório.");
                 return;
             }
-            if($("#email").val() == ""){
+            if($("#form_cliente #email").val() == ""){
                 $("#form_cliente a[href='#fisica']").tab('show');
-                $("#email").focus();
-                $.alert({
-                    title:'Email',
-                    content: 'Preencha o campo email!'
-                });
-                enable_button_salvar();
-                event.preventDefault();
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email é obrigatório.");
                 return;
             }
-            if($("#telefone").val() == ""){
+            if(!validar_email( $("#form_cliente #email").val() )){
                 $("#form_cliente a[href='#fisica']").tab('show');
-                $("#telefone").focus();
-                $.alert({
-                    title:'Telefone',
-                    content: 'Preencha o campo telefone!'
-                });
-                enable_button_salvar();
-                event.preventDefault();
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email deve conter um endereço de e-mail válido.");
                 return;
             }
-            if($("#cpf").val() != ""){
+            if($("#form_cliente #telefone").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #telefone").focus();
+                mapear_erro($("#form_cliente #telefone"),"O campo Telefone é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #cpf").val() != ""){
                 if(!validar_cpf($("#cpf").val())){
                     $("#form_cliente a[href='#fisica']").tab('show');
-                    $("#cpf").focus();
-                    $.alert({
-                        title:'CPF',
-                        content: 'O CPF informado é inválido!'
-                    });
-                    enable_button_salvar();
-                    event.preventDefault();
+                    $("#form_cliente #cpf").focus();
+                    mapear_erro($("#form_cliente #cpf"),"O CPF informado é inválido!");
                     return;
                 }
             }
-            if($("#cnpj").val() != ""){
+            if($("#form_cliente #cnpj").val() != ""){
                 if(!validar_cnpj($("#cnpj").val())){
                     $("#form_cliente a[href='#juridica']").tab('show');
-                    $("#cnpj").focus();
-                    $.alert({
-                        title:'CNPJ',
-                        content: 'O CNPJ informado é inválido!'
-                    });
-                    enable_button_salvar();
-                    event.preventDefault();
+                    $("#form_cliente #cnpj").focus();
+                    mapear_erro($("#form_cliente #cnpj"),"O CNPJ informado é inválido!");
                     return;
                 }
             }
+            disable_button_salvar();
+            reset_errors();
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('cliente/ajax_add') ?>";
@@ -437,7 +404,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     reload_table();
                 }
             });
-            event.preventDefault();
         });
         $("#input_cep").blur(carregaCep);
         $("#form_cliente a[href='#endereco']").click(function(){

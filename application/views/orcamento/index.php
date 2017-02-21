@@ -259,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Modal: Produto -->
 <div class="modal fade" id="md_produto">
     <div class="modal-dialog">
-        <form class="form_ajax" id="form_produto" action="" method="post" accept-charset="utf-8" role="form">
+        <form id="form_produto" action="" method="post" accept-charset="utf-8" role="form">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -268,25 +268,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="modal-body row">
                     <div class="form-group col-sm-4">
                         <label for="produto_categoria" class="control-label">Categoria:</label>
-                        <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
+                        <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus required>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group col-sm-4">
                         <label for="produto" class="control-label">Produto:</label>
-                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" autofocus>
+                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" required>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group col-sm-4">
-                        <?= form_label('Quantidade: ', 'quantidade_produto', array('class' => 'control-label')) ?>
-                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" />
+                        <label for="quantidade_produto" class="control-label">Quantidade:</label>
+                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" required>
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group col-sm-12">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
+                        <label for="descricao" class="control-label">Descrição:</label>
                         <textarea id="descricao_produto" name="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                         <span class="help-block"></span>
                     </div>
@@ -407,9 +407,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-map-marker"></i> Loja*</h4>
                                 <div class="form-group">
-                                    <select name="loja" id="loja" class="form-control">
+                                    <label for="loja" class="control-label"><i class="glyphicon glyphicon-map-marker"></i> Loja:</label>
+                                    <select name="loja" id="loja" class="form-control" required>
                                         <option value="" selected >Selecione</option>
                                         <?php foreach ($dados['lojas'] as $loja): ?>
                                             <option value="<?= $loja->id ?>" <?php ($loja->id === $this->session->orcamento->loja->id) ? print 'selected' : '' ?>><?= $loja->unidade ?></option>
@@ -419,9 +419,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-edit"></i> Evento*</h4>
                                 <div class="form-group">
-                                    <select name="evento" id="evento" class="form-control">
+                                    <label for="evento" class="control-label"><i class="glyphicon glyphicon-edit"></i> Evento:</label>
+                                    <select name="evento" id="evento" class="form-control" required>
                                         <option value="" selected >Selecione</option>
                                         <?php foreach ($dados['eventos'] as $evento): ?>
                                             <option value="<?= $evento->id ?>" <?php ($evento->id === $this->session->orcamento->evento) ? print 'selected' : '' ?>><?= $evento->nome ?></option>
@@ -431,13 +431,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-calendar"></i> Data Evento*</h4>
                                 <?php
                                 empty($this->session->orcamento->data_evento) ? $data_evento = "" : $data_evento = date("d/m/Y", strtotime($this->session->orcamento->data_evento));
                                 ?>	
                                 <div class="form-group">
-                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>"/>
-
+                                    <label for="data_evento" class="control-label"><i class="glyphicon glyphicon-calendar"></i> Data Evento:</label>
+                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>" required>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -446,7 +445,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div id="orcamento_info">
                             <!-- Cliente -->
                             <div class="row">
-                                <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Cliente*</h4>
                                 <div class="col-sm-1">
                                     <button onclick="orcamento_cliente()" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
@@ -470,7 +468,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <hr>
                             <!-- Assessor -->
                             <div class="row">
-                                <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Assessor</h4>
                                 <div class="col-sm-1">
                                     <button onclick="orcamento_assessor('inserir', 'Assessores')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
@@ -768,22 +765,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_cliente tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons_crud();
             } else {
                 tabela_cliente.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons_crud();
             }
         });
         // Resaltar a linha selecionada
         $("#tabela_assessor tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_button();
+                disable_button_salvar();
             } else {
                 tabela_assessor.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_button();
+                enable_button_salvar();
             }
         });
         //Inserir o cliente no orçamento
@@ -800,9 +795,79 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 session_cliente_inserir(id);
             }
         });
-        $(".form_crud").submit(function (e) {
-            disable_button();
+        $("#form_cliente").submit(function (event) {
+            event.preventDefault();
+            disable_button_salvar();
             reset_errors();
+            if($("#form_cliente #pessoa_tipo").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #pessoa_tipo").focus();
+                mapear_erro($("#form_cliente #pessoa_tipo"),"O campo Pessoa é obrigatório.");
+                enable_button_salvar();
+                return;
+            }
+            if($("#form_cliente #pessoa_tipo").val() == "juridica"){
+                if($("#form_cliente #razao_social").val() == ""){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #razao_social").focus();
+                    mapear_erro($("#form_cliente #razao_social"),"O campo Razão Social é obrigatório.");
+                    enable_button_salvar();
+                    return;
+                }
+            }
+            if($("#form_cliente #nome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #nome").focus();
+                mapear_erro($("#form_cliente #nome"),"O campo Nome é obrigatório.");
+                enable_button_salvar();
+                return;
+            }
+            if($("#form_cliente #sobrenome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #sobrenome").focus();
+                mapear_erro($("#form_cliente #sobrenome"),"O campo Sobrenome é obrigatório.");
+                enable_button_salvar();
+                return;
+            }
+            if($("#form_cliente #email").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email é obrigatório.");
+                enable_button_salvar();
+                return;
+            }
+            if(!validar_email( $("#form_cliente #email").val() )){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email deve conter um endereço de e-mail válido.");
+                enable_button_salvar();
+                return;
+            }
+            if($("#form_cliente #telefone").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #telefone").focus();
+                mapear_erro($("#form_cliente #telefone"),"O campo Telefone é obrigatório.");
+                enable_button_salvar();
+                return;
+            }
+            if($("#form_cliente #cpf").val() != ""){
+                if(!validar_cpf($("#cpf").val())){
+                    $("#form_cliente a[href='#fisica']").tab('show');
+                    $("#form_cliente #cpf").focus();
+                    mapear_erro($("#form_cliente #cpf"),"O CPF informado é inválido!");
+                    enable_button_salvar();
+                    return;
+                }
+            }
+            if($("#form_cliente #cnpj").val() != ""){
+                if(!validar_cnpj($("#cnpj").val())){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #cnpj").focus();
+                    mapear_erro($("#form_cliente #cnpj"),"O CNPJ informado é inválido!");
+                    enable_button_salvar();
+                    return;
+                }
+            }
             var form = form_crud;
             var url = url_crud;
             var modal_form = md_form_crud;
@@ -815,24 +880,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .done(function (data) {
                 console.log("success");
-                enable_button();
+                enable_button_salvar();
                 if (data.status)
                 {
                     $(modal_form).modal('hide');
-                    if (owner === 'assessor') {
-                        session_assessor_inserir(data.id);
-                        reload_table_assessor()
-                    } else if (owner === 'cliente') {
-                        session_cliente_inserir(data.id);
-                        reload_table_cliente();
-                    }
+                    session_cliente_inserir(data.id);
+                    reload_table_cliente();
                 } else
                 {
                     close_loadingModal();
                     reset_errors_crud();
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                        $('[name="' + index + '"]').next().text(value);
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         var juridica = ["razao_social", "cnpj", "ie", "im"];
                         var fisica = ["nome", "sobrenome", "email", "telefone", "nome2", "sobrenome2", "email2", "telefone2", "rg", "cpf"];
                         var endereco = ['endereco', 'numero', 'complemento', 'estado', 'uf', 'bairro', 'cidade', 'cep', 'observacao'];
@@ -853,9 +913,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .always(function () {
                 console.log("complete");
-                enable_button();
+                enable_button_salvar();
             });
-            e.preventDefault();
+        });
+        $("#form_assessor").submit(function (event) {
+            event.preventDefault();
+            disable_button_salvar();
+            reset_errors();
+            var form = form_crud;
+            var url = url_crud;
+            var modal_form = md_form_crud;
+            var owner = owner_crud;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: $(form).serialize(),
+                dataType: "JSON",
+            })
+            .done(function (data) {
+                console.log("success");
+                enable_button_salvar();
+                if (data.status)
+                {
+                    $(modal_form).modal('hide');
+                    session_assessor_inserir(data.id);
+                    reload_table_assessor();
+                } else
+                {
+                    close_loadingModal();
+                    reset_errors_crud();
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("error");
+            })
+            .always(function () {
+                console.log("complete");
+                enable_button_salvar();
+            });
         });
     }
     function reset_form_crud() {
@@ -958,7 +1057,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 alert('Erro ao buscar os dados');
             },
             complete: function(){
-                enable_button();
+                enable_button_salvar();
             }
         });
     }
@@ -1216,12 +1315,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (acao === "inserir") {
             ajax_carregar_categoria();
             reset_form("#form_produto");
-            $(".filter-option").text("");
+            $('#produto').selectpicker('val', '');
             pre_submit("#form_produto", "<?= base_url('produto/session_produto_inserir') ?>", "#md_produto");
         } else if (acao === "editar") {
             pre_submit("#form_produto", 'produto/session_produto_editar/' + posicao, "#md_produto");
-            //$("#produto option[value=" + id + "]").prop('selected', true);
-            //$(".filter-option").text(nome);
             $('#produto').selectpicker('val', id);
             $("#quantidade_produto").val(quantidade);
             $("#descricao_produto").val(descricao);
@@ -1329,7 +1426,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("success");
             $.map(data.form_validation, function (value, index) {
                 $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                $('[name="' + index + '"]').next().text(value);
+                $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
             });
         })
         .fail(function () {
@@ -1374,7 +1471,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     }
     function finalizar_pedido() {
-        disable_button();
+        disable_button_salvar();
         reset_errors();
         $.ajax({
             url: '<?= base_url('pedido/ajax_forma_pagamento') ?>',
@@ -1393,7 +1490,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -1402,7 +1499,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .always(function () {
             console.log("complete: finalizar_pedido()");
-            enable_button();
+            enable_button_salvar();
         });
     }
     function is_set_delivery_date() {
@@ -1715,14 +1812,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     }
     function pre_submit(form, url, modal) {
-        console.log('pre_submit');
+        console.log('pre_submit(form, url, modal)');
         form_ajax = form;
         url_ajax = url;
         modal_ajax = modal;
     }
     //Adiciona ou Edita produto
-    $(".form_ajax").submit(function (e) {
-        disable_button();
+    $(".form_ajax").submit(function (event) {
+        event.preventDefault();
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1742,7 +1840,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1753,13 +1851,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
            apply_this_document_ready();
        });
-        e.preventDefault();
     });
-    $("#form_desconto").submit(function (e) {
-        disable_button();
+    $("#form_produto").submit(function (event) {
+        event.preventDefault();
+        disable_button_salvar();
+        reset_errors();
+
+        if($("#form_produto #produto_categoria").val() == ""){
+            $("#form_produto #produto_categoria").focus();
+            mapear_erro($("#form_produto #produto_categoria"),"O campo Categoria é obrigatório.");
+            enable_button_salvar();
+            return;
+        }
+        if($("#form_produto #produto").val() == ""){
+            $("#form_produto #produto").focus();
+            mapear_erro($("#form_produto #produto"),"O campo Produto é obrigatório.");
+            enable_button_salvar();
+            return;
+        }
+        if($("#form_produto #quantidade_produto").val() == ""){
+            $("#form_produto #quantidade_produto").focus();
+            mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade é obrigatório.");
+            enable_button_salvar();
+            return;
+        }
+        if($("#form_produto #quantidade_produto").val() <= 0){
+            $("#form_produto #quantidade_produto").focus();
+            mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade não pode ser zero ou menor que zero.");
+            enable_button_salvar();
+            return;
+        }
+        var form = form_ajax;
+        var url = url_ajax;
+        var modal = modal_ajax;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+        }).done(function (data) {
+            console.log('success');
+            if (data.status) {
+                if(modal != ''){
+                    $(modal).modal('hide');
+                }
+                reload_table();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('error');
+            $.alert({
+                title: 'Atenção!',
+                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+            });
+        })
+        .always(function () {
+           enable_button_salvar();
+           apply_this_document_ready();
+       });
+    });
+    $("#form_desconto").submit(function (event) {
+        event.preventDefault();
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1778,7 +1938,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1789,19 +1949,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
        });
-        e.preventDefault();
     });
-    $("#form_orcamento_info").submit(function (e) {
-        if($("#panel_cliente_id").val() == ""){
-            $.alert({
-                title: "Atenção!",
-                content: "Nenhum cliente foi definido para este orçamento. Adicione um cliente antes de continuar."
-            });
-            return false;
+    $("#form_orcamento_info").submit(function (event) {
+        event.preventDefault();
+        if($("#loja").val() == ""){
+            $("#loja").focus();
+            mapear_erro($('#form_orcamento_info #loja'),'O campo Loja é obrigatório.');
+            return;
         }
-        disable_button();
+        if($("#evento").val() == ""){
+            $("#evento").focus();
+            mapear_erro($('#form_orcamento_info #evento'),'O campo Evento é obrigatório.');
+            return;
+        }
+        if($("#data_evento").val() == ""){
+            mapear_erro($('#form_orcamento_info #data_evento'),'O campo Data Evento é obrigatório.');
+            $("#data_evento").focus()
+            return;
+        }
+        if( !date_before_today( $("#data_evento").val() ) ) {
+            $("#data_evento").focus();
+            mapear_erro($('#form_orcamento_info #data_evento'),'A data é anterior a data de hoje ' + get_data_hoje('dd/mm/yyyy'));
+            return;
+        }
+        if($("#panel_cliente_id").val() == ""){
+            orcamento_cliente();
+            return;
+        }
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1818,7 +1995,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1829,10 +2006,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
        });
-        e.preventDefault();
     });
+    function required_alert(value) {
+        $.alert({
+            title: "Atenção!",
+            content: "Nenhum(a) " + value + " foi definido(a) para este orçamento."
+        });
+    }
     function main_excluir(url) {
         $.confirm({
             title: 'Confirmação',
@@ -1914,23 +2096,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#evento").val("")
         $("#data_evento").val("")
     }
-    function reset_errors() {
-        console.log('reset_errors()');
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function disable_button() {
-        $('.btnSubmit').text('Salvando...');
-        $('.btnSubmit').attr('disabled', true);
-    }
-    function enable_button() {
-        $('.btnSubmit').text('Salvar');
-        $('.btnSubmit').attr('disabled', false);
-    }
     function reset_form(form) {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
+        reset_errors();
     }
     function ajax_get_parcelas_pedido() {
         $.ajax({
@@ -1960,13 +2128,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function reload_table_assessor() {
 
         tabela_assessor.ajax.reload(null, false);
-    }
-    function enable_buttons_crud() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons_crud() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
     }
 </script>

@@ -56,6 +56,7 @@ $(document).ready(function() {
 	}
 	remove_error_on_change_and_keyup();
 });
+
 $(document).on('click', '.panel-heading span.clickable', function(e){
 	var $this = $(this);
 	if(!$this.hasClass('panel-collapsed')) {
@@ -68,6 +69,12 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 	}
 });
+
+function mapear_erro(target,value) {
+    target.closest(".form-group").addClass('has-error');
+    target.closest(".form-group").find('.help-block').text(value);
+}
+
 function remove_error_on_change_and_keyup() {
 	$("form").on('keyup', 'input, textarea', function(event) { // Retira a classe de erro do formulário
 		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
@@ -75,12 +82,17 @@ function remove_error_on_change_and_keyup() {
 	$("form").on('change', 'select', function(event) { // Retira a classe de erro do formulário
 		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
 	});
+	$("form").on('dp.change', 'input', function(event) { // Retira a classe de erro do formulário da classe datetimepicker
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
 }
+
 function show_datails(id) {
 	$("#"+id).toggleClass("hidden");
 	$($("#"+id).prev().children()[0]).find('span').toggleClass("glyphicon glyphicon-plus-sign");
 	$($("#"+id).prev().children()[0]).find('span').toggleClass("glyphicon glyphicon-minus-sign")
 }
+
 function numberFormat(str) {
 	if(str == null)
 		return 0;
@@ -91,6 +103,7 @@ function numberFormat(str) {
 		return 0;
 	return Number(parseFloat(str).toFixed(2));
 }
+
 function getDateGroup(dateStr) {
 
 	var arr = dateStr.split("/");
@@ -122,6 +135,7 @@ function getDateGroup(dateStr) {
 		return dateStr;
 	}
 }
+
 //Identifica se o input/select do filtro está sendo aplicado
 function check_filter_dirty() {
 	$(".check_filter_dirty input").each(function(index, el) {
@@ -143,24 +157,29 @@ function check_filter_dirty() {
 		}
 	});
 }
+
 function is_datatable_exists(dt_table) {
 	if($.fn.DataTable.isDataTable( dt_table )){
 		return true;
 	}
 	return false;
 }
+
 function disable_button_salvar(){
 	$('.btnSubmit').text('Salvando...').addClass('spinner');
 	$('.btnSubmit').attr('disabled', true);
 }
+
 function enable_button_salvar() {
 	$('.btnSubmit').text('Salvar').removeClass('spinner');
 	$('.btnSubmit').attr('disabled', false);
 }
+
 function reset_errors() { // Retira os erros do formulário
     $('.form-group').removeClass('has-error');
     $('.help-block').empty();
 }
+
 function carregaCep(){
 	var cep = $("#input_cep").val();
 	if(cep.length != 9){
@@ -211,6 +230,7 @@ function form_small() {
 	    }
 	);
 }
+
 function validar_cpf(strCPF) {
     var Soma;
     var Resto;
@@ -234,6 +254,7 @@ function validar_cpf(strCPF) {
     if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
     return true;
 }
+
 function validar_cnpj(cnpj) {
     cnpj = cnpj.replace(/[^\d]+/g,'');
  
@@ -284,6 +305,70 @@ function validar_cnpj(cnpj) {
           return false;
            
     return true;
+}
+
+function validar_email(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+function get_data_hoje(formato) {
+
+	return formatar_data("",formato);
+}
+
+function formatar_data(strData,formato){ // formato:yyyy-mm-dd
+	if(strData == ""){
+		var data = new Date();
+	}else{
+		data = strData.replace(/\//g, "-");
+		array = data.split("-"); //yyyy-mm-dd
+		dia = array[2];
+		mes = array[1];
+		ano = array[0];
+		if(ano.length == 4){
+			data = mes + '-' + dia + '-' + ano;
+		}else if(dia.length == 4){
+			array = data.split("-");//dd-mm-yyyy
+			dia = array[0];
+			mes = array[1];
+			ano = array[2];
+			data = mes + '-' + dia + '-' + ano;
+		}
+    	data = new Date(data);
+	}
+    var dia = data.getDate();
+    if (dia.toString().length == 1)
+      dia = "0"+dia;
+    var mes = data.getMonth()+1;
+    if (mes.toString().length == 1)
+      mes = "0"+mes;
+    var ano = data.getFullYear();
+    switch(formato) {
+	    case 'dd-mm-yyyy':
+	        return dia+"-"+mes+"-"+ano;
+	        break;
+	    case 'dd/mm/yyyy':
+	        return dia+"/"+mes+"/"+ano;
+	        break;
+	    case 'mm-dd-yyyy':
+	        return mes+"-"+dia+"-"+ano;
+	        break;
+	    case 'yyyy-mm-dd':
+	        return ano+"-"+mes+"-"+dia;
+	        break;
+	    default:
+	        return data;
+	}
+}
+
+function date_before_today(date) {//[dd/mm/yyyy][dd-mm-yyyy][yyyy-mm-dd]
+	var today = new Date(get_data_hoje('mm-dd-yyyy'));
+	var dateCheck = new Date(formatar_data(date,'mm-dd-yyyy'));
+	if(today.getTime() > dateCheck.getTime()){
+		return false
+	}
+	return true;
 }
 
 /*
