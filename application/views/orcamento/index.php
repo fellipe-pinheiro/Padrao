@@ -709,6 +709,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(document).ready(function () {
         apply_this_document_ready();
     });
+
     function apply_this_document_ready() {
         $('.datetimepicker').datetimepicker({
             format:'L'
@@ -997,17 +998,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function reset_form_crud() {
         $('#form_cliente')[0].reset();
         $('.form-group').removeClass('has-error');
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty();
     }
+
     function reset_errors_crud() {
         $('.form-group').removeClass('has-error');
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty();
     }
+
     function pre_crud(owner, action, form, md_tb, md_form, url) {
         console.log('Função: pre_crud()');
         reset_errors_crud();
@@ -1047,6 +1051,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log('Nenhum owner foi definido!');
         }
     }
+
     function adicionar(form, md_tb_crud, md_form_crud) {
         console.log('Função: adicionar()');
         reset_form(form);
@@ -1057,6 +1062,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $(md_form_crud).modal('show');
     }
+
     function editar(id, md_tb_crud, md_form_crud) {
         console.log('Função: editar()');
         var form = form_crud;
@@ -1101,10 +1107,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function orcamento_info_modal() {
 
         $('#md_orcamento_info').modal();
     }
+
     function orcamento_assessor(acao) {
         if (!$.fn.DataTable.isDataTable('#tabela_assessor')) {
             tabela_assessor = $("#tabela_assessor").DataTable({
@@ -1174,6 +1182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     
         }
     }
+
     function orcamento_cliente() {
         if (!$.fn.DataTable.isDataTable('#tabela_cliente')) {
             tabela_cliente = $("#tabela_cliente").DataTable({
@@ -1237,12 +1246,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $("#md_clientes").modal();
     }
+
     function session_orcamento_info(modal_open = true) {
         pre_submit('#form_orcamento_info', '<?= base_url('orcamento/ajax_session_orcamento_info') ?>', '#md_orcamento_info');
         if (modal_open) {
             $('#md_orcamento_info').modal();
         }
     }
+
     function session_orcamento_descricao() {
         $.ajax({
             url: '<?=base_url('orcamento/ajax_session_orcamento_descricao')?>',
@@ -1257,6 +1268,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function session_cliente_inserir(id) {
         $.ajax({
             url: '<?= base_url("orcamento/ajax_session_cliente_inserir") ?>',
@@ -1281,6 +1293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
     }
+
     function session_assessor_inserir(id) {
         console.log('session_assessor_inserir()');
         $.ajax({
@@ -1303,6 +1316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function orcamento_desconto(acao, valor) {
         reset_errors();
         if (acao === 'inserir') {
@@ -1317,6 +1331,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             main_excluir("<?= base_url('orcamento/ajax_session_desconto/excluir') ?>");
         }
     }
+
     function orcamento_modal() {
         $.confirm({
             title: 'Confirmação!',
@@ -1344,13 +1359,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             },
             cancel: function () {
-                $.alert({
-                    title: 'Cancelado!',
-                    content: 'A operação foi cancelada.'
-                });
             }
         });
     }
+
     function produto_modal(acao, posicao = "", id = "", nome = "", quantidade = "", descricao = "", id_categoria = "") {
         if (acao === "inserir") {
             ajax_carregar_categoria();
@@ -1369,6 +1381,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $("#md_produto").modal();
     }
+
     function ajax_carregar_categoria(editar = false,id_categoria = null) {
         $('#produto_categoria')
         .find('option')
@@ -1401,11 +1414,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     $("#produto_categoria").change(function(event) {
         var option = $(this).find('option:selected');
         var id_categoria = option.val();
         ajax_carregar_produto(id_categoria);
     });
+
     function ajax_carregar_produto(id_categoria,editar = false, id_produto = null) {
         $('#produto')
         .find('option')
@@ -1436,15 +1451,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function produto_excluir_posicao(posicao) {
         main_excluir('produto/session_produto_excluir/' + posicao);
     }
+
     function convite_excluir_posicao(posicao) {
         main_excluir('convite/session_orcamento_convite_excluir/' + posicao);
     }
+
     function personalizado_excluir_posicao(posicao) {
         main_excluir('personalizado/session_orcamento_personalizado_excluir/' + posicao);
     }
+
     function delivery_date(owner, form) {
         if (owner === "convite") {
             set_date_delivery('<?= base_url('pedido/ajax_set_date_delivery/convite') ?>', form);
@@ -1454,6 +1473,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             set_date_delivery('<?= base_url('pedido/ajax_set_date_delivery/produto') ?>', form);
         }
     }
+
     function set_date_delivery(url, form) {
         reset_errors();
         $.ajax({
@@ -1476,40 +1496,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function criar_orcamento() {
         criarPedido = false;
-        call_loadingModal('Preparando para salvar...');
-        is_editing_container_itens();
-    }
-    function criar_pedido() {
-        criarPedido = true;
-        ajax_get_parcelas_pedido();
-        console.log('Função: criar_pedido()');
-        //$('.data_entrega').show();
-        $.ajax({
-            url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
-            type: 'POST',
-            dataType: 'json'
-        })
-        .done(function (data) {
-            console.log("success: criar_pedido()");
-            if (data.status) {
-                $('.data_entrega').show();
-                $.alert({
-                    title: "Data de entrega",
-                    content: "Defina as datas de entrega para cada produto"
-                });
-            } else {
-                $('#md_forma_pagamento').modal('show');
+        $.confirm({
+            title: 'Criar orçamento',
+            content: 'Deseja realmente criar um orçamento?',
+            confirm: function(){
+                call_loadingModal('Preparando para salvar...');
+                is_editing_container_itens();
+            },
+            cancel: function(){
             }
-        })
-        .fail(function () {
-            console.log("error: criar_pedido()");
-        })
-        .always(function () {
-            console.log("complete: criar_pedido()");
         });
     }
+
+    function criar_pedido() {
+        criarPedido = true;
+        $.confirm({
+            title: 'Criar pedido',
+            content: 'Deseja realmente criar um pedido?',
+            confirm: function(){
+                ajax_get_parcelas_pedido();
+                console.log('criar_pedido()');
+                //$('.data_entrega').show();
+                $.ajax({
+                    url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
+                    type: 'POST',
+                    dataType: 'json'
+                })
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        $('.data_entrega').show();
+                        $.alert({
+                            title: "Data de entrega",
+                            content: "Defina as datas de entrega para cada produto"
+                        });
+                    } else {
+                        $('#md_forma_pagamento').modal('show');
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+            },
+            cancel: function(){
+            }
+        });
+    }
+
     function finalizar_pedido(event) {
         event.preventDefault();
         if($("#form_forma_pagamento #forma_pagamento").val() == ""){
@@ -1570,6 +1606,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             enable_button_salvar();
         });
     }
+
     function is_set_delivery_date() {
         $.ajax({
             url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
@@ -1588,6 +1625,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function is_editing_container_itens() {
         $.ajax({
             url: '<?= base_url('orcamento/ajax_is_editing_container_itens') ?>',
@@ -1625,6 +1663,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function is_empty_orcamento_info(salvar = true) {
         if(salvar){
             $.ajax({
@@ -1650,6 +1689,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
     }
+
     function show_orcamento_info_error(data) {
         var itens = "";
         close_loadingModal();
@@ -1677,6 +1717,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function is_empty_orcamento_itens() {
         console.log("Função: is_empty_orcamento_itens");
         //console.log("Verificando condições para salvar...");
@@ -1706,6 +1747,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete:orcamento/is_empty_orcamento_itens");
         });
     }
+
     function is_empty_orcamento_cliente(save = true) {
         var is_criar_pedido = null;
         if (criarPedido) {
@@ -1756,6 +1798,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function is_empty_orcamento_assessor() {
         //Função desativada
         $.ajax({
@@ -1790,6 +1833,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function salvar() {
         if (criarPedido) {
             url = '<?= base_url('pedido/ajax_salvar') ?>';
@@ -1833,6 +1877,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function clean_session_orcamento(id) {
         //newWindow = window.open();
         //Limpa o formulário
@@ -1879,12 +1924,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function pre_submit(form, url, modal) {
         console.log('pre_submit(form, url, modal)');
         form_ajax = form;
         url_ajax = url;
         modal_ajax = modal;
     }
+
     //Adiciona ou Edita produto
     $(".form_ajax").submit(function (event) {
         event.preventDefault();
@@ -1923,6 +1970,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            apply_this_document_ready();
        });
     });
+
     $("#form_produto").submit(function (event) {
         event.preventDefault();
         if($("#form_produto #produto_categoria").val() == ""){
@@ -1980,6 +2028,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            apply_this_document_ready();
        });
     });
+
     $("#form_desconto").submit(function (event) {
         event.preventDefault();
         if($("#form_desconto #desconto").val() != ""){
@@ -2027,6 +2076,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            enable_button_salvar();
        });
     });
+
     $("#form_orcamento_info").submit(function (event) {
         event.preventDefault();
         if($('#form_orcamento_info #loja').val() == ""){
@@ -2084,12 +2134,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            enable_button_salvar();
        });
     });
+
     function required_alert(value) {
         $.alert({
             title: "Atenção!",
             content: "Nenhum(a) " + value + " foi definido(a) para este orçamento."
         });
     }
+
     function main_excluir(url) {
         $.confirm({
             title: 'Confirmação',
@@ -2121,6 +2173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function reload_table(orcamento_info = false) {
         $.ajax({
             url: '<?= base_url('orcamento') ?>',
@@ -2143,6 +2196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             apply_this_document_ready();
         });
     }
+
     function call_loadingModal(msg = "") {
         if (msg === "") {
             msg = "Processando os dados..."
@@ -2156,12 +2210,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             animation: 'threeBounce'
         });
     }
+
     function close_loadingModal() {
         // hide the loading modal
         $('body').loadingModal('hide');
         // destroy the plugin
         $('body').loadingModal('destroy');
     }
+
     function clear_all_forms() {
 
         $('form').each(function () {
@@ -2171,10 +2227,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#evento").val("")
         $("#data_evento").val("")
     }
+
     function reset_form(form) {
         $(form)[0].reset();
         reset_errors();
     }
+
     function ajax_get_parcelas_pedido() {
         $.ajax({
             url: '<?= base_url("pedido/ajax_get_parcelas_pedido") ?>',
@@ -2196,10 +2254,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("Erro ao buscar o valor do pedido");
         })
     }
+
     function reload_table_cliente() {
 
         tabela_cliente.ajax.reload(null, false);
     }
+
     function reload_table_assessor() {
 
         tabela_assessor.ajax.reload(null, false);
