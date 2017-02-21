@@ -918,6 +918,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#form_assessor").submit(function (event) {
             event.preventDefault();
+            if($("#form_assessor #nome").val() == ""){
+                $("#form_assessor #nome").focus();
+                mapear_erro($("#form_assessor #nome"),"O campo Nome é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #sobrenome").val() == ""){
+                $("#form_assessor #sobrenome").focus();
+                mapear_erro($("#form_assessor #sobrenome"),"O campo Sobrenome é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #email").val() == ""){
+                $("#form_assessor #email").focus();
+                mapear_erro($("#form_assessor #email"),"O campo Email é obrigatório.");
+                return;
+            }
+            if(!validar_email( $("#form_assessor #email").val() )){
+                $("#form_assessor #email").focus();
+                mapear_erro($("#form_assessor #email"),"O campo Email deve conter um endereço de e-mail válido.");
+                return;
+            }
+            if($("#form_assessor #telefone").val() == ""){
+                $("#form_assessor #telefone").focus();
+                mapear_erro($("#form_assessor #telefone"),"O campo Telefone é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #comissao").val() == ""){
+                $("#form_assessor #comissao").focus();
+                mapear_erro($("#form_assessor #comissao"),"O campo Comissão é obrigatório.");
+                return;
+            }
+            if(!$.isNumeric($("#form_assessor #comissao").val())){
+                $("#form_assessor #comissao").focus();
+                mapear_erro($("#form_assessor #comissao"),"O campo Comissão deve conter apenas números.");
+                return;
+            }
             disable_button_salvar();
             reset_errors();
             var form = form_crud;
@@ -1953,7 +1988,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 mapear_erro($("#form_desconto #desconto"),"O Desconto não pode ser um valor negativo!");
                 return;
             }
-            if($.isNumeric($("#form_desconto #desconto").val())){
+            if(!$.isNumeric($("#form_desconto #desconto").val())){
                 $("#form_desconto #desconto").focus();
                 mapear_erro($("#form_desconto #desconto"),"O campo Desconto deve conter apenas números.");
                 return;
