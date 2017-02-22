@@ -13,7 +13,6 @@ class Assessor extends CI_Controller {
     }
 
     public function index() {
-        restrito_logado();
         set_layout('conteudo', load_content('assessor/lista', ""));
         load_layout();
     }
@@ -50,16 +49,19 @@ class Assessor extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ($data["id"] = $this->Assessor_m->inserir($objeto)) {//Retornando o id para o crud da view do orçamento
+        $dados = $this->get_post();
+        if ($data["id"] = $this->Assessor_m->inserir($dados)) {//Retornando o id para o crud da view do orçamento
             $data['status'] = TRUE;
         }
         print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["status"] = TRUE;
-        $data["assessor"] = $this->Assessor_m->get_by_id($id);
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["assessor"] = $this->Assessor_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -67,8 +69,8 @@ class Assessor extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($data["id"] = $this->Assessor_m->editar($objeto)) {//Retornando o id para o crud da view do orçamento
+            $dados = $this->get_post();
+            if ($data["id"] = $this->Assessor_m->editar($dados)) {//Retornando o id para o crud da view do orçamento
                 $data["status"] = TRUE;
             }
         }
@@ -77,23 +79,26 @@ class Assessor extends CI_Controller {
 
     public function ajax_delete($id) {
         $data["status"] = FALSE;
-        if($this->Assessor_m->deletar($id)){
-            $data["status"] = TRUE;
+        if(!empty($id)){
+            if($this->Assessor_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
         }
         print json_encode($data);
     }
 
     private function get_post() {
-        $objeto = new Assessor_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->sobrenome = $this->input->post('sobrenome');
-        $objeto->telefone = $this->input->post('telefone');
-        $objeto->email = $this->input->post('email');
-        $objeto->empresa = $this->input->post('empresa');
-        $objeto->comissao = $this->input->post('comissao');
-        $objeto->descricao = $this->input->post('descricao');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'sobrenome' => $this->input->post('sobrenome'),
+            'email' => $this->input->post('email'),
+            'telefone' => $this->input->post('telefone'),
+            'empresa' => $this->input->post('empresa'),
+            'descricao' => $this->input->post('descricao'),
+            'comissao' => $this->input->post('comissao'),
+            );
+        return $dados;
     }
 
     private function validar_formulario() {
