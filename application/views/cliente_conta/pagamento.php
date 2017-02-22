@@ -290,7 +290,7 @@ $pedido_id = $dados['numero_pedido'];
 					foreach ($adicionais as $key => $adicional) {
 						?>
 						<script>
-							var a1 = $('<a href="#adicional-<?=$adicional->id?>" aria-controls="adicional-<?=$adicional->id?>" role="tab" data-toggle="tab" >').html("Adicional N°" + <?=$pedido_id?> +"/"+<?=$adicional->id?>);
+							var a1 = $('<a href="#adicional-<?=$adicional->id?>" aria-controls="adicional-<?=$adicional->id?>" role="tab" data-toggle="tab" >').html("<?=$adicional->get_numero_documento()?>");
 							var li1 = $('<li role="presentation" />').html(a1);
 							li1.appendTo("#tab-indice");
 						</script>
@@ -298,7 +298,7 @@ $pedido_id = $dados['numero_pedido'];
 							<!-- Saldo -->
 							<div class="col-md-12">
 								<div class="panel panel-default">
-									<div class="panel-heading">Saldo Adicional N° <?=$pedido_id?>/<?=$adicional->id?> 
+									<div class="panel-heading">Saldo <?=$adicional->get_numero_documento()?>
 										<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 									</div>
 									<div class="panel-body">

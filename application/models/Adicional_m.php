@@ -22,7 +22,7 @@ class Adicional_m extends CI_Model {
     var $cliente_creditos;
 
     public function inserir() {
-        if ($this->db->insert('adicional', $this->__get_dados())) {
+        if ($this->db->insert('adicional', $this->get_dados())) {
             $this->id = $this->db->insert_id();
             return true;
         }
@@ -106,7 +106,7 @@ class Adicional_m extends CI_Model {
         }
     }
 
-    private function __get_dados() {
+    private function get_dados() {
         $dados = array(
             'id' => $this->id,
             'pedido' => $this->pedido,
@@ -126,7 +126,7 @@ class Adicional_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('adicional');
         if ($result->num_rows() > 0) {
-            $result = $this->Adicional_m->__changeToObject($result->result_array(), null);
+            $result = $this->Adicional_m->changeToObject($result->result_array(), null);
             return $result[0];
         }
         return false;
@@ -136,10 +136,15 @@ class Adicional_m extends CI_Model {
         $this->db->where('pedido', $id);
         $result = $this->db->get('adicional');
         if ($result->num_rows() > 0) {
-            $result = $this->Adicional_m->__changeToObject($result->result_array(), $orcamento);
+            $result = $this->Adicional_m->changeToObject($result->result_array(), $orcamento);
             return $result;
         }
         return false;
+    }
+
+    public function get_numero_documento(){
+        
+        return 'Adicional N°' . $this->id . '/' . $this->pedido;
     }
 
     public function calcula_total_debitos() {
@@ -219,7 +224,7 @@ class Adicional_m extends CI_Model {
         return round($total, 2);
     }
 
-    private function __changeToObject($result_db, $orcamento) {
+    private function changeToObject($result_db, $orcamento) {
         $object_lista = array();
         if (!empty($orcamento)) {
             $convite = $orcamento->convite;

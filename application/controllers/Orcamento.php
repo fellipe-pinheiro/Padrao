@@ -65,7 +65,6 @@ class Orcamento extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Orçamento';
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         $data['eventos'] = $this->Evento_m->get_pesonalizado("id, nome");
         $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
@@ -76,8 +75,7 @@ class Orcamento extends CI_Controller {
     }
 
     public function lista() {
-        $data['titulo_painel'] = 'Lista de orçamentos';
-        set_layout('conteudo', load_content('orcamento/lista', $data));
+        set_layout('conteudo', load_content('orcamento/lista', ""));
         load_layout();
     }
 
@@ -85,9 +83,9 @@ class Orcamento extends CI_Controller {
         $id = $this->uri->segment(3);
         $data['orcamento'] = $this->Orcamento_m->get_by_id($id);
         list($date, $hour) = explode(" ", $data['orcamento']->data);
-        list($ano, $mes, $dia) = explode("-", $date);
-        $data['data'] = $dia . "/" . $mes . "/" . $ano . " " . $hour;
-        $data['documento_numero'] = "<h3 class='pull-right'><strong>Orçamento N° " . $data['orcamento']->id . "</strong></h3>";
+        $data['data'] = date_to_form($date) . " " . $hour;
+        $data['documento_numero'] = "<h3 class='pull-right'><strong>" . $data['orcamento']->get_numero_documento() . "</strong></h3>";
+        set_layout('titulo', $data['orcamento']->get_numero_documento(), TRUE);
         set_layout('conteudo', load_content('orcamento/pdf', $data));
         load_layout();
     }
@@ -318,28 +316,29 @@ class Orcamento extends CI_Controller {
     }
 
     public function ajax_session_desconto() {
+        $data['status'] = FALSE;
         $acao = $this->uri->segment(3);
         if ($acao === 'inserir') {
             $this->validar_formulario_desconto();
             $this->session->orcamento->desconto = $this->input->post('desconto');
-            print json_encode(array("status" => TRUE, 'msg' => 'Desconto inserido com sucesso!'));
+            $data['status'] = TRUE;
+            print json_encode($data);
         } else if ($acao === 'editar') {
             $this->validar_formulario_desconto();
             $this->session->orcamento->desconto = $this->input->post('desconto');
-            print json_encode(array("status" => TRUE, 'msg' => 'Desconto alterado com sucesso!'));
+            $data['status'] = TRUE;
+            print json_encode($data);
         } else if ($acao === 'excluir') {
             $this->session->orcamento->desconto = 0;
-            print json_encode(array("status" => TRUE, 'msg' => 'Desconto excluido com sucesso!'));
+            $data['status'] = TRUE;
+            print json_encode($data);
         }
     }
 
     private function validar_formulario_desconto() {
-        $data = array();
         $data['status'] = TRUE;
-
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('desconto', 'Desconto', 'trim|required|decimal_positive|no_leading_zeroes|numeric');
-
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;

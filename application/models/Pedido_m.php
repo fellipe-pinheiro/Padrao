@@ -264,6 +264,11 @@ class Pedido_m extends CI_Model {
         }
         return false;
     }
+
+    public function get_numero_documento(){
+        
+        return 'Pedido N° ' . $this->id ; 
+    }
     
     public function calcula_total_debitos(){
         $soma = 0;

@@ -111,8 +111,7 @@ class Pedido extends CI_Controller {
     }
 
     public function lista() {
-        $data['titulo_painel'] = 'Lista de pedidos';
-        set_layout('conteudo', load_content('pedido/lista', $data));
+        set_layout('conteudo', load_content('pedido/lista', ""));
         load_layout();
     }
 
@@ -120,9 +119,9 @@ class Pedido extends CI_Controller {
         $id = $this->uri->segment(3);
         $data['pedido'] = $this->Pedido_m->get_by_id($id);
         list($date, $hour) = explode(" ", $data['pedido']->data);
-        list($ano, $mes, $dia) = explode("-", $date);
-        $data['data'] = $dia . "/" . $mes . "/" . $ano . " " . $hour;
-        $data['documento_numero'] = "<h3 class='pull-right'><strong>Pedido Nº " . $data['pedido']->id . "</strong></h3>";
+        $data['data'] = date_to_form($date) . " " . $hour;
+        $data['documento_numero'] = "<h3 class='pull-right'><strong>" . $data['pedido']->get_numero_documento() . "</strong></h3>";
+        set_layout('titulo', $data['pedido']->get_numero_documento(), TRUE);
         set_layout('conteudo', load_content('pedido/pdf', $data));
         load_layout();
     }
@@ -132,8 +131,7 @@ class Pedido extends CI_Controller {
         $data['pedido'] = $this->Pedido_m->get_by_id($id);
 
         list($date, $hour) = explode(" ", $data['pedido']->data);
-        list($ano, $mes, $dia) = explode("-", $date);
-        $data['data'] = $dia . "/" . $mes . "/" . $ano;
+        $data['data'] = date_to_form($date);
         $data['documento_numero'] = "<strong>Pedido Nº " . $data['pedido']->id . "</strong>";
 
         $data['total_debitos'] = 0;

@@ -258,6 +258,11 @@ class Orcamento_m extends CI_Model {
         return false;
     }
 
+    public function get_numero_documento(){
+        
+        return "Orçamento N° " . $this->id;
+    }
+
     public function calcula_total_convites(){
         $total = 0;
         foreach ($this->convite as $key => $value) {

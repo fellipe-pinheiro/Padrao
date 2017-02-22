@@ -27,7 +27,7 @@ $loja =  $adicional->loja;
 			<p class="pull-right">
 				Data: <?=$dados['data']?><br>
 			</p>
-			<h3 class="pull-right"><strong>Adicional N° <?=$adicional->pedido?>/<?=$adicional->id?></strong></h3><br>
+			<h3 class="pull-right"><strong><?=$adicional->get_numero_documento()?></strong></h3><br>
 		</div>
 	</div>
 	<!-- Cliente -->
