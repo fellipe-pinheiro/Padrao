@@ -63,7 +63,7 @@ class Fita_material_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('fita_material');
-        return  $this->Fita_material_m->changeToObject($result->result_array());
+        return  $this->changeToObject($result->result_array());
     }
 
     public function inserir($dados) {

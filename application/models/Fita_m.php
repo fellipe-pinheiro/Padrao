@@ -97,7 +97,7 @@ class Fita_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('fita');
         if($result->num_rows() > 0){
-            return  $this->Fita_m->changeToObject($result->result_array());
+            return  $this->changeToObject($result->result_array());
         }
         return false;
     }

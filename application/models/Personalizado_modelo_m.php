@@ -79,7 +79,7 @@ class Personalizado_modelo_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('personalizado_modelo');
-        return  $this->Personalizado_modelo_m->changeToObject($result->result_array());
+        return  $this->changeToObject($result->result_array());
     }
 
     public function inserir($dados) {

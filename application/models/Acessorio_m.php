@@ -66,7 +66,7 @@ class Acessorio_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('acessorio');
         if($result->num_rows() > 0 ){
-            return  $this->Acessorio_m->changeToObject($result->result_array());
+            return  $this->changeToObject($result->result_array());
         }
         return false;
     }

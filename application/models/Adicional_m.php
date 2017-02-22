@@ -126,7 +126,7 @@ class Adicional_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('adicional');
         if ($result->num_rows() > 0) {
-            $result = $this->Adicional_m->changeToObject($result->result_array(), null);
+            $result = $this->changeToObject($result->result_array(), null);
             return $result[0];
         }
         return false;
@@ -136,7 +136,7 @@ class Adicional_m extends CI_Model {
         $this->db->where('pedido', $id);
         $result = $this->db->get('adicional');
         if ($result->num_rows() > 0) {
-            $result = $this->Adicional_m->changeToObject($result->result_array(), $orcamento);
+            $result = $this->changeToObject($result->result_array(), $orcamento);
             return $result;
         }
         return false;

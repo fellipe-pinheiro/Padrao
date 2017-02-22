@@ -69,13 +69,13 @@ class Fita_espessura_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('fita_espessura');
-        $result =  $this->Fita_espessura_m->changeToObject($result->result_array());
+        $result =  $this->changeToObject($result->result_array());
         return $result[0];
     }
 
     public function get_list() {
         $result = $this->db->get('fita_espessura');
-        return $this->Fita_espessura_m->changeToObject($result->result_array());
+        return $this->changeToObject($result->result_array());
     }
 
     public function inserir($dados) {

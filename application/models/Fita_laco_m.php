@@ -63,7 +63,7 @@ class Fita_laco_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('fita_laco');
-        return  $this->Fita_laco_m->changeToObject($result->result_array());
+        return  $this->changeToObject($result->result_array());
     }
 
     public function inserir($dados) {
