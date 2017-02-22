@@ -447,7 +447,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Cliente -->
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <button onclick="orcamento_cliente()" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 25px">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="javascript:void(0)" onclick="orcamento_cliente()"><i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="" class="control-label">Cliente:</label>
@@ -457,11 +465,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label for="" class="control-label">E-mail:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_cliente_email" value="<?=$this->session->orcamento->cliente->email?>" readonly>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <label for="" class="control-label">Telefone:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_cliente_telefone" value="<?=$this->session->orcamento->cliente->telefone?>" readonly>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                     <label for="" class="control-label">CPF:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_cliente_cpf" value="<?=$this->session->orcamento->cliente->cpf?>" readonly>
                                 </div>
@@ -470,18 +478,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Assessor -->
                             <div class="row">
                                 <div class="col-sm-1">
-                                    <button onclick="orcamento_assessor('inserir', 'Assessores')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="col-sm-1">
-                                    <button onclick="orcamento_assessor('excluir', '')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="glyphicon glyphicon-trash"></i></button>
-                                </div>
-                                <div class="col-sm-2">
-                                    <label for="" class="control-label">Assessor(a):</label>
-                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_nome" value="<?=$this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome?>" readonly>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 25px">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="javascript:void(0)" onclick="orcamento_assessor('inserir', 'Assessores')"><i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="javascript:void(0)" onclick="orcamento_assessor('excluir', '')"><i class="glyphicon glyphicon-trash"></i> Excluir</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="" class="control-label">Empresa:</label>
-                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_empresa" value="<?=$this->session->orcamento->assessor->empresa?>" readonly>
+                                    <label for="" class="control-label">Assessor(a):</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_nome" value="<?=$this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome?>" readonly>
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="" class="control-label">E-mail:</label>
@@ -490,6 +501,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-2">
                                     <label for="" class="control-label">Telefone:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_assessor_telefone" value="<?=$this->session->orcamento->assessor->telefone?>" readonly>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="" class="control-label">Empresa:</label>
+                                    <input type="text" name="" id="" class="form-control input-sm panel_assessor_empresa" value="<?=$this->session->orcamento->assessor->empresa?>" readonly>
                                 </div>
                             </div>
                         </div>
