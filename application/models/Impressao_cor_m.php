@@ -64,8 +64,10 @@ class Impressao_cor_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('impressao_cor');
-        $result =  $this->changeToObject($result->result_array());
-        return $result[0];
+        if($result->num_rows() > 0){
+            return  $this->changeToObject($result->result_array());
+        }
+        return null;
     }
 
     public function inserir($dados) {

@@ -62,7 +62,10 @@ class Fonte_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('fonte');
-        return  $this->changeToObject($result->result_array());
+        if($result->num_rows() > 0){
+            return  $this->changeToObject($result->result_array());
+        }
+        return null;
     }
 
     public function inserir($dados) {

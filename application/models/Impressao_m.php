@@ -76,7 +76,7 @@ class Impressao_m extends CI_Model {
         if($result->num_rows() > 0){
             return  $this->changeToObject($result->result_array());
         }
-        return false;
+        return null;
     }
 
     public function inserir($dados) {

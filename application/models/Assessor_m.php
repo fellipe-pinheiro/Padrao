@@ -103,8 +103,7 @@ class Assessor_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get();
         if($result->num_rows() > 0){
-            $result =  $this->changeToObject($result->result_array());
-            return $result[0];
+            return  $this->changeToObject($result->result_array());
         }
         return new Assessor_m();
     }
