@@ -13,8 +13,7 @@ class Impressao_cor extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Impressao cor';
-        set_layout('conteudo', load_content('impressao_cor/lista', $data));
+        set_layout('conteudo', load_content('impressao_cor/lista', ""));
         load_layout();
     }
 

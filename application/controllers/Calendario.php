@@ -187,7 +187,6 @@ class Calendario extends CI_Controller {
             $this->db->trans_commit();
         }
         print json_encode($data);
-        exit();
     }
 
     public function ajax_get_papel_lista(){

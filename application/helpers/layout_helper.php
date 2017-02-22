@@ -20,7 +20,16 @@ function init_layout() {
     set_layout('conteudo', "Não foi carregado nenhum conteudo na variavel Sistema->layout['conteudo']");
 
     //CSS
-    set_layout('header', load_css(array('bootstrap.min', 'ie10-viewport-bug-workaround', 'navbar','jquery-confirm','jquery.loadingModal.min','main','bootstrap-year-calendar.min','bootstrap-datetimepicker.min','font-awesome.min')), FALSE);
+    set_layout('header', load_css(array('bootstrap.min')), FALSE);
+    set_layout('header', load_css(array('ie10-viewport-bug-workaround')), FALSE);
+    set_layout('header', load_css(array('navbar')), FALSE);
+    set_layout('header', load_css(array('jquery.loadingModal.min')), FALSE);
+    set_layout('header', load_css(array('main')), FALSE);
+    set_layout('header', load_css(array('bootstrap-year-calendar.min')), FALSE);
+    set_layout('header', load_css(array('bootstrap-datetimepicker.min')), FALSE);
+    set_layout('header', load_css(array('font-awesome.min')), FALSE);
+    set_layout('header', load_css(array('jquery-confirm')), FALSE); //v2.5.1 
+    //set_layout('header', load_css(array('jquery-confirm.min')), FALSE); //v3.0.1 obs: não descomentar
     set_layout('header', load_css(array('bootstrap-select'), 'assets/js/bootstrap-select/css'), FALSE);
 
 //    set_layout('header', load_css(array('bootstrap.min'), 'assets/paper'), FALSE);
@@ -32,7 +41,8 @@ function init_layout() {
     set_layout('header', load_js(array('bootstrap-datepicker.pt-BR.min'), 'assets/js/bootstrap-datepicker/locales'), FALSE);
     set_layout('header', load_js(array('bootstrap-checkbox.min'), 'assets/js/bootstrap-checkbox/js'), FALSE);
     set_layout('header', load_js(array('angular.min'), 'assets/js/angular'), FALSE);
-    set_layout('header', load_js(array('jquery-confirm'), 'assets/js'), FALSE);
+    set_layout('header', load_js(array('jquery-confirm'), 'assets/js'), FALSE); //v2.5.1
+    //set_layout('header', load_js(array('jquery-confirm.min'), 'assets/js'), FALSE); //v3.0.1 obs: não descomentar
     set_layout('header', load_js(array('jquery.loadingModal.min'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('jquery.mask'), 'assets/js'), FALSE);
     set_layout('header', load_js(array('bootstrap-year-calendar.min'), 'assets/js'), FALSE);

@@ -14,8 +14,7 @@ class Assessor extends CI_Controller {
 
     public function index() {
         restrito_logado();
-        $data['titulo_painel'] = 'Assessores';
-        set_layout('conteudo', load_content('assessor/lista', $data));
+        set_layout('conteudo', load_content('assessor/lista', ""));
         load_layout();
     }
 
@@ -98,14 +97,13 @@ class Assessor extends CI_Controller {
     }
 
     private function validar_formulario() {
-        $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('sobrenome', 'Sobrenome', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('sobrenome', 'Sobrenome', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('empresa', 'Empresa', 'trim|max_length[50]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|max_length[100]');
+        $this->form_validation->set_rules('empresa', 'Empresa', 'trim|max_length[100]');
         $this->form_validation->set_rules('comissao', 'Comissão', 'required|trim|is_natural');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 

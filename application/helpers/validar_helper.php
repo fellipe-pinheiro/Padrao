@@ -6,6 +6,13 @@ function decimal_positive($value){
 	return true;
 }
 
+function decimal_positive_no_zero($value){
+    if($value <= 0){
+        return false;
+    }
+    return true;
+}
+
 function validar_cpf($strCPF) {	
 	if(!empty($strCPF)){
 		$strCPF = preg_replace('/[^0-9]/', '', (string) $strCPF);

@@ -13,8 +13,7 @@ class Personalizado_categoria extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Categoria de personalizado';
-        set_layout('conteudo', load_content('personalizado_categoria/lista', $data));
+        set_layout('conteudo', load_content('personalizado_categoria/lista', ""));
         load_layout();
     }
 

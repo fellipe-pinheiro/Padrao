@@ -61,7 +61,7 @@ class Convite_modelo extends CI_Controller {
 
     public function ajax_edit($id) {
         $data["status"] = FALSE;
-        if($id){
+        if(!empty($id)){
             $data["convite_modelo"] = $this->Convite_modelo_m->get_by_id($id);
             $data["status"] = TRUE;
         }
@@ -69,6 +69,7 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function ajax_update() {
+        $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
             $objeto = $this->get_post();
@@ -80,8 +81,13 @@ class Convite_modelo extends CI_Controller {
     }
 
     public function ajax_delete($id) {
-        $this->Convite_modelo_m->deletar($id);
-        print json_encode(array("status" => TRUE, "msg" => "Registro excluido com sucesso"));
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            if($this->Convite_modelo_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
+        }
+        print json_encode($data);
     }
 
     private function get_post() {
@@ -119,9 +125,9 @@ class Convite_modelo extends CI_Controller {
         }else{
             $is_unique =  '|is_unique[convite_modelo.codigo]';
         }
-        $this->form_validation->set_message('is_unique','Já exixte um campo com este nome. Dados duplicados não são permitidos.');
+        $this->form_validation->set_message('is_unique','Este valor já está cadastrado no banco.');
         $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
-        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
+        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|min_length[3]|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('altura_final', 'Altura final', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_rules('largura_final', 'Largura final', 'trim|required|max_length[5]|is_natural');

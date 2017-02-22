@@ -26,11 +26,12 @@ class Container_papel_acabamento_m extends CI_Model {
 		}else{
 			return false;
 		}
-		if ($this->db->insert($prefix_table.$suffix, $this->__get_data_to_insert($id,$coluna_fk))) {
+		if ($this->db->insert($prefix_table.$suffix, $this->get_data_to_insert($id,$coluna_fk))) {
 			return true;
 		}
 		return false;
 	}
+
 	public function get_by_id($id,$owner,$suffix){
 		if($owner == 'cartao'){
 			$prefix_table = 'cartao_papel_';
@@ -48,12 +49,13 @@ class Container_papel_acabamento_m extends CI_Model {
 		$this->db->limit(1);
 		$result = $this->db->get($prefix_table.$suffix);
 		if($result->num_rows() > 0){
-			return $this->__changeToObject($result->result_array());
+			return $this->changeToObject($result->result_array());
 		}else{
-			return $this->__changeToObject(null);
+			return $this->changeToObject(null);
 		}
 	}
-	public function __get_data_to_insert($id,$coluna_fk){
+
+	private function get_data_to_insert($id,$coluna_fk){
 		$dados = array(
 			'id'=>null,
 			'papel_acabamento'=>$this->papel_acabamento->id,
@@ -67,7 +69,8 @@ class Container_papel_acabamento_m extends CI_Model {
 			);
 		return $dados;
 	}
-	private function __changeToObject($result_db = '') {
+
+	private function changeToObject($result_db) {
 		if(empty($result_db)){
 			$object = new Container_papel_acabamento_m();
 			$object->id = null;

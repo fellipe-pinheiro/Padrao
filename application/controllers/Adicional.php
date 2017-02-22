@@ -64,8 +64,8 @@ class Adicional extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$data['adicional'] = $this->Adicional_m->get_by_id($id);
 		list($date, $hour) = explode(" ", $data['adicional']->data);
-		list($ano, $mes, $dia) = explode("-", $date);
-		$data['data'] = $dia."/".$mes."/".$ano." ".$hour;
+		$data['data'] = date_to_form($date) . " " . $hour;
+		set_layout('titulo', 'Adicional N°' . $data['adicional']->id . '-' . $data['adicional']->pedido,TRUE);
 		set_layout('conteudo', load_content('adicional/pdf',$data));
 		load_layout();
 	}

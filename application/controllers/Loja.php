@@ -13,7 +13,6 @@ class Loja extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Lojas';
         $data['estados'] = get_array_estados();
         $data['estados_json'] = json_encode(get_array_estados());
         set_layout('conteudo', load_content('loja/lista', $data));
@@ -141,15 +140,15 @@ class Loja extends CI_Controller {
         $this->form_validation->set_rules('unidade', 'Unidade', 'trim|required|max_length[50]'.$is_unique);
         $this->form_validation->set_rules('razao_social', 'Razao Social', 'trim|required|max_length[150]');
         $this->form_validation->set_message('validar_cnpj','O CNPJ informado é inválido');
-        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|required|max_length[18]|validar_cnpj');
+        $this->form_validation->set_rules('cnpj', 'CNPJ', 'trim|max_length[18]|validar_cnpj');
         $this->form_validation->set_rules('ie', 'I.E', 'trim|max_length[30]');
         $this->form_validation->set_rules('im', 'I.M', 'trim|max_length[30]');
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[15]');
         $this->form_validation->set_rules('telefone2', 'Telefone2', 'trim|max_length[15]');
         $this->form_validation->set_rules('telefone3', 'Telefone3', 'trim|max_length[15]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[100]|valid_email');
-        $this->form_validation->set_rules('endereco', 'Endereço', 'trim|max_length[50]');
-        $this->form_validation->set_rules('numero', 'Número', 'trim');
+        $this->form_validation->set_rules('endereco', 'Endereço', 'trim|max_length[100]');
+        $this->form_validation->set_rules('numero', 'Número', 'trim|max_length[10]');
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim|max_length[100]');
         $this->form_validation->set_rules('estado', 'Estado', 'trim|max_length[50]');
         $this->form_validation->set_rules('uf', 'UF', 'trim|max_length[2]');

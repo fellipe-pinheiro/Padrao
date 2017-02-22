@@ -13,8 +13,7 @@ class Forma_pagamento extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Forma pagamento';
-        set_layout('conteudo', load_content('forma_pagamento/lista', $data));
+        set_layout('conteudo', load_content('forma_pagamento/lista', ""));
         load_layout();
     }
 

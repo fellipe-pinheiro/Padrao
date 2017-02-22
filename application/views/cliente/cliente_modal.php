@@ -1,5 +1,5 @@
 <div class="modal fade" id="md_form_cliente">
-    <?= form_open("#", 'class="form-horizontal form_crud" id="form_cliente" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal form_crud" id="form_cliente">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -26,109 +26,114 @@
                         <div class="tab-content container-fluid">
                             <div role="tabpanel" class="tab-pane active" id="fisica">
                                 <br>
-                                <br>
-                                <!--ID-->
-                                <?= form_hidden('id') ?>
                                 <div class="row">
-                                    <!--Pessoa tipo-->
+                                    <!--ID-->
+                                    <input type="hidden" name="id" class="form-control">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <!--pessoa_tipo-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="pessoa_tipo" class="control-label">Pessoa:</label>
+                                                    <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control" autofocus="true" required="required">
+                                                        <option value="" selected>Selecione</option>
+                                                        <option value="fisica">Física</option>
+                                                        <option value="juridica">Jurídica</option>
+                                                    </select>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!--nome-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="nome" class="control-label">Nome:</label>
+                                                    <input type="text" name="nome" id="nome" class="form-control" value="" placeholder="Nome do responsável" required="required" pattern=".{1,30}" title="Máximo de 30 caracteres">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!--sobrenome-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="sobrenome" class="control-label">Sobrenome:</label>
+                                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" placeholder="Sobrenome do responsável" required="required" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!--email-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="email" class="control-label">Email:</label>
+                                                    <input type="email" name="email" id="email" class="form-control" value="" placeholder="Email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <!--telefone-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="telefone" class="control-label">Telefone:</label>
+                                                    <input type="text" name="telefone" id="telefone" class="form-control sp_celphones" value="" title="Telefone" placeholder="Telefone" required="required">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!--rg-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="rg" class="control-label">RG:</label>
+                                                    <input type="text" name="rg" id="rg" class="form-control" value="" placeholder="RG" pattern=".{1,15}" title="Máximo de 15 caracteres">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!--cpf-->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                    <label for="cpf" class="control-label">CPF:</label>
+                                                    <input type="text" name="cpf" id="cpf" class="form-control cpf" value="" placeholder="CPF" pattern=".{1,14}" title="Máximo de 14 caracteres">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            <!---->
+                                            <div class="col-sm-3">
+                                                <div class="form-group input-padding">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <legend>Opcional</legend>
+                                <div class="row">
+                                    <!--nome2-->
                                     <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('*Pessoa: ', 'pessoa_tipo', array('class' => 'control-label')) ?>
-                                            <select id="pessoa_tipo" name="pessoa_tipo"  class="form-control input-sm" autofocus="true">
-                                                <option value="" selected>Selecione</option>
-                                                <option value="fisica">Física</option>
-                                                <option value="juridica">Jurídica</option>
-                                            </select>
+                                        <div class="form-group input-padding">
+                                            <label for="nome2" class="control-label">Nome2:</label>
+                                            <input type="text" name="nome2" id="nome2" class="form-control" value="" placeholder="Segundo contato" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <!--Nome-->
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <?= form_label('*Nome: ', 'nome', array('class' => 'control-label')) ?>
-                                            <?= form_input('nome', '', 'id="nome" class="form-control input-sm" placeholder="Nome do responsável"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                    <!--Sobrenome-->
-                                    <div class="col_margin_left col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('Sobrenome: ', 'sobrenome', array('class' => 'control-label ')) ?>
-                                            <?= form_input('sobrenome', '', 'id="sobrenome" class="form-control input-sm" placeholder="Sobrenome"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>    
-                                    <!--Email-->
-                                    <div class="col_margin_left col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('*Email: ', 'email', array('class' => 'control-label ')) ?>
-                                            <?= form_input('email', '', 'id="email" class="form-control input-sm" placeholder="Email"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!--Telefone-->
+                                    <!--sobrenome2-->
                                     <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('*Telefone: ', 'telefone', array('class' => 'control-label ')) ?>
-                                            <?= form_input('telefone', '', 'id="telefone1" class="form-control sp_celphones input-sm" placeholder="Telefone"') ?>
+                                        <div class="form-group input-padding">
+                                            <label for="sobrenome2" class="control-label">sobrenome2:</label>
+                                            <input type="text" name="sobrenome2" id="sobrenome2" class="form-control" value="" placeholder="Sobrenome" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                    <!--RG-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('RG: ', 'rg', array('class' => 'control-label ')) ?>
-                                            <?= form_input('rg', '', 'id="rg" class="form-control input-sm" placeholder="RG"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                    <!--CPF-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('CPF: ', 'cpf', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cpf', '', 'id="cpf" class="form-control cpf input-sm" placeholder="CPF"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <h4>Opcional</h4>
-                                <div class="row">
-                                    <!--Nome2-->
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <?= form_label('Nome2: ', 'nome2', array('class' => 'control-label')) ?>
-                                            <?= form_input('nome2', '', 'id="nome2" class="form-control input-sm" placeholder="Nome2"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                    <!--Sobrenome2-->
-                                    <div class="col_margin_left col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('Sobrenome2: ', 'sobrenome2', array('class' => 'control-label')) ?>
-                                            <?= form_input('sobrenome2', '', 'id="sobrenome2" class="form-control input-sm" placeholder="Sobrenome2"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                    <!--Email2-->
-                                    <div class="col_margin_left col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('E-mail 2: ', 'email2', array('class' => 'control-label')) ?>
-                                            <?= form_input('email2', '', 'id="email2" class="form-control input-sm" placeholder="Email2"') ?>
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!--Telefone 2-->
+                                    <!--email2-->
                                     <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('Telefone 2: ', 'telefone2', array('class' => 'control-label')) ?>
-                                            <?= form_input('telefone2', '', 'id="telefone2" class="form-control sp_celphones input-sm" placeholder="Telefone2"') ?>
+                                        <div class="form-group input-padding">
+                                            <label for="email2" class="control-label">Email2:</label>
+                                            <input type="email" name="email2" id="email2" class="form-control" value="" placeholder="Email do contato" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <!--telefone2-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="telefone2" class="control-label">Telefone 2:</label>
+                                            <input type="text" name="telefone2" id="telefone2" class="form-control sp_celphones" value="" placeholder="Telefone 2">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -136,39 +141,36 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="juridica">
                                 <br>
-                                <br>
                                 <div class="row">
-                                    <!-- Razão Social -->
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <?= form_label('Razão Social*: ', 'razao_social', array('class' => 'control-label ')) ?>
-                                            <?= form_input('razao_social', '', 'id="razao_social" class="form-control input-sm" placeholder="Razão Social"') ?>
-                                            <span class="help-block"></span>
-                                        </div>  
-                                    </div>
-                                    <!-- CNPJ -->
-                                    <div class="col_margin_left col-sm-5">
-                                        <div class="form-group">
-                                            <?= form_label('CNPJ: ', 'cnpj', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cnpj', '', 'id="cnpj" class="form-control input-sm cnpj" placeholder="CNPJ"') ?>
+                                    <!--razao_social-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="razao_social" class="control-label">Razão Social:</label>
+                                            <input type="text" name="razao_social" id="razao_social" class="form-control" value="" placeholder="Razão Social" pattern=".{1,150}" title="Máximo de 150 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <!-- Inscrição Estadual -->
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('Inscrição Estadual: ', 'ie', array('class' => 'control-label ')) ?>
-                                            <?= form_input('ie', '', 'id="ie" class="form-control input-sm" placeholder="Inscrição Estadual"') ?>
+                                    <!--cnpj-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="cnpj" class="control-label">CNPJ:</label>
+                                            <input type="text" name="cnpj" id="cnpj" class="form-control cnpj" value="" placeholder="CNPJ" pattern=".{1,18}" title="Máximo de 18 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                    <!-- Inscrição Municipal -->
-                                    <div class="col_margin_left col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('Inscrição Municipal: ', 'im', array('class' => 'control-label ')) ?>
-                                            <?= form_input('im', '', 'id="im" class="form-control input-sm" placeholder="Inscrição Municipal"') ?>
+                                    <!--ie-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="ie" class="control-label">Inscrição Estadual:</label>
+                                            <input type="text" name="ie" id="ie" class="form-control ie" value="" placeholder="Inscrição Estadual" pattern=".{1,30}" title="Máximo de 30 caracteres">
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <!--im-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="im" class="control-label">Inscrição Municipal:</label>
+                                            <input type="text" name="im" id="im" class="form-control im" value="" placeholder="Inscrição Municipal" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -176,55 +178,56 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="endereco">
                                 <br>
-                                <br>
                                 <div class="row">
-                                    <!--Endereco-->
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label for="endereco" class="control-label">Endereço</label>
-                                            <input type="text" name="endereco" id="input_endereco" class="form-control input-sm" title="endereco" placeholder="Endereço">
-                                            <span class="help-block"></span>
+                                    <div class="col-ssm-12">
+                                        <!--endereco-->
+                                        <div class="col-sm-3">
+                                            <div class="form-group input-padding">
+                                                <label for="endereco" class="control-label">Logradouro:</label>
+                                                <input type="text" name="endereco" id="input_endereco" class="form-control" value="" placeholder="Logradouro" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                                <span class="help-block"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!--Número-->
-                                    <div class="col_margin_left col-sm-1">
-                                        <div class="form-group">
-                                            <?= form_label('Número: ', 'numero', array('class' => 'control-label ')) ?>
-                                            <?= form_input('numero', '', 'id="numero" class="form-control input-sm" placeholder="Número"') ?>
-                                            <span class="help-block"></span>
+                                        <!--numero-->
+                                        <div class="col-sm-3">
+                                            <div class="form-group input-padding">
+                                                <label for="numero" class="control-label">Número:</label>
+                                                <input type="text" name="numero" id="numero" class="form-control" value="" placeholder="Número" pattern=".{1,10}" title="Máximo de 10 caracteres">
+                                                <span class="help-block"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!--Complemento-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('Complemento: ', 'complemento', array('class' => 'control-label ')) ?>
-                                            <?= form_input('complemento', '', 'id="complemento" class="form-control input-sm" placeholder="Complemento"') ?>
-                                            <span class="help-block"></span>
+                                        <!--complemento-->
+                                        <div class="col-sm-3">
+                                            <div class="form-group input-padding">
+                                                <label for="complemento" class="control-label">Complemento:</label>
+                                                <input type="text" name="complemento" id="complemento" class="form-control" value="" placeholder="Complemento" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                                <span class="help-block"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!--Bairro-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('Bairro: ', 'bairro', array('class' => 'control-label ')) ?>
-                                            <?= form_input('bairro', '', 'id="input_bairro" class="form-control input-sm" placeholder="Bairro"') ?>
-                                            <span class="help-block"></span>
+                                        <!--bairro-->
+                                        <div class="col-sm-3">
+                                            <div class="form-group input-padding">
+                                                <label for="bairro" class="control-label">Bairro:</label>
+                                                <input type="text" name="bairro" id="input_bairro" class="form-control" value="" placeholder="Bairro" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                                <span class="help-block"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <!--Cidade-->
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <?= form_label('Cidade: ', 'cidade', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cidade', '', 'id="input_cidade" class="form-control input-sm" placeholder="Cidade"') ?>
+                                    <!--cidade-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="cidade" class="control-label">Cidade:</label>
+                                            <input type="text" name="cidade" id="input_cidade" class="form-control" value="" placeholder="Cidade" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                    <!--Estado-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('Estado: ', 'estado', array('class' => 'control-label ')) ?>
-                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control input-sm"/>
+                                    <!--estado-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="estado" class="control-label">Estado:</label>
+                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                             <datalist id="dl_estado">
                                                 <?php foreach ($dados['estados'] as $estado): ?>
                                                     <option value="<?=$estado?>"></option>
@@ -233,12 +236,11 @@
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-
                                     <!--uf-->
-                                    <div class="col_margin_left col-sm-1">
-                                        <div class="form-group">
-                                            <?= form_label('UF: ', 'uf', array('class' => 'control-label ')) ?>
-                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control input-sm"/>
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="uf" class="control-label">UF:</label>
+                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
                                             <datalist id="dl_uf">
                                                 <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                     <option value="<?=$uf?>"></option>
@@ -247,21 +249,21 @@
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
-                                    <!--Cep-->
-                                    <div class="col_margin_left col-sm-3">
-                                        <div class="form-group">
-                                            <?= form_label('Cep: ', 'cep', array('class' => 'control-label ')) ?>
-                                            <?= form_input('cep', '', 'id="input_cep" class="form-control input-sm cep" placeholder="Cep"') ?>
+                                    <!--cep-->
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-padding">
+                                            <label for="cep" class="control-label">CEP:</label>
+                                            <input type="text" name="cep" id="input_cep" class="form-control cep" value="" placeholder="CEP" pattern="\d{5}-?\d{3}" title="Máximo de 9 caracteres Ex: 00000-000">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <!--Observacao-->
+                                    <!--observacao-->
                                     <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <?= form_label('Observação: ', 'observacao', array('class' => 'control-label ')) ?>
-                                            <?= form_textarea(array('name'=>'observacao','rows'=>'3'), '', ' id="observacao"  class="form-control input-sm" placeholder="Observacão"') ?>
+                                        <div class="form-group input-padding">
+                                            <label for="observacao" class="control-label">Observação:</label>
+                                            <textarea name="observacao" id="observacao" class="form-control" rows="3" placeholder="Observação"></textarea>
                                             <span class="help-block"></span>
                                         </div>
                                     </div>

@@ -14,8 +14,7 @@ class Personalizado_modelo extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Modelos de Produtos personalizados';
-        set_layout('conteudo', load_content('personalizado_modelo/lista', $data));
+        set_layout('conteudo', load_content('personalizado_modelo/lista', ""));
         load_layout();
     }
 
@@ -121,7 +120,7 @@ class Personalizado_modelo extends CI_Controller {
         $this->form_validation->set_message('is_unique','Já exixte um campo com este código. Dados duplicados não são permitidos.');
 
         $this->form_validation->set_message('check_white_spaces', 'O código não deve ser uma palavra composta');
-        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
+        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|min_length[3]|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('personalizado_categoria', 'Categoria', 'trim|required');
         $this->form_validation->set_rules('formato', 'Formato', 'trim|required|is_natural_no_zero|max_length[3]');

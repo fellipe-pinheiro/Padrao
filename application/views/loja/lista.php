@@ -77,191 +77,204 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Loja</h4>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_loja">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Loja</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--unidade-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="unidade" class="control-label">Unidade:</label>
+                                        <input type="text" name="unidade" id="unidade" class="form-control" value="" required="required" placeholder="Ex: Jardins" autofocus pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--razao_social-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="razao_social" class="control-label">Razão Social:</label>
+                                        <input type="text" name="razao_social" id="razao_social" class="form-control" value="" required="required" placeholder="Razão Social" pattern=".{1,150}" title="Máximo de 150 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--cnpj-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="cnpj" class="control-label">CNPJ:</label>
+                                        <input type="text" name="cnpj" id="cnpj" class="form-control" value="" placeholder="CNPJ" pattern=".{1,18}" title="Máximo de 18 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--ie-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="ie" class="control-label">Inscrição Estadual:</label>
+                                        <input type="text" name="ie" id="ie" class="form-control" value="" placeholder="Inscrição Estadual" pattern=".{1,30}" title="Máximo de 30 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--im-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="im" class="control-label">Inscrição Municipal:</label>
+                                        <input type="text" name="im" id="im" class="form-control" value="" placeholder="Inscrição Municipal" pattern=".{1,30}" title="Máximo de 30 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--email-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="email" class="control-label">Email:</label>
+                                        <input type="email" name="email" id="email" class="form-control" value="" placeholder="Email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--telefone-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="telefone" class="control-label">Telefone:</label>
+                                        <input type="text" name="telefone" id="telefone" class="form-control sp_celphones" value="" title="Telefone" placeholder="Telefone" required="required">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--telefone2-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="telefone2" class="control-label">Telefone 2:</label>
+                                        <input type="text" name="telefone2" id="telefone2" class="form-control sp_celphones" value="" title="Telefone 2" placeholder="Telefone 2">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--telefone3-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="telefone3" class="control-label">Telefone 3:</label>
+                                        <input type="text" name="telefone3" id="telefone3" class="form-control sp_celphones" value="" title="Telefone 3" placeholder="Telefone 3">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--cep-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="cep" class="control-label">CEP:</label>
+                                        <input type="text" name="cep" id="input_cep" class="form-control cep" value="" placeholder="CEP" pattern="\d{5}-?\d{3}" title="Máximo de 9 caracteres Ex: 00000-000">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--endereco-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="endereco" class="control-label">Logradouro:</label>
+                                        <input type="text" name="endereco" id="input_endereco" class="form-control" value="" placeholder="Logradouro" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--numero-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="numero" class="control-label">Número:</label>
+                                        <input type="text" name="numero" id="numero" class="form-control" value="" placeholder="Número" pattern=".{1,10}" title="Máximo de 10 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--complemento-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="complemento" class="control-label">Complemento:</label>
+                                        <input type="text" name="complemento" id="complemento" class="form-control" value="" placeholder="Complemento" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--bairro-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="bairro" class="control-label">Bairro:</label>
+                                        <input type="text" name="bairro" id="input_bairro" class="form-control" value="" placeholder="Bairro" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--cidade-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="cidade" class="control-label">Cidade:</label>
+                                        <input type="text" name="cidade" id="input_cidade" class="form-control" value="" placeholder="Cidade" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!--estado-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="estado" class="control-label">Estado:</label>
+                                        <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                        <datalist id="dl_estado">
+                                            <?php foreach ($dados['estados'] as $estado): ?>
+                                                <option value="<?=$estado?>"></option>
+                                            <?php endforeach ?>
+                                        </datalist>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!--uf-->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <label for="uf" class="control-label">UF:</label>
+                                        <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
+                                        <datalist id="dl_uf">
+                                            <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
+                                                <option value="<?=$uf?>"></option>
+                                            <?php endforeach ?>
+                                        </datalist>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <!---->
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
+                </div>
             </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_loja" role="form"') ?>
-            <div class="modal-body form">
-
-                <?= form_hidden('id') ?>
-
-                <!--Unidade-->
-                <div class="form-group">
-                    <?= form_label('Unidade*: ', 'unidade', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('unidade', '', 'id="unidade" class="form-control" placeholder="Unidade" autofocus') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!-- Razão Social -->
-                <div class="form-group">
-                    <?= form_label('*Razão Social: ', 'razao_social', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('razao_social', '', 'id="razao_social" class="form-control" placeholder="Razão Social"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!-- CNPJ -->
-                <div class="form-group">
-                    <?= form_label('CNPJ: ', 'cnpj', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('cnpj', '', 'id="cnpj" class="form-control cnpj" placeholder="CNPJ"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!-- Inscrição Estadual -->
-                <div class="form-group">
-                    <?= form_label('Inscrição Estadual: ', 'ie', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('ie', '', 'id="ie" class="form-control" placeholder="Inscrição Estadual"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!-- Inscrição Municipal -->
-                <div class="form-group">
-                    <?= form_label('Inscrição Municipal: ', 'im', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('im', '', 'id="im" class="form-control" placeholder="Inscrição Municipal"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Telefone-->
-                <div class="form-group">
-                    <?= form_label('*Telefone: ', 'telefone', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('telefone', '', 'id="telefone" class="form-control sp_celphones" placeholder="Telefone"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Telefone 2-->
-                <div class="form-group">
-                    <?= form_label('Telefone 2: ', 'telefone2', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('telefone2', '', 'id="telefone2" class="form-control sp_celphones" placeholder="Telefone2"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Telefone3-->
-                <div class="form-group">
-                    <?= form_label('Telefone3: ', 'telefone3', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('telefone3', '', 'id="telefone3" class="form-control sp_celphones" placeholder="Telefone3"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Email-->
-                <div class="form-group">
-                    <?= form_label('*Email: ', 'email', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('email', '', 'id="email" class="form-control" placeholder="Email"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Endereço-->
-                <div class="form-group">
-                    <?= form_label('Endereço: ', 'endereco', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('endereco', '', 'id="input_endereco" class="form-control" placeholder="Logradouro"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Número-->
-                <div class="form-group">
-                    <?= form_label('Número: ', 'numero', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('numero', '', 'id="numero" class="form-control" placeholder="Número"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Complemento-->
-                <div class="form-group">
-                    <?= form_label('Complemento: ', 'complemento', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('complemento', '', 'id="complemento" class="form-control" placeholder="Complemento"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Estado-->
-                <div class="form-group">
-                    <?= form_label('Estado: ', 'estado', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input list="dl_estado" id="input_estado" name="estado" class="form-control" data-estado='<?=$dados['estados_json']?>'/>
-                        <datalist id="dl_estado">
-                            <?php foreach ($dados['estados'] as $estado): ?>
-                                <option value="<?= $estado ?>"></option>
-                            <?php endforeach ?>
-                        </datalist>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--uf-->
-                <div class="form-group">
-                    <?= form_label('UF: ', 'uf', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input list="dl_uf" name="uf" id="input_uf" class="form-control"/>
-                        <datalist id="dl_uf">
-                            <?php foreach ($dados['estados'] as $uf => $estado): ?>
-                                <option value="<?= $uf ?>"></option>
-                            <?php endforeach ?>
-                        </datalist>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Bairro-->
-                <div class="form-group">
-                    <?= form_label('Bairro: ', 'bairro', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('bairro', '', 'id="input_bairro" class="form-control" placeholder="Bairro"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Cidade-->
-                <div class="form-group">
-                    <?= form_label('Cidade: ', 'cidade', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('cidade', '', 'id="input_cidade" class="form-control" placeholder="Cidade"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Cep-->
-                <div class="form-group">
-                    <?= form_label('Cep: ', 'cep', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('cep', '', 'id="input_cep" class="form-control cep" placeholder="Cep"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -315,9 +328,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[2, 'asc']],
             ajax: {
                 url: "<?= base_url('loja/ajax_list') ?>",
                 type: "POST"
@@ -348,11 +361,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_loja tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -383,12 +394,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.loja, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
-
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar loja');
+                    $('.modal-title').text('Editar loja ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -401,12 +415,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#deletar").click(function () {
             var id = tabela.row(".selected").id();
-            var unidade = tabela.row(".selected").data().unidade;
+            var nome = tabela.row(".selected").data().unidade;
             $.confirm({
                 title: 'Confirmação!',
-                content: 'O registro: ' + unidade + ' será excluido.',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
                 confirm: function () {
-                    $.alert('Confirmado!');
                     $.ajax({
                         url: "<?= base_url('loja/ajax_delete/') ?>" + id,
                         type: "POST",
@@ -433,7 +448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
                 },
                 cancel: function () {
-                    $.alert('Cancelado!')
+                    $.alert('Operação cancelada!')
                 }
             });
         });
@@ -460,8 +475,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     } else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
@@ -480,27 +495,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             e.preventDefault();
         });
         $("#input_cep").blur(carregaCep);
+        form_small();
     });
 
     function reload_table() {
 
         tabela.ajax.reload(null, false);
     }
+
     function reset_form() {
         $('#form_loja')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors()
     }
 </script>

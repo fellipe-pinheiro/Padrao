@@ -4,19 +4,43 @@ function date_to_db($data=''){ //[dd/mm/yyyy] [yyyy/mm/dd] [dd-mm-yyyy] [yyyy-mm
 		if (strpos($data, '/') !== false) {
 			list($dia, $mes, $ano) = explode('/', $data);
 			if(strlen($dia) === 2){
-	        	return $data = $ano . '-' . $mes . '-' . $dia;
+	        	return $ano . '-' . $mes . '-' . $dia;
 			}else if(strlen($dia) === 4){
 				list($ano, $mes, $dia) = explode('/', $data);
-				return $data = $ano . '-' . $mes . '-' . $dia;
+				return $ano . '-' . $mes . '-' . $dia;
 			}
 		}else if(strpos($data, '-') !== false){
 			list($dia, $mes, $ano) = explode('-', $data);
 			if(strlen($dia) === 2){
-	        	return $data = $ano . '-' . $mes . '-' . $dia;
+	        	return $ano . '-' . $mes . '-' . $dia;
 			}else if(strlen($dia) === 4){
 				return $data;
 			}
 		}
+	}
+	return "";
+}
+
+function date_to_form($data=''){ //[dd/mm/yyyy] [yyyy/mm/dd] [dd-mm-yyyy] [yyyy-mm-dd] => Return [dd/mm/yyyy]
+	if (!empty($data)) {
+		if(strpos($data, '-') !== false){
+			list($ano, $mes, $dia) = explode('-', $data);
+			if(strlen($ano) === 4){
+	        	return $dia . '/' . $mes . '/' . $ano;
+			}else if(strlen($dia) === 4){
+				list($dia, $mes, $ano) = explode('-', $data);
+				return $dia . '/' . $mes . '/' . $ano;
+			}
+		}else if(strpos($data, '/') !== false){
+			list($ano, $mes, $dia) = explode('/', $data);
+			if(strlen($ano) === 4){
+	        	return $dia . '/' . $mes . '/' . $ano;
+			}else if(strlen($dia) === 4){
+				list($dia, $mes, $ano) = explode('/', $data);
+				return $dia . '/' . $mes . '/' . $ano;
+			}
+		}
+
 	}
 	return "";
 }

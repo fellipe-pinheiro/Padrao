@@ -13,8 +13,7 @@ class Fita_espessura extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Fita Espessura';
-        set_layout('conteudo', load_content('fita_espessura/lista', $data));
+        set_layout('conteudo', load_content('fita_espessura/lista', ""));
         load_layout();
     }
 

@@ -47,3 +47,92 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="md_form_assessor">
+    <form action="#" method="POST" role="form" class="form-horizontal form_crud" id="form_assessor">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Assessor</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome" pattern=".{1,30}" title="Máximo de 30 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--sobrenome-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="sobrenome" class="control-label">Sobrenome:</label>
+                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" required="required" placeholder="Sobrenome" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--email-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="email" class="control-label">Email:</label>
+                                    <input type="email" name="email" id="email" class="form-control" value="" required="required" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--telefone-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="telefone" class="control-label">Telefone:</label>
+                                    <input type="text" name="telefone" id="telefone" class="form-control sp_celphones" value="" required="required" placeholder="Telefone">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--empresa-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="empresa" class="control-label">Empresa:</label>
+                                    <input type="text" name="empresa" id="empresa" class="form-control" value="" placeholder="Nome da Empresa" pattern=".{1,100}" title="Máximo de 100 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--comissao-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="comissao" class="control-label">Comissão / BV (%):</label>
+                                    <input type="number" name="comissao" id="comissao" step="0.01" min="0" class="form-control" value="" required="required" title="Comissão" placeholder="Comissão em porcentagem. EX: 10">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

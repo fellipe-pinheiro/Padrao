@@ -15,7 +15,7 @@ $loja = $orcamento->loja;
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Pedido Nº <?= $pedido->id ?>
+            <div class="panel-heading"><?= $pedido->get_numero_documento() ?>
                 <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
             </div>
             <div class="panel-body">
@@ -23,7 +23,6 @@ $loja = $orcamento->loja;
                     <!-- Cliente -->
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <caption><h4>Cliente</h4></caption>
                             <table class="table table-hover table-condensed">
                                 <thead>
                                     <tr>
@@ -60,7 +59,7 @@ $loja = $orcamento->loja;
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist" id="tab-indice">
                 <li role="presentation" class="active">
-                    <a href="#pedido" aria-controls="pedido" role="tab" data-toggle="tab">Pedido N° <?= $pedido->id ?></a>
+                    <a href="#pedido" aria-controls="pedido" role="tab" data-toggle="tab"><?= $pedido->get_numero_documento() ?></a>
                 </li>
             </ul>
 
@@ -227,7 +226,7 @@ $loja = $orcamento->loja;
                     foreach ($pedido->adicional as $key => $adicional) {
                         ?>
                         <script>
-                            var a1 = $('<a href="#adicional-<?= $adicional->id ?>" aria-controls="adicional-<?= $adicional->id ?>" role="tab" data-toggle="tab" >').html("Adicional N°" + <?= $adicional->pedido ?> + "/" + <?= $adicional->id ?>);
+                            var a1 = $('<a href="#adicional-<?= $adicional->id ?>" aria-controls="adicional-<?= $adicional->id ?>" role="tab" data-toggle="tab" >').html("<?= $adicional->get_numero_documento()?>");
                             var li1 = $('<li role="presentation" />').html(a1);
                             li1.appendTo("#tab-indice");
                         </script>

@@ -61,56 +61,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Acessório</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_acessorio" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_acessorio">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Acessório</h4>
                 </div>
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--nome-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do acessório" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <!--valor-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="valor" class="control-label">Valor:</label>
+                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
-
-                <!--Valor-->
-                <div class="form-group">
-                    <?= form_label('*Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <input step="0.01" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
-
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -162,9 +160,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
             ajax: {
                 url: "<?= base_url('acessorio/ajax_list') ?>",
                 type: "POST"
@@ -180,11 +178,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_acessorio tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela.$("tr.selected ").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -193,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             save_method = 'add';
             $("input[name='id']").val("");
 
-            $('.modal-title').text('Adicionar acessorio'); // Definir um titulo para o modal
+            $('.modal-title').text('Adicionar acessório'); // Definir um titulo para o modal
             $('#modal_form').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
@@ -215,19 +211,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.acessorio, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
-
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar acessorio');
+                    $('.modal-title').text('Editar acessório ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    $.alert({
-                        title: 'Alerta!',
-                        content: 'Não foi possível buscar os dados. Tente novamente.',
-                    });
+                    console.log('Erro ao buscar os dados');
                 }
             });
         });
@@ -237,9 +233,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var nome = tabela.row(".selected").data().nome;
             $.confirm({
                 title: 'Confirmação!',
-                content: 'O registro: ' + nome + ' será excluido.',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
                 confirm: function () {
-                    $.alert('Confirmado!');
                     $.ajax({
                         url: "<?= base_url('acessorio/ajax_delete/') ?>" + id,
                         type: "POST",
@@ -248,6 +245,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             if (data.status) {
                                 reload_table();
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
                             } else {
                                 $.alert({
                                     title: 'Alerta!',
@@ -293,8 +291,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     } else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
@@ -307,31 +305,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
             e.preventDefault();
         });
+        form_small();
     });
 
     function reload_table() {
+
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
+
     function reset_form() {
         $('#form_acessorio')[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+        reset_errors();
     }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
-    }
+
 </script>

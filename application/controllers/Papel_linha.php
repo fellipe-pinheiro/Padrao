@@ -13,7 +13,7 @@ class Papel_linha extends CI_Controller {
     }
 
     public function index() {
-        set_layout('conteudo', load_content('papel_linha/lista', $data));
+        set_layout('conteudo', load_content('papel_linha/lista', ""));
         load_layout();
     }
 
@@ -99,7 +99,7 @@ class Papel_linha extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
+        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {

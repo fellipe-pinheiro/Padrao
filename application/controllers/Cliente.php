@@ -14,9 +14,8 @@ class Cliente extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Clientes';
-        $data['estados'] = array("AC"=>"Acre", "AL"=>"Alagoas", "AM"=>"Amazonas", "AP"=>"Amapá","BA"=>"Bahia","CE"=>"Ceará","DF"=>"Distrito Federal","ES"=>"Espírito Santo","GO"=>"Goiás","MA"=>"Maranhão","MT"=>"Mato Grosso","MS"=>"Mato Grosso do Sul","MG"=>"Minas Gerais","PA"=>"Pará","PB"=>"Paraíba","PR"=>"Paraná","PE"=>"Pernambuco","PI"=>"Piauí","RJ"=>"Rio de Janeiro","RN"=>"Rio Grande do Norte","RO"=>"Rondônia","RS"=>"Rio Grande do Sul","RR"=>"Roraima","SC"=>"Santa Catarina","SE"=>"Sergipe","SP"=>"São Paulo","TO"=>"Tocantins");
-        $data['estados_json'] = json_encode($data['estados']);
+        $data['estados'] = get_array_estados();
+        $data['estados_json'] = json_encode(get_array_estados());
         set_layout('conteudo', load_content('cliente/lista', $data));
         load_layout();
     }
@@ -117,8 +116,10 @@ class Cliente extends CI_Controller {
 
     public function ajax_delete($id) {
         $data["status"] = FALSE;
-        if($this->Cliente_m->deletar($id)){
-            $data["status"] = TRUE;
+        if(!empty($id)){
+            if($this->Cliente_m->deletar($id)){
+                $data["status"] = TRUE;
+            }
         }
         print json_encode($data);
     }
@@ -175,30 +176,30 @@ class Cliente extends CI_Controller {
         }
         //Dados do cliente
         $this->form_validation->set_rules('pessoa_tipo', 'Pessoa', 'trim|required|max_length[10]');
-        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('sobrenome', 'Sobrenome', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('sobrenome', 'Sobrenome', 'trim|required|max_length[100]');
         $this->form_validation->set_message('is_unique','Já exixte um cadastro com este valor.');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[100]|valid_email'.$is_unique_email);
         $this->form_validation->set_rules('telefone', 'Telefone', 'trim|required|max_length[15]');
         //Contato 2
-        $this->form_validation->set_rules('nome2', 'Nome2', 'trim');
-        $this->form_validation->set_rules('sobrenome2', 'Sobrenome2', 'trim');
+        $this->form_validation->set_rules('nome2', 'Nome2', 'trim|max_length[30]');
+        $this->form_validation->set_rules('sobrenome2', 'Sobrenome2', 'trim|max_length[100]');
         $this->form_validation->set_rules('email2', 'Email2', 'trim|max_length[100]|valid_email'.$is_unique_email2);
         $this->form_validation->set_rules('telefone2', 'Telefone2', 'trim|max_length[15]');
         //Documentos
         $this->form_validation->set_message('validar_rg','O RG informado é inválido');
-        $this->form_validation->set_rules('rg', 'RG', 'trim|validar_rg');
+        $this->form_validation->set_rules('rg', 'RG', 'trim|validar_rg|max_length[15]');
         $this->form_validation->set_message('validar_cpf','O CPF informado é inválido');
-        $this->form_validation->set_rules('cpf', 'CPF', 'trim|validar_cpf'.$is_unique_cpf);
+        $this->form_validation->set_rules('cpf', 'CPF', 'trim|validar_cpf|max_length[14]'.$is_unique_cpf);
         //Endereço
-        $this->form_validation->set_rules('endereco', 'Endereco', 'trim|max_length[50]');
-        $this->form_validation->set_rules('numero', 'Número', 'trim');
+        $this->form_validation->set_rules('endereco', 'Endereco', 'trim|max_length[100]');
+        $this->form_validation->set_rules('numero', 'Número', 'trim|max_length[10]');
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim|max_length[100]');
         $this->form_validation->set_rules('estado', 'Estado', 'trim|max_length[50]');
         $this->form_validation->set_rules('uf', 'UF', 'trim|max_length[2]');
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim|max_length[50]');
         $this->form_validation->set_rules('cidade', 'Cidade', 'trim|max_length[50]');
-        $this->form_validation->set_rules('cep', 'CEP', 'trim');
+        $this->form_validation->set_rules('cep', 'CEP', 'trim|max_length[9]');
         $this->form_validation->set_rules('observacao', 'Observação', 'trim');
         //Dados da empresa
         $this->form_validation->set_rules('razao_social', 'Razao Social', 'trim|max_length[150]'.$required);

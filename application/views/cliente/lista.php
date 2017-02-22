@@ -150,9 +150,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('cliente/ajax_list') ?>",
                 type: "POST",
@@ -195,16 +195,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "im", "visible": false},
             ]
         });
-        //button filter event click
         $('#btn-filter-cliente').click(function () {
-            //just reload table
             tabela_cliente.ajax.reload(null, false);
             $("#md_filtro_cliente").modal('hide');
         });
-        //button reset event click
         $('.btn-reset').click(function () {
             $('#form-filter-cliente')[0].reset();
-            //just reload table
             tabela_cliente.ajax.reload(null, false);
         });
         $('#btn-profile').click(function () {
@@ -219,11 +215,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_cliente tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela_cliente.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -255,11 +249,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     $.map(data.cliente, function (value, index) {
                         $('[name="' + index + '"]').val(value);
-
                     });
 
                     $('#md_form_cliente').modal('show');
-                    $('.modal-title').text('Editar cliente');
+                    $('.modal-title').text('Editar cliente ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -271,28 +264,98 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             var id = tabela_cliente.row(".selected").id();
             var nome = tabela_cliente.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: "<?= base_url('cliente/ajax_delete/') ?>" + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table();
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function(){
+                    $.ajax({
+                        url: "<?= base_url('cliente/ajax_delete/') ?>" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                reload_table();
+                            } else {
+                                alert("Erro ao excluir o registro");
+                            }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Operação cancelada!')
+                }
+            });
         });
-        $("#form_cliente").submit(function (e) {
+        $("#form_cliente").submit(function (event) {
+            event.preventDefault();
+            if($("#form_cliente #pessoa_tipo").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #pessoa_tipo").focus();
+                mapear_erro($("#form_cliente #pessoa_tipo"),"O campo Pessoa é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #pessoa_tipo").val() == "juridica"){
+                if($("#form_cliente #razao_social").val() == ""){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #razao_social").focus();
+                    mapear_erro($("#form_cliente #razao_social"),"O campo Razão Social é obrigatório.");
+                    return;
+                }
+            }
+            if($("#form_cliente #nome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #nome").focus();
+                mapear_erro($("#form_cliente #nome"),"O campo Nome é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #sobrenome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #sobrenome").focus();
+                mapear_erro($("#form_cliente #sobrenome"),"O campo Sobrenome é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #email").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email é obrigatório.");
+                return;
+            }
+            if(!validar_email( $("#form_cliente #email").val() )){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email deve conter um endereço de e-mail válido.");
+                return;
+            }
+            if($("#form_cliente #telefone").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #telefone").focus();
+                mapear_erro($("#form_cliente #telefone"),"O campo Telefone é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #cpf").val() != ""){
+                if(!validar_cpf($("#cpf").val())){
+                    $("#form_cliente a[href='#fisica']").tab('show');
+                    $("#form_cliente #cpf").focus();
+                    mapear_erro($("#form_cliente #cpf"),"O CPF informado é inválido!");
+                    return;
+                }
+            }
+            if($("#form_cliente #cnpj").val() != ""){
+                if(!validar_cnpj($("#cnpj").val())){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #cnpj").focus();
+                    mapear_erro($("#form_cliente #cnpj"),"O CNPJ informado é inválido!");
+                    return;
+                }
+            }
             disable_button_salvar();
             reset_errors();
             var url;
@@ -316,7 +379,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         $.map(data.form_validation, function (value, index) {
                             $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                             var juridica = ["razao_social", "cnpj", "ie", "im"];
                             var fisica = ["nome", "sobrenome", "email", "telefone", "nome2", "sobrenome2", "email2", "telefone2", "rg", "cpf"];
                             var endereco = ['endereco', 'numero', 'complemento', 'estado', 'uf', 'bairro', 'cidade', 'cep', 'observacao'];
@@ -338,33 +401,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
-            e.preventDefault();
         });
         $("#input_cep").blur(carregaCep);
+        $("#form_cliente a[href='#endereco']").click(function(){
+            setTimeout(function(){ $("#input_cep").focus(); }, 500);
+        });
+        form_small();
     });
+
     function reload_table() {
+
         tabela_cliente.ajax.reload(null, false); //reload datatable ajax
     }
+
     function reset_form() {
         $('#form_cliente')[0].reset(); // Zerar formulario
         $('.form-group').removeClass('has-error'); // Limpar os erros
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty(); // Limpar as msg de erro
     }
+    
     function reset_errors() {
         $('.form-group').removeClass('has-error'); // Limpar os erros
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
     }
 </script>

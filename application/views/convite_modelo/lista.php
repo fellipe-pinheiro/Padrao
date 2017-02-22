@@ -70,118 +70,123 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title"></h4>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_convite_modelo">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title row"></h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" id="id" class="form-control">
+                        <div class="row">
+                            <!--Nome-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do modelo" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--Código-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="codigo" class="control-label">Código:</label>
+                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--altura_final-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="altura_final" class="control-label">Altura Final (mm):</label>
+                                    <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--largura_final-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="largura_final" class="control-label">Largura Final (mm):</label>
+                                    <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--cartao_altura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
+                                    <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--cartao_largura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
+                                    <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--envelope_altura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
+                                    <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--envelope_largura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
+                                    <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--empastamento_borda-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
+                                    <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
+                </div>
             </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_convite_modelo" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--codigo-->
-                <div class="form-group">
-                    <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'codigo', 'type' => 'text', 'id' => 'codigo', 'class' => 'form-control', 'placeholder' => 'Código'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--altura_final-->
-                <div class="form-group">
-                    <?= form_label('*Altura Final (mm): ', 'altura_final', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'altura_final', 'type' => 'number', 'id' => 'altura_final', 'class' => 'form-control', 'placeholder' => 'Altura Final  do convite pronto'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--largura_final-->
-                <div class="form-group">
-                    <?= form_label('*Largura Final (mm): ', 'largura_final', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'largura_final', 'type' => 'number', 'id' => 'largura_final', 'class' => 'form-control', 'placeholder' => 'Largura Final do convite pronto'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--cartao_altura-->
-                <div class="form-group">
-                    <?= form_label('*Cartão Altura (mm): ', 'cartao_altura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'cartao_altura', 'type' => 'number', 'id' => 'cartao_altura', 'class' => 'form-control', 'placeholder' => 'Cartão Altura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--cartao_largura-->
-                <div class="form-group">
-                    <?= form_label('*Cartão Largura (mm): ', 'cartao_largura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'cartao_largura', 'type' => 'number', 'id' => 'cartao_largura', 'class' => 'form-control', 'placeholder' => 'Cartão Largura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--envelope_altura-->
-                <div class="form-group">
-                    <?= form_label('*Envelope Altura (mm): ', 'envelope_altura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'envelope_altura', 'type' => 'number', 'id' => 'envelope_altura', 'class' => 'form-control', 'placeholder' => 'Envelope Altura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--envelope_largura-->
-                <div class="form-group">
-                    <?= form_label('*Envelope Largura (mm): ', 'envelope_largura', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'envelope_largura', 'type' => 'number', 'id' => 'envelope_largura', 'class' => 'form-control', 'placeholder' => 'Envelope Largura'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--empastamento_borda-->
-                <div class="form-group">
-                    <?= form_label('*Empastamento borda (mm): ', 'empastamento_borda', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_input(array('name' => 'empastamento_borda', 'type' => 'number', 'id' => 'empastamento_borda', 'class' => 'form-control', 'placeholder' => 'Empastamento borda (mm)'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-4')) ?>
-                    <div class="col-sm-8">
-                        <?= form_textarea('descricao', '', ' id="descricao" class="form-control" placeholder="Descricao"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    </form>    
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -235,9 +240,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
             },
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[2, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('convite_modelo/ajax_list') ?>",
                 type: "POST"
@@ -260,11 +265,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_convite_modelo tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -273,7 +276,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             save_method = 'add';
             $("input[name='id']").val("");
 
-            $('.modal-title').text('Adicionar Convite Modelo'); // Definir um titulo para o modal
+            $('.modal-title').text('Adicionar Modelo'); // Definir um titulo para o modal
             $('#modal_form').modal('show'); // Abrir modal
         });
         $("#editar").click(function () {
@@ -295,12 +298,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.convite_modelo, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
-
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar Convite Modelo');
+                    $('.modal-title').text('Editar Modelo ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -312,30 +318,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             var id = tabela.row(".selected").id();
             var nome = tabela.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: "<?= base_url('convite_modelo/ajax_delete/') ?>" + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table();
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function(){
+                    $.ajax({
+                        url: "<?= base_url('convite_modelo/ajax_delete/') ?>" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                reload_table();
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
+                            } else {
+                                alert("Erro ao excluir o registro");
+                            }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function(){
+                    $.alert('Cancelado!')
+                }
+            });
         });
-        $("#form_convite_modelo").submit(function (e) {
+        $("#form_convite_modelo").submit(function (event) {
+            event.preventDefault();
             disable_button_salvar();
-            reset_errors();
             var url;
             if (save_method == 'add') {
                 url = "<?php echo site_url('convite_modelo/ajax_add') ?>";
@@ -356,8 +372,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     } else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
@@ -367,31 +383,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
-            e.preventDefault();
         });
+        form_small();
     });
 
     function reload_table() {
         tabela.ajax.reload(null, false);
     }
+
     function reset_form() {
         $('#form_convite_modelo')[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors();
     }
 </script>

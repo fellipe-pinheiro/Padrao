@@ -42,7 +42,6 @@ class Impressao extends CI_Controller {
             );
         //output to json format
         print json_encode($output);
-        exit();
     }
 
     public function ajax_add() {

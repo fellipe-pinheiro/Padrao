@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </nav>
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="row">
                 <input type="hidden" id="panel_cliente_id" class="form-control" value="<?=$this->session->orcamento->cliente->id?>">
                 <div class="col-sm-3">
@@ -96,133 +96,163 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="text" class="form-control input-sm panel_cliente_email" value="<?=$this->session->orcamento->cliente->email?>" readonly>
                 </div>
                 <div class="col-sm-3">
-                    <?= form_label('Assessor(a): ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome, 'id="" readonly class="form-control input-sm panel_assessor_nome"') ?>
+                    <label for="" class="control-label">Assessor(a):</label>
+                    <input type="text" name="" class="form-control input-sm panel_assessor_nome" value="<?=$this->session->orcamento->assessor->nome . ' ' . $this->session->orcamento->assessor->sobrenome?>" title="Assessor" readonly>
                 </div>
                 <div class="col-sm-3">
-                    <?= form_label('E-mail: ', '', array('class' => 'control-label')) ?>
-                    <?= form_input('', $this->session->orcamento->assessor->email, 'id="" readonly class="form-control input-sm panel_assessor_email"') ?>
+                    <label for="" class="control-label">E-mail:</label>
+                    <input type="text" name="" id="input" class="form-control input-sm panel_assessor_email" value="<?=$this->session->orcamento->assessor->email?>" title="email" readonly>
                 </div>
             </div>
             <br>
-            <div class="table-responsive">
-                <table class="table table-hover table-condensed">
-                    <tr>
-                        <th>#</th>
-                        <th>Categoria</th>
-                        <th>Produto</th>
-                        <th class="data_entrega">Data Entrega</th>
-                        <th>Qtd</th>
-                        <th>Unitário</th>
-                        <th>Sub-total</th>
-                        <th>Editar</th>
-                        <th>Excluir</th>
-                    </tr>
-                    <tbody>
-                        <?php
-                        $count = 1;
-                        //CONVITES
-                        foreach ($this->session->orcamento->convite as $key => $convite) {
-                            ?>
+            
+            <!-- Tabela do orçamento -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed">
                             <tr>
-                                <td><?= $count ?></td>
-                                <td>Convite</td>
-                                <td><?= $convite->modelo->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="convite-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $convite->quantidade ?></td>
-                                <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                <th>#</th>
+                                <th>Categoria</th>
+                                <th>Produto</th>
+                                <th class="data_entrega">Data Entrega</th>
+                                <th>Qtd</th>
+                                <th>Unitário</th>
+                                <th>Sub-total</th>
+                                <th>Editar</th>
+                                <th>Excluir</th>
                             </tr>
-                            <?php
-                            $count ++;
-                        }
-                        //PERSONALIZADOS
-                        foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
-                            ?>
-                            <tr>
-                                <td><?= $count ?></td>
-                                <td>Personalizado</td>
-                                <td><?= $personalizado->modelo->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="personalizado-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $personalizado->quantidade ?></td>
-                                <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
-                            </tr>
-                            <?php
-                            $count ++;
-                        }
-                        //PRODUTOS
-                        foreach ($this->session->orcamento->produto as $key => $container) {
-                            ?>
-                            <tr>
-                                <td><?= $count ?></td>
-                                <td><?= $container->produto->produto_categoria->nome ?></td>
-                                <td><?= $container->produto->nome ?></td>
-                                <td class="data_entrega form-group">
-                                    <form id="produto-<?= $key ?>" class="form_data_entrega">
-                                        <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
-                                        <span class="help-block"></span>
-                                        <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
-                                    </form>
-                                </td>
-                                <td><?= $container->quantidade ?></td>
-                                <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
-                                <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
-                                <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>',<?= $container->produto->produto_categoria->id ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                            </tr>
-                            <?php
-                            $count ++;
-                        }
-                        ?>
-                    </tbody>
-                    <tfoot>
-                        <?php
-                        if (!empty($this->session->orcamento->desconto)) {
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="data_entrega"></td>
-                                <td></td>
-                                <td>Desconto</td>
-                                <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
-                                <td><a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td><a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></button></td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th class="data_entrega"></th>
-                            <th></th>
-                            <th>Total a pagar</th>
-                            <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                            <tbody>
+                                <?php
+                                $count = 1;
+                                //CONVITES
+                                foreach ($this->session->orcamento->convite as $key => $convite) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td>Convite</td>
+                                        <td><?= $convite->modelo->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="convite-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('convite', '#convite-<?= $key ?>')" type="text" name="data_entrega-convite-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $convite->quantidade ?></td>
+                                        <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($convite->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a href="<?= base_url('convite/session_orcamento_convite_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td><a onclick="convite_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                //PERSONALIZADOS
+                                foreach ($this->session->orcamento->personalizado as $key => $personalizado) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td>Personalizado</td>
+                                        <td><?= $personalizado->modelo->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="personalizado-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('personalizado', '#personalizado-<?= $key ?>')" type="text" name="data_entrega-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $personalizado->quantidade ?></td>
+                                        <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($personalizado->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a href="<?= base_url('personalizado/session_orcamento_personalizado_editar/' . $key) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td><a onclick="personalizado_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                //PRODUTOS
+                                foreach ($this->session->orcamento->produto as $key => $container) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $count ?></td>
+                                        <td><?= $container->produto->produto_categoria->nome ?></td>
+                                        <td><?= $container->produto->nome ?></td>
+                                        <td class="data_entrega form-group">
+                                            <form id="produto-<?= $key ?>" class="form_data_entrega">
+                                                <input onchange="delivery_date('produto', '#produto-<?= $key ?>')" type="text" name="data_entrega-produto-<?= $key ?>" class="form-control input-sm datetimepicker input_data_entrega" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                <span class="help-block"></span>
+                                                <input type="hidden" name="posicao" id="posicao-<?= $key ?>" class="form-control" value="<?= $key ?>">
+                                            </form>
+                                        </td>
+                                        <td><?= $container->quantidade ?></td>
+                                        <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
+                                        <td>R$ <?= number_format($container->calcula_total(), 2, ',', '.') ?></td>
+                                        <td><a onclick="produto_modal('editar',<?= $key ?>,<?= $container->produto->id ?>, '<?= $container->produto->nome ?>',<?= $container->quantidade ?>, '<?= $container->descricao ?>',<?= $container->produto->produto_categoria->id ?>)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td>
+                                        <a onclick="produto_excluir_posicao(<?= $key ?>)" class="btn btn-sm btn-default">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $count ++;
+                                }
+                                ?>
+                            </tbody>
+                            <tfoot>
+                                <?php
+                                if (!empty($this->session->orcamento->desconto)) {
+                                    ?>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="data_entrega"></td>
+                                        <td></td>
+                                        <td>Desconto</td>
+                                        <td>R$ <?= number_format($this->session->orcamento->desconto, 2, ',', '.') ?></td>
+                                        <td>
+                                            <a onclick="orcamento_desconto('editar',<?= $this->session->orcamento->desconto ?>)" class="btn btn-sm btn-default">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a onclick="orcamento_desconto('excluir', '')" class="btn btn-sm btn-default">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="data_entrega"></th>
+                                    <th></th>
+                                    <th>Total a pagar</th>
+                                    <th>R$ <?= number_format($this->session->orcamento->calcula_total(), 2, ',', '.') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Descrição -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form  class="form_ajax" id="form_descricao" action="" method="post" accept-charset="utf-8" role="form">
+                        <div class="form-group">
+                            <label for="descricao" class="control-label">Descrição:</label>
+                            <textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3" onchange="session_orcamento_descricao()"><?= $this->session->orcamento->descricao ?></textarea>
+                            <span class="help-block"></span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -230,34 +260,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Modal: Produto -->
 <div class="modal fade" id="md_produto">
     <div class="modal-dialog">
-        <form class="form_ajax" id="form_produto" action="" method="post" accept-charset="utf-8" role="form">
+        <form id="form_produto" action="" method="post" accept-charset="utf-8" role="form">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Produto</h4>
                 </div>			
                 <div class="modal-body row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-sm-4">
                         <label for="produto_categoria" class="control-label">Categoria:</label>
-                        <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
+                        <select id="produto_categoria" class="form-control selectpicker" data-live-search="true" autofocus required>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-sm-4">
                         <label for="produto" class="control-label">Produto:</label>
-                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" autofocus>
+                        <select name="produto" id="produto" class="form-control selectpicker" data-live-search="true" required>
                             <option disabled selected>Selecione</option>
                         </select>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-4">
-                        <?= form_label('Quantidade: ', 'quantidade_produto', array('class' => 'control-label')) ?>
-                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" />
+                    <div class="form-group col-sm-4">
+                        <label for="quantidade_produto" class="control-label">Quantidade:</label>
+                        <input type="number" name="quantidade" id="quantidade_produto" step="1" class="form-control" value="" min="1" placeholder="Quantidade de produtos" required>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group col-md-12">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
+                    <div class="form-group col-sm-12">
+                        <label for="descricao" class="control-label">Descrição:</label>
                         <textarea id="descricao_produto" name="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
                         <span class="help-block"></span>
                     </div>
@@ -348,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>I.M</th>
                                 </tr>
                             </thead>
-                            <tbody id="fbody">
+                            <tbody>
                             </tbody>
                         </table>
                     </div>
@@ -378,9 +408,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-map-marker"></i> Loja*</h4>
                                 <div class="form-group">
-                                    <select name="loja" id="loja" class="form-control">
+                                    <label for="loja" class="control-label"><i class="glyphicon glyphicon-map-marker"></i> Loja:</label>
+                                    <select name="loja" id="loja" class="form-control" required>
                                         <option value="" selected >Selecione</option>
                                         <?php foreach ($dados['lojas'] as $loja): ?>
                                             <option value="<?= $loja->id ?>" <?php ($loja->id === $this->session->orcamento->loja->id) ? print 'selected' : '' ?>><?= $loja->unidade ?></option>
@@ -390,9 +420,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-edit"></i> Evento*</h4>
                                 <div class="form-group">
-                                    <select name="evento" id="evento" class="form-control">
+                                    <label for="evento" class="control-label"><i class="glyphicon glyphicon-edit"></i> Evento:</label>
+                                    <select name="evento" id="evento" class="form-control" required>
                                         <option value="" selected >Selecione</option>
                                         <?php foreach ($dados['eventos'] as $evento): ?>
                                             <option value="<?= $evento->id ?>" <?php ($evento->id === $this->session->orcamento->evento) ? print 'selected' : '' ?>><?= $evento->nome ?></option>
@@ -402,13 +432,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <h4><i class="glyphicon glyphicon-calendar"></i> Data Evento*</h4>
                                 <?php
                                 empty($this->session->orcamento->data_evento) ? $data_evento = "" : $data_evento = date("d/m/Y", strtotime($this->session->orcamento->data_evento));
                                 ?>	
                                 <div class="form-group">
-                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>"/>
-
+                                    <label for="data_evento" class="control-label"><i class="glyphicon glyphicon-calendar"></i> Data Evento:</label>
+                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>" required>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -417,7 +446,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div id="orcamento_info">
                             <!-- Cliente -->
                             <div class="row">
-                                <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Cliente*</h4>
                                 <div class="col-sm-1">
                                     <button onclick="orcamento_cliente()" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
@@ -441,7 +469,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <hr>
                             <!-- Assessor -->
                             <div class="row">
-                                <h4 class="col-sm-12"><i class="glyphicon glyphicon-user"></i> Assessor</h4>
                                 <div class="col-sm-1">
                                     <button onclick="orcamento_assessor('inserir', 'Assessores')" type="button" class="btn btn-default pull-right" style="margin-top: 20px"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
                                 </div>
@@ -464,18 +491,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label for="" class="control-label">Telefone:</label>
                                     <input type="text" name="" id="" class="form-control input-sm panel_assessor_telefone" value="<?=$this->session->orcamento->assessor->telefone?>" readonly>
                                 </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <form  class="form_ajax" id="form_descricao" action="" method="post" accept-charset="utf-8" role="form">
-                                    <div class="form-group">
-                                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label')) ?>
-                                        <textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3"><?= $this->session->orcamento->descricao ?></textarea>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -562,93 +577,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<!-- Modal: Assessor Form -->
-<div class="modal fade" id="md_form_assessor">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Assessor</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal form_crud" id="form_assessor" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Sobrenome-->
-                <div class="form-group">
-                    <?= form_label('*Sobrenome: ', 'sobrenome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('sobrenome', '', 'id="sobrenome" class="form-control" placeholder="Sobrenome"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Empresa-->
-                <div class="form-group">
-                    <?= form_label('Empresa: ', 'empresa', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('empresa', '', 'id="empresa" class="form-control" placeholder="Empresa"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Email-->
-                <div class="form-group">
-                    <?= form_label('*E-mail: ', 'email', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('email', '', 'id="email" class="form-control" placeholder="Email"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Telefone-->
-                <div class="form-group">
-                    <?= form_label('*Telefone: ', 'telefone', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('telefone', '', 'id="telefone1" class="form-control sp_celphones" placeholder="Telefone"') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Comissão-->
-                <div class="form-group">
-                    <?= form_label('Comissão / BV (%): ', 'comissao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input(array('name' => 'comissao', 'type' => 'number', 'id' => 'comissao', 'class' => 'form-control', 'placeholder' => 'Comissão em porcentagem. EX: 10'), '') ?>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <textarea name="descricao" rows="3" id="descricao" class="form-control"></textarea>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
-        </div>
-    </div>
-</div>
 <!-- Modal: Desconto -->
 <div class="modal fade" id="md_desconto">
     <div class="modal-dialog modal-sm">
@@ -660,7 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>			
                 <div class="modal-body">
                     <div class="form-group">
-                        <?= form_label('Desconto: ', 'desconto', array('class' => 'control-label')) ?>
+                        <label for="desconto" class="control-label">Desconto:</label>
                         <input type="number" name="desconto" id="desconto" class="form-control" value="" step="0.01" min="0">
                         <span class="help-block"></span>
                     </div>
@@ -682,69 +610,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h4 class="modal-title">Forma de pagamento</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- Forma de pagamento -->
-                    <div class="form-group">
-                        <?= form_label('Forma de pagamento: ', 'forma_pagamento', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
-                                <option value="" selected >Selecione</option>
-                                <?php
-                                foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
-                                    ?>
-                                    <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                            <span class="help-block"></span>
+                    <fieldset>
+                        <div class="row">
+                            <!-- Forma de pagamento -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="forma_pagamento" class="control-label">Forma de pagamento:</label>
+                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
+                                        <option value="" selected >Selecione</option>
+                                        <?php
+                                        foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
+                                            ?>
+                                            <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- Quantidade de parcelas -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="qtd_parcelas" class="control-label">Quantidade de Parcelas:</label>
+                                    <select name="qtd_parcelas" id="qtd_parcelas" class="form-control">
+                                        <option value="" selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Quantidade de parcelas -->
-                    <div class="form-group">
-                        <?= form_label('Quantidade de Parcelas: ', 'qtd_parcelas', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="qtd_parcelas" id="qtd_parcelas" class="form-control">
-                                <option value="" selected disabled>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!-- Primeiro vencimento -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="primeiro_vencimento" class="control-label">1º Vencimento:</label>
+                                    <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" placeholder="1° Vencimento dd/mm/aaaa">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- Próximos vencimentos -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="vencimento_dia" class="control-label">Próximos vencimentos:</label>
+                                    <select name="vencimento_dia" id="vencimento_dia" class="form-control">
+                                        <option value="" selected >Selecione</option>
+                                        <option value="01">Todo dia 1</option>
+                                        <option value="05">Todo dia 5</option>
+                                        <option value="10">Todo dia 10</option>
+                                        <option value="15">Todo dia 15</option>
+                                        <option value="20">Todo dia 20</option>
+                                        <option value="25">Todo dia 25</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Primeiro vencimento -->
-                    <div class="form-group">
-                        <?= form_label('1º Vencimento: ', 'primeiro_vencimento', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <input type="text" name="primeiro_vencimento" id="primeiro_vencimento" class="form-control datetimepicker" placeholder="1° Vencimento dd/mm/aaaa">
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!--Condições-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                <label for="condicoes" class="control-label">Condições:</label>
+                                    <textarea name="condicoes" id="condicoes" class="form-control" rows="3" placeholder="Condições"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Próximos vencimentos -->
-                    <div class="form-group">
-                        <?= form_label('Próximos vencimentos: ', 'vencimento_dia', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <select name="vencimento_dia" id="vencimento_dia" class="form-control">
-                                <option value="" selected >Selecione</option>
-                                <option value="01">Todo dia 1</option>
-                                <option value="05">Todo dia 5</option>
-                                <option value="10">Todo dia 10</option>
-                                <option value="15">Todo dia 15</option>
-                                <option value="20">Todo dia 20</option>
-                                <option value="25">Todo dia 25</option>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <!--Condições-->
-                    <div class="form-group">
-                        <?= form_label('Condições: ', 'condicoes', array('class' => 'control-label col-sm-3')) ?>
-                        <div class="col-sm-9">
-                            <textarea name="condicoes" id="condicoes" class="form-control" rows="3" placeholder="Condições"></textarea>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button onclick="finalizar_pedido()" type="button" class="btn btn-default btnSubmit">Salvar</button>
+                    <button onclick="finalizar_pedido(event)" type="button" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
@@ -773,6 +709,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(document).ready(function () {
         apply_this_document_ready();
     });
+
     function apply_this_document_ready() {
         $('.datetimepicker').datetimepicker({
             format:'L'
@@ -838,22 +775,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_cliente tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons_crud();
             } else {
                 tabela_cliente.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons_crud();
             }
         });
         // Resaltar a linha selecionada
         $("#tabela_assessor tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_button();
+                disable_button_salvar();
             } else {
                 tabela_assessor.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_button();
+                enable_button_salvar();
             }
         });
         //Inserir o cliente no orçamento
@@ -870,8 +805,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 session_cliente_inserir(id);
             }
         });
-        $(".form_crud").submit(function (e) {
-            disable_button();
+        $("#form_cliente").submit(function (event) {
+            event.preventDefault();
+            if($("#form_cliente #pessoa_tipo").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #pessoa_tipo").focus();
+                mapear_erro($("#form_cliente #pessoa_tipo"),"O campo Pessoa é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #pessoa_tipo").val() == "juridica"){
+                if($("#form_cliente #razao_social").val() == ""){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #razao_social").focus();
+                    mapear_erro($("#form_cliente #razao_social"),"O campo Razão Social é obrigatório.");
+                    return;
+                }
+            }
+            if($("#form_cliente #nome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #nome").focus();
+                mapear_erro($("#form_cliente #nome"),"O campo Nome é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #sobrenome").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #sobrenome").focus();
+                mapear_erro($("#form_cliente #sobrenome"),"O campo Sobrenome é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #email").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email é obrigatório.");
+                return;
+            }
+            if(!validar_email( $("#form_cliente #email").val() )){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #email").focus();
+                mapear_erro($("#form_cliente #email"),"O campo Email deve conter um endereço de e-mail válido.");
+                return;
+            }
+            if($("#form_cliente #telefone").val() == ""){
+                $("#form_cliente a[href='#fisica']").tab('show');
+                $("#form_cliente #telefone").focus();
+                mapear_erro($("#form_cliente #telefone"),"O campo Telefone é obrigatório.");
+                return;
+            }
+            if($("#form_cliente #cpf").val() != ""){
+                if(!validar_cpf($("#cpf").val())){
+                    $("#form_cliente a[href='#fisica']").tab('show');
+                    $("#form_cliente #cpf").focus();
+                    mapear_erro($("#form_cliente #cpf"),"O CPF informado é inválido!");
+                    return;
+                }
+            }
+            if($("#form_cliente #cnpj").val() != ""){
+                if(!validar_cnpj($("#cnpj").val())){
+                    $("#form_cliente a[href='#juridica']").tab('show');
+                    $("#form_cliente #cnpj").focus();
+                    mapear_erro($("#form_cliente #cnpj"),"O CNPJ informado é inválido!");
+                    return;
+                }
+            }
+            disable_button_salvar();
             reset_errors();
             var form = form_crud;
             var url = url_crud;
@@ -885,24 +881,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .done(function (data) {
                 console.log("success");
-                enable_button();
+                enable_button_salvar();
                 if (data.status)
                 {
                     $(modal_form).modal('hide');
-                    if (owner === 'assessor') {
-                        session_assessor_inserir(data.id);
-                        reload_table_assessor()
-                    } else if (owner === 'cliente') {
-                        session_cliente_inserir(data.id);
-                        reload_table_cliente();
-                    }
+                    session_cliente_inserir(data.id);
+                    reload_table_cliente();
                 } else
                 {
                     close_loadingModal();
                     reset_errors_crud();
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                        $('[name="' + index + '"]').next().text(value);
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         var juridica = ["razao_social", "cnpj", "ie", "im"];
                         var fisica = ["nome", "sobrenome", "email", "telefone", "nome2", "sobrenome2", "email2", "telefone2", "rg", "cpf"];
                         var endereco = ['endereco', 'numero', 'complemento', 'estado', 'uf', 'bairro', 'cidade', 'cep', 'observacao'];
@@ -923,22 +914,104 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             })
             .always(function () {
                 console.log("complete");
-                enable_button();
+                enable_button_salvar();
             });
-            e.preventDefault();
+        });
+        $("#form_assessor").submit(function (event) {
+            event.preventDefault();
+            if($("#form_assessor #nome").val() == ""){
+                $("#form_assessor #nome").focus();
+                mapear_erro($("#form_assessor #nome"),"O campo Nome é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #sobrenome").val() == ""){
+                $("#form_assessor #sobrenome").focus();
+                mapear_erro($("#form_assessor #sobrenome"),"O campo Sobrenome é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #email").val() == ""){
+                $("#form_assessor #email").focus();
+                mapear_erro($("#form_assessor #email"),"O campo Email é obrigatório.");
+                return;
+            }
+            if(!validar_email( $("#form_assessor #email").val() )){
+                $("#form_assessor #email").focus();
+                mapear_erro($("#form_assessor #email"),"O campo Email deve conter um endereço de e-mail válido.");
+                return;
+            }
+            if($("#form_assessor #telefone").val() == ""){
+                $("#form_assessor #telefone").focus();
+                mapear_erro($("#form_assessor #telefone"),"O campo Telefone é obrigatório.");
+                return;
+            }
+            if($("#form_assessor #comissao").val() == ""){
+                $("#form_assessor #comissao").focus();
+                mapear_erro($("#form_assessor #comissao"),"O campo Comissão é obrigatório.");
+                return;
+            }
+            if(!$.isNumeric($("#form_assessor #comissao").val())){
+                $("#form_assessor #comissao").focus();
+                mapear_erro($("#form_assessor #comissao"),"O campo Comissão deve conter apenas números.");
+                return;
+            }
+            disable_button_salvar();
+            reset_errors();
+            var form = form_crud;
+            var url = url_crud;
+            var modal_form = md_form_crud;
+            var owner = owner_crud;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: $(form).serialize(),
+                dataType: "JSON",
+            })
+            .done(function (data) {
+                console.log("success");
+                enable_button_salvar();
+                if (data.status)
+                {
+                    $(modal_form).modal('hide');
+                    session_assessor_inserir(data.id);
+                    reload_table_assessor();
+                } else
+                {
+                    close_loadingModal();
+                    reset_errors_crud();
+                    $.map(data.form_validation, function (value, index) {
+                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("error");
+            })
+            .always(function () {
+                console.log("complete");
+                enable_button_salvar();
+            });
+        });
+        $("#form_forma_pagamento #qtd_parcelas").change(function(event) { // Limpa o erro dos próximos vencimentos caso selecione 1 parcela
+            if($("#form_forma_pagamento #qtd_parcelas").val() == 1){
+                $("#form_forma_pagamento #vencimento_dia").closest(".form-group").removeClass('has-error').find('.help-block').empty();
+            }
         });
     }
+
     function reset_form_crud() {
         $('#form_cliente')[0].reset();
         $('.form-group').removeClass('has-error');
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty();
     }
+
     function reset_errors_crud() {
         $('.form-group').removeClass('has-error');
         $('.error_validation').removeClass('glyphicon-remove');
         $('.help-block').empty();
     }
+
     function pre_crud(owner, action, form, md_tb, md_form, url) {
         console.log('Função: pre_crud()');
         reset_errors_crud();
@@ -978,6 +1051,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log('Nenhum owner foi definido!');
         }
     }
+
     function adicionar(form, md_tb_crud, md_form_crud) {
         console.log('Função: adicionar()');
         reset_form(form);
@@ -988,6 +1062,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $(md_form_crud).modal('show');
     }
+
     function editar(id, md_tb_crud, md_form_crud) {
         console.log('Função: editar()');
         var form = form_crud;
@@ -1028,14 +1103,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 alert('Erro ao buscar os dados');
             },
             complete: function(){
-                enable_button();
+                enable_button_salvar();
             }
         });
     }
+
     function orcamento_info_modal() {
 
         $('#md_orcamento_info').modal();
     }
+
     function orcamento_assessor(acao) {
         if (!$.fn.DataTable.isDataTable('#tabela_assessor')) {
             tabela_assessor = $("#tabela_assessor").DataTable({
@@ -1051,6 +1128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 processing: true,
                 serverSide: true,
+                order: [[1, 'desc']],
                 ajax: {
                     url: "<?= base_url('assessor/ajax_list') ?>",
                     type: "POST",
@@ -1063,14 +1141,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                 },
                 columns: [
-                {data: "id", "visible": true},
-                {data: "nome", "visible": true},
-                {data: "sobrenome", "visible": true},
-                {data: "empresa", "visible": true},
-                {data: "telefone", "visible": true},
-                {data: "email", "visible": true},
-                {data: "comissao", "visible": false},
-                {data: "descricao", "visible": true},
+                    {data: "id", "visible": true},
+                    {data: "nome", "visible": true},
+                    {data: "sobrenome", "visible": true},
+                    {data: "empresa", "visible": true},
+                    {data: "telefone", "visible": true},
+                    {data: "email", "visible": true},
+                    {data: "comissao", "visible": false},
+                    {data: "descricao", "visible": true},
                 ]
             });
         }
@@ -1104,6 +1182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     
         }
     }
+
     function orcamento_cliente() {
         if (!$.fn.DataTable.isDataTable('#tabela_cliente')) {
             tabela_cliente = $("#tabela_cliente").DataTable({
@@ -1114,7 +1193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     extend: 'colvis',
                     text: 'Visualizar colunas'
                 }],
-                order: [[0, 'desc']],
+                order: [[0, 'desc']],//Última inserção para facilitar
                 language: {
                     url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
                 },
@@ -1135,31 +1214,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                 },
                 columns: [
-                {data: "id", "visible": true},
-                {data: "nome", "visible": true},
-                {data: "sobrenome", "visible": true},
-                {data: "email", "visible": true},
-                {data: "telefone", "visible": true},
-                {data: "nome2", "visible": false},
-                {data: "sobrenome2", "visible": false},
-                {data: "email2", "visible": false},
-                {data: "telefone2", "visible": false},
-                {data: "rg", "visible": false},
-                {data: "cpf", "visible": true},
-                {data: "endereco", "visible": false},
-                {data: "numero", "visible": false},
-                {data: "complemento", "visible": false},
-                {data: "estado", "visible": false},
-                {data: "uf", "visible": false},
-                {data: "bairro", "visible": false},
-                {data: "cidade", "visible": false},
-                {data: "cep", "visible": false},
-                {data: "observacao", "visible": false},
-                {data: "pessoa_tipo", "visible": false},
-                {data: "razao_social", "visible": false},
-                {data: "cnpj", "visible": false},
-                {data: "ie", "visible": false},
-                {data: "im", "visible": false},
+                    {data: "id", "visible": true},
+                    {data: "nome", "visible": true},
+                    {data: "sobrenome", "visible": true},
+                    {data: "email", "visible": true},
+                    {data: "telefone", "visible": true},
+                    {data: "nome2", "visible": false},
+                    {data: "sobrenome2", "visible": false},
+                    {data: "email2", "visible": false},
+                    {data: "telefone2", "visible": false},
+                    {data: "rg", "visible": false},
+                    {data: "cpf", "visible": true},
+                    {data: "endereco", "visible": false},
+                    {data: "numero", "visible": false},
+                    {data: "complemento", "visible": false},
+                    {data: "estado", "visible": false},
+                    {data: "uf", "visible": false},
+                    {data: "bairro", "visible": false},
+                    {data: "cidade", "visible": false},
+                    {data: "cep", "visible": false},
+                    {data: "observacao", "visible": false},
+                    {data: "pessoa_tipo", "visible": false},
+                    {data: "razao_social", "visible": false},
+                    {data: "cnpj", "visible": false},
+                    {data: "ie", "visible": false},
+                    {data: "im", "visible": false},
                 ]
             });
         } else {
@@ -1167,12 +1246,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $("#md_clientes").modal();
     }
+
     function session_orcamento_info(modal_open = true) {
         pre_submit('#form_orcamento_info', '<?= base_url('orcamento/ajax_session_orcamento_info') ?>', '#md_orcamento_info');
         if (modal_open) {
             $('#md_orcamento_info').modal();
         }
     }
+
+    function session_orcamento_descricao() {
+        $.ajax({
+            url: '<?=base_url('orcamento/ajax_session_orcamento_descricao')?>',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#form_descricao').serialize(),
+        })
+        .done(function(data) {
+            console.log("success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
+    }
+
     function session_cliente_inserir(id) {
         $.ajax({
             url: '<?= base_url("orcamento/ajax_session_cliente_inserir") ?>',
@@ -1197,6 +1293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
     }
+
     function session_assessor_inserir(id) {
         console.log('session_assessor_inserir()');
         $.ajax({
@@ -1219,6 +1316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function orcamento_desconto(acao, valor) {
         reset_errors();
         if (acao === 'inserir') {
@@ -1233,6 +1331,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             main_excluir("<?= base_url('orcamento/ajax_session_desconto/excluir') ?>");
         }
     }
+
     function orcamento_modal() {
         $.confirm({
             title: 'Confirmação!',
@@ -1260,23 +1359,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             },
             cancel: function () {
-                $.alert({
-                    title: 'Cancelado!',
-                    content: 'A operação foi cancelada.'
-                });
             }
         });
     }
+
     function produto_modal(acao, posicao = "", id = "", nome = "", quantidade = "", descricao = "", id_categoria = "") {
         if (acao === "inserir") {
             ajax_carregar_categoria();
             reset_form("#form_produto");
-            $(".filter-option").text("");
+            $('#produto').selectpicker('val', '');
             pre_submit("#form_produto", "<?= base_url('produto/session_produto_inserir') ?>", "#md_produto");
         } else if (acao === "editar") {
             pre_submit("#form_produto", 'produto/session_produto_editar/' + posicao, "#md_produto");
-            //$("#produto option[value=" + id + "]").prop('selected', true);
-            //$(".filter-option").text(nome);
             $('#produto').selectpicker('val', id);
             $("#quantidade_produto").val(quantidade);
             $("#descricao_produto").val(descricao);
@@ -1287,6 +1381,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $("#md_produto").modal();
     }
+
     function ajax_carregar_categoria(editar = false,id_categoria = null) {
         $('#produto_categoria')
         .find('option')
@@ -1319,11 +1414,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     $("#produto_categoria").change(function(event) {
         var option = $(this).find('option:selected');
         var id_categoria = option.val();
         ajax_carregar_produto(id_categoria);
     });
+
     function ajax_carregar_produto(id_categoria,editar = false, id_produto = null) {
         $('#produto')
         .find('option')
@@ -1354,17 +1451,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function produto_excluir_posicao(posicao) {
         main_excluir('produto/session_produto_excluir/' + posicao);
     }
+
     function convite_excluir_posicao(posicao) {
         main_excluir('convite/session_orcamento_convite_excluir/' + posicao);
     }
+
     function personalizado_excluir_posicao(posicao) {
         main_excluir('personalizado/session_orcamento_personalizado_excluir/' + posicao);
     }
+
     function delivery_date(owner, form) {
-        reset_errors();
         if (owner === "convite") {
             set_date_delivery('<?= base_url('pedido/ajax_set_date_delivery/convite') ?>', form);
         } else if (owner === "personalizado") {
@@ -1373,7 +1473,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             set_date_delivery('<?= base_url('pedido/ajax_set_date_delivery/produto') ?>', form);
         }
     }
+
     function set_date_delivery(url, form) {
+        reset_errors();
         $.ajax({
             url: url,
             type: 'POST',
@@ -1384,7 +1486,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("success");
             $.map(data.form_validation, function (value, index) {
                 $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                $('[name="' + index + '"]').next().text(value);
+                $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
             });
         })
         .fail(function () {
@@ -1394,43 +1496,87 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function criar_orcamento() {
         criarPedido = false;
-        call_loadingModal('Preparando para salvar...');
-        is_editing_container_itens();
-    }
-    function criar_pedido() {
-        criarPedido = true;
-        ajax_get_parcelas_pedido();
-        console.log('Função: criar_pedido()');
-        //$('.data_entrega').show();
-        $.ajax({
-            url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
-            type: 'POST',
-            dataType: 'json'
-        })
-        .done(function (data) {
-            console.log("success: criar_pedido()");
-            if (data.status) {
-                $('.data_entrega').show();
-                $.alert({
-                    title: "Data de entrega",
-                    content: "Defina as datas de entrega para cada produto"
-                });
-            } else {
-                $('#md_forma_pagamento').modal('show');
+        $.confirm({
+            title: 'Criar orçamento',
+            content: 'Deseja realmente criar um orçamento?',
+            confirm: function(){
+                call_loadingModal('Preparando para salvar...');
+                is_editing_container_itens();
+            },
+            cancel: function(){
             }
-        })
-        .fail(function () {
-            console.log("error: criar_pedido()");
-        })
-        .always(function () {
-            console.log("complete: criar_pedido()");
         });
     }
-    function finalizar_pedido() {
-        disable_button();
+
+    function criar_pedido() {
+        criarPedido = true;
+        $.confirm({
+            title: 'Criar pedido',
+            content: 'Deseja realmente criar um pedido?',
+            confirm: function(){
+                ajax_get_parcelas_pedido();
+                console.log('criar_pedido()');
+                //$('.data_entrega').show();
+                $.ajax({
+                    url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
+                    type: 'POST',
+                    dataType: 'json'
+                })
+                .done(function (data) {
+                    console.log("success");
+                    if (data.status) {
+                        $('.data_entrega').show();
+                        $.alert({
+                            title: "Data de entrega",
+                            content: "Defina as datas de entrega para cada produto"
+                        });
+                    } else {
+                        $('#md_forma_pagamento').modal('show');
+                    }
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+            },
+            cancel: function(){
+            }
+        });
+    }
+
+    function finalizar_pedido(event) {
+        event.preventDefault();
+        if($("#form_forma_pagamento #forma_pagamento").val() == ""){
+            $("#form_forma_pagamento #forma_pagamento").focus();
+            mapear_erro($("#form_forma_pagamento #forma_pagamento"),"O campo Forma de pagamento é obrigatório.");
+            return;
+        }
+        if($("#form_forma_pagamento #qtd_parcelas").val() == ""){
+            $("#form_forma_pagamento #qtd_parcelas").focus();
+            mapear_erro($("#form_forma_pagamento #qtd_parcelas"),"O campo Quantidade de parcelas é obrigatório.");
+            return;
+        }
+        if($("#form_forma_pagamento #primeiro_vencimento").val() == ""){
+            $("#form_forma_pagamento #primeiro_vencimento").focus();
+            mapear_erro($("#form_forma_pagamento #primeiro_vencimento"),"O campo 1º Vencimento é obrigatório.");
+            return;
+        }
+        if( !date_before_today( $("#form_forma_pagamento #primeiro_vencimento").val() ) ) {
+            $("#form_forma_pagamento #primeiro_vencimento").focus();
+            mapear_erro($('#form_forma_pagamento #primeiro_vencimento'),'A data é anterior a data de hoje ' + get_data_hoje('dd/mm/yyyy'));
+            return;
+        }
+        if($("#form_forma_pagamento #qtd_parcelas").val() > 1){
+            if($("#form_forma_pagamento #vencimento_dia").val() == ""){
+                $("#form_forma_pagamento #vencimento_dia").focus();
+                mapear_erro($("#form_forma_pagamento #vencimento_dia"),"O campo Quantidade de parcelas é obrigatório.");
+                return;
+            }
+        }
         reset_errors();
+        disable_button_salvar();
         $.ajax({
             url: '<?= base_url('pedido/ajax_forma_pagamento') ?>',
             type: 'POST',
@@ -1448,7 +1594,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -1457,9 +1603,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .always(function () {
             console.log("complete: finalizar_pedido()");
-            enable_button();
+            enable_button_salvar();
         });
     }
+
     function is_set_delivery_date() {
         $.ajax({
             url: '<?= base_url('pedido/ajax_is_set_delivery_date') ?>',
@@ -1478,6 +1625,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function is_editing_container_itens() {
         $.ajax({
             url: '<?= base_url('orcamento/ajax_is_editing_container_itens') ?>',
@@ -1515,6 +1663,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function is_empty_orcamento_info(salvar = true) {
         if(salvar){
             $.ajax({
@@ -1540,6 +1689,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
     }
+
     function show_orcamento_info_error(data) {
         var itens = "";
         close_loadingModal();
@@ -1567,6 +1717,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function is_empty_orcamento_itens() {
         console.log("Função: is_empty_orcamento_itens");
         //console.log("Verificando condições para salvar...");
@@ -1596,6 +1747,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete:orcamento/is_empty_orcamento_itens");
         });
     }
+
     function is_empty_orcamento_cliente(save = true) {
         var is_criar_pedido = null;
         if (criarPedido) {
@@ -1646,6 +1798,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("error");
         })
     }
+
     function is_empty_orcamento_assessor() {
         //Função desativada
         $.ajax({
@@ -1680,6 +1833,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function salvar() {
         if (criarPedido) {
             url = '<?= base_url('pedido/ajax_salvar') ?>';
@@ -1723,6 +1877,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function clean_session_orcamento(id) {
         //newWindow = window.open();
         //Limpa o formulário
@@ -1769,15 +1924,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("complete");
         });
     }
+
     function pre_submit(form, url, modal) {
-        console.log('pre_submit');
+        console.log('pre_submit(form, url, modal)');
         form_ajax = form;
         url_ajax = url;
         modal_ajax = modal;
     }
+
     //Adiciona ou Edita produto
-    $(".form_ajax").submit(function (e) {
-        disable_button();
+    $(".form_ajax").submit(function (event) {
+        event.preventDefault();
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1790,12 +1948,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }).done(function (data) {
             console.log('success');
             if (data.status) {
-                $(modal).modal('hide');
+                if(modal != ''){
+                    $(modal).modal('hide');
+                }
                 reload_table();
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1806,13 +1966,84 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
            apply_this_document_ready();
        });
-        e.preventDefault();
     });
-    $("#form_desconto").submit(function (e) {
-        disable_button();
+
+    $("#form_produto").submit(function (event) {
+        event.preventDefault();
+        if($("#form_produto #produto_categoria").val() == ""){
+            $("#form_produto #produto_categoria").focus();
+            mapear_erro($("#form_produto #produto_categoria"),"O campo Categoria é obrigatório.");
+            return;
+        }
+        if($("#form_produto #produto").val() == ""){
+            $("#form_produto #produto").focus();
+            mapear_erro($("#form_produto #produto"),"O campo Produto é obrigatório.");
+            return;
+        }
+        if($("#form_produto #quantidade_produto").val() == ""){
+            $("#form_produto #quantidade_produto").focus();
+            mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade é obrigatório.");
+            return;
+        }
+        if($("#form_produto #quantidade_produto").val() <= 0){
+            $("#form_produto #quantidade_produto").focus();
+            mapear_erro($("#form_produto #quantidade_produto"),"O campo Quantidade não pode ser zero ou menor que zero.");
+            return;
+        }
+        disable_button_salvar();
+        reset_errors();
+        var form = form_ajax;
+        var url = url_ajax;
+        var modal = modal_ajax;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: $(form).serialize(),
+            dataType: "JSON",
+        }).done(function (data) {
+            console.log('success');
+            if (data.status) {
+                if(modal != ''){
+                    $(modal).modal('hide');
+                }
+                reload_table();
+            } else {
+                $.map(data.form_validation, function (value, index) {
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                });
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('error');
+            $.alert({
+                title: 'Atenção!',
+                content: 'Não foi possível Adicionar ou Editar! Tente novamente.',
+            });
+        })
+        .always(function () {
+           enable_button_salvar();
+           apply_this_document_ready();
+       });
+    });
+
+    $("#form_desconto").submit(function (event) {
+        event.preventDefault();
+        if($("#form_desconto #desconto").val() != ""){
+            if($("#form_desconto #desconto").val() < 0){
+                $("#form_desconto #desconto").focus();
+                mapear_erro($("#form_desconto #desconto"),"O Desconto não pode ser um valor negativo!");
+                return;
+            }
+            if(!$.isNumeric($("#form_desconto #desconto").val())){
+                $("#form_desconto #desconto").focus();
+                mapear_erro($("#form_desconto #desconto"),"O campo Desconto deve conter apenas números.");
+                return;
+            }
+        }
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1831,7 +2062,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1842,19 +2073,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
        });
-        e.preventDefault();
     });
-    $("#form_orcamento_info").submit(function (e) {
-        if($("#panel_cliente_id").val() == ""){
-            $.alert({
-                title: "Atenção!",
-                content: "Nenhum cliente foi definido para este orçamento. Adicione um cliente antes de continuar."
-            });
-            return false;
+
+    $("#form_orcamento_info").submit(function (event) {
+        event.preventDefault();
+        if($('#form_orcamento_info #loja').val() == ""){
+            $('#form_orcamento_info #loja').focus();
+            mapear_erro($('#form_orcamento_info #loja'),'O campo Loja é obrigatório.');
+            return;
         }
-        disable_button();
+        if($('#form_orcamento_info #evento').val() == ""){
+            $('#form_orcamento_info #evento').focus();
+            mapear_erro($('#form_orcamento_info #evento'),'O campo Evento é obrigatório.');
+            return;
+        }
+        if($('#form_orcamento_info #data_evento').val() == ""){
+            $('#form_orcamento_info #data_evento').focus()
+            mapear_erro($('#form_orcamento_info #data_evento'),'O campo Data Evento é obrigatório.');
+            return;
+        }
+        if( !date_before_today( $('#form_orcamento_info #data_evento').val() ) ) {
+            $('#form_orcamento_info #data_evento').focus();
+            mapear_erro($('#form_orcamento_info #data_evento'),'A data é anterior a data de hoje ' + get_data_hoje('dd/mm/yyyy'));
+            return;
+        }
+        if($("#form_orcamento_info #panel_cliente_id").val() == ""){
+            orcamento_cliente();
+            return;
+        }
+        disable_button_salvar();
         reset_errors();
         var form = form_ajax;
         var url = url_ajax;
@@ -1871,7 +2120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -1882,10 +2131,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         })
         .always(function () {
-           enable_button();
+           enable_button_salvar();
        });
-        e.preventDefault();
     });
+
+    function required_alert(value) {
+        $.alert({
+            title: "Atenção!",
+            content: "Nenhum(a) " + value + " foi definido(a) para este orçamento."
+        });
+    }
+
     function main_excluir(url) {
         $.confirm({
             title: 'Confirmação',
@@ -1917,6 +2173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     }
+
     function reload_table(orcamento_info = false) {
         $.ajax({
             url: '<?= base_url('orcamento') ?>',
@@ -1939,6 +2196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             apply_this_document_ready();
         });
     }
+
     function call_loadingModal(msg = "") {
         if (msg === "") {
             msg = "Processando os dados..."
@@ -1952,12 +2210,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             animation: 'threeBounce'
         });
     }
+
     function close_loadingModal() {
         // hide the loading modal
         $('body').loadingModal('hide');
         // destroy the plugin
         $('body').loadingModal('destroy');
     }
+
     function clear_all_forms() {
 
         $('form').each(function () {
@@ -1967,24 +2227,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#evento").val("")
         $("#data_evento").val("")
     }
-    function reset_errors() {
-        console.log('reset_errors()');
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-    function disable_button() {
-        $('.btnSubmit').text('Salvando...');
-        $('.btnSubmit').attr('disabled', true);
-    }
-    function enable_button() {
-        $('.btnSubmit').text('Salvar');
-        $('.btnSubmit').attr('disabled', false);
-    }
+
     function reset_form(form) {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
+        reset_errors();
     }
+
     function ajax_get_parcelas_pedido() {
         $.ajax({
             url: '<?= base_url("pedido/ajax_get_parcelas_pedido") ?>',
@@ -1993,7 +2241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .done(function (data) {
             //Limpa o select antes de inserir os novos options
-            $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
+            $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected>Selecione</option>');
             $.each(data, function (i, item) {
                 $("#qtd_parcelas").append($('<option>', {
                     value: item.value,
@@ -2006,20 +2254,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log("Erro ao buscar o valor do pedido");
         })
     }
+
     function reload_table_cliente() {
 
         tabela_cliente.ajax.reload(null, false);
     }
+
     function reload_table_assessor() {
 
         tabela_assessor.ajax.reload(null, false);
-    }
-    function enable_buttons_crud() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons_crud() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
     }
 </script>

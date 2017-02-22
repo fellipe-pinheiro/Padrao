@@ -54,7 +54,9 @@ $(document).ready(function() {
         offset: {top:10}
     	});
 	}
+	remove_error_on_change_and_keyup();
 });
+
 $(document).on('click', '.panel-heading span.clickable', function(e){
 	var $this = $(this);
 	if(!$this.hasClass('panel-collapsed')) {
@@ -67,11 +69,30 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 	}
 });
+
+function mapear_erro(target,value) {
+    target.closest(".form-group").addClass('has-error');
+    target.closest(".form-group").find('.help-block').text(value);
+}
+
+function remove_error_on_change_and_keyup() {
+	$("form").on('keyup', 'input, textarea', function(event) { // Retira a classe de erro do formulário
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+	$("form").on('change', 'select', function(event) { // Retira a classe de erro do formulário
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+	$("form").on('dp.change', 'input', function(event) { // Retira a classe de erro do formulário da classe datetimepicker
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+}
+
 function show_datails(id) {
 	$("#"+id).toggleClass("hidden");
 	$($("#"+id).prev().children()[0]).find('span').toggleClass("glyphicon glyphicon-plus-sign");
 	$($("#"+id).prev().children()[0]).find('span').toggleClass("glyphicon glyphicon-minus-sign")
 }
+
 function numberFormat(str) {
 	if(str == null)
 		return 0;
@@ -82,6 +103,7 @@ function numberFormat(str) {
 		return 0;
 	return Number(parseFloat(str).toFixed(2));
 }
+
 function getDateGroup(dateStr) {
 
 	var arr = dateStr.split("/");
@@ -113,6 +135,7 @@ function getDateGroup(dateStr) {
 		return dateStr;
 	}
 }
+
 //Identifica se o input/select do filtro está sendo aplicado
 function check_filter_dirty() {
 	$(".check_filter_dirty input").each(function(index, el) {
@@ -134,20 +157,29 @@ function check_filter_dirty() {
 		}
 	});
 }
+
 function is_datatable_exists(dt_table) {
 	if($.fn.DataTable.isDataTable( dt_table )){
 		return true;
 	}
 	return false;
 }
+
 function disable_button_salvar(){
-	$('.btnSubmit').text('Salvando...');
+	$('.btnSubmit').text('Salvando...').addClass('spinner');
 	$('.btnSubmit').attr('disabled', true);
 }
+
 function enable_button_salvar() {
-	$('.btnSubmit').text('Salvar');
+	$('.btnSubmit').text('Salvar').removeClass('spinner');
 	$('.btnSubmit').attr('disabled', false);
 }
+
+function reset_errors() { // Retira os erros do formulário
+    $('.form-group').removeClass('has-error');
+    $('.help-block').empty();
+}
+
 function carregaCep(){
 	var cep = $("#input_cep").val();
 	if(cep.length != 9){
@@ -185,6 +217,160 @@ function carregaCep(){
 		console.log("complete");
 	});
 }
+
+function form_small() {
+	$('form input, form select, form textarea').each(
+	    function(index){  
+	        $(this).addClass('input-sm');
+	    }
+	);
+	$('form button').each(
+	    function(index){  
+	        $(this).addClass('btn-sm');
+	    }
+	);
+}
+
+function validar_cpf(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    strCPF = strCPF.replace(/[^0-9]+/g, '');
+    if (strCPF == '00000000000' || strCPF == '11111111111' || strCPF == '22222222222' || strCPF == '33333333333' || strCPF == '44444444444' || strCPF == '55555555555' || strCPF == '66666666666' || strCPF == '77777777777' || strCPF == '88888888888' || strCPF == '99999999999') {
+        return false;
+    }
+    
+    for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+    
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
+    
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+    
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+    return true;
+}
+
+function validar_cnpj(cnpj) {
+    cnpj = cnpj.replace(/[^\d]+/g,'');
+ 
+    if(cnpj == '') return false;
+     
+    if (cnpj.length != 14)
+        return false;
+ 
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == "00000000000000" || 
+        cnpj == "11111111111111" || 
+        cnpj == "22222222222222" || 
+        cnpj == "33333333333333" || 
+        cnpj == "44444444444444" || 
+        cnpj == "55555555555555" || 
+        cnpj == "66666666666666" || 
+        cnpj == "77777777777777" || 
+        cnpj == "88888888888888" || 
+        cnpj == "99999999999999")
+        return false;
+         
+    // Valida DVs
+    tamanho = cnpj.length - 2
+    numeros = cnpj.substring(0,tamanho);
+    digitos = cnpj.substring(tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0))
+        return false;
+         
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0,tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1))
+          return false;
+           
+    return true;
+}
+
+function validar_email(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+function get_data_hoje(formato) {
+
+	return formatar_data("",formato);
+}
+
+function formatar_data(strData,formato){ // formato:yyyy-mm-dd
+	if(strData == ""){
+		var data = new Date();
+	}else{
+		data = strData.replace(/\//g, "-");
+		array = data.split("-"); //yyyy-mm-dd
+		dia = array[2];
+		mes = array[1];
+		ano = array[0];
+		if(ano.length == 4){
+			data = mes + '-' + dia + '-' + ano;
+		}else if(dia.length == 4){
+			array = data.split("-");//dd-mm-yyyy
+			dia = array[0];
+			mes = array[1];
+			ano = array[2];
+			data = mes + '-' + dia + '-' + ano;
+		}
+    	data = new Date(data);
+	}
+    var dia = data.getDate();
+    if (dia.toString().length == 1)
+      dia = "0"+dia;
+    var mes = data.getMonth()+1;
+    if (mes.toString().length == 1)
+      mes = "0"+mes;
+    var ano = data.getFullYear();
+    switch(formato) {
+	    case 'dd-mm-yyyy':
+	        return dia+"-"+mes+"-"+ano;
+	        break;
+	    case 'dd/mm/yyyy':
+	        return dia+"/"+mes+"/"+ano;
+	        break;
+	    case 'mm-dd-yyyy':
+	        return mes+"-"+dia+"-"+ano;
+	        break;
+	    case 'yyyy-mm-dd':
+	        return ano+"-"+mes+"-"+dia;
+	        break;
+	    default:
+	        return data;
+	}
+}
+
+function date_before_today(date) {//[dd/mm/yyyy][dd-mm-yyyy][yyyy-mm-dd]
+	var today = new Date(get_data_hoje('mm-dd-yyyy'));
+	var dateCheck = new Date(formatar_data(date,'mm-dd-yyyy'));
+	if(today.getTime() > dateCheck.getTime()){
+		return false
+	}
+	return true;
+}
+
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {

@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <div class="modal fade" id="md_papel">
-    <?= form_open("#", 'class="form-horizontal" id="form_papel" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_papel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -149,80 +149,97 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Papel</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-                    <!--Papel Linha-->
-                    <div class="form-group">
-                        <?= form_label('Linha: ', 'papel_linha', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="papel_linha" id="papel_linha" class="form-control selectpicker show-tick" data-live-search="true" autofocus>
-                                <option value="" disabled selected>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do papel" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--papel_linha-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="papel_linha" class="control-label">Linha:</label>
+                                    <select name="papel_linha" id="papel_linha" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--papel_dimensao-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="papel_dimensao" class="control-label">Dimensão:</label>
+                                    <select name="papel_dimensao" id="papel_dimensao" class="form-control selectpicker" data-live-search="true" required="required">
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                        <!--Papel Gramatura-->
+                        <div class="form-group hidden" id="default_gramatura">
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                    <div class="form-group input-padding">
+                                        <label for="" class="control-label">Gramatura:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group input-padding">
+                                        <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <input step="1" type="number" min="0" name="gramatura" class="form-control" placeholder="Gramatura ex: 80">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding">
+                                        <input step="0.01" type="number" min="0" name="valor" class="form-control" placeholder="Valor ex: 3,20">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                         </div>
-                    </div>
-                    <!--Papel Dimensao-->
-                    <div class="form-group">
-                        <?= form_label('Dimensão: ', 'papel_dimensao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <select name="papel_dimensao" id="papel_dimensao" class="form-control selectpicker" data-live-search="true">
-                                <option value="" selected disabled>Selecione</option>
-                            </select>
-                            <span class="help-block"></span>
+                        <div id="lista_gramaturas" class="row">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</button>
+                        <div class="form-group input-padding">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</button>
+                            </div>
                         </div>
-                    </div>
-                    <!--Papel Gramatura-->
-                    <div class="form-group hidden" id="default_gramatura">
-                        <?= form_label('Gramatura: ', 'gramatura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="form-group col-sm-4 form_group_gramatura">
-                            <input step="1" type="number" min="0" name="" class="form-control" placeholder="Gramatura ex: 80">
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-4 form_group_gramatura">
-                            <input step="0.01" type="number" min="0" name="" class="form-control" placeholder="Valor ex: 3,20">
-                            <span class="help-block"></span>
-                        </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
-                        </div>
-                    </div>
-                    <div id="lista_gramaturas">
-                    </div>
-                      
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_linha">
-    <?= form_open("#", 'class="form-horizontal" id="form_linha" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_linha">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -232,37 +249,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Linha</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Nome:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome da linha" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_acabamento">
-    <?= form_open("#", 'class="form-horizontal" id="form_acabamento" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_acabamento">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -272,57 +290,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Papel Acabamento</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Nome-->
-                    <div class="form-group">
-                        <?= form_label('Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input('nome', '', 'id="nome" class="form-control"  placeholder="Nome"') ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do acessório" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--codigo-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="codigo" class="control-label">Código:</label>
+                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,30}$">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="valor" class="control-label">Valor:</label>
+                                    <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--codigo-->
-                    <div class="form-group">
-                        <?= form_label('*Código: ', 'codigo', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input type="text" name="codigo" id="codigo" class="form-control" value="" placeholder="Código">
-                            <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--Descrição-->
-                    <div class="form-group">
-                        <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
-                    <!--Valor-->
-                    <div class="form-group">
-                        <?= form_label('*Valor: ', 'valor', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <input step="0.01" value="" name="valor" type="number" class="form-control" placeholder="Valor" />
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_dimensao">
-    <?= form_open("#", 'class="form-horizontal" id="form_dimensao" role="form"') ?>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_dimensao">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -332,35 +351,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Dimensões de papéis</h4>
                 </div>
-                <div class="modal-body form">
-                    <!--ID-->
-                    <?= form_hidden('id') ?>
-
-                    <!--Altura-->
-                    <div class="form-group">
-                        <?= form_label('Altura: ', 'altura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'altura','type'=>'number', 'id'=>'altura', 'class'=>'form-control', 'placeholder'=>'Altura')) ?>
-                            <span class="help-block"></span>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--altura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="altura" class="control-label">Altura (mm):</label>
+                                <input type="number" name="altura" id="altura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Altura do papel inteiro Ex: 660">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!--largura-->
-                    <div class="form-group">
-                        <?= form_label('Largura: ', 'largura', array('class' => 'control-label col-sm-2')) ?>
-                        <div class="col-sm-10">
-                            <?= form_input(array('name'=>'largura','type'=>'number', 'id'=>'largura', 'class'=>'form-control', 'placeholder'=>'Largura')) ?>
-                            <span class="help-block"></span>
+                        <!--largura-->
+                        <div class="col-sm-6">
+                            <div class="form-group input-padding">
+                                <label for="largura" class="control-label">Largura (mm):</label>
+                                <input type="number" name="largura" id="largura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Largura do papel inteiro Ex: 960">
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <input type="submit" id="btnSubmit" class="btn btn-success" value="Salvar">
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
         </div>
-    <?= form_close() ?>
+    </form>
 </div>
 <div class="modal fade" id="md_acabamento_docs">
     <div class="modal-dialog modal-lg">
@@ -439,14 +458,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
-                        <input type="text" id="papel-filtro_papel" class="form-control">
-                    </div>
-                    <div class="form-group">
                         <label for="papel-filtro_linha" class="control-label"> Linha</label>
                         <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
                             <option value="">Selecione</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
+                        <input type="text" id="papel-filtro_papel" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
@@ -474,11 +493,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .tab-pane{
         margin-top: 30px;
     }
-    .form_group_gramatura{
-        margin-left: 0px !important;
-        margin-bottom: 0px !important;
-        margin-right: 0px !important;
-        padding-right: 15px !important;
+    .gramatura_add{
+        padding-bottom: 10px;
     }
     .gramatura_group{
         margin-bottom: 0px !important;
@@ -582,7 +598,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "descricao","visible": false,"orderable": false},
 
             ],
-            order: [[1, 'asc']],
+            order: [[2, 'asc']],//linha
         });
         if(!get_tab_active()){
             console.log('Não foi possível carregar get_tab_active()');
@@ -643,6 +659,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],
                     ajax: {
                         url: "<?= base_url('papel_linha/ajax_list') ?>",
                         type: "POST"
@@ -781,6 +798,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     processing: true,
                     serverSide: true,
+                    order: [[1, 'asc']],//altura
                     ajax: {
                         url: "<?= base_url('papel_dimensao/ajax_list') ?>",
                         type: "POST"
@@ -890,7 +908,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         });
                     }
                     $(md_form).modal('show');
-                    $('.modal-title').text('Editar' + modal_title);
+                    $('.modal-title').text('Editar' + modal_title + ' ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -909,6 +927,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
+            if(tab_active === "#tab_dimensao"){
+                var altura = dataTable.row(".selected").data().altura;
+                var largura = dataTable.row(".selected").data().largura;
+                nome = altura + 'x' + largura;
+            }
             if(tab_active === "#tab_acabamento"){
                 value = dataTable.row(".selected").data().codigo;
                 if($.inArray(value, ["empastamento","laminacao","relevo_seco","corte_vinco","almofada","douracao","corte_laser","faca"]) > -1){
@@ -920,9 +943,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
             $.confirm({
-                title: 'Confirme!',
-                content: "O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.",
-                confirm: function(){
+                title: 'Confirmação!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function () {
                     $.ajax({
                         url: url_delete + id,
                         type: "POST",
@@ -945,7 +970,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                 },
-                cancel: function(){
+                cancel: function () {
                     $.alert('Operação cancelada!')
                 }
             });
@@ -1062,18 +1087,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
         // adicionar funcao para deletar a linha
         if (gramatura == "") {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true);");
+            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true,'"+gramatura+"');");
         } else {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false);");
+            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false,'"+gramatura+"');");
         }
-        // Alterar name e adicionar required
-        $($(c[0]).find("input")[0]).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+        // Alterar id, name, for(label) e adicionar required
+        $($(c[0]).find("input")[0]).prop("id","gramatura_"+id).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+        $($(c[0]).find("label")[0]).prop("for","gramatura_"+id);
         $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
 
         c.appendTo("#lista_gramaturas");
     }
 
-    function remover_gramatura_papel(id,add) {
+    function remover_gramatura_papel(id,add,gramatura) {
+        if(gramatura == ""){
+            do_remove_gramatura_papel(id,add);
+        }else{
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir a gramatura <strong>' + gramatura + '</strong>?',
+                confirm: function(){
+                    do_remove_gramatura_papel(id,add);
+                },
+                cancel: function(){
+                    $.alert('Operação cancelada!');
+                }
+            });
+        }
+    }
+
+    function do_remove_gramatura_papel(id,add) {
         if(visible_gramatura === 1){
             $.alert({
                 title: 'Alerta!',
@@ -1105,6 +1148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function formulario_submit(e) {
+        console.log('formulario submit');
         disable_button_salvar();
         if(!get_tab_active()){
             console.log('Não foi possível carregar get_tab_active()');
@@ -1168,6 +1212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function get_tab_active() {
+        form_small();
         tab_active = $(".nav-tabs li.active a")[0].hash;
         switch(tab_active) {
             case '#tab_papel':
@@ -1239,12 +1284,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function row_select(table,tr) {
         if ($(tr).hasClass("selected")) {
             $(tr).removeClass("selected");
-            disable_buttons();
         }
         else {
             table.$("tr.selected").removeClass("selected");
             $(tr).addClass("selected");
-            enable_buttons();
         }
     }
 
@@ -1255,25 +1298,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function reset_form() {
         $(form)[0].reset();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
+        reset_errors();
         $('.selectpicker').selectpicker('val', '');
         $("#lista_gramaturas").html("");
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
     }
 
     function open_papel_acabamento_docs() {

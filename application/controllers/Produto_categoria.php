@@ -13,8 +13,7 @@ class Produto_categoria extends CI_Controller {
     }
 
     public function index() {
-        $data['titulo_painel'] = 'Categoria de produtos';
-        set_layout('conteudo', load_content('produto_categoria/lista', $data));
+        set_layout('conteudo', load_content('produto_categoria/lista', ""));
         load_layout();
     }
 

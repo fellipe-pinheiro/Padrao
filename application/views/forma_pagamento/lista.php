@@ -62,44 +62,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal_form">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Formas de pagamento</h4>
-            </div>
-            <?= form_open("#", 'class="form-horizontal" id="form_forma_pagamento" role="form"') ?>
-            <div class="modal-body form">
-                <!--ID-->
-                <?= form_hidden('id') ?>
-
-                <!--Nome-->
-                <div class="form-group">
-                    <?= form_label('*Nome: ', 'nome', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <?= form_input('nome', '', 'id="nome" class="form-control" placeholder="Nome"') ?>
-                        <span class="help-block"></span>
-                    </div>
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_forma_pagamento">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Formas de pagamento</h4>
                 </div>
-                <!--Descrição-->
-                <div class="form-group">
-                    <?= form_label('Descrição: ', 'descricao', array('class' => 'control-label col-sm-2')) ?>
-                    <div class="col-sm-10">
-                        <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                        <span class="help-block"></span>
-                    </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <!--ID-->
+                        <input type="hidden" name="id" class="form-control">
+                        <!--nome-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="nome" class="control-label">Forma de pagamento:</label>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Forma de pagamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <!--Descrição-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="descricao" class="control-label">Descrição:</label>
+                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-            </div>
-            <?= form_close() ?>
         </div>
-    </div>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
@@ -151,9 +152,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     fade: true
                 }
             ],
-            processing: true, //Feature control the processing indicator.
-            serverSide: true, //Feature control DataTables' server-side processing mode.
-            // Load data for the table's content from an Ajax source
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
             ajax: {
                 url: "<?= base_url('forma_pagamento/ajax_list') ?>",
                 type: "POST"
@@ -168,11 +169,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tabela_forma_pagamento tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
-                disable_buttons();
             } else {
                 tabela.$("tr.selected").removeClass("selected");
                 $(this).addClass("selected");
-                enable_buttons();
             }
         });
         $("#adicionar").click(function (event) {
@@ -203,12 +202,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function (data)
                 {
                     $.map(data.forma_pagamento, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
-
+                        if ($('[name="' + index + '"]').is("input, textarea")) {
+                            $('[name="' + index + '"]').val(value);
+                        }else{
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar forma pagamento');
+                    $('.modal-title').text('Editar forma de pagamento ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -220,26 +222,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             var id = tabela.row(".selected").id();
             var nome = tabela.row(".selected").data().nome;
-            if (confirm("O registro: " + nome + " será excluido. Clique em OK para continuar ou Cancele a operação.")) {
-                $.ajax({
-                    url: "<?= base_url('forma_pagamento/ajax_delete/') ?>" + id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data)
-                    {
-                        if (data.status) {
-                            reload_table();
-                        } else {
-                            alert("Erro ao excluir o registro");
-                        }
+            $.confirm({
+                title: 'Confirmação!',
+                content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
+                confirmButtonClass: 'btn-danger',
+                cancelButtonClass: 'btn-default',
+                confirm: function () {
+                    $.ajax({
+                        url: "<?= base_url('forma_pagamento/ajax_delete/') ?>" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data)
+                        {
+                            if (data.status) {
+                                reload_table();
+                            } else {
+                                alert("Erro ao excluir o registro");
+                            }
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Erro ao excluir o registro');
-                    }
-                });
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Erro ao excluir o registro');
+                        }
+                    });
+                },
+                cancel: function () {
+                    $.alert('Operação cancelada!')
+                }
+            });
         });
         $("#form_forma_pagamento").submit(function (e) {
             disable_button_salvar();
@@ -264,8 +275,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     } else
                     {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 },
@@ -275,31 +286,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
             e.preventDefault();
         });
+        form_small();
     });
 
     function reload_table() {
         tabela.ajax.reload(null, false); //reload datatable ajax
     }
+
     function reset_form() {
         $('#form_forma_pagamento')[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-    function enable_buttons() {
-        $("#editar").attr("disabled", false);
-        $("#deletar").attr("disabled", false);
-    }
-    function disable_buttons() {
-        $("#editar").attr("disabled", true);
-        $("#deletar").attr("disabled", true);
+        reset_errors()
     }
 </script>
