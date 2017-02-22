@@ -43,8 +43,8 @@ class Evento extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Evento_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Evento_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -63,8 +63,8 @@ class Evento extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Evento_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Evento_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -82,10 +82,11 @@ class Evento extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Evento_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome')
+            );
+        return $dados;
     }
 
     private function validar_formulario() {

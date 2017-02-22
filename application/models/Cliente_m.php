@@ -60,22 +60,22 @@ class Cliente_m extends CI_Model {
         }
         $this->db->from($this->table);
         $i = 0;
-        foreach ($this->column_search as $item) { // loop column 
-            if ($_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+        foreach ($this->column_search as $item) {
+            if ($_POST['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
                 }
                 $i++;
             }
 
-        if (isset($_POST['order'])) { // here order processing
+        if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
@@ -107,16 +107,7 @@ class Cliente_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('cliente');
         if($result->num_rows() > 0){
-            $result =  $this->Cliente_m->changeToObject($result->result_array());
-            return $result[0];
-        }
-        return false;
-    }
-
-    public function get_list() {
-        $result = $this->db->get('cliente');
-        if($result->num_rows() > 0){
-            return $this->Cliente_m->changeToObject($result->result_array());
+            return $this->changeToObject($result->result_array());
         }
         return false;
     }
@@ -168,15 +159,13 @@ class Cliente_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get();
         if($result->num_rows() > 0){
-            $result =  $this->Cliente_m->changeToObject($result->result_array());
-            return $result[0];
+            return $this->changeToObject($result->result_array());
         }
         return new Cliente_m();
     }
 
-    public function inserir(Cliente_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('cliente', $dados)) {
                 return $this->db->insert_id();
             }
@@ -184,46 +173,14 @@ class Cliente_m extends CI_Model {
         return false;
     }
 
-    public function editar(Cliente_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('cliente', $dados)) {
-                return $objeto->id;
+                return $dados['id'];
             }
         }
         return false;
-    }
-
-    private function get_dados(Cliente_m $objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'pessoa_tipo' => $objeto->pessoa_tipo,
-            'nome' => $objeto->nome,
-            'sobrenome' => $objeto->sobrenome,
-            'email' => $objeto->email,
-            'telefone' => $objeto->telefone,
-            'nome2' => $objeto->nome2,
-            'sobrenome2' => $objeto->sobrenome2,
-            'email2' => $objeto->email2,
-            'telefone2' => $objeto->telefone2,
-            'rg' => $objeto->rg,
-            'cpf' => $objeto->cpf,
-            'endereco' => $objeto->endereco,
-            'numero' => $objeto->numero,
-            'complemento' => $objeto->complemento,
-            'estado' => $objeto->estado,
-            'uf' => $objeto->uf,
-            'bairro' => $objeto->bairro,
-            'cidade' => $objeto->cidade,
-            'cep' => $objeto->cep,
-            'observacao' => $objeto->observacao,
-            'razao_social' => $objeto->razao_social,
-            'cnpj' => $objeto->cnpj,
-            'ie' => $objeto->ie,
-            'im' => $objeto->im,
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -237,7 +194,6 @@ class Cliente_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Cliente_m();
             $object->id = $value['id'];
@@ -265,9 +221,8 @@ class Cliente_m extends CI_Model {
             $object->cnpj = $value['cnpj'];
             $object->ie = $value['ie'];
             $object->im = $value['im'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
 }

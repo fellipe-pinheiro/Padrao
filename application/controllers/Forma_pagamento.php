@@ -44,8 +44,8 @@ class Forma_pagamento extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Forma_pagamento_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Forma_pagamento_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -64,8 +64,8 @@ class Forma_pagamento extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Forma_pagamento_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Forma_pagamento_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -83,11 +83,12 @@ class Forma_pagamento extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Forma_pagamento_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->descricao = $this->input->post('descricao');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'descricao' => $this->input->post('descricao')
+            );
+        return $dados;
     }
 
     private function validar_formulario() {

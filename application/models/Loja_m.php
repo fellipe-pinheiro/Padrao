@@ -25,7 +25,7 @@ class Loja_m extends CI_Model {
     // Ajax 
     var $table = 'loja';
     var $column_order = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep');
-    var $column_search = array('unidade','razao_social','cnpj');
+    var $column_search = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -75,18 +75,14 @@ class Loja_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('loja');
-        $result =  $this->Loja_m->changeToObject($result->result_array());
-        return $result[0];
+        if($result->num_rows() > 0){
+            return $this->changeToObject($result->result_array());
+        }
+        return null;
     }
 
-    public function get_list() {
-        $result = $this->db->get('loja');
-        return $this->Loja_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Loja_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('loja', $dados)) {
                 return $this->db->insert_id();
             }
@@ -94,39 +90,14 @@ class Loja_m extends CI_Model {
         return false;
     }
 
-    public function editar(Loja_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('loja', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public function get_dados(Loja_m $objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'unidade' => $objeto->unidade,
-            'razao_social' => $objeto->razao_social,
-            'cnpj' => $objeto->cnpj,
-            'ie' => $objeto->ie,
-            'im' => $objeto->im,
-            'telefone' => $objeto->telefone,
-            'telefone2' => $objeto->telefone2,
-            'telefone3' => $objeto->telefone3,
-            'email' => $objeto->email,
-            'endereco' => $objeto->endereco,
-            'numero' => $objeto->numero,
-            'complemento' => $objeto->complemento,
-            'estado' => $objeto->estado,
-            'bairro' => $objeto->bairro,
-            'cidade' => $objeto->cidade,
-            'cep' => $objeto->cep,
-            'uf' => $objeto->uf,
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -140,7 +111,6 @@ class Loja_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Loja_m();
             $object->id = $value['id'];
@@ -161,9 +131,8 @@ class Loja_m extends CI_Model {
             $object->cidade = $value['cidade'];
             $object->cep = $value['cep'];
             $object->uf = $value['uf'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($colunas){

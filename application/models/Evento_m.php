@@ -62,18 +62,14 @@ class Evento_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('evento');
-        $result =  $this->Evento_m->changeToObject($result->result_array());
-        return $result[0];
+        if($result->num_rows() > 0){
+            return $this->changeToObject($result->result_array());
+        }
+        return null;
     }
 
-    public function get_list() {
-        $result = $this->db->get('evento');
-        return $this->Evento_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Evento_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('evento', $dados)) {
                 return $this->db->insert_id();
             }
@@ -81,23 +77,14 @@ class Evento_m extends CI_Model {
         return false;
     }
 
-    public function editar(Evento_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('evento', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'nome' => $objeto->nome
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -111,14 +98,12 @@ class Evento_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Evento_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($colunas){

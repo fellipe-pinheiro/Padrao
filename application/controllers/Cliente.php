@@ -86,8 +86,8 @@ class Cliente extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ($data["id"] = $this->Cliente_m->inserir($objeto)) {//Retornando o id para o crud da view do orçamento
+        $dados = $this->get_post();
+        if ($data["id"] = $this->Cliente_m->inserir($dados)) {//Retornando o id para o crud da view do orçamento
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -106,8 +106,8 @@ class Cliente extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($data["id"] = $this->Cliente_m->editar($objeto)) {//Retornando o id para o crud da view do orçamento
+            $dados = $this->get_post();
+            if ($data["id"] = $this->Cliente_m->editar($dados)) {//Retornando o id para o crud da view do orçamento
                 $data["status"] = TRUE;
             }
         }
@@ -125,33 +125,34 @@ class Cliente extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Cliente_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->pessoa_tipo = $this->input->post('pessoa_tipo');
-        $objeto->nome = $this->input->post('nome');
-        $objeto->sobrenome = $this->input->post('sobrenome');
-        $objeto->email = $this->input->post('email');
-        $objeto->telefone = $this->input->post('telefone');
-        $objeto->nome2 = $this->input->post('nome2');
-        $objeto->sobrenome2 = $this->input->post('sobrenome2');
-        $objeto->email2 = $this->input->post('email2');
-        $objeto->telefone2 = $this->input->post('telefone2');
-        $objeto->rg = $this->input->post('rg');
-        $objeto->cpf = $this->input->post('cpf');
-        $objeto->endereco = $this->input->post('endereco');
-        $objeto->numero = $this->input->post('numero');
-        $objeto->complemento = $this->input->post('complemento');
-        $objeto->estado = $this->input->post('estado');
-        $objeto->uf = $this->input->post('uf');
-        $objeto->bairro = $this->input->post('bairro');
-        $objeto->cidade = $this->input->post('cidade');
-        $objeto->cep = $this->input->post('cep');
-        $objeto->observacao = $this->input->post('observacao');
-        $objeto->razao_social = $this->input->post('razao_social');
-        $objeto->cnpj = $this->input->post('cnpj');
-        $objeto->ie = $this->input->post('ie');
-        $objeto->im = $this->input->post('im');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'pessoa_tipo' => $this->input->post('pessoa_tipo'),
+            'nome' => $this->input->post('nome'),
+            'sobrenome' => $this->input->post('sobrenome'),
+            'email' => $this->input->post('email'),
+            'telefone' => $this->input->post('telefone'),
+            'nome2' => $this->input->post('nome2'),
+            'sobrenome2' => $this->input->post('sobrenome2'),
+            'email2' => $this->input->post('email2'),
+            'telefone2' => $this->input->post('telefone2'),
+            'rg' => $this->input->post('rg'),
+            'cpf' => $this->input->post('cpf'),
+            'endereco' => $this->input->post('endereco'),
+            'numero' => $this->input->post('numero'),
+            'complemento' => $this->input->post('complemento'),
+            'estado' => $this->input->post('estado'),
+            'uf' => $this->input->post('uf'),
+            'bairro' => $this->input->post('bairro'),
+            'cidade' => $this->input->post('cidade'),
+            'cep' => $this->input->post('cep'),
+            'observacao' => $this->input->post('observacao'),
+            'razao_social' => $this->input->post('razao_social'),
+            'cnpj' => $this->input->post('cnpj'),
+            'ie' => $this->input->post('ie'),
+            'im' => $this->input->post('im'),
+            );
+        return $dados;
     }
 
     private function validar_formulario($update = false) {

@@ -61,8 +61,8 @@ class Loja extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Loja_m->inserir($objeto) ) {
+        $dados = $this->get_post();
+        if ( $this->Loja_m->inserir($dados) ) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -81,8 +81,8 @@ class Loja extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Loja_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Loja_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -100,26 +100,27 @@ class Loja extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Loja_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->unidade = $this->input->post('unidade');
-        $objeto->razao_social = $this->input->post('razao_social');
-        $objeto->cnpj = $this->input->post('cnpj');
-        $objeto->ie = $this->input->post('ie');
-        $objeto->im = $this->input->post('im');
-        $objeto->telefone = $this->input->post('telefone');
-        $objeto->telefone2 = $this->input->post('telefone2');
-        $objeto->telefone3 = $this->input->post('telefone3');
-        $objeto->email = $this->input->post('email');
-        $objeto->endereco = $this->input->post('endereco');
-        $objeto->numero = $this->input->post('numero');
-        $objeto->complemento = $this->input->post('complemento');
-        $objeto->estado = $this->input->post('estado');
-        $objeto->bairro = $this->input->post('bairro');
-        $objeto->cidade = $this->input->post('cidade');
-        $objeto->cep = $this->input->post('cep');
-        $objeto->uf = $this->input->post('uf');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'unidade' => $this->input->post('unidade'),
+            'razao_social' => $this->input->post('razao_social'),
+            'cnpj' => $this->input->post('cnpj'),
+            'ie' => $this->input->post('ie'),
+            'im' => $this->input->post('im'),
+            'telefone' => $this->input->post('telefone'),
+            'telefone2' => $this->input->post('telefone2'),
+            'telefone3' => $this->input->post('telefone3'),
+            'email' => $this->input->post('email'),
+            'endereco' => $this->input->post('endereco'),
+            'numero' => $this->input->post('numero'),
+            'complemento' => $this->input->post('complemento'),
+            'estado' => $this->input->post('estado'),
+            'bairro' => $this->input->post('bairro'),
+            'cidade' => $this->input->post('cidade'),
+            'cep' => $this->input->post('cep'),
+            'uf' => $this->input->post('uf'),
+            );
+        return $dados;
     }
 
     private function validar_formulario($update = false) {
