@@ -28,7 +28,7 @@ class Cliente_conta_m extends CI_Model {
     var $column_search = array('usr.first_name', 'cc.pedido', 'cc.debito_referencia', 'date_format(cc.vencimento,"%d/%m/%Y")', 'cc.forma_pagamento', 'date_format(cc.data,"%d/%m/%Y")', 'cli.nome', 'cli.sobrenome', 'cli.cpf', 'cli.cnpj', 'cli.email');
     var $order = array('cc.id' => 'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         //Orcamento
         $this->db->select('
             cc.id as cc_id, 
@@ -72,7 +72,7 @@ class Cliente_conta_m extends CI_Model {
             $this->db->where('cli.cnpj', $this->input->post('cnpj'));
         }
         if ($this->input->post('vencimento')) {
-            $this->db->where('date_format(cc.vencimento,"%Y-%m-%d")', $this->__format_date($this->input->post('vencimento')));
+            $this->db->where('date_format(cc.vencimento,"%Y-%m-%d")', date_to_db($this->input->post('vencimento')));
         }
         $this->db->from($this->table);
         $i = 0;
@@ -101,22 +101,22 @@ class Cliente_conta_m extends CI_Model {
     }
 
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
-        $this->__join();
+        $this->join();
         $query = $this->db->get();
         return $query->result();
     }
 
     public function count_filtered() {
-        $this->_get_datatables_query();
-        $this->__join();
+        $this->get_datatables_query();
+        $this->join();
         $query = $this->db->get();
         return $query->num_rows();
     }
 
-    private function __join() {
+    private function join() {
         $this->db->join('users as usr', 'cc.usuario = usr.id', 'left');
         $this->db->join('forma_pagamento as fpg', 'cc.forma_pagamento = fpg.id', 'left');
         $this->db->join('pedido as ped', 'cc.pedido = ped.id', 'left');
@@ -134,7 +134,7 @@ class Cliente_conta_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('cliente_conta');
         if ($result->num_rows() > 0) {
-            $result = $this->Cliente_conta_m->__changeToObject($result->result_array());
+            $result = $this->changeToObject($result->result_array());
             return $result[0];
         }
         return null;
@@ -144,7 +144,7 @@ class Cliente_conta_m extends CI_Model {
         $this->db->where('debito_referencia', $id);
         $result = $this->db->get('cliente_conta');
         if ($result->num_rows() > 0) {
-            $result = $this->Cliente_conta_m->__changeToObject($result->result_array());
+            $result = $this->changeToObject($result->result_array());
             return $result;
         }
         return array();
@@ -170,8 +170,7 @@ class Cliente_conta_m extends CI_Model {
             'adicional_id' => $this->adicional_id,
             );
         if ($this->db->insert('cliente_conta', $dados)) {
-            $this->id = $this->db->insert_id();
-            return $this->id;
+            return $this->db->insert_id();
         }
         return false;
     }
@@ -200,7 +199,7 @@ class Cliente_conta_m extends CI_Model {
         }
         $result = $this->db->get('cliente_conta');
         if ($result->num_rows() > 0) {
-            $result = $this->Cliente_conta_m->__changeToObject($result->result_array());
+            $result = $this->changeToObject($result->result_array());
             return $result;
         }
         return null;
@@ -216,15 +215,10 @@ class Cliente_conta_m extends CI_Model {
         }
         $result = $this->db->get('cliente_conta');
         if ($result->num_rows() > 0) {
-            $result = $this->Cliente_conta_m->__changeToObject($result->result_array());
+            $result = $this->changeToObject($result->result_array());
             return $result;
         }
         return null;
-    }
-
-    private function __format_date($date) {
-        list($dia, $mes, $ano) = explode('/', $date);
-        return $date = $ano . '-' . $mes . '-' . $dia;
     }
 
     public function set_vencimento($parcela) {
@@ -232,7 +226,7 @@ class Cliente_conta_m extends CI_Model {
             return $this->primeiro_vencimento;
         } else {
             $date = $this->get_next_month();
-            if ($this->__valid_date($date)) {
+            if (validate_date($date)) {
                 return $date;
             } else {
                 return $this->primeiro_vencimento;
@@ -316,13 +310,8 @@ class Cliente_conta_m extends CI_Model {
         }
         return $soma;
     }
-
-    private function __valid_date($date) {
-        list($ano, $mes, $dia) = explode('-', $date);
-        return checkdate($mes, $dia, $ano);
-    }
     
-    private function __changeToObject($result_db) {
+    private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Cliente_conta_m();
