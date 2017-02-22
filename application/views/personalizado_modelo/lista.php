@@ -113,54 +113,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-                        <!--personalizado_categoria-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="personalizado_categoria" class="control-label">Categoria:</label>
-                                <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
-                                    <option disabled selected>Selecione</option>
-                                </select>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--personalizado_categoria-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="personalizado_categoria" class="control-label">Categoria:</label>
+                                    <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--nome-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do modelo" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--codigo-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="codigo" class="control-label">Código:</label>
+                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,20}$">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--nome-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--formato-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="formato" class="control-label">Formato:</label>
+                                    <input type="number" name="formato" id="formato" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="999" placeholder="Aproveitamento do papel">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="valor" class="control-label">Valor:</label>
+                                    <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--codigo-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="codigo" class="control-label">Código:</label>
-                                <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,20}$">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--formato-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="formato" class="control-label">Formato:</label>
-                                <input type="number" name="formato" id="formato" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="999" placeholder="Aproveitamento do papel">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--valor-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="valor" class="control-label">Valor:</label>
-                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     <fieldset>
@@ -192,7 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome da categoria" autofocus>
+                                <input type="text" name="nome" class="form-control" value="" required="required" placeholder="Nome da categoria" autofocus pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>

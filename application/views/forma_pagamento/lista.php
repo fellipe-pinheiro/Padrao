@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Forma de pagamento:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Forma de pagamento" placeholder="Forma de pagamento">
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Forma de pagamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>

@@ -84,95 +84,98 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" id="id" class="form-control">
-                        <!--Nome-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do modelo" placeholder="Nome do modelo">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--Nome-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do modelo" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--Código-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="codigo" class="control-label">Código:</label>
+                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--Código-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="codigo" class="control-label">Código:</label>
-                                <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--altura_final-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="altura_final" class="control-label">Altura Final (mm):</label>
+                                    <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--largura_final-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="largura_final" class="control-label">Largura Final (mm):</label>
+                                    <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        
-                        <!--altura_final-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="altura_final" class="control-label">Altura Final (mm):</label>
-                                <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--cartao_altura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
+                                    <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--cartao_largura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
+                                    <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--largura_final-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="largura_final" class="control-label">Largura Final (mm):</label>
-                                <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--envelope_altura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
+                                    <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--envelope_largura-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
+                                    <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--cartao_altura-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
-                                <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--empastamento_borda-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
+                                    <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">                            
                             </div>
                         </div>
-
-                        <!--cartao_largura-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                            <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
-                                <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--envelope_altura-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
-                                <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--envelope_largura-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
-                                <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--empastamento_borda-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
-                                <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            
-                        </div>
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -346,7 +349,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-        $("#form_convite_modelo").submit(function (e) {
+        $("#form_convite_modelo").submit(function (event) {
+            event.preventDefault();
             disable_button_salvar();
             var url;
             if (save_method == 'add') {
@@ -379,10 +383,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 complete: function () {
                     enable_button_salvar();
+                    reload_table();
                 }
             });
-            reload_table();
-            e.preventDefault();
         });
         form_small();
     });

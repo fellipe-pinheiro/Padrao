@@ -110,42 +110,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
-                        <!--nome-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome da impressão" placeholder="Nome da impressão">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome da impressão" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--impressao_area-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="impressao_area" class="control-label">Área:</label>
+                                    <select name="impressao_area" id="impressao_area" class="form-control" required="required">
+                                        <option disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="valor" class="control-label">Valor:</label>
+                                    <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--impressao_area-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="impressao_area" class="control-label">Área:</label>
-                                <select name="impressao_area" id="impressao_area" class="form-control" required="required">
-                                    <option disabled selected>Selecione</option>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--valor-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="valor" class="control-label">Valor:</label>
-                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" title="Nome do modelo" placeholder="Nome do modelo" required="required" autofocus>
+                                <input type="text" name="nome" id="nome" class="form-control" value="" placeholder="Nome do modelo" required="required" autofocus pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>

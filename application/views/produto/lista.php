@@ -112,38 +112,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-                        <!--nome-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome do produto" placeholder="Nome do produto">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Nome:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do produto" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--produto_categoria-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="produto_categoria" class="control-label">Categoria:</label>
+                                    <select name="produto_categoria" id="produto_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="valor" class="control-label">Valor:</label>
+                                    <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--produto_categoria-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="produto_categoria" class="control-label">Categoria:</label>
-                                <select name="produto_categoria" id="produto_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
-                                    <option value="" disabled selected>Selecione</option>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--valor-->
-                        <div class="col-sm-4">
-                            <div class="form-group input-padding">
-                                <label for="valor" class="control-label">Valor:</label>
-                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -175,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" title="Nome da categoria" placeholder="Nome da categoria">
+                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome da categoria" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>

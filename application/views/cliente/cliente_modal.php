@@ -47,7 +47,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="nome" class="control-label">Nome:</label>
-                                                    <input type="text" name="nome" id="nome" class="form-control" value="" title="Nome do responsável" placeholder="Nome do responsável" required="required">
+                                                    <input type="text" name="nome" id="nome" class="form-control" value="" placeholder="Nome do responsável" required="required" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="sobrenome" class="control-label">Sobrenome:</label>
-                                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" title="Sobrenome do responsável" placeholder="Sobrenome do responsável" required="required">
+                                                    <input type="text" name="sobrenome" id="sobrenome" class="form-control" value="" placeholder="Sobrenome do responsável" required="required" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -63,7 +63,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="email" class="control-label">Email:</label>
-                                                    <input type="email" name="email" id="email" class="form-control" value="" title="Email" placeholder="Email" required="required">
+                                                    <input type="email" name="email" id="email" class="form-control" value="" placeholder="Email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="rg" class="control-label">RG:</label>
-                                                    <input type="text" name="rg" id="rg" class="form-control" value="" title="RG" placeholder="RG">
+                                                    <input type="text" name="rg" id="rg" class="form-control" value="" placeholder="RG" pattern=".{1,15}" title="Máximo de 15 caracteres">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group input-padding">
                                                     <label for="cpf" class="control-label">CPF:</label>
-                                                    <input type="text" name="cpf" id="cpf" class="form-control cpf" value="" title="CPF" placeholder="CPF">
+                                                    <input type="text" name="cpf" id="cpf" class="form-control cpf" value="" placeholder="CPF" pattern=".{1,14}" title="Máximo de 14 caracteres">
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
@@ -109,7 +109,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="nome2" class="control-label">Nome2:</label>
-                                            <input type="text" name="nome2" id="nome2" class="form-control" value="" title="Segundo contato" placeholder="Segundo contato">
+                                            <input type="text" name="nome2" id="nome2" class="form-control" value="" placeholder="Segundo contato" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="sobrenome2" class="control-label">sobrenome2:</label>
-                                            <input type="text" name="sobrenome2" id="sobrenome2" class="form-control" value="" title="Sobrenome" placeholder="Sobrenome">
+                                            <input type="text" name="sobrenome2" id="sobrenome2" class="form-control" value="" placeholder="Sobrenome" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="email2" class="control-label">Email2:</label>
-                                            <input type="email" name="email2" id="email2" class="form-control" value="" title="Email do contato" placeholder="Email do contato">
+                                            <input type="email" name="email2" id="email2" class="form-control" value="" placeholder="Email do contato" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="telefone2" class="control-label">Telefone 2:</label>
-                                            <input type="text" name="telefone2" id="telefone2" class="form-control sp_celphones" value="" title="Telefone 2" placeholder="Telefone 2">
+                                            <input type="text" name="telefone2" id="telefone2" class="form-control sp_celphones" value="" placeholder="Telefone 2">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="razao_social" class="control-label">Razão Social:</label>
-                                            <input type="text" name="razao_social" id="razao_social" class="form-control" value="" title="Razão Social" placeholder="Razão Social">
+                                            <input type="text" name="razao_social" id="razao_social" class="form-control" value="" placeholder="Razão Social" pattern=".{1,150}" title="Máximo de 150 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -154,7 +154,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="cnpj" class="control-label">CNPJ:</label>
-                                            <input type="text" name="cnpj" id="cnpj" class="form-control cnpj" value="" title="CNPJ" placeholder="CNPJ">
+                                            <input type="text" name="cnpj" id="cnpj" class="form-control cnpj" value="" placeholder="CNPJ" pattern=".{1,18}" title="Máximo de 18 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -162,7 +162,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="ie" class="control-label">Inscrição Estadual:</label>
-                                            <input type="text" name="ie" id="ie" class="form-control ie" value="" title="Inscrição Estadual" placeholder="Inscrição Estadual">
+                                            <input type="text" name="ie" id="ie" class="form-control ie" value="" placeholder="Inscrição Estadual" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="im" class="control-label">Inscrição Municipal:</label>
-                                            <input type="text" name="im" id="im" class="form-control im" value="" title="Inscrição Municipal" placeholder="Inscrição Municipal">
+                                            <input type="text" name="im" id="im" class="form-control im" value="" placeholder="Inscrição Municipal" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group input-padding">
                                                 <label for="endereco" class="control-label">Logradouro:</label>
-                                                <input type="text" name="endereco" id="input_endereco" class="form-control" value="" title="Logradouro" placeholder="Logradouro">
+                                                <input type="text" name="endereco" id="input_endereco" class="form-control" value="" placeholder="Logradouro" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -192,7 +192,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group input-padding">
                                                 <label for="numero" class="control-label">Número:</label>
-                                                <input type="text" name="numero" id="numero" class="form-control" value="" title="Número" placeholder="Número">
+                                                <input type="text" name="numero" id="numero" class="form-control" value="" placeholder="Número" pattern=".{1,10}" title="Máximo de 10 caracteres">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group input-padding">
                                                 <label for="complemento" class="control-label">Complemento:</label>
-                                                <input type="text" name="complemento" id="complemento" class="form-control" value="" title="Complemento" placeholder="Complemento">
+                                                <input type="text" name="complemento" id="complemento" class="form-control" value="" placeholder="Complemento" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group input-padding">
                                                 <label for="bairro" class="control-label">Bairro:</label>
-                                                <input type="text" name="bairro" id="input_bairro" class="form-control" value="" title="Bairro" placeholder="Bairro">
+                                                <input type="text" name="bairro" id="input_bairro" class="form-control" value="" placeholder="Bairro" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -219,7 +219,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="cidade" class="control-label">Cidade:</label>
-                                            <input type="text" name="cidade" id="input_cidade" class="form-control" value="" title="Cidade" placeholder="Cidade">
+                                            <input type="text" name="cidade" id="input_cidade" class="form-control" value="" placeholder="Cidade" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -227,7 +227,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="estado" class="control-label">Estado:</label>
-                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control">
+                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                             <datalist id="dl_estado">
                                                 <?php foreach ($dados['estados'] as $estado): ?>
                                                     <option value="<?=$estado?>"></option>
@@ -240,7 +240,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="uf" class="control-label">UF:</label>
-                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control">
+                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
                                             <datalist id="dl_uf">
                                                 <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                     <option value="<?=$uf?>"></option>
@@ -253,7 +253,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="cep" class="control-label">CEP:</label>
-                                            <input type="text" name="cep" id="input_cep" class="form-control cep" value="" title="CEP" placeholder="CEP">
+                                            <input type="text" name="cep" id="input_cep" class="form-control cep" value="" placeholder="CEP" pattern="\d{5}-?\d{3}" title="Máximo de 9 caracteres Ex: 00000-000">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>

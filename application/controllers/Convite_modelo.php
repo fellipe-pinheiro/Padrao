@@ -125,7 +125,7 @@ class Convite_modelo extends CI_Controller {
         }else{
             $is_unique =  '|is_unique[convite_modelo.codigo]';
         }
-        $this->form_validation->set_message('is_unique','Já exixte um campo com este nome. Dados duplicados não são permitidos.');
+        $this->form_validation->set_message('is_unique','Este valor já está cadastrado no banco.');
         $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
         $this->form_validation->set_rules('codigo', 'Código', 'trim|required|min_length[3]|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');

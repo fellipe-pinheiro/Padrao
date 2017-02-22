@@ -164,101 +164,100 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
-                        <!--fita_laco-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="fita_laco" class="control-label">Laço:</label>
-                                <select name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
-                                    <option value="" disabled selected>Selecione</option>
-                                </select>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--fita_laco-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="fita_laco" class="control-label">Laço:</label>
+                                    <select name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--fita_material-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="fita_material" class="control-label">Material:</label>
+                                    <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--fita_material-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="fita_material" class="control-label">Material:</label>
-                                <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
-                                    <option value="" disabled selected>Selecione</option>
-                                </select>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--valor_03mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_03mm" class="control-label"><i></i> valor_03mm:</label>
+                                    <input type="number" name="valor_03mm" id="valor_03mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor_07mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_07mm" class="control-label"><i></i> valor_07mm:</label>
+                                    <input type="number" name="valor_07mm" id="valor_07mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--valor_03mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_03mm" class="control-label"><i></i> valor_03mm:</label>
-                                <input type="number" name="valor_03mm" id="valor_03mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--valor_10mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_10mm" class="control-label"><i></i> valor_10mm:</label>
+                                    <input type="number" name="valor_10mm" id="valor_10mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor_15mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_15mm" class="control-label"><i></i> valor_15mm:</label>
+                                    <input type="number" name="valor_15mm" id="valor_15mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--valor_07mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_07mm" class="control-label"><i></i> valor_07mm:</label>
-                                <input type="number" name="valor_07mm" id="valor_07mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--valor_22mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_22mm" class="control-label"><i></i> valor_22mm:</label>
+                                    <input type="number" name="valor_22mm" id="valor_22mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor_38mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_38mm" class="control-label"><i></i> valor_38mm:</label>
+                                    <input type="number" name="valor_38mm" id="valor_38mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--valor_10mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_10mm" class="control-label"><i></i> valor_10mm:</label>
-                                <input type="number" name="valor_10mm" id="valor_10mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--valor_50mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_50mm" class="control-label"><i></i> valor_50mm:</label>
+                                    <input type="number" name="valor_50mm" id="valor_50mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--valor_70mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_70mm" class="control-label"><i></i> valor_70mm:</label>
+                                    <input type="number" name="valor_70mm" id="valor_70mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-
-                        <!--valor_15mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_15mm" class="control-label"><i></i> valor_15mm:</label>
-                                <input type="number" name="valor_15mm" id="valor_15mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--valor_22mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_22mm" class="control-label"><i></i> valor_22mm:</label>
-                                <input type="number" name="valor_22mm" id="valor_22mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--valor_38mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_38mm" class="control-label"><i></i> valor_38mm:</label>
-                                <input type="number" name="valor_38mm" id="valor_38mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--valor_50mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_50mm" class="control-label"><i></i> valor_50mm:</label>
-                                <input type="number" name="valor_50mm" id="valor_50mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <!--valor_70mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="valor_70mm" class="control-label"><i></i> valor_70mm:</label>
-                                <input type="number" name="valor_70mm" id="valor_70mm" step="0.01" min="0" class="form-control valor_mm" value="0.00" required="required" title="Valor" placeholder="Valor">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-
                     <fieldset>
                 </div>
                 <div class="modal-footer">
@@ -289,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do laço" placeholder="Nome do laço">
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome do laço" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -326,69 +325,76 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
-                        <!--esp_03mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_03mm" class="control-label">esp_03mm:</label>
-                                <input type="text" name="esp_03mm" id="esp_03mm" class="form-control" required="required" title="Espessura 03mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--esp_03mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_03mm" class="control-label">esp_03mm:</label>
+                                    <input type="text" name="esp_03mm" id="esp_03mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--esp_07mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_07mm" class="control-label">esp_07mm:</label>
+                                    <input type="text" name="esp_07mm" id="esp_07mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--esp_07mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_07mm" class="control-label">esp_07mm:</label>
-                                <input type="text" name="esp_07mm" id="esp_07mm" class="form-control" required="required" title="Espessura 07mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--esp_10mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_10mm" class="control-label">esp_10mm:</label>
+                                    <input type="text" name="esp_10mm" id="esp_10mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--esp_15mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_15mm" class="control-label">esp_15mm:</label>
+                                    <input type="text" name="esp_15mm" id="esp_15mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--esp_10mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_10mm" class="control-label">esp_10mm:</label>
-                                <input type="text" name="esp_10mm" id="esp_10mm" class="form-control" required="required" title="Espessura 10mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--esp_22mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_22mm" class="control-label">esp_22mm:</label>
+                                    <input type="text" name="esp_22mm" id="esp_22mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--esp_38mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_38mm" class="control-label">esp_38mm:</label>
+                                    <input type="text" name="esp_38mm" id="esp_38mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--esp_15mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_15mm" class="control-label">esp_15mm:</label>
-                                <input type="text" name="esp_15mm" id="esp_15mm" class="form-control" required="required" title="Espessura 15mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--esp_50mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_50mm" class="control-label">esp_50mm:</label>
+                                    <input type="text" name="esp_50mm" id="esp_50mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
-                        </div>
-                        <!--esp_22mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_22mm" class="control-label">esp_22mm:</label>
-                                <input type="text" name="esp_22mm" id="esp_22mm" class="form-control" required="required" title="Espessura 22mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--esp_38mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_38mm" class="control-label">esp_38mm:</label>
-                                <input type="text" name="esp_38mm" id="esp_38mm" class="form-control" required="required" title="Espessura 38mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--esp_50mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_50mm" class="control-label">esp_50mm:</label>
-                                <input type="text" name="esp_50mm" id="esp_50mm" class="form-control" required="required" title="Espessura 50mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--esp_70mm-->
-                        <div class="col-sm-6">
-                            <div class="form-group input-padding">
-                                <label for="esp_70mm" class="control-label">esp_70mm:</label>
-                                <input type="text" name="esp_70mm" id="esp_70mm" class="form-control" required="required" title="Espessura 70mm" placeholder="Nome para esta espessura">
-                                <span class="help-block"></span>
+                            <!--esp_70mm-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="esp_70mm" class="control-label">esp_70mm:</label>
+                                    <input type="text" name="esp_70mm" id="esp_70mm" class="form-control" required="required" placeholder="Nome para esta espessura" pattern=".{1,20}" title="Máximo de 20 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -421,7 +427,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome do material Ex: Cetim" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>

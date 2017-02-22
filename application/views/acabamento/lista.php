@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required="required" title="Nome do acabamento" placeholder="Nome do acabamento">
+                                <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome do acabamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="valor" class="control-label">Valor:</label>
-                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" placeholder="Valor">
                                 <span class="help-block"></span>
                             </div>
                         </div>

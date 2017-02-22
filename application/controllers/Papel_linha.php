@@ -99,7 +99,7 @@ class Papel_linha extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
+        $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {

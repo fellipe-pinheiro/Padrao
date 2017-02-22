@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="unidade" class="control-label">Unidade:</label>
-                                        <input type="text" name="unidade" id="unidade" class="form-control" value="" required="required" title="Unidade" placeholder="Ex: Jardins" autofocus>
+                                        <input type="text" name="unidade" id="unidade" class="form-control" value="" required="required" placeholder="Ex: Jardins" autofocus pattern=".{1,50}" title="Máximo de 50 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="razao_social" class="control-label">Razão Social:</label>
-                                        <input type="text" name="razao_social" id="razao_social" class="form-control" value="" required="required" title="Razão Social" placeholder="Razão Social">
+                                        <input type="text" name="razao_social" id="razao_social" class="form-control" value="" required="required" placeholder="Razão Social" pattern=".{1,150}" title="Máximo de 150 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="cnpj" class="control-label">CNPJ:</label>
-                                        <input type="text" name="cnpj" id="cnpj" class="form-control" value="" title="CNPJ" placeholder="CNPJ">
+                                        <input type="text" name="cnpj" id="cnpj" class="form-control" value="" placeholder="CNPJ" pattern=".{1,18}" title="Máximo de 18 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="ie" class="control-label">Inscrição Estadual:</label>
-                                        <input type="text" name="ie" id="ie" class="form-control" value="" title="Inscrição Estadual" placeholder="Inscrição Estadual">
+                                        <input type="text" name="ie" id="ie" class="form-control" value="" placeholder="Inscrição Estadual" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="im" class="control-label">Inscrição Municipal:</label>
-                                        <input type="text" name="im" id="im" class="form-control" value="" title="Inscrição Municipal" placeholder="Inscrição Municipal">
+                                        <input type="text" name="im" id="im" class="form-control" value="" placeholder="Inscrição Municipal" pattern=".{1,30}" title="Máximo de 30 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="email" class="control-label">Email:</label>
-                                        <input type="email" name="email" id="email" class="form-control" value="" title="Email" placeholder="Email" required="required">
+                                        <input type="email" name="email" id="email" class="form-control" value="" placeholder="Email" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Insira um email válido">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="cep" class="control-label">CEP:</label>
-                                        <input type="text" name="cep" id="input_cep" class="form-control cep" value="" title="CEP" placeholder="CEP">
+                                        <input type="text" name="cep" id="input_cep" class="form-control cep" value="" placeholder="CEP" pattern="\d{5}-?\d{3}" title="Máximo de 9 caracteres Ex: 00000-000">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="endereco" class="control-label">Logradouro:</label>
-                                        <input type="text" name="endereco" id="input_endereco" class="form-control" value="" title="Logradouro" placeholder="Logradouro">
+                                        <input type="text" name="endereco" id="input_endereco" class="form-control" value="" placeholder="Logradouro" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="numero" class="control-label">Número:</label>
-                                        <input type="text" name="numero" id="numero" class="form-control" value="" title="Número" placeholder="Número">
+                                        <input type="text" name="numero" id="numero" class="form-control" value="" placeholder="Número" pattern=".{1,10}" title="Máximo de 10 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="complemento" class="control-label">Complemento:</label>
-                                        <input type="text" name="complemento" id="complemento" class="form-control" value="" title="Complemento" placeholder="Complemento">
+                                        <input type="text" name="complemento" id="complemento" class="form-control" value="" placeholder="Complemento" pattern=".{1,100}" title="Máximo de 100 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="bairro" class="control-label">Bairro:</label>
-                                        <input type="text" name="bairro" id="input_bairro" class="form-control" value="" title="Bairro" placeholder="Bairro">
+                                        <input type="text" name="bairro" id="input_bairro" class="form-control" value="" placeholder="Bairro" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="cidade" class="control-label">Cidade:</label>
-                                        <input type="text" name="cidade" id="input_cidade" class="form-control" value="" title="Cidade" placeholder="Cidade">
+                                        <input type="text" name="cidade" id="input_cidade" class="form-control" value="" placeholder="Cidade" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -237,7 +237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="estado" class="control-label">Estado:</label>
-                                        <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control">
+                                        <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                         <datalist id="dl_estado">
                                             <?php foreach ($dados['estados'] as $estado): ?>
                                                 <option value="<?=$estado?>"></option>
@@ -250,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="uf" class="control-label">UF:</label>
-                                        <input list="dl_uf" name="uf" id="input_uf" class="form-control">
+                                        <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
                                         <datalist id="dl_uf">
                                             <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                 <option value="<?=$uf?>"></option>

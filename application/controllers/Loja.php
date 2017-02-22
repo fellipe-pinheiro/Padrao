@@ -147,8 +147,8 @@ class Loja extends CI_Controller {
         $this->form_validation->set_rules('telefone2', 'Telefone2', 'trim|max_length[15]');
         $this->form_validation->set_rules('telefone3', 'Telefone3', 'trim|max_length[15]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[100]|valid_email');
-        $this->form_validation->set_rules('endereco', 'Endereço', 'trim|max_length[50]');
-        $this->form_validation->set_rules('numero', 'Número', 'trim');
+        $this->form_validation->set_rules('endereco', 'Endereço', 'trim|max_length[100]');
+        $this->form_validation->set_rules('numero', 'Número', 'trim|max_length[10]');
         $this->form_validation->set_rules('complemento', 'Complemento', 'trim|max_length[100]');
         $this->form_validation->set_rules('estado', 'Estado', 'trim|max_length[50]');
         $this->form_validation->set_rules('uf', 'UF', 'trim|max_length[2]');
