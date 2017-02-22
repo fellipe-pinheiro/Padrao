@@ -37,13 +37,13 @@ class Calendario_m extends CI_Model {
             $this->db->where('produto_codigo', $this->input->post('filtro_produto_codigo'));
         }
         if($this->input->post('filtro_data_evento')){
-            $this->db->where('data_evento', $this->format_date($this->input->post('filtro_data_evento')));
+            $this->db->where('data_evento', date_to_db($this->input->post('filtro_data_evento')));
         }
         if($this->input->post('filtro_data_entrega')){
-            $this->db->where('data_entrega', $this->format_date($this->input->post('filtro_data_entrega')));
+            $this->db->where('data_entrega', date_to_db($this->input->post('filtro_data_entrega')));
         }
         if($this->input->post('filtro_data_inicio') && $this->input->post('filtro_data_final')){
-            $this->db->where("data_entrega BETWEEN '" . $this->format_date($this->input->post('filtro_data_inicio'))."' AND '" . $this->format_date($this->input->post('filtro_data_final')) . "' ", NULL, FALSE );
+            $this->db->where("data_entrega BETWEEN '" . date_to_db($this->input->post('filtro_data_inicio'))."' AND '" . date_to_db($this->input->post('filtro_data_final')) . "' ", NULL, FALSE );
         }
         if($this->input->post('filtro_unidade')){
             $this->db->where('unidade', $this->input->post('filtro_unidade'));
@@ -128,23 +128,27 @@ class Calendario_m extends CI_Model {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
-    }  
+    }
+
     public function get_datatables() {
         $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
-    }  
+    }
+
     public function count_filtered() {
         $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
-    }   
+    }
+
     public function count_all() {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
     public function set_status($ids,$tabela,$adicional,$action){
         $colunas = array();
         if(!$adicional){
@@ -181,15 +185,15 @@ class Calendario_m extends CI_Model {
             $this->db->update($tabela,$dados);
         }
     }
+
+    /* parece inutilizado....
     public function get_convite_detalhes($id,$tabela){
         $this->db->where('produto_id',$id);
         $query = $this->db->get($tabela);
         return $query->result(); 
     }
-    private function format_date($date){
-        list($dia,$mes,$ano) = explode('/', $date);
-        return $date = $ano.'-'.$mes.'-'.$dia;
-    }
+    */
+
     private function set_where_periodo($periodo){
         switch ($periodo) {
             case 'mes_passado':
@@ -263,18 +267,21 @@ class Calendario_m extends CI_Model {
             break;
         }
     }
+
     private function rangeWeek($datestr) {
         $dt = strtotime($datestr);
         $range['start'] = date('N', $dt)==1 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('last monday', $dt));
         $range['end'] = date('N', $dt)==7 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('next sunday', $dt));
         $this->apply_where_range($range);
     }
+
     private function rangeMonth($datestr) {
         $dt = strtotime($datestr);
         $range['start'] = date('Y-m-d', strtotime('first day of this month', $dt));
         $range['end'] = date('Y-m-d', strtotime('last day of this month', $dt));
         $this->apply_where_range($range);
     }
+
     private function rangeBetweenMonths($start,$end) {
         $start = strtotime($start);
         $end = strtotime($end);
@@ -282,6 +289,7 @@ class Calendario_m extends CI_Model {
         $range['end'] = date('Y-m-d', strtotime('last day of this month', $end));
         $this->apply_where_range($range);
     }
+
     private function apply_where_range($range){
 
         $this->db->where("data_entrega BETWEEN '" . $range['start'] ."' AND '" . $range['end'] . "' ", NULL, FALSE );
