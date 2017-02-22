@@ -79,18 +79,11 @@ class Personalizado_modelo_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('personalizado_modelo');
-        $result =  $this->Personalizado_modelo_m->changeToObject($result->result_array());
-        return $result[0];
+        return  $this->Personalizado_modelo_m->changeToObject($result->result_array());
     }
 
-    public function get_list() {
-        $result = $this->db->get('personalizado_modelo');
-        return $this->Personalizado_modelo_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Personalizado_modelo_m $objeto) {
-        if (empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('personalizado_modelo', $dados)) {
                 return $this->db->insert_id();
             }
@@ -98,28 +91,14 @@ class Personalizado_modelo_m extends CI_Model {
         return false;
     }
 
-    public function editar(Personalizado_modelo_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('personalizado_modelo', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'codigo' => $objeto->codigo,
-            'nome' => $objeto->nome,
-            'personalizado_categoria' => $objeto->personalizado_categoria,
-            'formato' => $objeto->formato,
-            'descricao' => $objeto->descricao,
-            'valor' => str_replace(',', '.', $objeto->valor)
-        );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -133,7 +112,6 @@ class Personalizado_modelo_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Personalizado_modelo_m();
             $object->id = $value['id'];
@@ -143,9 +121,8 @@ class Personalizado_modelo_m extends CI_Model {
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object->personalizado_categoria = $this->Personalizado_categoria_m->get_by_id($value['personalizado_categoria']);
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($id_categoria,$colunas){

@@ -52,8 +52,8 @@ class Convite_modelo extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Convite_modelo_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Convite_modelo_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -72,8 +72,8 @@ class Convite_modelo extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Convite_modelo_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Convite_modelo_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -91,19 +91,20 @@ class Convite_modelo extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Convite_modelo_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->codigo = $this->input->post('codigo');
-        $objeto->nome = $this->input->post('nome');
-        $objeto->altura_final = $this->input->post('altura_final');
-        $objeto->largura_final = $this->input->post('largura_final');
-        $objeto->cartao_altura = $this->input->post('cartao_altura');
-        $objeto->cartao_largura = $this->input->post('cartao_largura');
-        $objeto->envelope_altura = $this->input->post('envelope_altura');
-        $objeto->envelope_largura = $this->input->post('envelope_largura');
-        $objeto->empastamento_borda = $this->input->post('empastamento_borda');
-        $objeto->descricao = $this->input->post('descricao');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'codigo' => $this->input->post('codigo'),
+            'nome' => $this->input->post('nome'),
+            'altura_final' => $this->input->post('altura_final'),
+            'largura_final' => $this->input->post('largura_final'),
+            'cartao_altura' => $this->input->post('cartao_altura'),
+            'cartao_largura' => $this->input->post('cartao_largura'),
+            'envelope_altura' => $this->input->post('envelope_altura'),
+            'envelope_largura' => $this->input->post('envelope_largura'),
+            'empastamento_borda' => $this->input->post('empastamento_borda'),
+            'descricao' => $this->input->post('descricao'),
+            );
+        return $dados;
     }
 
     public function ajax_get_personalizado(){

@@ -54,8 +54,8 @@ class Fita extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Fita_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Fita_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -74,8 +74,8 @@ class Fita extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Fita_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Fita_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -93,19 +93,20 @@ class Fita extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Fita_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->fita_laco = $this->input->post('fita_laco');
-        $objeto->fita_material = $this->input->post('fita_material');
-        $objeto->valor_03mm = $this->input->post('valor_03mm');
-        $objeto->valor_07mm = $this->input->post('valor_07mm');
-        $objeto->valor_10mm = $this->input->post('valor_10mm');
-        $objeto->valor_15mm = $this->input->post('valor_15mm');
-        $objeto->valor_22mm = $this->input->post('valor_22mm');
-        $objeto->valor_38mm = $this->input->post('valor_38mm');
-        $objeto->valor_50mm = $this->input->post('valor_50mm');
-        $objeto->valor_70mm = $this->input->post('valor_70mm');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'fita_laco' => $this->input->post('fita_laco'),
+            'fita_material' => $this->input->post('fita_material'),
+            'valor_03mm' => decimal_to_db($this->input->post('valor_03mm')),
+            'valor_07mm' => decimal_to_db($this->input->post('valor_07mm')),
+            'valor_10mm' => decimal_to_db($this->input->post('valor_10mm')),
+            'valor_15mm' => decimal_to_db($this->input->post('valor_15mm')),
+            'valor_22mm' => decimal_to_db($this->input->post('valor_22mm')),
+            'valor_38mm' => decimal_to_db($this->input->post('valor_38mm')),
+            'valor_50mm' => decimal_to_db($this->input->post('valor_50mm')),
+            'valor_70mm' => decimal_to_db($this->input->post('valor_70mm')),
+            );
+        return $dados;
     }
 
     public function ajax_get_personalizado($id_material){

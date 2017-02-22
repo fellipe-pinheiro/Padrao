@@ -71,87 +71,39 @@ class Convite_modelo_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('convite_modelo');
-        $result =  $this->Convite_modelo_m->changeToObject($result->result_array());
-        return $result[0];
+        return  $this->Convite_modelo_m->changeToObject($result->result_array());
     }
 
-    public function get_list() {
-        $result = $this->db->get('convite_modelo');
-        return $this->Convite_modelo_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Convite_modelo_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'codigo' => $objeto->codigo,
-                'nome' => $objeto->nome,
-                'altura_final' => $objeto->altura_final,
-                'largura_final' => $objeto->largura_final,
-                'cartao_altura' => $objeto->cartao_altura,
-                'cartao_largura' => $objeto->cartao_largura,
-                'envelope_altura' => $objeto->envelope_altura,
-                'envelope_largura' => $objeto->envelope_largura,
-                'empastamento_borda' => $objeto->empastamento_borda,
-                'descricao' => $objeto->descricao,
-                
-                );
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('convite_modelo', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro inserido com sucesso');
                 return $this->db->insert_id();
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível inserir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public function editar(Convite_modelo_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'codigo' => $objeto->codigo,
-                'nome' => $objeto->nome,
-                'altura_final' => $objeto->altura_final,
-                'largura_final' => $objeto->largura_final,
-                'cartao_altura' => $objeto->cartao_altura,
-                'cartao_largura' => $objeto->cartao_largura,
-                'envelope_altura' => $objeto->envelope_altura,
-                'envelope_largura' => $objeto->envelope_largura,
-                'empastamento_borda' => $objeto->empastamento_borda,
-                'descricao' => $objeto->descricao,
-                
-                );
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('convite_modelo', $dados)) {
-                $this->session->set_flashdata('sucesso', 'Registro editado com sucesso');
                 return true;
             }
-        } else {
-            $this->session->set_flashdata('erro', 'Não foi possível editar este registro');
-            return false;
         }
+        return false;
     }
 
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
             if ($this->db->delete('convite_modelo')) {
-                $this->session->set_flashdata('sucesso', 'Registro excluido com sucesso');
                 return true;
-            } else {
-                $this->session->set_flashdata('erro', 'Não foi possível excluir este registro');
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Convite_modelo_m();
             $object->id = $value['id'];
@@ -165,9 +117,8 @@ class Convite_modelo_m extends CI_Model {
             $object->envelope_largura = $value['envelope_largura'];
             $object->empastamento_borda = $value['empastamento_borda'];
             $object->descricao = $value['descricao'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($colunas){

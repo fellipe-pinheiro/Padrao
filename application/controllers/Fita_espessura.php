@@ -50,8 +50,8 @@ class Fita_espessura extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ( $this->Fita_espessura_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Fita_espessura_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -70,8 +70,8 @@ class Fita_espessura extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Fita_espessura_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Fita_espessura_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -89,17 +89,18 @@ class Fita_espessura extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Fita_espessura_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->esp_03mm = $this->input->post('esp_03mm');
-        $objeto->esp_07mm = $this->input->post('esp_07mm');
-        $objeto->esp_10mm = $this->input->post('esp_10mm');
-        $objeto->esp_15mm = $this->input->post('esp_15mm');
-        $objeto->esp_22mm = $this->input->post('esp_22mm');
-        $objeto->esp_38mm = $this->input->post('esp_38mm');
-        $objeto->esp_50mm = $this->input->post('esp_50mm');
-        $objeto->esp_70mm = $this->input->post('esp_70mm');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'esp_03mm' => $this->input->post('esp_03mm'),
+            'esp_07mm' => $this->input->post('esp_07mm'),
+            'esp_10mm' => $this->input->post('esp_10mm'),
+            'esp_15mm' => $this->input->post('esp_15mm'),
+            'esp_22mm' => $this->input->post('esp_22mm'),
+            'esp_38mm' => $this->input->post('esp_38mm'),
+            'esp_50mm' => $this->input->post('esp_50mm'),
+            'esp_70mm' => $this->input->post('esp_70mm'),
+            );
+        return $dados;
     }
 
     private function validar_formulario() {

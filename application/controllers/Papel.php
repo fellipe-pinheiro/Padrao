@@ -172,10 +172,10 @@ class Papel extends CI_Controller {
             list( $prefix, $id, $action ) = explode("_",$name);
             switch ($action) {
                 case 'ADD':
-                    $arr =  array("id"=>null,"gramatura"=>$input[$name],"valor"=>number_to_db($input["valor_".$id."_ADD"]));
+                    $arr =  array("id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]));
                     break;
                 case 'UPD':
-                    $arr = array("id"=>$id,"gramatura"=>$input[$name],"valor"=>number_to_db($input["valor_".$id."_UPD"]));
+                    $arr = array("id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]));
                     break;
                 case 'DEL':
                     $this->Papel_gramatura_m->deletar($id);

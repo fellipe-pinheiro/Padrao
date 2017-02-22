@@ -44,8 +44,8 @@ class Fita_laco extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ( $this->Fita_laco_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Fita_laco_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -64,8 +64,8 @@ class Fita_laco extends CI_Controller {
         $data['status'] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Fita_laco_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Fita_laco_m->editar($dados)) {
                 $data['status'] = TRUE;
             }
         }
@@ -84,14 +84,15 @@ class Fita_laco extends CI_Controller {
         $arr = array();
         $arr = $this->Fita_laco_m->get_pesonalizado("id, nome");
         print json_encode($arr);
-    }
+    }   
 
     private function get_post() {
-        $objeto = new Fita_laco_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->descricao = $this->input->post('descricao');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'descricao' => $this->input->post('descricao')
+        );
+        return $dados;
     }
 
     private function validar_formulario() {

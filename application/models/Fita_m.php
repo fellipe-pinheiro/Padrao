@@ -69,7 +69,7 @@ class Fita_m extends CI_Model {
         $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
-        $this->__join();
+        $this->join();
         $query = $this->db->get();
         
         return $query->result();
@@ -77,12 +77,12 @@ class Fita_m extends CI_Model {
     
     public function count_filtered() {
         $this->get_datatables_query();
-        $this->__join();
+        $this->join();
         $query = $this->db->get();
         return $query->num_rows();
     }
 
-    private function __join(){
+    private function join(){
         $this->db->join('fita_laco as fl', 'f.fita_laco = fl.id', 'left');
         $this->db->join('fita_material as fm', 'f.fita_material = fm.id', 'left');
     }
@@ -97,20 +97,13 @@ class Fita_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('fita');
         if($result->num_rows() > 0){
-            $result =  $this->Fita_m->changeToObject($result->result_array());
-            return $result[0];
+            return  $this->Fita_m->changeToObject($result->result_array());
         }
         return false;
     }
 
-    public function get_list() {
-        $result = $this->db->get('fita');
-        return $this->Fita_m->changeToObject($result->result_array());
-    }
-
-    public function inserir($objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('fita', $dados)) {
                 return $this->db->insert_id();
             }
@@ -118,32 +111,14 @@ class Fita_m extends CI_Model {
         return false;
     }
 
-    public function editar($objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('fita', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'fita_laco' => $objeto->fita_laco,
-            'fita_material' => $objeto->fita_material,
-            'valor_03mm' => str_replace(',', '.', $objeto->valor_03mm),
-            'valor_07mm' => str_replace(',', '.', $objeto->valor_07mm),
-            'valor_10mm' => str_replace(',', '.', $objeto->valor_10mm),
-            'valor_15mm' => str_replace(',', '.', $objeto->valor_15mm),
-            'valor_22mm' => str_replace(',', '.', $objeto->valor_22mm),
-            'valor_38mm' => str_replace(',', '.', $objeto->valor_38mm),
-            'valor_50mm' => str_replace(',', '.', $objeto->valor_50mm),
-            'valor_70mm' => str_replace(',', '.', $objeto->valor_70mm),
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -157,7 +132,6 @@ class Fita_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Fita_m();
             $object->id = $value['id'];
@@ -171,23 +145,8 @@ class Fita_m extends CI_Model {
             $object->valor_70mm = $value['valor_70mm'];
             $object->fita_laco = $this->Fita_laco_m->get_by_id($value['fita_laco']);
             $object->fita_material = $this->Fita_material_m->get_by_id($value['fita_material']);
-            $object_lista[] = $object;
         }
-        return $object_lista;
-    }
-
-    public function get_espessura_json(){
-        $arr = array(
-            '3'=>$this->valor_03mm,
-            '7'=>$this->valor_07mm,
-            '10'=>$this->valor_10mm,
-            '15'=>$this->valor_15mm,
-            '22'=>$this->valor_22mm,
-            '38'=>$this->valor_38mm,
-            '50'=>$this->valor_50mm,
-            '70'=>$this->valor_70mm,
-            );
-        return json_encode($arr);
+        return $object;
     }
 
     public function get_pesonalizado($id_material,$colunas){

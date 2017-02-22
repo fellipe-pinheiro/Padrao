@@ -48,8 +48,8 @@ class Personalizado_modelo extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ( $this->Personalizado_modelo_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Personalizado_modelo_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -68,8 +68,8 @@ class Personalizado_modelo extends CI_Controller {
         $data['status'] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Personalizado_modelo_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Personalizado_modelo_m->editar($dados)) {
                 $data['status'] = TRUE;
             }
         }
@@ -93,15 +93,16 @@ class Personalizado_modelo extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Personalizado_modelo_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->codigo = $this->input->post('codigo');
-        $objeto->nome = $this->input->post('nome');
-        $objeto->personalizado_categoria = $this->input->post('personalizado_categoria');
-        $objeto->formato = $this->input->post('formato');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'codigo' => $this->input->post('codigo'),
+            'nome' => $this->input->post('nome'),
+            'personalizado_categoria' => $this->input->post('personalizado_categoria'),
+            'formato' => $this->input->post('formato'),
+            'descricao' => $this->input->post('descricao'),
+            'valor' => decimal_to_db($this->input->post('valor'))
+        );
+        return $dados;
     }
 
     private function validar_formulario($update = false) {

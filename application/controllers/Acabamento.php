@@ -13,7 +13,6 @@ class Acabamento extends CI_Controller {
     }
 
     public function index() {
-        restrito_logado();
         set_layout('conteudo', load_content('acabamento/lista', ""));
         load_layout();
     }
@@ -44,14 +43,13 @@ class Acabamento extends CI_Controller {
     }
 
     public function ajax_add() {
-        $this->validar_formulario();
         $data['status'] = FALSE;
-        $data['status'] = TRUE;
-        $objeto = $this->get_post();
-        if ( $this->Acabamento_m->inserir($objeto)) {
-            print json_encode(array("status" => TRUE, 'msg' => 'Registro adicionado com sucesso'));
-        } else {
+        $this->validar_formulario();
+        $dados = $this->get_post();
+        if ( $this->Acabamento_m->inserir($dados)) {
+            $data['status'] = TRUE;
         }
+        print json_encode($data);
     }
 
     public function ajax_edit($id) {
@@ -67,8 +65,8 @@ class Acabamento extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Acabamento_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Acabamento_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -92,12 +90,13 @@ class Acabamento extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Acabamento_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'descricao' => $this->input->post('descricao'),
+            'valor' => decimal_to_db($this->input->post('valor'))
+        );
+        return $dados;
     }
 
     private function validar_formulario() {

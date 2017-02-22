@@ -47,8 +47,8 @@ class Impressao extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Impressao_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Impressao_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -67,8 +67,8 @@ class Impressao extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Impressao_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Impressao_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -86,13 +86,14 @@ class Impressao extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Impressao_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->impressao_area = $this->input->post('impressao_area');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'impressao_area' => $this->input->post('impressao_area'),
+            'descricao' => $this->input->post('descricao'),
+            'valor' => decimal_to_db($this->input->post('valor'))
+            );
+        return $dados;
     }
 
     public function ajax_get_personalizado($id_area){
