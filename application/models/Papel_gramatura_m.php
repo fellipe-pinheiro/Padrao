@@ -15,7 +15,7 @@ class Papel_gramatura_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('papel_gramatura');
         if($result->num_rows() > 0){
-            $result =  $this->Papel_gramatura_m->changeToObject($result->result_array());
+            $result =  $this->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
@@ -26,7 +26,7 @@ class Papel_gramatura_m extends CI_Model {
         $this->db->order_by("gramatura", "asc");
         $result = $this->db->get('papel_gramatura');
         if($result->num_rows() > 0){
-            return $this->Papel_gramatura_m->changeToObject($result->result_array());
+            return $this->changeToObject($result->result_array());
         }
         return false;
     }
@@ -37,31 +37,8 @@ class Papel_gramatura_m extends CI_Model {
         return $this->db->get('papel_gramatura')->result_array();;
     }
 
-    /*public function get_by_id_papel($id){
-        $this->db->where('papel', $id);
-        $result = $this->db->get('papel_gramatura');
-        if($result->num_rows() > 0){
-            $str = '';
-            foreach ($result->result_array() as $value) {
-                $str .= $value["papel_gramatura"]."g R$ ".$value["valor"]."; ";
-            }
-            return $str;
-        }
-        return false;
-    }*/
-
-    public function get_list() {
-        if (!empty($id)) {
-            $this->db->where('id', $id);
-            $this->db->limit(1);
-        }
-        $result = $this->db->get('papel_gramatura');
-        return $this->Papel_gramatura_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Papel_gramatura_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('papel_gramatura', $dados)) {
                 return $this->db->insert_id();
             }
@@ -69,24 +46,14 @@ class Papel_gramatura_m extends CI_Model {
         return false;
     }
 
-    public function editar(Papel_gramatura_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('papel_gramatura', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-    public function get_dados(Papel_gramatura_m $objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'papel' => $objeto->papel,
-            'gramatura' => $objeto->gramatura,
-            'valor' => str_replace(',', '.', $objeto->valor)
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -99,7 +66,7 @@ class Papel_gramatura_m extends CI_Model {
         return false;
     }
 
-    public function deletar_papel($id) {
+    public function delete_by_papel_id($id) {
         if (!empty($id)) {
             $this->db->where('papel', $id);
             if ($this->db->delete('papel_gramatura')) {

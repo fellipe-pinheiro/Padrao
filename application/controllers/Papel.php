@@ -51,10 +51,10 @@ class Papel extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
+        $dados = $this->get_post();
 
         $this->db->trans_begin();
-        $id_papel = $this->Papel_m->inserir( $objeto );
+        $id_papel = $this->Papel_m->inserir( $dados );
         if ( $id_papel ) {
             $gramaturas = $this->get_array_gramaturas_objects( $id_papel );
             foreach ( $gramaturas as $gramatura ) {
@@ -73,8 +73,11 @@ class Papel extends CI_Controller {
     }
 
     public function ajax_edit($id) {
-        $data["status"] = TRUE;
-        $data["papel"] = $this->Papel_m->get_by_id($id);
+        $data["status"] = FALSE;
+        if(!empty($id)){
+            $data["status"] = TRUE;
+            $data["papel"] = $this->Papel_m->get_by_id($id);
+        }
         print json_encode($data);
     }
 
@@ -83,15 +86,15 @@ class Papel extends CI_Controller {
         $this->validar_formulario();
                 
         if ( $this->input->post('id') ) {
-            $objeto = $this->get_post();
+            $dados = $this->get_post();
             // Inicio Trans
             $this->db->trans_begin();
-            if ($this->Papel_m->editar($objeto)) {
+            if ($this->Papel_m->editar($dados)) {
                 
                 $gramaturas = $this->get_array_gramaturas_objects( $this->input->post('id') );
                
                 foreach ($gramaturas as $gramatura) {
-                    if (empty($gramatura->id)) {
+                    if (empty($gramatura['id'])) {
                         // ADD
                          $this->Papel_gramatura_m->inserir($gramatura);
                     }else{
@@ -128,13 +131,14 @@ class Papel extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Papel_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->papel_linha = $this->input->post('papel_linha');
-        $objeto->nome = $this->input->post('nome');
-        $objeto->papel_dimensao = $this->input->post('papel_dimensao');
-        $objeto->descricao = $this->input->post('descricao');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'papel_linha' => $this->input->post('papel_linha'),
+            'nome' => $this->input->post('nome'),
+            'papel_dimensao' => $this->input->post('papel_dimensao'),
+            'descricao' => $this->input->post('descricao')
+        );
+        return $dados;
     }
 
     public function ajax_get_personalizado($id_papel_linha){
@@ -153,16 +157,17 @@ class Papel extends CI_Controller {
 
         $arr_gramaturas = $this->get_array_inputs_gramaturas("/gramatura_/",$this->input->post());
 
-        $object_lista = array();
+        $dados_lista = array();
         foreach ($arr_gramaturas as $key => $value) {
-            $object = new Papel_gramatura_m();
-            $object->id = $value['id'];
-            $object->papel = $id_papel;
-            $object->gramatura = $value['gramatura'];
-            $object->valor = $value['valor'];
-            $object_lista[] = $object;
+            $dados = array(
+            'id' => $value['id'],
+            'papel' => $id_papel,
+            'gramatura' => $value['gramatura'],
+            'valor' => decimal_to_db($value['valor'])
+            );
+            $dados_lista[] = $dados;
         }
-        return $object_lista;
+        return $dados_lista;
     }
 
     private function get_array_inputs_gramaturas( $pattern, $input, $flag = 0 ){//Retorna um array com as chaves: id, gramatura, valor e seus respectivos valores 

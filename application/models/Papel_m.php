@@ -79,18 +79,11 @@ class Papel_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel');
-        $result =  $this->Papel_m->changeToObject($result->result_array());
-        return $result[0];
+        return $this->changeToObject($result->result_array());
     }
 
-    public function get_list() {
-        $result = $this->db->get('papel');
-        return $this->Papel_m->changeToObject($result->result_array());
-    }
-
-    public function inserir($objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('papel', $dados)) {
                 return $this->db->insert_id();
             }
@@ -98,10 +91,9 @@ class Papel_m extends CI_Model {
         return false;
     }
 
-    public function editar($objeto) {
-        if ( !empty($objeto->id) ) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if ( !empty($dados['id']) ) {
+            $this->db->where('id', $dados['id']);
             if ( $this->db->update('papel', $dados) ) {
                 return true;
             }
@@ -109,20 +101,9 @@ class Papel_m extends CI_Model {
         return false;
     }
 
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'papel_linha' => $objeto->papel_linha,
-            'nome' => $objeto->nome,
-            'papel_dimensao' => $objeto->papel_dimensao,
-            'descricao' => $objeto->descricao
-        );
-        return $dados;
-    }
-
     public function deletar($id) {
         if (!empty($id)) {
-            if($this->Papel_gramatura_m->deletar_papel($id)){
+            if($this->Papel_gramatura_m->delete_by_papel_id($id)){
                 $this->db->where('id', $id);
                 if ($this->db->delete('papel')) {
                     return true;
@@ -162,7 +143,6 @@ class Papel_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_m();
             $object->id = $value['id'];
@@ -171,9 +151,8 @@ class Papel_m extends CI_Model {
             $object->papel_dimensao = $this->Papel_dimensao_m->get_by_id($value['papel_dimensao']);
             $object->papel_gramaturas = $this->Papel_gramatura_m->get_by_papel_id($object->id);
             $object->descricao = $value['descricao'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_papel_gramaturas_json(){
