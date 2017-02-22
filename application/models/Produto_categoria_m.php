@@ -63,18 +63,11 @@ class Produto_categoria_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('produto_categoria');
-        $result =  $this->Produto_categoria_m->changeToObject($result->result_array());
-        return $result[0];
+        return $this->changeToObject($result->result_array());
     }
 
-    public function get_list() {
-        $result = $this->db->get('produto_categoria');
-        return $this->Produto_categoria_m->changeToObject($result->result_array());
-    }
-
-    public function inserir($objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('produto_categoria', $dados)) {
                 return $this->db->insert_id();
             }
@@ -82,24 +75,14 @@ class Produto_categoria_m extends CI_Model {
         return false;
     }
 
-    public function editar($objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('produto_categoria', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'nome' => $objeto->nome,
-            'descricao' => $objeto->descricao
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -113,15 +96,13 @@ class Produto_categoria_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Produto_categoria_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->descricao = $value['descricao'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($colunas){

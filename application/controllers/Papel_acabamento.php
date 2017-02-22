@@ -13,7 +13,6 @@ class Papel_acabamento extends CI_Controller {
     }
 
     public function index() {
-        restrito_logado();
         set_layout('conteudo', load_content('papel_acabamento/lista', ""));
         load_layout();
     }
@@ -47,8 +46,8 @@ class Papel_acabamento extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Papel_acabamento_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Papel_acabamento_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -64,8 +63,8 @@ class Papel_acabamento extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Papel_acabamento_m->editar($objeto)) {
+            $dados = $this->get_post(true);
+            if ($this->Papel_acabamento_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -80,14 +79,24 @@ class Papel_acabamento extends CI_Controller {
         print json_encode($data);
     }
 
-    private function get_post() {
-        $objeto = new Papel_acabamento_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->codigo = $this->input->post('codigo');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+    private function get_post($update = false) {
+        if($update){
+            $dados = array(
+                'id' => $this->input->post('id'),
+                'nome' => $this->input->post('nome'),
+                'descricao' => $this->input->post('descricao'),
+                'valor' => decimal_to_db($this->input->post('valor'))
+            );
+        }else{
+            $dados = array(
+                'id' => null,
+                'nome' => $this->input->post('nome'),
+                'descricao' => $this->input->post('descricao'),
+                'valor' => decimal_to_db($this->input->post('valor')),
+                'codigo' => $this->input->post('codigo')
+            );
+        }
+        return $dados;
     }
 
     private function validar_formulario($update = false) {

@@ -88,20 +88,13 @@ class Produto_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('produto');
         if($result->num_rows() > 0){
-            $result =  $this->Produto_m->changeToObject($result->result_array());
-            return $result[0];
+            return  $this->changeToObject($result->result_array());
         }
         return false;
     }
 
-    public function get_list() {
-        $result = $this->db->get('produto');
-        return $this->Produto_m->changeToObject($result->result_array());
-    }
-
-    public function inserir($objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('produto', $dados)) {
                 return $this->db->insert_id();
             }
@@ -109,26 +102,14 @@ class Produto_m extends CI_Model {
         return false;
     }
 
-    public function editar($objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('produto', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'nome' => $objeto->nome,
-            'produto_categoria' => $objeto->produto_categoria,
-            'descricao' => $objeto->descricao,
-            'valor' => str_replace(',', '.', $objeto->valor)
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -142,7 +123,6 @@ class Produto_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Produto_m();
             $object->id = $value['id'];
@@ -150,9 +130,8 @@ class Produto_m extends CI_Model {
             $object->produto_categoria = $this->Produto_categoria_m->get_by_id($value['produto_categoria']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($id_categoria,$colunas){

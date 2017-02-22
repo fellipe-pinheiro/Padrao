@@ -52,8 +52,8 @@ class Produto extends CI_Controller {
     public function ajax_add() {
         $this->validar_formulario();
         $data['status'] = FALSE;
-        $objeto = $this->get_post();
-        if ( $this->Produto_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Produto_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -72,8 +72,8 @@ class Produto extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Produto_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Produto_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -97,13 +97,14 @@ class Produto extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Produto_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->produto_categoria = $this->input->post('produto_categoria');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'produto_categoria' => $this->input->post('produto_categoria'),
+            'descricao' => $this->input->post('descricao'),
+            'valor' => decimal_to_db($this->input->post('valor'))
+            );
+        return $dados;
     }
 
     private function validar_formulario() {

@@ -359,7 +359,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-6">
                             <div class="form-group input-padding">
                                 <label for="altura" class="control-label">Altura (mm):</label>
-                                <input type="number" name="altura" id="altura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Altura do papel inteiro Ex: 660">
+                                <input type="number" name="altura" id="altura" class="form-control" value="" required="required" title="Utilize somente números de até 4 dígitos" min="0" max="9999" placeholder="Altura do papel inteiro Ex: 660" autofocus>
                                 <span class="help-block"></span>
                             </div>
                         </div>

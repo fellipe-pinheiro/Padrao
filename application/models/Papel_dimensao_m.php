@@ -63,18 +63,11 @@ class Papel_dimensao_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel_dimensao');
-        $result =  $this->Papel_dimensao_m->changeToObject($result->result_array());
-        return $result[0];
+        return $this->changeToObject($result->result_array());
     }
 
-    public function get_list() {
-        $result = $this->db->get('papel_dimensao');
-        return $this->Papel_dimensao_m->changeToObject($result->result_array());
-    }
-
-    public function inserir(Papel_dimensao_m $objeto) {
-        if (!empty($objeto)) {
-            $dados = $this->get_dados($objeto);
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('papel_dimensao', $dados)) {
                 return $this->db->insert_id();
             }
@@ -82,24 +75,14 @@ class Papel_dimensao_m extends CI_Model {
         return false;
     }
 
-    public function editar(Papel_dimensao_m $objeto) {
-        if (!empty($objeto->id)) {
-            $dados = $this->get_dados($objeto);
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('papel_dimensao', $dados)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private function get_dados($objeto){
-        $dados = array(
-            'id' => $objeto->id,
-            'altura' => $objeto->altura,
-            'largura' => $objeto->largura
-            );
-        return $dados;
     }
 
     public function deletar($id) {
@@ -113,15 +96,13 @@ class Papel_dimensao_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_dimensao_m();
             $object->id = $value['id'];
             $object->altura = $value['altura'];
             $object->largura = $value['largura'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
     public function get_pesonalizado($colunas){

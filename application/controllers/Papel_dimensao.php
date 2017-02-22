@@ -44,8 +44,8 @@ class Papel_dimensao extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Papel_dimensao_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Papel_dimensao_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -64,8 +64,8 @@ class Papel_dimensao extends CI_Controller {
         $data['status'] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Papel_dimensao_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Papel_dimensao_m->editar($dados)) {
                 $data['status'] = TRUE;
             }
         }
@@ -97,11 +97,12 @@ class Papel_dimensao extends CI_Controller {
             $dimensao_menor = $this->input->post('altura');
             $dimensao_maior = $this->input->post('largura');
         }
-        $objeto = new Papel_dimensao_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->altura = $dimensao_menor;
-        $objeto->largura = $dimensao_maior;
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'altura' => $dimensao_menor,
+            'largura' => $dimensao_maior
+            );
+        return $dados;
     }
 
     private function validar_formulario() {

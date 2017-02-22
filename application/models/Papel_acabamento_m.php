@@ -15,7 +15,7 @@ class Papel_acabamento_m extends CI_Model {
     var $column_search = array('nome','codigo', 'descricao');
     var $order = array('id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->from($this->table);
         $i = 0;
 
@@ -43,7 +43,7 @@ class Papel_acabamento_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
@@ -51,7 +51,7 @@ class Papel_acabamento_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -65,32 +65,18 @@ class Papel_acabamento_m extends CI_Model {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('papel_acabamento');
-        $result =  $this->Papel_acabamento_m->changeToObject($result->result_array());
-        return $result[0];
+        return $this->changeToObject($result->result_array());
     }
 
     public function get_by_codigo($codigo){
         $this->db->where('codigo', $codigo);
         $this->db->limit(1);
         $result = $this->db->get('papel_acabamento');
-        $result =  $this->Papel_acabamento_m->changeToObject($result->result_array());
-        return $result[0];
+        return  $this->changeToObject($result->result_array());
     }    
 
-    public function get_list() {
-        $result = $this->db->get('papel_acabamento');
-        return $this->Papel_acabamento_m->changeToObject($result->result_array());
-    }
-
-    public function inserir($objeto) {
-        if (!empty($objeto)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'codigo' => $objeto->codigo,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor)
-                );
+    public function inserir($dados) {
+        if (empty($dados['id'])) {
             if ($this->db->insert('papel_acabamento', $dados)) {
                 return $this->db->insert_id();
             }
@@ -98,17 +84,9 @@ class Papel_acabamento_m extends CI_Model {
         return false;
     }
 
-    public function editar($objeto) {
-        if (!empty($objeto->id)) {
-            $dados = array(
-                'id' => $objeto->id,
-                'nome' => $objeto->nome,
-                'descricao' => $objeto->descricao,
-                'valor' => str_replace(',', '.', $objeto->valor)
-                //Comentado para o usuário não editar
-                //'codigo' => $objeto->codigo,
-                );
-            $this->db->where('id', $objeto->id);
+    public function editar($dados) {
+        if (!empty($dados['id'])) {
+            $this->db->where('id', $dados['id']);
             if ($this->db->update('papel_acabamento', $dados)) {
                 return true;
             }
@@ -127,7 +105,6 @@ class Papel_acabamento_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Papel_acabamento_m();
             $object->id = $value['id'];
@@ -135,9 +112,8 @@ class Papel_acabamento_m extends CI_Model {
             $object->codigo = $value['codigo'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
 }
