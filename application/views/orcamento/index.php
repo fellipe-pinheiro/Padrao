@@ -733,7 +733,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $(".datetimepicker").on("dp.change", function (e) {
             $(e.target).trigger("change");
         });
-        $("#input_cep").blur(carregaCep);
+        $("#input_cep").keyup(carregaCep);
         //Verifica se o orçamento info já foi preechido
         session_orcamento_info(false);
         is_empty_orcamento_info(false);

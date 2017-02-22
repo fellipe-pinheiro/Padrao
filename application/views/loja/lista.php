@@ -356,7 +356,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "cep", "visible": false},
             ]
         });
-
         // Resaltar a linha selecionada
         $("#tabela_loja tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
@@ -366,6 +365,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $(this).addClass("selected");
             }
         });
+
         $("#adicionar").click(function (event) {
             reset_form();
 
@@ -375,6 +375,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('.modal-title').text('Adicionar loja'); // Definir um titulo para o modal
             $('#modal_form').modal('show'); // Abrir modal
         });
+
         $("#editar").click(function () {
             // Buscar ID da linha selecionada
             var id = tabela.row(".selected").id();
@@ -413,6 +414,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
+
         $("#deletar").click(function () {
             var id = tabela.row(".selected").id();
             var nome = tabela.row(".selected").data().unidade;
@@ -452,6 +454,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
+
         $("#form_loja").submit(function (e) {
             disable_button_salvar();
             reset_errors();
@@ -494,7 +497,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             reload_table();
             e.preventDefault();
         });
-        $("#input_cep").blur(carregaCep);
+
+        $("#input_cep").keyup(carregaCep);
+
         form_small();
     });
 

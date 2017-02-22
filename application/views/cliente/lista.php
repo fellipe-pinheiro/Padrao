@@ -405,7 +405,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-        $("#input_cep").blur(carregaCep);
+        $("#input_cep").keyup(carregaCep);
         $("#form_cliente a[href='#endereco']").click(function(){
             setTimeout(function(){ $("#input_cep").focus(); }, 500);
         });

@@ -45,8 +45,8 @@ class Mao_obra extends CI_Controller {
     public function ajax_add() {
         $data['status'] = FALSE;
         $this->validar_formulario();
-        $objeto = $this->get_post();
-        if ( $this->Mao_obra_m->inserir($objeto)) {
+        $dados = $this->get_post();
+        if ( $this->Mao_obra_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
@@ -65,8 +65,8 @@ class Mao_obra extends CI_Controller {
         $data["status"] = FALSE;
         $this->validar_formulario();
         if ($this->input->post('id')) {
-            $objeto = $this->get_post();
-            if ($this->Mao_obra_m->editar($objeto)) {
+            $dados = $this->get_post();
+            if ($this->Mao_obra_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -90,12 +90,13 @@ class Mao_obra extends CI_Controller {
     }
 
     private function get_post() {
-        $objeto = new Mao_obra_m();
-        $objeto->id = empty($this->input->post('id')) ? null:$this->input->post('id') ;
-        $objeto->nome = $this->input->post('nome');
-        $objeto->descricao = $this->input->post('descricao');
-        $objeto->valor = $this->input->post('valor');
-        return $objeto;
+        $dados = array(
+            'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'descricao' => $this->input->post('descricao'),
+            'valor' => decimal_to_db($this->input->post('valor')),
+            );
+        return $dados;
     }
 
     private function validar_formulario() {
