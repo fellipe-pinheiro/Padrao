@@ -148,7 +148,7 @@ class Convite_m extends CI_Model {
             $object->mao_obra->valor = $value['mao_obra_valor'];
             $object->quantidade = $value['quantidade'];
             $object->descricao = $value['descricao'];
-            $object->data_entrega = empty($value['data_entrega'])? null : date_to_form($value['data_entrega']);
+            $object->data_entrega = empty($value['data_entrega']) ? "" : date_to_form($value['data_entrega']);
             $object->cancelado = $value['cancelado'];
             $object->comissao = $value['comissao'];
             $object_lista[] = $object;
