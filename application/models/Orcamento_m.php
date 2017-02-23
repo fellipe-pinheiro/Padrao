@@ -139,7 +139,6 @@ class Orcamento_m extends CI_Model {
 
     public function inserir() {
         //orcamento
-        date_default_timezone_set('America/Sao_Paulo');
         $dados = array(
             'id' => null,
             'cliente' => $this->cliente->id,
@@ -148,7 +147,7 @@ class Orcamento_m extends CI_Model {
             'data' => date('Y-m-d H:i:s'),
             'descricao' => $this->descricao,
             'desconto' => $this->desconto,
-            'data_evento' => $this->data_evento,
+            'data_evento' => date_to_db($this->data_evento),
             'evento' => $this->evento,
             'loja' => $this->loja->id,
             'usuario' => $this->session->user_id,
@@ -166,11 +165,6 @@ class Orcamento_m extends CI_Model {
                 if (!$convite->inserir()) {
                     return false;
                 } else {
-                    if (strpos($convite->data_entrega, '/') !== false) {
-                        $data_entrega = date_to_db($convite->data_entrega);
-                    } else {
-                        $data_entrega = $convite->data_entrega;
-                    }
                     $dados = array(
                         'id' => null,
                         'orcamento' => $this->id,
@@ -180,7 +174,7 @@ class Orcamento_m extends CI_Model {
                         'mao_obra_valor' => $convite->mao_obra->valor,
                         'comissao' => $convite->comissao,
                         'descricao' => $convite->descricao,
-                        'data_entrega' => $data_entrega,
+                        'data_entrega' => date_to_db($convite->data_entrega),
                         'cancelado' => 0,
                     );
                     if (!$this->db->insert('orcamento_convite', $dados)) {
@@ -196,11 +190,6 @@ class Orcamento_m extends CI_Model {
                 if (!$personalizado->inserir()) {
                     return false;
                 } else {
-                    if (strpos($personalizado->data_entrega, '/') !== false) {
-                        $data_entrega = date_to_db($personalizado->data_entrega);
-                    } else {
-                        $data_entrega = $personalizado->data_entrega;
-                    }
                     $dados = array(
                         'id' => null,
                         'orcamento' => $this->id,
@@ -210,7 +199,7 @@ class Orcamento_m extends CI_Model {
                         'mao_obra_valor' => $personalizado->mao_obra->valor,
                         'comissao' => $personalizado->comissao,
                         'descricao' => $personalizado->descricao,
-                        'data_entrega' => $data_entrega,
+                        'data_entrega' => date_to_db($personalizado->data_entrega),
                         'cancelado' => 0,
                     );
                     if (!$this->db->insert('orcamento_personalizado', $dados)) {
@@ -223,11 +212,6 @@ class Orcamento_m extends CI_Model {
         if (!empty($this->produto)) {
             $produtos = $this->produto;
             foreach ($produtos as $produto) {
-                if (strpos($produto->data_entrega, '/') !== false) {
-                    $data_entrega = date_to_db($produto->data_entrega);
-                } else {
-                    $data_entrega = $produto->data_entrega;
-                }
                 $dados = array(
                     'id' => null,
                     'orcamento' => $this->id,
@@ -236,7 +220,7 @@ class Orcamento_m extends CI_Model {
                     'descricao' => $produto->descricao,
                     'valor' => $produto->produto->valor,
                     'comissao' => $produto->comissao,
-                    'data_entrega' => $data_entrega,
+                    'data_entrega' => date_to_db($produto->data_entrega),
                     'cancelado' => 0,
                 );
                 if (!$this->db->insert('orcamento_produto', $dados)) {
@@ -252,8 +236,7 @@ class Orcamento_m extends CI_Model {
         $this->db->limit(1);
         $result = $this->db->get('orcamento');
         if ($result->num_rows() > 0) {
-            $result = $this->changeToObject($result->result_array());
-            return $result[0];
+            return $this->changeToObject($result->result_array());
         }
         return false;
     }
@@ -269,16 +252,18 @@ class Orcamento_m extends CI_Model {
     }
 
     public function get_data(){
-
+        if(empty($this->data)){
+            return "";
+        }
         list($date, $hour) = explode(" ", $this->data);
-        
         return empty($this->data) ? "" : date_to_form($date);   
     }
 
     public function get_data_hora(){
-
+        if(empty($this->data)){
+            return "";
+        }
         list($date, $hour) = explode(" ", $this->data);
-        
         return empty($this->data) ? "" : date_to_form($date) . " " . $hour;
     }
 
@@ -326,7 +311,6 @@ class Orcamento_m extends CI_Model {
     }
 
     private function changeToObject($result_db) {
-        $object_lista = array();
         foreach ($result_db as $key => $value) {
             $object = new Orcamento_m();
             $object->id = $value['id'];
@@ -355,9 +339,8 @@ class Orcamento_m extends CI_Model {
             $object->loja = $this->Loja_m->get_by_id($value['loja']);
             $object->evento = $value['evento'];
             $object->data_evento = $value['data_evento'];
-            $object_lista[] = $object;
         }
-        return $object_lista;
+        return $object;
     }
 
 }
