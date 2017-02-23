@@ -25,7 +25,7 @@ $loja =  $adicional->loja;
 		<!-- Número-->
 		<div class="col-lg-3 col-md-3 col-xs-3">
 			<p class="pull-right">
-				Data: <?=$dados['data']?><br>
+				Data: <?=$adicional->get_data_hora()?><br>
 			</p>
 			<h3 class="pull-right"><strong><?=$adicional->get_numero_documento()?></strong></h3><br>
 		</div>

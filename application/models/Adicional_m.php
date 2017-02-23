@@ -147,6 +147,22 @@ class Adicional_m extends CI_Model {
         return 'Adicional N°' . $this->id . '/' . $this->pedido;
     }
 
+    public function get_data(){
+        if(empty($this->data)){
+            return "";
+        }
+        list($date, $hour) = explode(" ", $this->data);
+        return empty($this->data) ? "" : date_to_form($date);   
+    }
+
+    public function get_data_hora(){
+        if(empty($this->data)){
+            return "";
+        }
+        list($date, $hour) = explode(" ", $this->data);
+        return empty($this->data) ? "" : date_to_form($date) . " " . $hour;
+    }
+
     public function calcula_total_debitos() {
         $soma = 0.00;
         if (!empty($this->cliente_debitos)) {
