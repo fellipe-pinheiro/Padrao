@@ -330,7 +330,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
-            order: [[2, 'asc']],
+            order: [[1, 'asc']],
             ajax: {
                 url: "<?= base_url('loja/ajax_list') ?>",
                 type: "POST"
