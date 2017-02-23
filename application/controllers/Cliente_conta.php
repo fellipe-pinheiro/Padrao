@@ -297,7 +297,7 @@ class Cliente_conta extends CI_Controller {
         $objeto->id = null;
         $objeto->usuario = $this->session->user_id;
         $objeto->debito = 0;
-        $objeto->valor = str_replace(',', '.', $valor_pagamento);
+        $objeto->valor = decimal_to_db($valor_pagamento);
         $objeto->data = $data_pagamento;
         $objeto->forma_pagamento = $forma_pagamento;
         $objeto->descricao = $descricao;
