@@ -263,6 +263,25 @@ class Orcamento_m extends CI_Model {
         return "Orçamento N° " . $this->id;
     }
 
+    public function get_data_evento(){
+
+        return empty($this->data_evento) ? "" : date_to_form($this->data_evento);
+    }
+
+    public function get_data(){
+
+        list($date, $hour) = explode(" ", $this->data);
+        
+        return empty($this->data) ? "" : date_to_form($date);   
+    }
+
+    public function get_data_hora(){
+
+        list($date, $hour) = explode(" ", $this->data);
+        
+        return empty($this->data) ? "" : date_to_form($date) . " " . $hour;
+    }
+
     public function calcula_total_convites() {
         $total = 0;
         foreach ($this->convite as $key => $value) {

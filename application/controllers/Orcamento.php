@@ -82,8 +82,6 @@ class Orcamento extends CI_Controller {
     public function pdf() {
         $id = $this->uri->segment(3);
         $data['orcamento'] = $this->Orcamento_m->get_by_id($id);
-        list($date, $hour) = explode(" ", $data['orcamento']->data);
-        $data['data'] = date_to_form($date) . " " . $hour;
         $data['documento_numero'] = "<h3 class='pull-right'><strong>" . $data['orcamento']->get_numero_documento() . "</strong></h3>";
         set_layout('titulo', $data['orcamento']->get_numero_documento(), TRUE);
         set_layout('conteudo', load_content('orcamento/pdf', $data));

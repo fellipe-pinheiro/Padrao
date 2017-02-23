@@ -28,10 +28,10 @@ if($controller === 'orcamento'){
 			<p><?=$loja->endereco?>, <?=$loja->numero?> - <?=$loja->complemento?> <?=$loja->bairro?> - <?=$loja->cidade?> / <?=$loja->uf?></p>
 			<p>Telefone: <?=$loja->telefone?></p>
 		</div>
-		<!-- Número-->
+		<!-- Data / Número-->
 		<div class="col-lg-3 col-md-3 col-xs-3">
 			<p class="pull-right">
-				Data: <?=$dados['data']?><br>
+				Data: <?=$orcamento->get_data_hora()?><br>
 			</p>
 			<?=$dados['documento_numero'] ?>
 		</div>
@@ -358,8 +358,7 @@ if($controller === 'orcamento'){
 						if(!empty($dados['pedido']->cliente_debitos)){
 							foreach ($dados['pedido']->cliente_debitos as $key => $debito) {
 								if(!empty($debito->vencimento)){
-									list($ano, $mes, $dia) = explode("-", $debito->vencimento);
-									$vencimento = $dia."/".$mes."/".$ano;
+									$vencimento = date_to_form($debito->vencimento);
 								}else{
 									$vencimento = "";
 								}

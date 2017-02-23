@@ -432,12 +432,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <?php
-                                empty($this->session->orcamento->data_evento) ? $data_evento = "" : $data_evento = date("d/m/Y", strtotime($this->session->orcamento->data_evento));
-                                ?>	
                                 <div class="form-group">
                                     <label for="data_evento" class="control-label"><i class="glyphicon glyphicon-calendar"></i> Data Evento:</label>
-                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $data_evento ?>" required>
+                                    <input type='text' name="data_evento" id="data_evento" class="form-control datetimepicker" value="<?= $this->session->orcamento->get_data_evento() ?>" required>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
