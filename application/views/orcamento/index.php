@@ -446,11 +446,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-1">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 25px">
-                                        <i class="glyphicon glyphicon-cog"></i>
+                                            <i class="glyphicon glyphicon-cog"></i>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="javascript:void(0)" onclick="orcamento_cliente()"><i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar</a></li>
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="orcamento_cliente()">
+                                                    <i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="panel_cliente_id_onclick" onclick="orcamento_cliente_editar(<?=$this->session->orcamento->cliente->id?>)">
+                                                    <i class="glyphicon glyphicon-pencil"></i> Editar
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -477,13 +487,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-1">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 25px">
-                                        <i class="glyphicon glyphicon-cog"></i>
+                                            <i class="glyphicon glyphicon-cog"></i>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="javascript:void(0)" onclick="orcamento_assessor('inserir', 'Assessores')"><i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar</a></li>
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="orcamento_assessor('inserir', 'Assessores')">
+                                                    <i class="fa fa-user-plus" aria-hidden="true"></i> Adicionar
+                                                </a>
+                                            </li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="javascript:void(0)" onclick="orcamento_assessor('excluir', '')"><i class="glyphicon glyphicon-trash"></i> Excluir</a></li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="panel_assessor_id_onclick" onclick="orcamento_assessor_editar(<?=$this->session->orcamento->assessor->id?>)">
+                                                    <i class="glyphicon glyphicon-pencil"></i> Editar
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:void(0)" onclick="orcamento_assessor('excluir', '')">
+                                                    <i class="glyphicon glyphicon-trash"></i> Excluir
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1126,6 +1150,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function orcamento_assessor(acao) {
+        load_assessor_dataTable();
+        if (acao === 'inserir') {
+            $("#md_assessores").modal();
+        } else if (acao === 'excluir') {
+            $.ajax({
+                url: '<?= base_url('orcamento/ajax_session_assessor/excluir')?>',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(data) {
+                console.log("success");
+                if(data.status){
+                    $(".panel_assessor_nome").val("");
+                    $(".panel_assessor_email").val("");
+                    $(".panel_assessor_empresa").val("");
+                    $(".panel_assessor_telefone").val("");
+                    $.alert({
+                        title: "Sucesso!",
+                        content: "Assessor excluido com sucesso!"
+                    });
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            })      
+        }
+    }
+
+    function orcamento_cliente() {
+        load_cliente_dataTable();
+        $("#md_clientes").modal();
+    }
+
+    function load_assessor_dataTable() {
         if (!$.fn.DataTable.isDataTable('#tabela_assessor')) {
             tabela_assessor = $("#tabela_assessor").DataTable({
                 scrollX: true,
@@ -1163,39 +1221,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {data: "descricao", "visible": true},
                 ]
             });
-        }
-        if (acao === 'inserir') {
-            $("#md_assessores").modal();
-        } else if (acao === 'excluir') {
-            $.ajax({
-                url: '<?= base_url('orcamento/ajax_session_assessor/excluir')?>',
-                type: 'GET',
-                dataType: 'json',
-            })
-            .done(function(data) {
-                console.log("success");
-                if(data.status){
-                    $(".panel_assessor_nome").val("");
-                    $(".panel_assessor_email").val("");
-                    $(".panel_assessor_empresa").val("");
-                    $(".panel_assessor_telefone").val("");
-                    $.alert({
-                        title: "Sucesso!",
-                        content: "Assessor excluido com sucesso!"
-                    });
-                }
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-                    
+        } else {
+            tabela_assessor.ajax.reload(null, false);
         }
     }
 
-    function orcamento_cliente() {
+    function load_cliente_dataTable() {
         if (!$.fn.DataTable.isDataTable('#tabela_cliente')) {
             tabela_cliente = $("#tabela_cliente").DataTable({
                 scrollX: true,
@@ -1256,7 +1287,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         } else {
             tabela_cliente.ajax.reload(null, false);
         }
-        $("#md_clientes").modal();
+    }
+
+    function orcamento_cliente_editar(id = "") {
+        if(id != ""){
+            form_crud = '#form_cliente';
+            url_crud = "<?= base_url('cliente/ajax_update') ?>";
+            md_tb_crud = '#md_clientes';
+            md_form_crud = '#md_form_cliente';
+            owner_crud = 'cliente';
+            url_edit_id = "<?= base_url('cliente/ajax_edit/') ?>" + id;
+            reset_errors_crud();
+            editar(id, md_tb_crud, md_form_crud);
+            load_cliente_dataTable();
+        }
+    }
+
+    function orcamento_assessor_editar(id = "") {
+        if(id != ""){
+            form_crud = '#form_assessor';
+            url_crud = "<?= base_url('assessor/ajax_update') ?>";
+            md_tb_crud = '#md_assessores';
+            md_form_crud = '#md_form_assessor';
+            owner_crud = 'assessor';
+            url_edit_id = "<?= base_url('assessor/ajax_edit/') ?>" + id;
+            reset_errors_crud();
+            editar(id, md_tb_crud, md_form_crud);
+            load_assessor_dataTable();
+        }
     }
 
     function session_orcamento_info(modal_open = true) {
@@ -1291,6 +1349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .done(function (data) {
             console.log("success");
             $("#panel_cliente_id").val(data.cliente.id);
+            $("#panel_cliente_id_onclick").attr('onclick', 'orcamento_cliente_editar('+data.cliente.id+')');
             $(".panel_cliente_nome").val(data.cliente.nome +" "+data.cliente.sobrenome);
             $(".panel_cliente_email").val(data.cliente.email);
             $(".panel_cliente_telefone").val(data.cliente.telefone);
@@ -1317,6 +1376,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .done(function (data) {
             console.log("success");
             if (data.status) {
+                $("#panel_assessor_id_onclick").attr('onclick', 'orcamento_assessor_editar('+data.assessor.id+')');
                 $(".panel_assessor_nome").val(data.assessor.nome +" "+data.assessor.sobrenome);
                 $(".panel_assessor_email").val(data.assessor.email);
                 $(".panel_assessor_empresa").val(data.assessor.empresa);
