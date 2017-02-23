@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Orcamento_m extends CI_Model {
@@ -16,17 +17,16 @@ class Orcamento_m extends CI_Model {
     var $evento; //objeto Evento_m()
     var $data_evento;
     var $usuario;
-
     // Ajax 
     var $table = 'orcamento as orc';
-    var $column_order = array('orc.id','cliente_nome','orc.data','orc.data_evento','cliente_email','cliente_telefone','cliente_cpf','cliente_cnpj','cliente_razao_social','cliente_pessoa_tipo','evento_nome','loja_unidade','orc.descricao');
-    var $column_search = array('orc.id','CONCAT(cli.nome," ", cli.sobrenome)','cli.email','cli.cpf','cli.telefone','cli.cnpj','cli.razao_social', 'CONCAT(asr.nome," ", asr.sobrenome)','asr.email','date_format(orc.data,"%d/%m/%Y")','date_format(orc.data_evento,"%d/%m/%Y")','evt.nome','loj.unidade');
-    var $order = array('orc.id'=>'asc');
+    var $column_order = array('orc.id', 'cliente_nome', 'orc.data', 'orc.data_evento', 'cliente_email', 'cliente_telefone', 'cliente_cpf', 'cliente_cnpj', 'cliente_razao_social', 'cliente_pessoa_tipo', 'evento_nome', 'loja_unidade', 'orc.descricao');
+    var $column_search = array('orc.id', 'CONCAT(cli.nome," ", cli.sobrenome)', 'cli.email', 'cli.cpf', 'cli.telefone', 'cli.cnpj', 'cli.razao_social', 'CONCAT(asr.nome," ", asr.sobrenome)', 'asr.email', 'date_format(orc.data,"%d/%m/%Y")', 'date_format(orc.data_evento,"%d/%m/%Y")', 'evt.nome', 'loj.unidade');
+    var $order = array('orc.id' => 'asc');
 
     private function get_datatables_query() {
         //Orcamento
         $this->db->select(
-            'orc.id, 
+                'orc.id, 
             orc.cliente as orc_cli, 
             orc.assessor as orc_assessor, 
             date_format(orc.data,"%d/%m/%Y") as orc_data, 
@@ -38,49 +38,49 @@ class Orcamento_m extends CI_Model {
             loj.unidade as loja_unidade');
         //Assessor
         $this->db->select(
-            'CONCAT(asr.nome," ", asr.sobrenome) as assessor_nome,
+                'CONCAT(asr.nome," ", asr.sobrenome) as assessor_nome,
             asr.sobrenome as assessor_sobrenome, 
             asr.email as assessor_email');
         //Cliente
         $this->db->select(
-            'CONCAT(cli.nome," ", cli.sobrenome) as cliente_nome,
+                'CONCAT(cli.nome," ", cli.sobrenome) as cliente_nome,
             cli.email as cliente_email, 
             cli.telefone as cliente_telefone, 
             cli.cpf as cliente_cpf, 
             cli.razao_social as cliente_razao_social, 
             cli.cnpj as cliente_cnpj, 
             cli.pessoa_tipo as cliente_pessoa_tipo');
-        if($this->input->post('orc_id')){
+        if ($this->input->post('orc_id')) {
             $this->db->where('orc.id', $this->input->post('orc_id'));
         }
-        if($this->input->post('data_orcamento')){
+        if ($this->input->post('data_orcamento')) {
             $this->db->where('date_format(orc.data,"%Y-%m-%d")', date_to_db($this->input->post('data_orcamento')));
         }
-        if($this->input->post('cli_id')){
+        if ($this->input->post('cli_id')) {
             $this->db->where('cli.id', $this->input->post('cli_id'));
         }
-        if($this->input->post('cli_nome')){
+        if ($this->input->post('cli_nome')) {
             $this->db->where('cli.nome', $this->input->post('cli_nome'));
         }
-        if($this->input->post('cli_sobrenome')){
+        if ($this->input->post('cli_sobrenome')) {
             $this->db->like('cli.sobrenome', $this->input->post('cli_sobrenome'));
         }
-        if($this->input->post('data_evento')){
+        if ($this->input->post('data_evento')) {
             $this->db->where('date_format(orc.data_evento,"%Y-%m-%d")', date_to_db($this->input->post('data_evento')));
         }
-        if($this->input->post('telefone')){
-            $this->db->where('cli.telefone',$this->input->post('telefone'));
+        if ($this->input->post('telefone')) {
+            $this->db->where('cli.telefone', $this->input->post('telefone'));
         }
-        if($this->input->post('email')){
+        if ($this->input->post('email')) {
             $this->db->where('cli.email', $this->input->post('email'));
         }
-        if($this->input->post('cpf')){
-            $this->db->where('cli.cpf',$this->input->post('cpf'));
+        if ($this->input->post('cpf')) {
+            $this->db->where('cli.cpf', $this->input->post('cpf'));
         }
-        if($this->input->post('cnpj')){
-            $this->db->where('cli.cnpj',$this->input->post('cnpj'));
+        if ($this->input->post('cnpj')) {
+            $this->db->where('cli.cnpj', $this->input->post('cnpj'));
         }
-        if($this->input->post('razao_social')){
+        if ($this->input->post('razao_social')) {
             $this->db->like('cli.razao_social', $this->input->post('razao_social'));
         }
         $this->db->from($this->table);
@@ -97,9 +97,9 @@ class Orcamento_m extends CI_Model {
 
                 if (count($this->column_search) - 1 == $i)
                     $this->db->group_end();
-                }
-                $i++;
             }
+            $i++;
+        }
 
         if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -125,7 +125,7 @@ class Orcamento_m extends CI_Model {
         return $query->num_rows();
     }
 
-    private function join(){
+    private function join() {
         $this->db->join('cliente as cli', 'orc.cliente = cli.id', 'left');
         $this->db->join('assessor as asr', 'orc.assessor = asr.id', 'left');
         $this->db->join('evento as evt', 'orc.evento = evt.id', 'left');
@@ -137,109 +137,109 @@ class Orcamento_m extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    public function inserir(){
+    public function inserir() {
         //orcamento
         date_default_timezone_set('America/Sao_Paulo');
         $dados = array(
-            'id'=>null,
-            'cliente'=>$this->cliente->id,
-            'assessor'=>$this->assessor->id,
-            'assessor_comissao'=>$this->assessor->comissao,
-            'data'=>date('Y-m-d H:i:s'),
-            'descricao'=>$this->descricao,
-            'desconto'=>$this->desconto,
-            'data_evento'=>$this->data_evento,
-            'evento'=>$this->evento,
-            'loja'=>$this->loja->id,
-            'usuario'=>$this->session->user_id,
-            );
-        if($this->db->insert('orcamento',$dados)){
+            'id' => null,
+            'cliente' => $this->cliente->id,
+            'assessor' => $this->assessor->id,
+            'assessor_comissao' => $this->assessor->comissao,
+            'data' => date('Y-m-d H:i:s'),
+            'descricao' => $this->descricao,
+            'desconto' => $this->desconto,
+            'data_evento' => $this->data_evento,
+            'evento' => $this->evento,
+            'loja' => $this->loja->id,
+            'usuario' => $this->session->user_id,
+        );
+        if ($this->db->insert('orcamento', $dados)) {
             $this->id = $this->db->insert_id();
-        }else{
+        } else {
             return false;
         }
 
         //convite
-        if(!empty($this->convite)){
+        if (!empty($this->convite)) {
             $convites = $this->convite;
             foreach ($convites as $convite) {
-                if(!$convite->inserir()){
+                if (!$convite->inserir()) {
                     return false;
-                }else{
+                } else {
                     if (strpos($convite->data_entrega, '/') !== false) {
                         $data_entrega = date_to_db($convite->data_entrega);
-                    }else{
+                    } else {
                         $data_entrega = $convite->data_entrega;
                     }
                     $dados = array(
-                        'id'=>null,
-                        'orcamento'=>$this->id,
-                        'convite'=>$convite->id,
-                        'quantidade'=>$convite->quantidade,
-                        'mao_obra'=>$convite->mao_obra->id,
-                        'mao_obra_valor'=>$convite->mao_obra->valor,
-                        'comissao'=>$convite->comissao,
-                        'descricao'=>$convite->descricao,
-                        'data_entrega'=>$data_entrega,
-                        'cancelado'=>0,
-                        );
-                    if(!$this->db->insert('orcamento_convite',$dados)){
+                        'id' => null,
+                        'orcamento' => $this->id,
+                        'convite' => $convite->id,
+                        'quantidade' => $convite->quantidade,
+                        'mao_obra' => $convite->mao_obra->id,
+                        'mao_obra_valor' => $convite->mao_obra->valor,
+                        'comissao' => $convite->comissao,
+                        'descricao' => $convite->descricao,
+                        'data_entrega' => $data_entrega,
+                        'cancelado' => 0,
+                    );
+                    if (!$this->db->insert('orcamento_convite', $dados)) {
                         return false;
                     }
                 }
             }
         }
         //personalizado
-        if(!empty($this->personalizado)){
+        if (!empty($this->personalizado)) {
             $personalizados = $this->personalizado;
             foreach ($personalizados as $personalizado) {
-                if(!$personalizado->inserir()){
+                if (!$personalizado->inserir()) {
                     return false;
-                }else{
+                } else {
                     if (strpos($personalizado->data_entrega, '/') !== false) {
                         $data_entrega = date_to_db($personalizado->data_entrega);
-                    }else{
+                    } else {
                         $data_entrega = $personalizado->data_entrega;
                     }
                     $dados = array(
-                        'id'=>null,
-                        'orcamento'=>$this->id,
-                        'personalizado_produto'=>$personalizado->id,
-                        'quantidade'=>$personalizado->quantidade,
-                        'mao_obra'=>$personalizado->mao_obra->id,
-                        'mao_obra_valor'=>$personalizado->mao_obra->valor,
-                        'comissao'=>$personalizado->comissao,
-                        'descricao'=>$personalizado->descricao,
-                        'data_entrega'=>$data_entrega,
-                        'cancelado'=>0,
-                        );
-                    if(!$this->db->insert('orcamento_personalizado',$dados)){
+                        'id' => null,
+                        'orcamento' => $this->id,
+                        'personalizado_produto' => $personalizado->id,
+                        'quantidade' => $personalizado->quantidade,
+                        'mao_obra' => $personalizado->mao_obra->id,
+                        'mao_obra_valor' => $personalizado->mao_obra->valor,
+                        'comissao' => $personalizado->comissao,
+                        'descricao' => $personalizado->descricao,
+                        'data_entrega' => $data_entrega,
+                        'cancelado' => 0,
+                    );
+                    if (!$this->db->insert('orcamento_personalizado', $dados)) {
                         return false;
                     }
                 }
             }
         }
         //produto
-        if(!empty($this->produto)){
+        if (!empty($this->produto)) {
             $produtos = $this->produto;
             foreach ($produtos as $produto) {
                 if (strpos($produto->data_entrega, '/') !== false) {
                     $data_entrega = date_to_db($produto->data_entrega);
-                }else{
+                } else {
                     $data_entrega = $produto->data_entrega;
                 }
                 $dados = array(
-                    'id'=>null,
-                    'orcamento'=>$this->id,
-                    'produto'=>$produto->produto->id,
-                    'quantidade'=>$produto->quantidade,
-                    'descricao'=>$produto->descricao,
-                    'valor'=>$produto->produto->valor,
-                    'comissao'=>$produto->comissao,
-                    'data_entrega'=>$data_entrega,
-                    'cancelado'=>0,
-                    );
-                if(!$this->db->insert('orcamento_produto',$dados)){
+                    'id' => null,
+                    'orcamento' => $this->id,
+                    'produto' => $produto->produto->id,
+                    'quantidade' => $produto->quantidade,
+                    'descricao' => $produto->descricao,
+                    'valor' => $produto->produto->valor,
+                    'comissao' => $produto->comissao,
+                    'data_entrega' => $data_entrega,
+                    'cancelado' => 0,
+                );
+                if (!$this->db->insert('orcamento_produto', $dados)) {
                     return false;
                 }
             }
@@ -247,23 +247,23 @@ class Orcamento_m extends CI_Model {
         return true;
     }
 
-    public function get_by_id($id){
+    public function get_by_id($id) {
         $this->db->where('id', $id);
         $this->db->limit(1);
         $result = $this->db->get('orcamento');
-        if($result->num_rows() > 0){
-            $result =  $this->Orcamento_m->changeToObject($result->result_array());
+        if ($result->num_rows() > 0) {
+            $result = $this->changeToObject($result->result_array());
             return $result[0];
         }
         return false;
     }
 
-    public function get_numero_documento(){
-        
+    public function get_numero_documento() {
+
         return "Orçamento N° " . $this->id;
     }
 
-    public function calcula_total_convites(){
+    public function calcula_total_convites() {
         $total = 0;
         foreach ($this->convite as $key => $value) {
             $total += $value->calcula_total();
@@ -272,7 +272,7 @@ class Orcamento_m extends CI_Model {
         return round($total, 2);
     }
 
-    public function calcula_total_personalizados(){
+    public function calcula_total_personalizados() {
         $total = 0;
         foreach ($this->personalizado as $key => $value) {
             $total += $value->calcula_total();
@@ -281,7 +281,7 @@ class Orcamento_m extends CI_Model {
         return round($total, 2);
     }
 
-    public function calcula_total_produtos(){
+    public function calcula_total_produtos() {
         $total = 0;
         foreach ($this->produto as $key => $value) {
             $total += $value->calcula_total();
@@ -290,22 +290,22 @@ class Orcamento_m extends CI_Model {
         return round($total, 2);
     }
 
-    public function calcula_custos_administrativos(){
+    public function calcula_custos_administrativos() {
         //esta função não está sendo utilizada. Os cálculos dos custos de comissão já estão sendo cobrados nos convites, nos personalizados e nos produtos.
-        return ($this->calcula_sub_total() /100) * $this->assessor->comissao;
+        return ($this->calcula_sub_total() / 100) * $this->assessor->comissao;
     }
 
-    public function calcula_sub_total(){
+    public function calcula_sub_total() {
 
-        return  $this->calcula_total_convites() + $this->calcula_total_produtos() + $this->calcula_total_personalizados();
+        return $this->calcula_total_convites() + $this->calcula_total_produtos() + $this->calcula_total_personalizados();
     }
 
-    public function calcula_total(){
+    public function calcula_total() {
 
         $total = $this->calcula_sub_total() - $this->desconto;
         return round($total, 2);
     }
-    
+
     private function changeToObject($result_db) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
@@ -326,7 +326,7 @@ class Orcamento_m extends CI_Model {
             $object->usuario->active = null;
 
             $object->assessor = $this->Assessor_m->get_by_id($value['assessor']);
-            $object->assessor->comissao = empty($value['assessor_comissao'])? 0 : $value['assessor_comissao'];
+            $object->assessor->comissao = empty($value['assessor_comissao']) ? 0 : $value['assessor_comissao'];
             $object->convite = $this->Convite_m->get_by_orcamento_id($object->id);
             $object->produto = $this->Container_produto_m->get_by_orcamento_id($object->id);
             $object->personalizado = $this->Personalizado_m->get_by_orcamento_id($object->id);
@@ -340,6 +340,7 @@ class Orcamento_m extends CI_Model {
         }
         return $object_lista;
     }
+
 }
 
 /* End of file Orcamento_m.php */
