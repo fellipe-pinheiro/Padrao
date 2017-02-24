@@ -8,6 +8,7 @@ class Pedido extends CI_Controller {
         parent::__construct();
 
         //Pedido
+        $this->load->model('Sistema_m');
         $this->load->model('Orcamento_m');
         $this->load->model('Pedido_m');
         $this->load->model('Cliente_m');
@@ -162,6 +163,8 @@ class Pedido extends CI_Controller {
         $data['documento_numero'] = "<strong>Pedido Nº " . sprintf('%08d', $data['pedido']->id) . "</strong>";
         $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
+        $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
+        $data['parcelamento_maximo'] = empty($parcelamento_maximo) ? 12 : $parcelamento_maximo;
         set_layout('conteudo', load_content('pedido/editar', $data));
         load_layout();
     }
@@ -740,8 +743,8 @@ class Pedido extends CI_Controller {
     //     return ($valor_total * $assessor_comiisao) / $porcentagem_total;
     // }
     public function ajax_get_parcelas_pedido() {
-        //TODO constante do número máximo de parcelas
-        $qtd_parcelas = 12; //numero máximo de parcelas
+        $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
+        $qtd_parcelas = empty($parcelamento_maximo) ?  12 : $parcelamento_maximo; //numero máximo de parcelas
         $valor_total = $this->session->orcamento->calcula_total();
         $data = array();
 

@@ -18,6 +18,16 @@ class Sistema_m extends CI_Model {
         return null;
     }
 
+    public function get_by_nome($nome){
+        $this->db->where('nome', $nome);
+        $this->db->limit(1);
+        $result = $this->db->get('sistema');
+        if($result->num_rows() > 0){
+            return $result->result()[0]->valor;
+        }
+        return null;
+    }
+
     public function get_list(){
         $result = $this->db->get('sistema');
         if($result->num_rows() > 0){
