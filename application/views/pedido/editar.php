@@ -768,9 +768,42 @@ $loja = $orcamento->loja;
         var caracteresRestantes = caracteresRestantes - caracteresDigitados;
         $(".caracteres_descricao").text(caracteresRestantes);
     });
+
     $(document).ready(function () {
         apply_this_document_ready();
     });
+
+    function apply_this_document_ready() {
+        desabilita_produto_cancelado();
+        disable_button_adicional();
+        $(".caracteres_descricao").text(caracteres_descricao);
+        $('#input-adicional-desconto').attr("disabled", true);
+        $.each($("#form_adicional_pedido input"), function (index, value) {
+            if (value.type != 'checkbox') {
+                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
+            }
+        });
+        $("#div_informacoes_complementares").hide();
+        $("#div_forma_pagamento").hide();
+        $('.datetimepicker').datetimepicker({
+            format:'L'
+        });
+        $(".datetimepicker").on("dp.change", function (e) {
+            $(e.target).trigger("change");
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+        $(':checkbox').checkboxpicker();
+        $("#qtd_parcelas").click(function (event) {
+            if ($("#qtd_parcelas").val() == 1) {
+                $("#vencimento_dia").attr("disabled", true);
+                $("#vencimento_dia option[value='']").prop("selected", true);
+            } else {
+                $("#vencimento_dia").attr("disabled", false);
+            }
+        });
+    }
+
     function criar_adicional_pedido() {
         disable_button_salvar();
         reset_errors_validation();
@@ -783,10 +816,10 @@ $loja = $orcamento->loja;
         })
         .done(function (data) {
             console.log("success");
+            close_loadingModal();
             if (data.status) {
                 $("#md_adicional").modal('hide');
                 $("#form_adicional_pedido")[0].reset();
-                close_loadingModal();
                 atualizar();
                 $.alert({
                     title: "Adicional N° " + data.adicional_id,
@@ -797,14 +830,13 @@ $loja = $orcamento->loja;
                     },
                 })
             } else {
-                close_loadingModal();
                 $.alert({
                     title: "Atenção!",
                     content: "Alguns erros foram encontrados no formulário. Por favor corrija-os e envie novamente."
                 });
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -817,6 +849,7 @@ $loja = $orcamento->loja;
             console.log("complete");
         });
     }
+
     function calcula_sub_total(valor_unitario, id_input_qtd, id_td_sub_total, id_input_valor_extra) {
         var total = 0;
         var qtd = 0;
@@ -834,6 +867,7 @@ $loja = $orcamento->loja;
         $(id_td_sub_total).html("R$ " + total);
         calcular_total();
     }
+
     function calcular_total() {
         var total = 0;
         var desconto = 0;
@@ -850,6 +884,7 @@ $loja = $orcamento->loja;
         $("#th-adicional-total_a_pagar").html("R$ " + total);
         atualiza_quantidade_parcelas();
     }
+
     function calcular_total_itens_to_cancel(classe_itens) {
         var total = 0;
 
@@ -858,16 +893,19 @@ $loja = $orcamento->loja;
         });
         return total;
     }
+
     function calcular_custos_adm(valor) {
         var custos_adm = 0;
         custos_adm = parseFloat(valor / ((100 - assessor_comissao) / 100)).toFixed(5);
         custos_adm = custos_adm - valor;
         return custos_adm;
     }
+
     function modal_adicional() {
 
         $("#md_adicional").modal();
     }
+
     function alterar_produto(owner, produto_id, nome_produto, classe_itens) {
         $.confirm({
             title: 'Atenção!',
@@ -906,6 +944,7 @@ $loja = $orcamento->loja;
             }
         });
     }
+
     function alterar_data_entrega(owner, form, e) {
         e.preventDefault();
         reset_errors_validation();
@@ -923,7 +962,7 @@ $loja = $orcamento->loja;
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -934,6 +973,7 @@ $loja = $orcamento->loja;
             console.log("complete");
         });
     }
+
     function alterar_data_entrega_adicional(owner, form, e) {
         e.preventDefault();
         reset_errors_validation();
@@ -951,7 +991,7 @@ $loja = $orcamento->loja;
             } else {
                 $.map(data.form_validation, function (value, index) {
                     $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -962,6 +1002,7 @@ $loja = $orcamento->loja;
             console.log("complete");
         });
     }
+
     function modal_cancelar_pedido(cancelado) {
         if (cancelado) {
             $.alert('Este Pedido N° ' + pedido_id + ' já foi cancelado!');
@@ -981,6 +1022,7 @@ $loja = $orcamento->loja;
         $('#btn_md_cancel_item').attr("onclick", "cancelar_pedido(" + pedido_id + ")");
         $("#md_cancelamento").modal();
     }
+
     function modal_cancelar_adicional(id, td_sub_total, cancelado) {
         if (cancelado) {
             $.alert('Este Adicional N° ' + id + ' já foi cancelado!');
@@ -1001,6 +1043,7 @@ $loja = $orcamento->loja;
         $('#btn_md_cancel_item').attr("onclick", "cancelar_adicional(" + id + ")");
         $("#md_cancelamento").modal();
     }
+
     function modal_cancelamento_item(owner, id_origem, id, input_valor_item, porcentagem_assessor, nome_produto, adicional, input_numero_documento, classe_itens, alterar) {
         reset_errors_validation();
 
@@ -1047,6 +1090,7 @@ $loja = $orcamento->loja;
         $('#label_md_cancel_valor_item').text(label_valor_item);
         $("#input_md_cancel_label_documento").text(input_label_documento);
     }
+
     function cancelar_pedido(id) {
         $.confirm({
             title: 'Atenção!',
@@ -1070,8 +1114,8 @@ $loja = $orcamento->loja;
                         atualizar();
                     } else {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 })
@@ -1084,10 +1128,10 @@ $loja = $orcamento->loja;
                 });
             },
             cancel: function () {
-                $.alert('Ação cancelada.');
             }
         });
     }
+
     function cancelar_adicional(id) {
         $.confirm({
             title: 'Atenção!',
@@ -1111,8 +1155,8 @@ $loja = $orcamento->loja;
                         atualizar();
                     } else {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 })
@@ -1129,6 +1173,7 @@ $loja = $orcamento->loja;
             }
         });
     }
+
     function cancelar_item(adicional) {
         if (adicional) {
             url = "<?= base_url('pedido/ajax_cancelar_adicional_item/') ?>" + pedido_id;
@@ -1138,8 +1183,8 @@ $loja = $orcamento->loja;
         $.confirm({
             title: 'Confirme',
             content: 'Deseja realmente cancelar este produto?',
-            confirmButton: 'Sim | Cancelar',
-            cancelButton: 'Não | Fechar',
+            confirmButton: 'Sim',
+            cancelButton: 'Não',
             confirm: function () {
                 disable_button_salvar();
                 call_loadingModal("Cancelando o produto...");
@@ -1151,16 +1196,16 @@ $loja = $orcamento->loja;
                 })
                 .done(function (data) {
                     console.log("success");
+                    close_loadingModal();
                     if (data.status) {
                         $("#form_cancelamento")[0].reset();
-                        close_loadingModal();
                         atualizar();
                         $("#md_cancelamento").modal('hide');
                         $.alert('Produto cancelado com sucesso');
                     } else {
                         $.map(data.form_validation, function (value, index) {
-                            $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                            $('[name="' + index + '"]').next().text(value);
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                         });
                     }
                 })
@@ -1177,6 +1222,7 @@ $loja = $orcamento->loja;
             }
         });
     }
+
     function alterar_item() {
         disable_button_salvar();
         call_loadingModal("Cancelando o produto...");
@@ -1188,10 +1234,10 @@ $loja = $orcamento->loja;
         })
         .done(function (data) {
             console.log("success");
+            close_loadingModal();
             if (data.status) {
                 $("#form_cancelamento")[0].reset();
                 $("#md_cancelamento").modal('hide');
-                close_loadingModal();
                 $.confirm({
                     title: 'Sucesso!',
                     content: 'Deseja ir para a página do orçamento realizar as alterações?',
@@ -1204,8 +1250,8 @@ $loja = $orcamento->loja;
                 });
             } else {
                 $.map(data.form_validation, function (value, index) {
-                    $('[name="' + index + '"]').parent().parent().addClass('has-error');
-                    $('[name="' + index + '"]').next().text(value);
+                    $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                    $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                 });
             }
         })
@@ -1217,6 +1263,7 @@ $loja = $orcamento->loja;
             enable_button_salvar();
         });
     }
+
     function atualizar() {
         //location.reload();
         console.log("Função: atualizar()");
@@ -1243,37 +1290,35 @@ $loja = $orcamento->loja;
             apply_this_document_ready();
         });
     }
+
     function desabilita_produto_cancelado() {
         $(".tr-cancelado-1").addClass('danger');
         $(".input-cancelado-1").attr("disabled", true);
         $(".btn-cancelado-1").attr("disabled", true);
     }
+
     function reset_errors_validation() {
         console.log('reset_errors_validation()');
         $('.form-group').removeClass('has-error');
         $('.help-block').empty();
     }
+
     function reset_forms() {
         $.each($('.form'), function (index, value) {
             value.reset();
         });
     }
-    function disable_button_salvar() {
-        $('.btnSubmit').text('Salvando...');
-        $('.btnSubmit').attr('disabled', true);
-    }
+
     function disable_button_adicional() {
 
         $('.btnSubmitAdicional').attr('disabled', true);
     }
+
     function enable_button_adicional() {
 
         $('.btnSubmitAdicional').attr('disabled', false);
     }
-    function enable_button_salvar() {
-        $('.btnSubmit').text('Salvar');
-        $('.btnSubmit').attr('disabled', false);
-    }
+
     function desativar_linha(id_checkbox, class_desativar_linha, td_sub_total) {
         var checkbox_true = 0;
 
@@ -1312,9 +1357,10 @@ $loja = $orcamento->loja;
         }
         calcular_total();
     }
+
     function atualiza_quantidade_parcelas() {
         var total = 0;
-        var num_parcela = 12;
+        var num_parcela = <?=$dados['parcelamento_maximo']?>;
         var valor_parcela = 0;
         var data = [];
         total = numberFormat($('#th-adicional-total_a_pagar')[0].innerText);
@@ -1334,6 +1380,7 @@ $loja = $orcamento->loja;
             }));
         });
     }
+
     function limpar_modal_adicional() {
         reset_errors_validation();
         $("#form_adicional_pedido")[0].reset();
@@ -1342,6 +1389,7 @@ $loja = $orcamento->loja;
         });
         $("#th-adicional-total_a_pagar").html("");
     }
+
     function call_loadingModal(msg = "") {
         if (msg === "") {
             msg = "Processando os dados..."
@@ -1355,6 +1403,7 @@ $loja = $orcamento->loja;
             animation: 'threeBounce'
         });
     }
+
     function close_loadingModal() {
         // hide the loading modal
         $('body').loadingModal('hide');
@@ -1362,34 +1411,4 @@ $loja = $orcamento->loja;
         $('body').loadingModal('destroy');
     }
     
-    function apply_this_document_ready() {
-        desabilita_produto_cancelado();
-        disable_button_adicional();
-        $(".caracteres_descricao").text(caracteres_descricao);
-        $('#input-adicional-desconto').attr("disabled", true);
-        $.each($("#form_adicional_pedido input"), function (index, value) {
-            if (value.type != 'checkbox') {
-                $($("#form_adicional_pedido input")[index]).attr("disabled", true);
-            }
-        });
-        $("#div_informacoes_complementares").hide();
-        $("#div_forma_pagamento").hide();
-        $('.datetimepicker').datetimepicker({
-            format:'L'
-        });
-        $(".datetimepicker").on("dp.change", function (e) {
-            $(e.target).trigger("change");
-        });
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-toggle="popover"]').popover();
-        $(':checkbox').checkboxpicker();
-        $("#qtd_parcelas").click(function (event) {
-            if ($("#qtd_parcelas").val() == 1) {
-                $("#vencimento_dia").attr("disabled", true);
-                $("#vencimento_dia option[value='']").prop("selected", true);
-            } else {
-                $("#vencimento_dia").attr("disabled", false);
-            }
-        });
-    }
 </script>
