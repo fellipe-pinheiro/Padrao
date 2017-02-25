@@ -77,15 +77,15 @@
                             <li>
                                 <a href="<?=base_url('usuario/gestao_usuarios')?>"><i class="fa fa-cogs" aria-hidden="true"></i> Gestão de usuários</a>
                             </li>
-                            <li><?= anchor("Sistema/index", "<i class='glyphicon glyphicon-cog'></i> Sistema</a>") ?></li>                        
+                            <li><?= anchor("sistema/index", "<i class='glyphicon glyphicon-cog'></i> Sistema</a>") ?></li>                        
                             <li class="divider"></li>
-                            <li><?= anchor("Login/logout", "<i class='glyphicon glyphicon-log-out'></i> Logout</a>") ?></li>
+                            <li><?= anchor("login/logout", "<i class='glyphicon glyphicon-log-out'></i> Logout</a>") ?></li>
                         </ul>
                     </li>
                     <?php
                 } else {
                     ?>
-                    <li><a href="<?=base_url('Login/index')?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="<?=base_url('login/index')?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     <?php
                 }
                 ?>

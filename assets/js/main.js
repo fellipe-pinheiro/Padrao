@@ -379,6 +379,27 @@ function format_no_leading_zeroes(value) { //retira os zeros da frente do númer
 	return value.replace(/^[ 0]+/,'');
 }
 
+function call_loadingModal(msg = "") {
+    if (msg === "") {
+        msg = "Processando os dados..."
+    }
+    $('body').loadingModal({
+        position: 'auto',
+        text: msg,
+        color: '#fff',
+        opacity: '0.7',
+        backgroundColor: 'rgb(0,0,0)',
+        animation: 'threeBounce'
+    });
+}
+
+function close_loadingModal() {
+    // hide the loading modal
+    $('body').loadingModal('hide');
+    // destroy the plugin
+    $('body').loadingModal('destroy');
+}
+
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {
