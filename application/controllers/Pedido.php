@@ -165,6 +165,8 @@ class Pedido extends CI_Controller {
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
         $data['parcelamento_maximo'] = empty($parcelamento_maximo) ? 12 : $parcelamento_maximo;
+        $valor_minimo = $this->Sistema_m->get_by_nome('valor_minimo_parcelamento');
+        $data['valor_minimo_parcelamento'] = empty($valor_minimo) ? 0 : $valor_minimo;;
         set_layout('conteudo', load_content('pedido/editar', $data));
         load_layout();
     }
@@ -744,13 +746,19 @@ class Pedido extends CI_Controller {
     // }
     public function ajax_get_parcelas_pedido() {
         $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
+        $valor_minimo_parcelamento = $this->Sistema_m->get_by_nome('valor_minimo_parcelamento');
         $qtd_parcelas = empty($parcelamento_maximo) ?  12 : $parcelamento_maximo; //numero máximo de parcelas
+        $valor_minimo = empty($valor_minimo_parcelamento) ?  0 : $valor_minimo_parcelamento; //valor mínimo para parcela
         $valor_total = $this->session->orcamento->calcula_total();
         $data = array();
 
         for ($i = 1; $i <= $qtd_parcelas; $i++) {
+            $valor_parcela = $valor_total / $i;
+            if($valor_parcela < $valor_minimo){
+                break;   
+            }
             $temp["value"] = $i;
-            $temp["text"] = $i . " x R$ " . number_format($valor_total / $i, 2, ",", ".");
+            $temp["text"] = $i . " x R$ " . decimal_to_form($valor_parcela);
             $data[] = $temp;
         }
         print json_encode($data);

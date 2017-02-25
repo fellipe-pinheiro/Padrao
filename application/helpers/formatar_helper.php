@@ -60,3 +60,9 @@ function round_down($number, $precision = 3) {
     $fig = (int) str_pad('1', $precision, '0');
     return (floor($number * $fig) / $fig);
 }
+
+function decimal_to_form($decimal){
+    if (!empty($decimal)) {
+        return number_format($decimal, 2, ",", ".");
+    }
+}

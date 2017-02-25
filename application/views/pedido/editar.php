@@ -806,7 +806,7 @@ $loja = $orcamento->loja;
 
     function criar_adicional_pedido() {
         disable_button_salvar();
-        reset_errors_validation();
+        reset_errors();
         call_loadingModal("Criando o adicional...");
         $.ajax({
             url: '<?= base_url('pedido/ajax_criar_adicional_pedido/') ?>' + pedido_id,
@@ -947,7 +947,7 @@ $loja = $orcamento->loja;
 
     function alterar_data_entrega(owner, form, e) {
         e.preventDefault();
-        reset_errors_validation();
+        reset_errors();
         $.ajax({
             url: '<?= base_url('pedido/ajax_alterar_data_entrega/') ?>' + owner,
             type: 'POST',
@@ -976,7 +976,7 @@ $loja = $orcamento->loja;
 
     function alterar_data_entrega_adicional(owner, form, e) {
         e.preventDefault();
-        reset_errors_validation();
+        reset_errors();
         $.ajax({
             url: '<?= base_url('pedido/ajax_alterar_data_entrega_adicional/') ?>' + owner,
             type: 'POST',
@@ -1045,7 +1045,7 @@ $loja = $orcamento->loja;
     }
 
     function modal_cancelamento_item(owner, id_origem, id, input_valor_item, porcentagem_assessor, nome_produto, adicional, input_numero_documento, classe_itens, alterar) {
-        reset_errors_validation();
+        reset_errors();
 
         var custos_adm = 0;
         var label_valor_item = "";
@@ -1297,12 +1297,6 @@ $loja = $orcamento->loja;
         $(".btn-cancelado-1").attr("disabled", true);
     }
 
-    function reset_errors_validation() {
-        console.log('reset_errors_validation()');
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-    }
-
     function reset_forms() {
         $.each($('.form'), function (index, value) {
             value.reset();
@@ -1361,6 +1355,7 @@ $loja = $orcamento->loja;
     function atualiza_quantidade_parcelas() {
         var total = 0;
         var num_parcela = <?=$dados['parcelamento_maximo']?>;
+        var valor_minimo = <?=$dados['valor_minimo_parcelamento']?>;
         var valor_parcela = 0;
         var data = [];
         total = numberFormat($('#th-adicional-total_a_pagar')[0].innerText);
@@ -1368,6 +1363,9 @@ $loja = $orcamento->loja;
         $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
         for (var i = 1; i <= num_parcela; i++) {
             valor_parcela = total / i;
+            if(valor_parcela < valor_minimo){
+                break;
+            }
             valor_parcela = parseFloat(valor_parcela).toFixed(2);
             valor_parcela = valor_parcela.replace(".", ",");
             data.push({"value": i, "text": i + " x R$ " + valor_parcela});
@@ -1382,33 +1380,12 @@ $loja = $orcamento->loja;
     }
 
     function limpar_modal_adicional() {
-        reset_errors_validation();
+        reset_errors();
         $("#form_adicional_pedido")[0].reset();
         $.each($('.td-sub_total'), function (index, value) {
             $($(".td-sub_total")[index]).html("");
         });
         $("#th-adicional-total_a_pagar").html("");
-    }
-
-    function call_loadingModal(msg = "") {
-        if (msg === "") {
-            msg = "Processando os dados..."
-        }
-        $('body').loadingModal({
-            position: 'auto',
-            text: msg,
-            color: '#fff',
-            opacity: '0.7',
-            backgroundColor: 'rgb(0,0,0)',
-            animation: 'threeBounce'
-        });
-    }
-
-    function close_loadingModal() {
-        // hide the loading modal
-        $('body').loadingModal('hide');
-        // destroy the plugin
-        $('body').loadingModal('destroy');
     }
     
 </script>
