@@ -193,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group input-padding">
-                                        <button type="button" class="btn btn-default" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
+                                        <button type="button" class="btn btn-default pull-right" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -213,9 +213,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div id="lista_gramaturas" class="row">
                         </div>
-                        <div class="form-group input-padding">
-                            <div class="col-sm-12">
-                                <button type="button" class="btn btn-default" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</button>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-2">
+                                        <div class="form-group input-padding">
+                                            <label for="" class="control-label">Gramatura:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group input-padding">
+                                            <button type="button" class="btn btn-default pull-right" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
