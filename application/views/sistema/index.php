@@ -10,7 +10,7 @@
 						<label for="parcelamento_maximo" class="control-label col-sm-6">Parcelamento máximo</label>
 						<div class="col-sm-6">
 							<div class="input-group">
-								<input type="number" class="form-control" name="parcelamento_maximo" id="parcelamento_maximo" placeholder="Ex: 12" value="<?=$dados["parcelamento_maximo"]?>">
+								<input type="number" step="1" min="1" class="form-control" name="parcelamento_maximo" id="parcelamento_maximo" placeholder="Ex: 12" value="<?=$dados["parcelamento_maximo"]?>">
 								<div class="input-group-addon">vezes</div>
 							</div>
 							<span class="help-block"></span>
@@ -20,7 +20,7 @@
 						<label for="valor_minimo_parcelamento" class="control-label col-sm-6">Valor mínimo parcelamento</label>
 						<div class="col-sm-6">
 							<div class="input-group">
-								<input type="number" class="form-control" name="valor_minimo_parcelamento" id="valor_minimo_parcelamento" placeholder="Ex: 100,00" value="<?=$dados['valor_minimo_parcelamento']?>">
+								<input type="number" step="0.01" min="0" class="form-control" name="valor_minimo_parcelamento" id="valor_minimo_parcelamento" placeholder="Ex: 100,00" value="<?=$dados['valor_minimo_parcelamento']?>">
 								<div class="input-group-addon">reais</div>
 							</div>
 							<span class="help-block"></span>
@@ -30,7 +30,7 @@
 						<label for="prazo_validade_orcamento" class="control-label col-sm-6">Validade do orçamento</label>
 						<div class="col-sm-6">
 							<div class="input-group">
-								<input type="number" class="form-control" name="prazo_validade_orcamento" id="prazo_validade_orcamento" placeholder="Ex: 7" value="<?=$dados['prazo_validade_orcamento']?>">
+								<input type="number" step="1" min="1" class="form-control" name="prazo_validade_orcamento" id="prazo_validade_orcamento" placeholder="Ex: 7" value="<?=$dados['prazo_validade_orcamento']?>">
 								<div class="input-group-addon">dias</div>
 							</div>
 							<span class="help-block"></span>
