@@ -148,7 +148,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="md_form_fita">
     <form action="#" method="POST" role="form" class="form-horizontal" id="form_fita">
         <div class="modal-dialog" role="document">

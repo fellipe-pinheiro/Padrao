@@ -106,16 +106,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!--altura_final-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="altura_final" class="control-label">Altura Final (mm):</label>
-                                    <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                    <label for="altura_final" class="control-label">Altura Final:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <!--largura_final-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="largura_final" class="control-label">Largura Final (mm):</label>
-                                    <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                <label for="largura_final" class="control-label">Largura Final:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -124,16 +130,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!--cartao_altura-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="cartao_altura" class="control-label">Cartão Altura (mm):</label>
-                                    <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                <label for="cartao_altura" class="control-label">Cartão Altura:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <!--cartao_largura-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                <label for="cartao_largura" class="control-label">Cartão Largura (mm):</label>
-                                    <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                <label for="cartao_largura" class="control-label">Cartão Largura:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -142,16 +154,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!--envelope_altura-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="envelope_altura" class="control-label">Envelope Altura (mm):</label>
-                                    <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                <label for="envelope_altura" class="control-label">Envelope Altura:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <!--envelope_largura-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="envelope_largura" class="control-label">Envelope Largura (mm):</label>
-                                    <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                <label for="envelope_largura" class="control-label">Envelope Largura:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -160,8 +178,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!--empastamento_borda-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="empastamento_borda" class="control-label">Empastamento borda (mm):</label>
-                                    <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                <label for="empastamento_borda" class="control-label">Empastamento borda:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>

@@ -622,7 +622,7 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_impressao_area(editar = false,id_impressao_area = null) {
+	function ajax_carregar_impressao_area(editar = false,id_area = null) {
 		$('#form_select_impressao_area')
 		    .find('option')
 		    .remove()
@@ -648,7 +648,7 @@ $controller = $this->router->class;
 		})
 		.always(function() {
 			if(editar){
-				$("#form_select_impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
+				$("#form_select_impressao_area option[value='"+id_area+"']").prop('selected','selected');
 			}
 		});
 	}
@@ -876,6 +876,7 @@ $controller = $this->router->class;
 		    .end()
 		    .append('<option value="">Selecione</option>')
 		    .val('');
+		    $('#personalizado_modelo').selectpicker('val', '');
 		$.ajax({
 			url: '<?= base_url("personalizado_categoria/ajax_get_personalizado")?>',
 			type: 'GET',
@@ -964,6 +965,7 @@ $controller = $this->router->class;
 
 	function mao_obra_modal(acao,id_mao_obra = null){
 		console.log('Função: mao_obra_modal()');
+		reset_errors();
 		if(acao === "inserir"){
 			pre_submit("#form_mao_obra","<?=$controller?>/session_mao_obra_inserir","#md_mao_obra",'');
 		}else if(acao === "editar"){
@@ -990,11 +992,12 @@ $controller = $this->router->class;
 		if(id_modelo == ""){
 			remove_form_select_option_personalizado_modelo();
 			ajax_carregar_personalizado_categoria();
-			$("#personalizado_modelo option[value='']").prop("selected",true);
+			$('#personalizado_modelo').selectpicker('val', '');
 			$("#quantidade_personalizado").val(null);
 		}else{
 			ajax_carregar_personalizado_categoria(true,id_categoria);
-			$("#personalizado_modelo option[value="+id_modelo+"]").prop("selected",true);
+			ajax_carregar_personalizado_modelo(id_categoria,true, id_modelo);
+			$('#personalizado_modelo').selectpicker('val', id_modelo);
 			$("#quantidade_personalizado").val(quantidade);
 		}
 		if(!editar){
@@ -1045,9 +1048,10 @@ $controller = $this->router->class;
 	}
 
 	//Adiciona ou Edita (papel,impressao, acabamento, acessório, fita)
-	$(".form_ajax").submit(function (e) {
+	$(".form_ajax").submit(function (event) {
 		console.log('Função: $(".form_ajax")');
-		disable_button();
+		event.preventDefault();
+		disable_button_salvar();
 		reset_errors();
 		var form = form_ajax;
 		var url = url_ajax;
@@ -1082,9 +1086,8 @@ $controller = $this->router->class;
 		})
 		.always(function() {
 			console.log('complete: $(".form_ajax")');
-			enable_button();
+			enable_button_salvar();
 		});
-		e.preventDefault();
 	});
 
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
@@ -1302,25 +1305,9 @@ $controller = $this->router->class;
 		});	
 	}
 
-	function disable_button(){
-		$('.btnSubmit').text('Salvando...');
-		$('.btnSubmit').attr('disabled', true);
-	}
-
-	function enable_button() {
-		$('.btnSubmit').text('Salvar');
-		$('.btnSubmit').attr('disabled', false);
-	}
-
 	function reset_form(form) {
         $(form)[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+        reset_errors();
     }
 
     function remove_form_select_option_papel() {
@@ -1354,7 +1341,6 @@ $controller = $this->router->class;
 	}
 
 	function remove_form_select_option_personalizado_modelo() {
-    	$('#personalizado_modelo').selectpicker('destroy');
 		$('#personalizado_modelo')
 	    .find('option')
 	    .remove()
