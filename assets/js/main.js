@@ -375,6 +375,10 @@ function date_before_today(date) {//[dd/mm/yyyy][dd-mm-yyyy][yyyy-mm-dd]
 	return true;
 }
 
+function format_no_leading_zeroes(value) { //retira os zeros da frente do número ex: 0001 => 1
+	return value.replace(/^[ 0]+/,'');
+}
+
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {

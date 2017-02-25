@@ -965,6 +965,7 @@ $controller = $this->router->class;
 
 	function mao_obra_modal(acao,id_mao_obra = null){
 		console.log('Função: mao_obra_modal()');
+		reset_errors();
 		if(acao === "inserir"){
 			pre_submit("#form_mao_obra","<?=$controller?>/session_mao_obra_inserir","#md_mao_obra",'');
 		}else if(acao === "editar"){
@@ -1047,9 +1048,10 @@ $controller = $this->router->class;
 	}
 
 	//Adiciona ou Edita (papel,impressao, acabamento, acessório, fita)
-	$(".form_ajax").submit(function (e) {
+	$(".form_ajax").submit(function (event) {
 		console.log('Função: $(".form_ajax")');
-		disable_button();
+		event.preventDefault();
+		disable_button_salvar();
 		reset_errors();
 		var form = form_ajax;
 		var url = url_ajax;
@@ -1084,9 +1086,8 @@ $controller = $this->router->class;
 		})
 		.always(function() {
 			console.log('complete: $(".form_ajax")');
-			enable_button();
+			enable_button_salvar();
 		});
-		e.preventDefault();
 	});
 
 	//Função acionada na view para excluir da sessao: papel, impressao, acabamento, acessorio, fita
@@ -1304,25 +1305,9 @@ $controller = $this->router->class;
 		});	
 	}
 
-	function disable_button(){
-		$('.btnSubmit').text('Salvando...');
-		$('.btnSubmit').attr('disabled', true);
-	}
-
-	function enable_button() {
-		$('.btnSubmit').text('Salvar');
-		$('.btnSubmit').attr('disabled', false);
-	}
-
 	function reset_form(form) {
         $(form)[0].reset(); // Zerar formulario
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
-    }
-
-    function reset_errors() {
-        $('.form-group').removeClass('has-error'); // Limpar os erros
-        $('.help-block').empty(); // Limpar as msg de erro
+        reset_errors();
     }
 
     function remove_form_select_option_papel() {
