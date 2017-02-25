@@ -8,6 +8,7 @@ class Orcamento extends CI_Controller {
         parent::__construct();
 
         //Orçamento
+        $this->load->model('Sistema_m');
         $this->load->model('Orcamento_m');
         $this->load->model('Pedido_m');
         $this->load->model('Cliente_m');
@@ -83,6 +84,8 @@ class Orcamento extends CI_Controller {
         $id = $this->uri->segment(3);
         $data['orcamento'] = $this->Orcamento_m->get_by_id($id);
         $data['documento_numero'] = "<h3 class='pull-right'><strong>" . $data['orcamento']->get_numero_documento() . "</strong></h3>";
+        $prazo_validade_orcamento = $this->Sistema_m->get_by_nome('prazo_validade_orcamento');
+        $data['prazo_validade_orcamento'] = empty($prazo_validade_orcamento) ? 1 : $prazo_validade_orcamento;
         set_layout('titulo', $data['orcamento']->get_numero_documento(), TRUE);
         set_layout('conteudo', load_content('orcamento/pdf', $data));
         load_layout();

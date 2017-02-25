@@ -18,18 +18,18 @@ if($controller === 'orcamento'){
 		$loja =  $orcamento->loja;
 		?>
 		<!-- Logo -->
-		<div class="col-lg-3 col-md-3 col-xs-3">
+		<div class="col-xs-3">
 			<?= img(array('src'   => '/assets/imagens/logo_cgolin.png','alt'   => 'Logo da empresa','class' => '','width' => '150','height'=> 'auto','title' => 'Logo da empresa')); ?>
 		</div>
 		<!-- Loja -->
-		<div class="col-lg-6 col-md-6 col-xs-6" style="font-size: 12px">
+		<div class="col-xs-6" style="font-size: 12px">
 			<h4><?=$loja->razao_social?></h4>
 			<p>CNPJ: <?=$loja->cnpj?></p>
 			<p><?=$loja->endereco?>, <?=$loja->numero?> - <?=$loja->complemento?> <?=$loja->bairro?> - <?=$loja->cidade?> / <?=$loja->uf?></p>
 			<p>Telefone: <?=$loja->telefone?></p>
 		</div>
 		<!-- Data / Número-->
-		<div class="col-lg-3 col-md-3 col-xs-3">
+		<div class="col-xs-3">
 			<p class="pull-right">
 				Data: <?=$orcamento->get_data_hora()?><br>
 			</p>
@@ -38,7 +38,7 @@ if($controller === 'orcamento'){
 	</div>
 	<!-- Cliente -->
 	<div class="row">
-		<div class="col-lg-12 col-md-12">
+		<div class="col-xs-12">
 			<h4>Dados do cliente</h4>
 			<table class="table table-condensed table-hover">
 				<thead>
@@ -72,7 +72,7 @@ if($controller === 'orcamento'){
 	<hr>
 	<!-- Produtos -->
 	<div class="row">
-		<div class="col-lg-12 col-md-12">
+		<div class="col-xs-12">
 			<h4>Produtos</h4>
 			<table class="table table-condensed table-hover">
 				<thead>
@@ -168,7 +168,7 @@ if($controller === 'orcamento'){
 	<hr>
 	<!-- Descrição -->
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-xs-12">
 			<h4>Descrição</h4>
 			<p><?=$orcamento->descricao?></p>
 		</div>
@@ -176,7 +176,7 @@ if($controller === 'orcamento'){
 	<hr>
 	<!-- Detalhes -->
 	<div class="row">
-		<div class="col-lg-12 col-md-12">
+		<div class="col-xs-12">
 			<h4>Detalhes</h4>
 			<?php
 			$arr_produtos = array();
@@ -341,7 +341,7 @@ if($controller === 'orcamento'){
 		<?php
 		if($controller === 'pedido'){
 			?>
-			<div class="col-lg-12 col-md-12">
+			<div class="col-xs-12">
 				<h4>Parcelas</h4>
 				<table class="table table-condensed table-hover">
 					<thead>
@@ -390,19 +390,29 @@ if($controller === 'orcamento'){
 	</div>
 	<!-- Rodapé -->
 	<div class="row">
-		<div class="col-lg-12 col-md-12 col-xs-12">
+		<div class="col-xs-12">
 			<p>Li e confirmo as informações acima descritas neste documento.</p>
 		</div>
-		<div class="col-lg-6 col-md-6 col-xs-6">
+		<div class="col-xs-6">
 			<h4>Responsável</h4>
 			<p>______________________________________</p>
 			<p>Assinatura</p>
 		</div>
-		<div class="col-lg-6 col-md-6 col-xs-6">
+		<div class="col-xs-6">
 			<h4>Vendedor</h4>
 			<p>______________________________________</p>
 			<p>Assinatura</p>
 		</div>
+		<?php
+		if($controller === 'orcamento'){
+		?>
+		<div class="col-xs-12">
+			<h4>Validade</h4>
+			<p><?=$dados['prazo_validade_orcamento']?> dias</p>
+		</div>
+		<?php
+		}
+		?>
 	</div>
 </div>
 <script type="text/javascript">
