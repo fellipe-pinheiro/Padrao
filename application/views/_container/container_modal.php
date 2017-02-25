@@ -187,7 +187,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit" >Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -235,7 +235,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit" >Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -275,7 +275,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit" >Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -315,7 +315,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit" >Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -380,7 +380,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit" >Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -388,72 +388,76 @@ $controller = $this->router->class;
 </div>
 <!-- MODAL: CONVITE -->
 <div class="modal fade" id="md_convite">
-	<div class="modal-dialog">
-		<form class="form_ajax" id="form_convite" action="" method="post" accept-charset="utf-8" role="form">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 id="md_convite_titulo" class="modal-title"></h4>
-				</div>			
-				<div class="modal-body row">
-					<div class="form-group col-sm-8">
-						<?= form_label('Convite Modelo: ', 'convite_modelo', array('class' => 'control-label')) ?>
-						<select id="convite_modelo" autofocus name="convite_modelo" class="form-control selectpicker" data-live-search="true">
-							<option value="" disabled selected>Selecione</option>
-						</select>
-						<span class="help-block"></span>
+	<form class="form_ajax" id="form_convite" action="" method="post" accept-charset="utf-8" role="form">
+		<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 id="md_convite_titulo" class="modal-title"></h4>
+					</div>			
+					<div class="modal-body">
+						<fieldset>
+							<div class="form-group col-sm-8">
+								<label for="convite_modelo" class="control-label">Modelo:</label>
+								<select id="convite_modelo" autofocus name="convite_modelo" class="form-control selectpicker" data-live-search="true">
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="quantidade" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="quantidade_convite" step="1" class="form-control" value="" placeholder="Quantidade de convites" />
+								<span class="help-block"></span>
+							</div>
+						</fieldset>
 					</div>
-					<div class="form-group col-sm-4">
-						<?= form_label('Quantidade: ', 'quantidade', array('class' => 'control-label')) ?>
-						<input type="number" name="quantidade" id="quantidade_convite" step="1" class="form-control" value="" placeholder="Quantidade de convites" />
-						<span class="help-block"></span>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+						<button type="submit" class="btn btn-default btnSubmit">Salvar</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit">Salvar</button>
-				</div>
-			</div>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>
 <!-- MODAL: PERSONALIZADO -->
 <div class="modal fade" id="md_personalizado">
-	<div class="modal-dialog">
-		<form class="form_ajax" id="form_personalizado" action="" method="post" accept-charset="utf-8" role="form">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 id="md_personalizado_titulo" class="modal-title"></h4>
-				</div>			
-				<div class="modal-body row">
-					<div class="form-group col-sm-4">
-						<label for="personalizado_categoria" class="control-label">Categoria</label>
-						<select id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" autofocus>
-							<option value="" disabled selected>Selecione</option>
-						</select>
-						<span class="help-block"></span>
+	<form class="form_ajax" id="form_personalizado" action="" method="post" accept-charset="utf-8" role="form">
+		<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 id="md_personalizado_titulo" class="modal-title"></h4>
+					</div>			
+					<div class="modal-body">
+						<fieldset>
+							<div class="form-group col-sm-4">
+								<label for="personalizado_categoria" class="control-label">Categoria</label>
+								<select id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" autofocus required>
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="personalizado_modelo" class="control-label">Modelo</label>
+								<select id="personalizado_modelo" name="personalizado_modelo" class="form-control selectpicker" data-live-search="true" required>
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="quantidade" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="quantidade_personalizado" min="1" step="1" class="form-control" value="" placeholder="Quantidade" />
+								<span class="help-block"></span>
+							</div>
+						</fieldset>
 					</div>
-					<div class="form-group col-sm-4">
-						<label for="personalizado_modelo" class="control-label">Modelo</label>
-						<select id="personalizado_modelo" name="personalizado_modelo" class="form-control selectpicker" data-live-search="true">
-							<option value="" disabled selected>Selecione</option>
-						</select>
-						<span class="help-block"></span>
-					</div>
-					<div class="form-group col-sm-4">
-						<?= form_label('Quantidade: ', 'quantidade', array('class' => 'control-label')) ?>
-						<input type="number" name="quantidade" id="quantidade_personalizado" min="1" step="1" class="form-control" value="" placeholder="Quantidade" />
-						<span class="help-block"></span>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+						<button id="btn_mod_qtd_submit" type="submit" class="btn btn-default btnSubmit">Salvar</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button id="btn_mod_qtd_submit" type="submit" class="btn btn-success btnSubmit">Salvar</button>
-				</div>
-			</div>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>
 <!-- MODAL: MÃO DE OBRA -->
 <div class="modal fade" id="md_mao_obra">
@@ -475,7 +479,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit">Salvar</button>
 				</div>
 			</div>
 		</form>
@@ -499,7 +503,7 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-success btnSubmit">Salvar</button>
+					<button type="submit" class="btn btn-default btnSubmit">Salvar</button>
 				</div>
 			</div>
 		</form>
