@@ -117,7 +117,8 @@ class Papel_acabamento extends CI_Controller {
         $this->form_validation->set_message('is_unique', 'Este código já existe no banco de dados!');
         $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
-        $this->form_validation->set_rules('valor', 'Valor', 'trim|required');
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('valor', 'Valor', 'trim|required|numeric|decimal_positive');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
