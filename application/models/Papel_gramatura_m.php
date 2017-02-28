@@ -93,6 +93,7 @@ class Papel_gramatura_m extends CI_Model {
     {
         $this->db->select($colunas);
         $this->db->where("papel",$id_papel);
+        $this->db->order_by("gramatura", "asc");
         return $this->db->get("papel_gramatura")->result_array();
     }
 }
