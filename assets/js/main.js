@@ -77,6 +77,10 @@ function mapear_erro(target,value) {
 
 function remove_error_on_change_and_keyup() {
 	// Retira a classe de erro do formulário
+	$("form").on('keyup mouseup change dp.change', 'input, textarea, select', function(event) { 
+		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
+	});
+	/*
 	$("form").on('keyup', 'input, textarea', function(event) { 
 		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
 	});
@@ -89,6 +93,7 @@ function remove_error_on_change_and_keyup() {
 	$("form").on('dp.change', 'input', function(event) { // datetimepicker
 		$(this).closest(".form-group").removeClass('has-error').find('.help-block').empty();
 	});
+	*/
 }
 
 function show_datails(id) {
