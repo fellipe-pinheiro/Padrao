@@ -16,6 +16,24 @@ class Teste extends CI_Controller {
         load_layout();
     }
 
+    public function calendario(){
+        $this->load->library('calendar');
+        $data['janeiro'] = $this->calendar->generate(2017,1);
+        $data['fevereiro'] = $this->calendar->generate(2017,2);
+        $data['marco'] = $this->calendar->generate(2017,3);
+        $data['abril'] = $this->calendar->generate(2017,4);
+        $data['maio'] = $this->calendar->generate(2017,5);
+        $data['junho'] = $this->calendar->generate(2017,6);
+        $data['julho'] = $this->calendar->generate(2017,7);
+        $data['agosto'] = $this->calendar->generate(2017,8);
+        $data['setembro'] = $this->calendar->generate(2017,9);
+        $data['outubro'] = $this->calendar->generate(2017,10);
+        $data['novembro'] = $this->calendar->generate(2017,11);
+        $data['dezembro'] = $this->calendar->generate(2017,12);
+        set_layout('conteudo', load_content('teste/calendario',$data));
+        load_layout();
+    }
+
     private function get_gramatura( $pattern, $input, $flags = 0 )
     {
         $keys = preg_grep( $pattern, array_keys( $input ), $flags );
