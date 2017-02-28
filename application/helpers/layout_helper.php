@@ -40,6 +40,7 @@ function init_layout() {
     set_layout('header', load_js(array('bootstrap-datepicker.min'), 'assets/js/bootstrap-datepicker/js'), FALSE);
     set_layout('header', load_js(array('bootstrap-datepicker.pt-BR.min'), 'assets/js/bootstrap-datepicker/locales'), FALSE);
     set_layout('header', load_js(array('bootstrap-checkbox.min'), 'assets/js/bootstrap-checkbox/js'), FALSE);
+    set_layout('header', load_js(array('pt.min'), 'assets/js/bootstrap-checkbox/js/i18n'), FALSE);
     set_layout('header', load_js(array('angular.min'), 'assets/js/angular'), FALSE);
     set_layout('header', load_js(array('jquery-confirm'), 'assets/js'), FALSE); //v2.5.1
     //set_layout('header', load_js(array('jquery-confirm.min'), 'assets/js'), FALSE); //v3.0.1 obs: não descomentar
