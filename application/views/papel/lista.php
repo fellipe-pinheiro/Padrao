@@ -940,6 +940,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
+            if(tab_active === "#tab_papel"){
+                var nome = dataTable.row(".selected").data().papel;
+            }
             if(tab_active === "#tab_dimensao"){
                 var altura = dataTable.row(".selected").data().altura;
                 var largura = dataTable.row(".selected").data().largura;
@@ -964,27 +967,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $.ajax({
                         url: url_delete + id,
                         type: "POST",
-                        dataType: "JSON",
-                        success: function (data)
-                        {
-                            if (data.status) {
-                                if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
-                                    papel_atualizar = true;
-                                }
-                                reload_table(dataTable);
-                            }else{
-                                alert("Erro ao excluir o registro");
+                        dataType: "JSON"
+                    })
+                    .done(function(data) {
+                        console.log("success");
+                        if (data.status) {
+                            if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
+                                papel_atualizar = true;
                             }
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown)
-                        {
-                            alert('Erro ao excluir o registro');
+                            reload_table(dataTable);
+                        }else{
+                            if(data.db_error_1451){
+                                $.alert({
+                                    title: 'Atenção!',
+                                    content: 'O papel <strong>ID: ' + id + ' '+ nome +'</strong> não pode ser excluido pois está sendo utilizado no orçamento...'
+                                });
+                            }
                         }
-                    });
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("error");
+                    })
                 },
                 cancel: function () {
-                    $.alert('Operação cancelada!')
+                    $.alert({
+                        title: 'Sucesso',
+                        content: 'O <strong>ID ' + id + ' ' + nome + '</strong> foi excluido com sucesso!'
+                    })
                 }
             });
         });
@@ -1123,7 +1132,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     do_remove_gramatura_papel(id,add);
                 },
                 cancel: function(){
-                    $.alert('Operação cancelada!');
                 }
             });
         }
@@ -1160,7 +1168,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
 
-    function formulario_submit(e) {
+    function formulario_submit(event) {
+        event.preventDefault();
         console.log('formulario submit');
         disable_button_salvar();
         if(!get_tab_active()){
@@ -1176,52 +1185,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $.ajax({
             url: url_submit,
-            type: "POST",
+            type: 'POST',
+            dataType: 'json',
             data: $(form).serialize(),
-            dataType: "JSON",
-            success: function (data)
-            {
-                if (data.status)
-                {   
-                    if(tab_active == '#tab_papel' && save_method == 'add'){
-                        $.confirm({
-                            title: 'Papel inserido com sucesso!',
-                            content: 'Deseja inserir mais um papel da mesma linha?',
-                            confirmButton: 'Sim',
-                            cancelButton: 'Não',
-                            confirm: function(){
-                                $(form + " #nome").val('');
-                            },
-                            cancel: function(){
-                                $(md_form).modal('hide');
-                            }
-                        });
-                    }else{
-                        if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
-                                papel_atualizar = true;
-                            }
-                        $(md_form).modal('hide');
-                    }
+        })
+        .done(function(data) {
+            console.log("success");
+            //console.log("testando: " + data.db_error_1451);
+            if (data.status){   
+                if(tab_active == '#tab_papel' && save_method == 'add'){
+                    $.confirm({
+                        title: 'Papel inserido com sucesso!',
+                        content: 'Deseja inserir mais um papel da mesma linha?',
+                        confirmButton: 'Sim',
+                        cancelButton: 'Não',
+                        confirm: function(){
+                            $(form + " #nome").val('');
+                        },
+                        cancel: function(){
+                            $(md_form).modal('hide');
+                        }
+                    });
+                }else{
+                    if(tab_active == '#tab_linha' || tab_active == '#tab_dimensao'){
+                            papel_atualizar = true;
+                        }
+                    $(md_form).modal('hide');
                 }
-                else
-                {
+            }else{
+                if(data.db_error_1451){
+                    console.log('db_error_1451');
+                    $.each(data.db_error_1451, function(index, val) {
+                         arr_g = val.name.split("_");
+                         id = '#' + arr_g[0] + '_papel_' + arr_g[1] + '_UPD';
+                         name_gramatura = arr_g[0] + '_' + arr_g[1] + '_UPD';
+                         $('[name=' + val.name + ']').prop('name',name_gramatura);
+
+                         name_valor = 'valor_' + arr_g[1] + '_UPD';
+                         $('[name=valor_' + arr_g[1] + '_DEL]').prop('name',name_valor);
+
+                         visible_gramatura++;
+                         $(id).show();
+                        $('[name="' + name_gramatura + '"]').closest(".form-group").addClass('has-error').find('.help-block').text(val.msg);
+                        
+                    });
+                }else{
                     $.map(data.form_validation, function (value, index) {
                         $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
                         $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
                     });
                 }
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Erro ao Adicionar ou Editar');
-            },
-            complete: function () 
-            {
-                enable_button_salvar();
-                reload_table(dataTable);
             }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+        })
+        .always(function() {
+            console.log("complete");
+            enable_button_salvar();
+            reload_table(dataTable);
         });
-        e.preventDefault();
     }
 
     function get_tab_active() {

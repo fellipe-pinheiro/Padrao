@@ -58,7 +58,11 @@ class Papel extends CI_Controller {
         if ( $id_papel ) {
             $gramaturas = $this->get_array_gramaturas_objects( $id_papel );
             foreach ( $gramaturas as $gramatura ) {
-                $this->Papel_gramatura_m->inserir( $gramatura );
+                if( $gramatura['ADD'] ){
+
+                    $this->Papel_gramatura_m->inserir( $gramatura['ADD'] );
+
+                }
             }
             $data['status'] = TRUE;
         }
@@ -82,7 +86,8 @@ class Papel extends CI_Controller {
     }
 
     public function ajax_update() {
-        $data["status"] = TRUE;
+        $data = array();
+        $data["status"] = FALSE;
         $this->validar_formulario();
                 
         if ( $this->input->post('id') ) {
@@ -94,21 +99,34 @@ class Papel extends CI_Controller {
                 $gramaturas = $this->get_array_gramaturas_objects( $this->input->post('id') );
                
                 foreach ($gramaturas as $gramatura) {
-                    if (empty($gramatura['id'])) {
-                        // ADD
-                         $this->Papel_gramatura_m->inserir($gramatura);
-                    }else{
-                        // UPDATE
-                         $this->Papel_gramatura_m->editar($gramatura);
+                    if ( $gramatura['ADD'] ) { // INSERT
+
+                        $this->Papel_gramatura_m->inserir($gramatura['ADD']);
+
+                    }else if( $gramatura['UPD'] ){ // UPDATE
+
+                        $this->Papel_gramatura_m->editar($gramatura['UPD']);
+
+                    }else if( $gramatura['DEL'] ){ // DELETE
+
+                        $this->Papel_gramatura_m->deletar($gramatura['DEL']['id']);
+                        if($this->db->error()['code'] === 1451){
+                            $data['db_error_1451'][] = array('msg'=>'Não foi possível excluir a gramatura: ' . $gramatura['DEL']['gramatura'] . ' pois já está sendo utilizada.','name'=>$gramatura['DEL']['name']);
+                            $this->db->trans_rollback();
+                            $data['status'] = FALSE;
+                            print json_encode($data);
+                            exit();
+                        }
+
                     }
                 }
             }
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 $data['status'] = FALSE;
-                $data["msg"] = "Erro ao inserir no banco";
             } else {
                 $this->db->trans_commit();
+                $data["status"] = TRUE;
             }
         }
         print json_encode($data);
@@ -117,13 +135,19 @@ class Papel extends CI_Controller {
     public function ajax_delete($id) {
         $data["status"] = TRUE;
         $this->db->trans_begin();
-        if(!$this->Papel_m->deletar($id)){
+        if($this->Papel_gramatura_m->delete_by_papel_id($id)){
+            if(!$this->Papel_m->deletar($id)){
+                $data["status"] = FALSE;
+            }
+        }else{
             $data["status"] = FALSE;
+            if($this->db->error()['code'] === 1451){
+                $data['db_error_1451'] = array('msg'=>'Não foi possível excluir o papel ID: ' . $id . ' pois já esta sendo utilizado.');
+            }
         }
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $data['status'] = FALSE;
-            $data["msg"] = "Erro ao inserir no banco";
         } else {
             $this->db->trans_commit();
         }
@@ -165,7 +189,14 @@ class Papel extends CI_Controller {
             'gramatura' => $value['gramatura'],
             'valor' => decimal_to_db($value['valor'])
             );
-            $dados_lista[] = $dados;
+            if($value['action'] === "ADD"){
+                $dados_lista[]['ADD'] = $dados;
+            }else if($value['action'] === "UPD"){
+                $dados_lista[]['UPD'] = $dados;
+            }else if($value['action'] === "DEL"){
+                $dados['name'] = $value['name'];
+                $dados_lista[]['DEL'] = $dados;
+            }
         }
         return $dados_lista;
     }
@@ -177,17 +208,17 @@ class Papel extends CI_Controller {
             list( $prefix, $id, $action ) = explode("_",$name);
             switch ($action) {
                 case 'ADD':
-                    $arr =  array("id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]));
+                    $arr =  array("action"=>"ADD","id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]));
                     break;
                 case 'UPD':
-                    $arr = array("id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]));
+                    $arr = array("action"=>"UPD","id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]));
                     break;
                 case 'DEL':
-                    $this->Papel_gramatura_m->deletar($id);
+                    $arr = array("action"=>"DEL","id"=>$id,"gramatura"=>$input[$name],"valor"=>null,"name"=>$name);
                     break;
                 
                 default:
-                    # code...
+                    $arr = null;
                     break;
             }
             if(!empty($arr)){

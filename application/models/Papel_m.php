@@ -106,11 +106,9 @@ class Papel_m extends CI_Model {
 
     public function deletar($id) {
         if (!empty($id)) {
-            if($this->Papel_gramatura_m->delete_by_papel_id($id)){
-                $this->db->where('id', $id);
-                if ($this->db->delete('papel')) {
-                    return true;
-                }
+            $this->db->where('id', $id);
+            if ($this->db->delete('papel')) {
+                return true;
             }
         }
         return false;
