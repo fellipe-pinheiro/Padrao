@@ -187,7 +187,8 @@ class Papel extends CI_Controller {
             'id' => $value['id'],
             'papel' => $id_papel,
             'gramatura' => $value['gramatura'],
-            'valor' => decimal_to_db($value['valor'])
+            'valor' => decimal_to_db($value['valor']),
+            'ativo' => empty($value['ativo']) ? 0 : $value['ativo'],
             );
             if($value['action'] === "ADD"){
                 $dados_lista[]['ADD'] = $dados;
@@ -208,13 +209,13 @@ class Papel extends CI_Controller {
             list( $prefix, $id, $action ) = explode("_",$name);
             switch ($action) {
                 case 'ADD':
-                    $arr =  array("action"=>"ADD","id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]));
+                    $arr =  array("action"=>"ADD","id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]),"ativo"=>$input["ativo_".$id."_ADD"]);
                     break;
                 case 'UPD':
-                    $arr = array("action"=>"UPD","id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]));
+                    $arr = array("action"=>"UPD","id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]),"ativo"=>$input["ativo_".$id."_UPD"]);
                     break;
                 case 'DEL':
-                    $arr = array("action"=>"DEL","id"=>$id,"gramatura"=>$input[$name],"valor"=>null,"name"=>$name);
+                    $arr = array("action"=>"DEL","id"=>$id,"gramatura"=>$input[$name],"valor"=>null,"ativo"=>$input["ativo_".$id."_DEL"],"name"=>$name);
                     break;
                 
                 default:

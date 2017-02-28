@@ -191,21 +191,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <label for="" class="control-label">Gramatura:</label>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group input-padding">
-                                        <button type="button" class="btn btn-default pull-right" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group input-padding">
                                         <input step="1" type="number" min="0" name="gramatura" class="form-control" placeholder="Gramatura ex: 80">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group input-padding">
                                         <input step="0.01" type="number" min="0" name="valor" class="form-control" placeholder="Valor ex: 3,20">
                                         <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group input-padding" id="default_checkbox">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group input-padding">
+                                        <button type="button" class="btn btn-danger pull-right" id="gramatura_papel_default"><i class="glyphicon glyphicon-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -900,7 +904,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                             }else if(index === 'papel_gramaturas'){
                                 $.each(value,function(i, gramatura) {
-                                    clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
+                                    clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor,gramatura.ativo);
                                 });
                             }
                         });
@@ -1008,7 +1012,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#add_gramatura").click(function(){
             count_gramatura++;
             visible_gramatura++;
-            clonar_gramatura(count_gramatura+"_ADD","","");
+            clonar_gramatura(count_gramatura+"_ADD","","",1);
         });
     });
 
@@ -1105,7 +1109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
 
-    function clonar_gramatura(id,gramatura,valor){
+    function clonar_gramatura(id,gramatura,valor,ativo){
         var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
         // adicionar funcao para deletar a linha
         if (gramatura == "") {
@@ -1117,8 +1121,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $($(c[0]).find("input")[0]).prop("id","gramatura_"+id).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
         $($(c[0]).find("label")[0]).prop("for","gramatura_"+id);
         $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
-
+        //Cria um checkbox no local especificado. PS: O clone não está ativando a função do checkboxpicker.
+        $(c[0]).find("#default_checkbox").prop("id","gramatura_checkbox_"+id).html('<input type="checkbox" id="ativo_'+id+'" name="ativo_'+id+'" value="1" data-group-cls="btn-group-sm">');
         c.appendTo("#lista_gramaturas");
+        if(ativo === "0"){
+            $("#ativo_"+id).prop("checked",false);
+        }else{
+            $("#ativo_"+id).prop("checked",true);
+        }
+        $("#ativo_"+id).checkboxpicker({
+            html: true,
+            offActiveCls: 'btn-warning',
+            offLabel: '<span class="glyphicon glyphicon-ban-circle">',
+            onLabel: '<span class="glyphicon glyphicon-ok">'
+        });
     }
 
     function remover_gramatura_papel(id,add,gramatura) {
@@ -1150,20 +1166,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (add) {
             $("#"+id).remove();
         } else {
-            var arr_g = new Array();
-            var arr_v = new Array();
+            var arr_gramatura = new Array();
+            var arr_valor = new Array();
+            var arr_ativo = new Array();
             // adicionar o D no name dos inputs
             var name_gramatura = $($("#"+id+" input")[0]).prop("name");
-            arr_g = name_gramatura.split("_");
-            arr_g[2] = "DEL";
-            name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
+            arr_gramatura = name_gramatura.split("_");
+            arr_gramatura[2] = "DEL";
+            name_gramatura = arr_gramatura[0] + "_" + arr_gramatura[1] + "_" + arr_gramatura[2];
             $($("#"+id+" input")[0]).prop("name",name_gramatura);
 
             var name_valor = $($("#"+id+" input")[1]).prop("name");
-            arr_v = name_valor.split("_");
-            arr_v[2] = "DEL";
-            name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
+            arr_valor = name_valor.split("_");
+            arr_valor[2] = "DEL";
+            name_valor = arr_valor[0] + "_" + arr_valor[1] + "_" + arr_valor[2];
             $($("#"+id+" input")[1]).prop("name",name_valor);
+
+            var name_ativo = $($("#"+id+" input")[2]).prop("name");
+            console.log(name_ativo);
+            arr_ativo = name_ativo.split("_");
+            arr_ativo[2] = "DEL";
+            name_ativo = arr_ativo[0] + "_" + arr_ativo[1] + "_" + arr_ativo[2];
+            $($("#"+id+" input")[2]).prop("name",name_ativo);
+
             $("#"+id).hide();
         }
     }
