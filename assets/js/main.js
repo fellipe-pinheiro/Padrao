@@ -19,8 +19,6 @@ $(document).ready(function() {
 			$(this).css('z-index', parseInt($('.modal-backdrop.in').first().css('z-index')) + 10);
 		}
 	});
-	//Checkbox estilizado
-	$(':checkbox').checkboxpicker();
 
 	//Telefone com 8 ou 9 dígitos use a class="sp_celphones"
 	var SPMaskBehavior = function (val) {
