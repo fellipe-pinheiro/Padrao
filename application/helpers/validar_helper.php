@@ -185,3 +185,9 @@ function validate_date($data) {
     return checkdate($mes, $dia, $ano);
 }
 
+function validar_boolean($value){
+	if($value === "0" || $value === "1"){
+		return true;
+	}
+	return false;
+}

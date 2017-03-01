@@ -9,12 +9,12 @@ class Papel_m extends CI_Model {
     var $papel_linha; // Object Papel_linha_m()
     var $papel_dimensao; // Object Papel_dimensao_m()
     var $papel_gramaturas; // array Object Papel_gramatura_m()
-
     var $descricao;
+    var $ativo;
     // Ajax 
     var $table = 'v_papel_gramatura_group';
-    var $column_order = array('id','linha','papel','altura','largura','gramaturas','descricao');
-    var $column_search = array('id','linha','papel','altura','largura','gramaturas','descricao');
+    var $column_order = array('id','linha','papel','altura','largura','gramaturas','descricao','ativo');
+    var $column_search = array('id','linha','papel','altura','largura','gramaturas','descricao','ativo');
     var $order = array('papel'=>'asc');
 
     private function get_datatables_query() {
@@ -152,6 +152,7 @@ class Papel_m extends CI_Model {
             $object->papel_dimensao = $this->Papel_dimensao_m->get_by_id($value['papel_dimensao']);
             $object->papel_gramaturas = $this->Papel_gramatura_m->get_by_papel_id($object->id);
             $object->descricao = $value['descricao'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

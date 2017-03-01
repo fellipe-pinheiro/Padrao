@@ -34,7 +34,8 @@ class Papel extends CI_Controller {
                 'altura' => $item->altura,
                 'largura' => $item->largura,
                 'gramaturas' => $item->gramaturas,
-                'descricao' => $item->descricao
+                'descricao' => $item->descricao,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -160,7 +161,8 @@ class Papel extends CI_Controller {
             'papel_linha' => $this->input->post('papel_linha'),
             'nome' => $this->input->post('nome'),
             'papel_dimensao' => $this->input->post('papel_dimensao'),
-            'descricao' => $this->input->post('descricao')
+            'descricao' => $this->input->post('descricao'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo')
         );
         return $dados;
     }
@@ -246,6 +248,8 @@ class Papel extends CI_Controller {
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('papel_dimensao', 'Dimensão', 'trim|required');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_message('validar_boolean', 'O Papel ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Papel ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
