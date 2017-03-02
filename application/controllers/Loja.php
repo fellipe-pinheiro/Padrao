@@ -45,6 +45,7 @@ class Loja extends CI_Controller {
                 'cidade' => $item->cidade,
                 'cep' => $item->cep,
                 'uf' => $item->uf,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -119,6 +120,7 @@ class Loja extends CI_Controller {
             'cidade' => $this->input->post('cidade'),
             'cep' => $this->input->post('cep'),
             'uf' => $this->input->post('uf'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -156,6 +158,8 @@ class Loja extends CI_Controller {
         $this->form_validation->set_rules('bairro', 'Bairro', 'trim|max_length[50]');
         $this->form_validation->set_rules('cidade', 'Cidade', 'trim|max_length[50]');
         $this->form_validation->set_rules('cep', 'CEP', 'trim');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

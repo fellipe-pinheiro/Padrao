@@ -15,9 +15,10 @@ class Fita_m extends CI_Model {
     var $valor_38mm;
     var $valor_50mm;
     var $valor_70mm;
+    var $ativo;
     // Ajax 
     var $table = 'fita as f';
-    var $column_order = array('f.id', 'fl.nome', 'fm.nome', 'f.valor_03mm','f.valor_07mm','f.valor_10mm','f.valor_15mm','f.valor_22mm','f.valor_38mm','f.valor_50mm','f.valor_70mm');
+    var $column_order = array('f.id', 'fl.nome', 'fm.nome', 'f.valor_03mm','f.valor_07mm','f.valor_10mm','f.valor_15mm','f.valor_22mm','f.valor_38mm','f.valor_50mm','f.valor_70mm','f.ativo');
     var $column_search = array('fl.nome', 'fm.nome');
     var $order = array('f.id'=>'asc');
 
@@ -34,6 +35,7 @@ class Fita_m extends CI_Model {
             CONCAT("R$ ", format(f.valor_38mm,2,"pt_BR")) as valor_38mm,
             CONCAT("R$ ", format(f.valor_50mm,2,"pt_BR")) as valor_50mm,
             CONCAT("R$ ", format(f.valor_70mm,2,"pt_BR")) as valor_70mm,
+            f.ativo as f_ativo,
             ');
         $this->db->select('
             fl.nome as fl_nome,
@@ -145,6 +147,7 @@ class Fita_m extends CI_Model {
             $object->valor_70mm = $value['valor_70mm'];
             $object->fita_laco = $this->Fita_laco_m->get_by_id($value['fita_laco']);
             $object->fita_material = $this->Fita_material_m->get_by_id($value['fita_material']);
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

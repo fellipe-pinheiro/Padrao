@@ -75,89 +75,129 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <div class="modal fade" id="md_filtro">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Filtro</h4>
-            </div>
-            <div class="modal-body">
-                <form id="form-filter" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="ped_id" class="col-sm-3 control-label">Pedido Nº</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" id="ped_id" placeholder="Pedido Nº">
+    <form id="form-filter" class="form-horizontal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Filtro</h4>
+                </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-acabamento-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="data_pedido" class="col-sm-3 control-label">Data do pedido</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control date" id="data_pedido" placeholder="00/00/0000">
+                </nav>
+                <div class="modal-body">
+                    <fieldset>
+                        <legend>Dados do orçamento</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="ped_id" class="control-label">Pedido Nº</label>
+                                    <input type="number" class="form-control" id="ped_id" placeholder="Pedido Nº">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="data_pedido" class="control-label">Data do pedido</label>
+                                    <input type="text" class="form-control datetimepicker" id="data_pedido" placeholder="00/00/0000">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cli_id" class="col-sm-3 control-label">ID Cliente</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" id="cli_id" placeholder="ID Cliente">
+                        <br>
+                        <legend>Dados do cliente</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cli_id" class="control-label">ID Cliente</label>
+                                    <input type="number" class="form-control" id="cli_id" placeholder="ID Cliente">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="data_evento" class="control-label">Data do evento</label>
+                                    <input type="text" class="form-control datetimepicker" id="data_evento" placeholder="00/00/0000">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cli_nome" class="col-sm-3 control-label">Nome</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="cli_nome" placeholder="Nome">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cli_nome" class="control-label">Nome</label>
+                                    <input type="text" class="form-control" id="cli_nome" placeholder="Nome">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cli_sobrenome" class="control-label">Sobrenome</label>
+                                    <input type="text" class="form-control" id="cli_sobrenome" placeholder="Sobrenome">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cli_sobrenome" class="col-sm-3 control-label">Sobrenome</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="cli_sobrenome" placeholder="Sobrenome">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="email" class="control-label">Email</label>
+                                    <input type="text" class="form-control" id="email" placeholder="e-mail">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="telefone" class="control-label">Telefone</label>
+                                    <input type="text" class="form-control sp_celphones" id="telefone" placeholder="(00) 00000-0000">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="data_evento" class="col-sm-3 control-label">Data do evento</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control date" id="data_evento" placeholder="00/00/0000">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cpf" class="control-label">CPF</label>
+                                    <input type="text" class="form-control cpf" id="cpf" placeholder="000.000.000-00">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="col-sm-3 control-label">Email</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="email" placeholder="e-mail">
+                        <br>
+                        <legend>Dados da empresa</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="cnpj" class="control-label">CNPJ</label>
+                                    <input type="text" class="form-control cnpj" id="cnpj" placeholder="00.000.000/0000-00">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                <label for="razao_social" class="control-label">Razão Social</label>
+                                    <input type="text" class="form-control" id="razao_social" placeholder="Razão Social">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefone" class="col-sm-3 control-label">Telefone</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control sp_celphones" id="telefone" placeholder="(00) 00000-0000">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cpf" class="col-sm-3 control-label">CPF</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control cpf" id="cpf" placeholder="000.000.000-00">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="cnpj" class="col-sm-3 control-label">CNPJ</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control cnpj" id="cnpj" placeholder="00.000.000/0000-00">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="razao_social" class="col-sm-3 control-label">Razão Social</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="razao_social" placeholder="Razão Social">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
-                <button type="button" id="btn-filter" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="button" id="btn-filter" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>

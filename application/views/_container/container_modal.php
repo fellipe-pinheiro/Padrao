@@ -56,10 +56,10 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-											<input type="checkbox" name="empastamento_adicionar" id="empastamento_adicionar" class="form-control input-sm" value="1">
+											<input type="checkbox" data-group-cls="btn-group-sm" name="empastamento_adicionar" id="empastamento_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="empastamento_cobrar" id="empastamento_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="empastamento_cobrar" id="empastamento_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
@@ -73,10 +73,10 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-												<input type="checkbox" name="laminacao_adicionar" id="laminacao_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="laminacao_adicionar" id="laminacao_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="laminacao_cobrar" id="laminacao_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="laminacao_cobrar" id="laminacao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
@@ -90,10 +90,10 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-												<input type="checkbox" name="douracao_adicionar" id="douracao_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="douracao_adicionar" id="douracao_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="douracao_cobrar" id="douracao_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="douracao_cobrar" id="douracao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
@@ -112,10 +112,10 @@ $controller = $this->router->class;
 												</div>
 											</td>
 											<td>
-												<input type="checkbox" name="corte_laser_adicionar" id="corte_laser_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_laser_adicionar" id="corte_laser_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="corte_laser_cobrar" id="corte_laser_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_laser_cobrar" id="corte_laser_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
 										</tr>
@@ -129,13 +129,13 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-												<input type="checkbox" name="relevo_seco_adicionar" id="relevo_seco_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_adicionar" id="relevo_seco_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="relevo_seco_cobrar" id="relevo_seco_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar" id="relevo_seco_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 
 										</tr>
@@ -149,13 +149,13 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-												<input type="checkbox" name="corte_vinco_adicionar" id="corte_vinco_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_adicionar" id="corte_vinco_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="corte_vinco_cobrar" id="corte_vinco_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar" id="corte_vinco_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 
 										</tr>
@@ -169,13 +169,13 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 											<td>
-												<input type="checkbox" name="almofada_adicionar" id="almofada_adicionar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_adicionar" id="almofada_adicionar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="almofada_cobrar" id="almofada_cobrar" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_cobrar" id="almofada_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>
-												<input type="checkbox" name="almofada_cobrar_faca_cliche" id="almofada_cobrar_faca_cliche" class="form-control input-sm" value="1">
+												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_cobrar_faca_cliche" id="almofada_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
 										</tr>
 									</tbody>

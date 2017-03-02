@@ -5,6 +5,28 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Filtro</h4>
             </div>
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="navbar-brand"></div>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-acabamento-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" class="btn-reset"  data-reset_filtro="assessor"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
             <div class="modal-body">
                 <form id="form-filter-assessor" class="form-horizontal">
                     <div class="form-group">
@@ -37,12 +59,21 @@
                             <input type="text" class="form-control sp_celphones" id="filtro_assessor_telefone" placeholder="(00) 00000-0000">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="filtro_assessor_ativo" class="col-sm-3 control-label">Ativo / Inativo</label>
+                        <div class="col-sm-6">
+                            <select id="filtro_assessor_ativo" class="form-control">
+                                <option value="-1">Todos</option>
+                                <option value="0">Somente inativos</option>
+                                <option value="1">Somente ativos</option>
+                            </select>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" id="" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
-                <button type="button" id="btn-filter-assessor" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
+                <button type="button" class="btn btn-default" id="btn-filter-assessor"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
             </div>
         </div>
     </div>
@@ -62,6 +93,16 @@
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--nome-->
                             <div class="col-sm-6">

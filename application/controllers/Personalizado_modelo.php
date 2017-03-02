@@ -33,6 +33,7 @@ class Personalizado_modelo extends CI_Controller {
                 'formato' => $item->pm_formato,
                 'descricao' => $item->pm_descricao,
                 'valor' => $item->pm_valor,
+                'ativo' => $item->pm_ativo
                 );
             $data[] = $row;
         }
@@ -100,7 +101,8 @@ class Personalizado_modelo extends CI_Controller {
             'personalizado_categoria' => $this->input->post('personalizado_categoria'),
             'formato' => $this->input->post('formato'),
             'descricao' => $this->input->post('descricao'),
-            'valor' => decimal_to_db($this->input->post('valor'))
+            'valor' => decimal_to_db($this->input->post('valor')),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo')
         );
         return $dados;
     }
@@ -128,7 +130,9 @@ class Personalizado_modelo extends CI_Controller {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
-
+        $this->form_validation->set_message('validar_boolean', 'O Modelo ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Modelo ativo', 'trim|validar_boolean');
+        
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;

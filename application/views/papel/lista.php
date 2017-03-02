@@ -28,6 +28,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav nav-filtro-papel">
+                        <li>
+                            <a href="javascript:void(0)" onclick="show_filtro_papel()"><i class="glyphicon glyphicon-filter"></i> Filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav nav-filtro-papel">
+                        <li>
+                            <a href="javascript:void(0)" onclick="filtro('reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
@@ -72,6 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Largura (mm)</th>
                                             <th>Gramaturas (g)</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -149,16 +161,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Papel</h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-papel-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-papel-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i> Gramatura</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
                         <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Papel ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <!--nome-->
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
-                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do papel" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do papel" pattern=".{1,50}" title="Máximo de 50 caracteres" autofocus>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -184,27 +228,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <!--Papel Gramatura-->
-                        <div class="form-group hidden" id="default_gramatura">
+                        <div class="form-group hidden" id="default_gramatura_div">
                             <div class="col-sm-12">
-                                <div class="col-sm-2">
-                                    <div class="form-group input-padding">
-                                        <label for="" class="control-label">Gramatura:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group input-padding">
-                                        <button type="button" class="btn btn-default pull-right" id="gramatura_papel_default"><i class="glyphicon glyphicon-minus"></i></button>
+                                <div class="col-sm-4">
+                                    <div class="form-group input-padding" id="default_checkbox_input">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
-                                        <input step="1" type="number" min="0" name="gramatura" class="form-control" placeholder="Gramatura ex: 80">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-trash"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#" id="default_button_excluir">Excluir</a></li>
+                                                </ul>
+                                            </div>
+                                            <input step="1" type="number" min="0" name="gramatura" id="default_gramatura_input" class="form-control" placeholder="Gramatura ex: 80">
+                                            <div class="input-group-addon">g</div>
+                                        </div>
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
-                                        <input step="0.01" type="number" min="0" name="valor" class="form-control" placeholder="Valor ex: 3,20">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">R$</div>
+                                            <input step="0.01" type="number" min="0" name="valor" id="default_valor_input" class="form-control" placeholder="Valor ex: 3,20">
+                                        </div>
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -212,24 +262,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <hr>
                         </div>
                         <div id="lista_gramaturas" class="row">
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <div class="col-sm-2">
-                                        <div class="form-group input-padding">
-                                            <label for="" class="control-label">Gramatura:</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group input-padding">
-                                            <button type="button" class="btn btn-default pull-right" id="add_gramatura"><i class="glyphicon glyphicon-plus"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4"></div>
-                                    <div class="col-sm-4"></div>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
                             <!--Descrição-->
@@ -266,6 +298,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -463,36 +503,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="modal fade" id="md_filtro_papel">
     <form id="form-filter-papel" class="form-horizontal form-filter">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Filtro</h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-acabamento-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" class="btn-reset" onclick="filtro('reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="papel-filtro_linha" class="control-label"> Linha</label>
-                        <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
-                            <option value="">Selecione</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
-                        <input type="text" id="papel-filtro_papel" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_altura" placeholder="Papel Altura">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_largura" class="control-label"> Papel Largura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_largura" placeholder="Papel Largura">
-                    </div>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_linha" class="control-label"> Linha</label>
+                                    <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_papel" class="control-label"> Papel</label>
+                                    <input type="text" id="papel-filtro_papel" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
+                                    <input type="number" min="0" class="form-control" id="papel-filtro_altura" placeholder="Papel Altura">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_largura" class="control-label"> Papel Largura</label>
+                                    <input type="number" min="0" class="form-control" id="papel-filtro_largura" placeholder="Papel Largura">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="filtro('reset')">
-                        <span class="glyphicon glyphicon-erase"></span> Limpar Filtro
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-default" onclick="filtro('filtrar')">
                         <span class="glyphicon glyphicon-filter"></span> Filtrar
                     </button>
@@ -575,14 +649,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                     ],
                     fade: true
-                },
-                {   
-                    text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
-                    action: function () {
-                        ajax_carregar_papel_linha();
-                        $('.modal-title').text('Filtro');
-                        $("#md_filtro_papel").modal('show');
-                    }
                 }
             ],
             language: {
@@ -609,6 +675,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "largura","visible": true,"orderable": false},
                 {data: "gramaturas","visible": true,"orderable": false},
                 {data: "descricao","visible": false,"orderable": false},
+                {data: "ativo","visible": false,"orderable": false}
 
             ],
             order: [[2, 'asc']],//linha
@@ -618,10 +685,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return false;
         }
         $("a[href='#tab_papel']").click(function () {
-
+            $(".nav-filtro-papel").show();
             tb_papel.ajax.reload(null, false);
         });
         $("a[href='#tab_linha']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_linha")) {
                 tb_linha = $("#tb_linha").DataTable({
                     scrollX: true,
@@ -681,6 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {data: "id","visible": false},
                         {data: "nome","visible": true},
                         {data: "descricao","visible": true,"orderable": false},
+                        {data: "ativo","visible": true,"orderable": false},
                     ]
                 });
             }else {
@@ -688,6 +757,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("a[href='#tab_acabamento']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_acabamento")) {
                 tb_acabamento = $("#tb_acabamento").DataTable({
                     scrollX: true,
@@ -761,6 +831,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("a[href='#tab_dimensao']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_dimensao")) {
                 tb_dimensao = $("#tb_dimensao").DataTable({
                     scrollX: true,
@@ -840,11 +911,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             row_select(tb_dimensao,this);            
         });
         $("#adicionar").click(function(event) {
+            reset_form();
             if(!get_tab_active()){
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
-            reset_form();
+            $(".ativo-crud").prop('checked', true);
             if(tab_active === "#tab_papel"){
                 $("#add_gramatura").click();
                 ajax_carregar_papel_linha();
@@ -887,7 +959,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     if(tab_active == '#tab_papel'){
                         $.map(data, function (value, index) {
                             if($('[name="' + index + '"]').is("input, textarea")){
-                                $('[name="' + index + '"]').val(value);
+                                if($('[name="' + index + '"]').is(':checkbox')){
+                                    if(value === "0"){checked = false;}else{ checked = true;}
+                                    $('[name="' + index + '"]').prop('checked', checked);
+                                }else{
+                                    $('[name="' + index + '"]').val(value);
+                                }
                             }else if($('[name="' + index + '"]').is("select")){
                                 if(index === "papel_linha"){
                                     ajax_carregar_papel_linha(true,value.id);
@@ -900,7 +977,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                             }else if(index === 'papel_gramaturas'){
                                 $.each(value,function(i, gramatura) {
-                                    clonar_gramatura(gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor);
+                                    clonar_gramatura(true,gramatura.id+"_UPD",gramatura.gramatura,gramatura.valor,gramatura.ativo);
                                 });
                             }
                         });
@@ -910,7 +987,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 $("#codigo").attr("readonly",true);
                             }
                             if($('[name="' + index + '"]').is("input, textarea")){
-                                $('[name="' + index + '"]').val(value);
+                                if($('[name="' + index + '"]').is(':checkbox')){
+                                    if(value === "0"){checked = false;}else{ checked = true;}
+                                    $('[name="' + index + '"]').prop('checked', checked);
+                                }else{
+                                    $('[name="' + index + '"]').val(value);
+                                }
                             }else if($('[name="' + index + '"]').is("select")){
                                 if( $('[name="' + index + '"]').hasClass("selectpicker") ){
                                     $('[name="' + index + '"]').selectpicker('val', value.id);
@@ -1008,7 +1090,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#add_gramatura").click(function(){
             count_gramatura++;
             visible_gramatura++;
-            clonar_gramatura(count_gramatura+"_ADD","","");
+            clonar_gramatura(false,count_gramatura+"_ADD","","",1);
         });
     });
 
@@ -1105,31 +1187,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
 
-    function clonar_gramatura(id,gramatura,valor){
-        var c = $("#default_gramatura").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
-        // adicionar funcao para deletar a linha
-        if (gramatura == "") {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',true,'"+gramatura+"');");
-        } else {
-            $(c[0]).find("button").attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',false,'"+gramatura+"');");
-        }
-        // Alterar id, name, for(label) e adicionar required
-        $($(c[0]).find("input")[0]).prop("id","gramatura_"+id).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
-        $($(c[0]).find("label")[0]).prop("for","gramatura_"+id);
-        $($(c[0]).find("input")[1]).prop("name","valor_"+id).val(valor).prop("required","required");
+    function clonar_gramatura(editar,id,gramatura,valor,ativo){ // editar[boolean], ativo[string_db "0" / "1"]
+        var clone = $("#default_gramatura_div").clone().prop("id","gramatura_papel_"+id).removeClass('hidden').addClass('gramatura_group');
+        var cl = clone[0];
+        var checked = '';
 
-        c.appendTo("#lista_gramaturas");
+        (ativo == "0") ? checked = '' : checked = 'checked';
+
+        // adicionar função para deletar a linha
+        $(cl).find("#default_button_excluir").prop("id","excluir_gramatura_"+id).attr("onclick","remover_gramatura_papel('gramatura_papel_"+id+"',"+editar+",'"+gramatura+"');");
+
+        // Alterar id, name, for(label) e adicionar required
+        $($(cl).find("#default_gramatura_input")).prop("id","gramatura_"+id).prop("name","gramatura_"+id).val(gramatura).prop("required","required");
+
+        //$($(cl).find("label")[0]).prop("for","gramatura_"+id);
+        $($(cl).find("#default_valor_input")).prop("id","valor_"+id).prop("name","valor_"+id).val(valor).prop("required","required");
+
+        //Cria um checkbox no local especificado. PS: O clone não está ativando a função do checkboxpicker.
+        $(cl).find("#default_checkbox_input").prop("id","gramatura_checkbox_"+id).html('<label for="" class="label-control">Gramatura ativa </label> <input type="checkbox" id="ativo_'+id+'" name="ativo_'+id+'" value="1" data-group-cls="btn-group-sm" '+checked+'>');
+        clone.appendTo("#lista_gramaturas");
+
+        $("#ativo_"+id).checkboxpicker({ // altera os icones do checkbox
+            html: true,
+            offActiveCls: 'btn-warning',
+            offLabel: '<span class="glyphicon glyphicon-remove">',
+            onLabel: '<span class="glyphicon glyphicon-ok">'
+        });
     }
 
-    function remover_gramatura_papel(id,add,gramatura) {
-        if(gramatura == ""){
-            do_remove_gramatura_papel(id,add);
+    function remover_gramatura_papel(id,editar,gramatura) {
+        if(!editar){
+            do_remove_gramatura_papel(id,editar);
         }else{
             $.confirm({
                 title: 'Atenção!',
                 content: 'Deseja realmente excluir a gramatura <strong>' + gramatura + '</strong>?',
                 confirm: function(){
-                    do_remove_gramatura_papel(id,add);
+                    do_remove_gramatura_papel(id,editar);
                 },
                 cancel: function(){
                 }
@@ -1137,7 +1231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
 
-    function do_remove_gramatura_papel(id,add) {
+    function do_remove_gramatura_papel(id,editar) {
         if(visible_gramatura === 1){
             $.alert({
                 title: 'Alerta!',
@@ -1147,23 +1241,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }else{
             visible_gramatura--;
         }
-        if (add) {
+        if (!editar) {
             $("#"+id).remove();
         } else {
-            var arr_g = new Array();
-            var arr_v = new Array();
+            var arr_gramatura = new Array();
+            var arr_valor = new Array();
+            var arr_ativo = new Array();
             // adicionar o D no name dos inputs
             var name_gramatura = $($("#"+id+" input")[0]).prop("name");
-            arr_g = name_gramatura.split("_");
-            arr_g[2] = "DEL";
-            name_gramatura = arr_g[0] + "_" + arr_g[1] + "_" + arr_g[2];
+            arr_gramatura = name_gramatura.split("_");
+            arr_gramatura[2] = "DEL";
+            name_gramatura = arr_gramatura[0] + "_" + arr_gramatura[1] + "_" + arr_gramatura[2];
             $($("#"+id+" input")[0]).prop("name",name_gramatura);
 
             var name_valor = $($("#"+id+" input")[1]).prop("name");
-            arr_v = name_valor.split("_");
-            arr_v[2] = "DEL";
-            name_valor = arr_v[0] + "_" + arr_v[1] + "_" + arr_v[2];
+            arr_valor = name_valor.split("_");
+            arr_valor[2] = "DEL";
+            name_valor = arr_valor[0] + "_" + arr_valor[1] + "_" + arr_valor[2];
             $($("#"+id+" input")[1]).prop("name",name_valor);
+
+            var name_ativo = $($("#"+id+" input")[2]).prop("name");
+            arr_ativo = name_ativo.split("_");
+            arr_ativo[2] = "DEL";
+            name_ativo = arr_ativo[0] + "_" + arr_ativo[1] + "_" + arr_ativo[2];
+            $($("#"+id+" input")[2]).prop("name",name_ativo);
             $("#"+id).hide();
         }
     }
@@ -1191,7 +1292,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .done(function(data) {
             console.log("success");
-            //console.log("testando: " + data.db_error_1451);
             if (data.status){   
                 if(tab_active == '#tab_papel' && save_method == 'add'){
                     $.confirm({
@@ -1358,6 +1458,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#papel-filtro_linha').selectpicker('val', '');
             dataTable.ajax.reload(null,false);
         }
+    }
+
+    function show_filtro_papel() {
+        ajax_carregar_papel_linha();
+        $('.modal-title').text('Filtro');
+        $("#md_filtro_papel").modal('show');
     }
 
 </script>

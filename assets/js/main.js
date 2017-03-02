@@ -5,6 +5,12 @@ $(document).ready(function() {
 	$('.datetimepicker').datetimepicker({
 		format:'L'
 	});
+	$(".ativo-crud").checkboxpicker({ // altera os icones do checkbox
+        html: true,
+        offActiveCls: 'btn-warning',
+        offLabel: '<span class="glyphicon glyphicon-remove">',
+        onLabel: '<span class="glyphicon glyphicon-ok">'
+    });
 	// Fix Multiples Modals Scroll Issues
 	$('.modal').on("hidden.bs.modal", function (e) {
 		if($('.modal:visible').length)
@@ -19,8 +25,6 @@ $(document).ready(function() {
 			$(this).css('z-index', parseInt($('.modal-backdrop.in').first().css('z-index')) + 10);
 		}
 	});
-	//Checkbox estilizado
-	$(':checkbox').checkboxpicker();
 
 	//Telefone com 8 ou 9 dígitos use a class="sp_celphones"
 	var SPMaskBehavior = function (val) {

@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </ul>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a data-toggle="modal" href='#md_filtro_assessor'><i class="glyphicon glyphicon-filter"></i> Filtrar</a>
+                            <a data-toggle="modal" href='#md_filtro_assessor'><i class="glyphicon glyphicon-filter"></i> Filtro</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav">
@@ -65,6 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Email</th>
                             <th>Comissão(%)</th>
                             <th>Descrição</th>
+                            <th>Ativo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -137,6 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data.filtro_sobrenome = $('#filtro_assessor_sobrenome').val();
                     data.filtro_telefone = $('#filtro_assessor_telefone').val();
                     data.filtro_email = $('#filtro_assessor_email').val();
+                    data.filtro_ativo = $('#filtro_assessor_ativo').val();
                 },
             },
             columns: [
@@ -148,6 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "email", "visible": true},
                 {data: "comissao", "visible": true},
                 {data: "descricao", "visible": false},
+                {data: "ativo", "visible": true},
             ]
         });
         //button filter event click
@@ -173,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#adicionar").click(function (event) {
             reset_form();
-
+            $(".ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
 
@@ -200,8 +203,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     $.map(data.assessor, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
-                        }else{
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
+                        }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });

@@ -32,7 +32,8 @@ class Assessor extends CI_Controller {
                 'email' => $item->email,
                 'empresa' => $item->empresa,
                 'comissao' => $item->comissao,
-                'descricao' => $item->descricao
+                'descricao' => $item->descricao,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -97,6 +98,7 @@ class Assessor extends CI_Controller {
             'empresa' => $this->input->post('empresa'),
             'descricao' => $this->input->post('descricao'),
             'comissao' => $this->input->post('comissao'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -111,6 +113,8 @@ class Assessor extends CI_Controller {
         $this->form_validation->set_rules('empresa', 'Empresa', 'trim|max_length[100]');
         $this->form_validation->set_rules('comissao', 'Comissão', 'required|trim|is_natural');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

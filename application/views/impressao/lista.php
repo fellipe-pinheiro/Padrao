@@ -64,6 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Impressão Área</th>
                                             <th>Descrição</th>
                                             <th>Valor</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,6 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,6 +112,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--nome-->
                             <div class="col-sm-4">
@@ -173,7 +185,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -277,11 +296,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-                {data: "id", "visible": false},
-                {data: "nome", "visible": true},
-                {data: "impressao_area", "visible": true},
-                {data: "descricao", "visible": false},
-                {data: "valor", "visible": true},
+                {data: "id", "visible": false, "orderable": true},
+                {data: "nome", "visible": true, "orderable": true},
+                {data: "impressao_area", "visible": true, "orderable": true},
+                {data: "descricao", "visible": false, "orderable": false},
+                {data: "valor", "visible": true, "orderable": false},
+                {data: "ativo", "visible": true, "orderable": false},
             ],
         });
         if (!get_tab_active()) {
@@ -355,7 +375,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     columns: [
                         {data: "id", "visible": false},
                         {data: "nome", "visible": true},
-                        {data: "descricao", "visible": true, "orderable": false}
+                        {data: "descricao", "visible": true, "orderable": false},
+                        {data: "ativo", "visible": true, "orderable": false},
                     ]
                 });
             } else {
@@ -374,6 +395,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             row_select(tb_area, this);
         });
         $("#adicionar").click(function (event) {
+            reset_form();
+            $(".ativo-crud").prop('checked', true);
             if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
@@ -381,7 +404,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if(tab_active === "#tab_impressao"){
                 ajax_carregar_impressao_area();
             }
-            reset_form();
 
             save_method = 'add';
             $("input[name='id']").val("");
@@ -413,7 +435,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data = switch_data(tab_active, data);
                     $.map(data, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
                         } else if ($('[name="' + index + '"]').is("select")) {
                             if(tab_active === "#tab_impressao"){
                                 ajax_carregar_impressao_area(true,value.id);

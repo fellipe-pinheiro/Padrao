@@ -8,14 +8,15 @@ class Acessorio_m extends CI_Model {
     var $nome;
     var $descricao;
     var $valor;
+    var $ativo;
     // Ajax 
     var $table = 'acessorio';
-    var $column_order = array('id', 'nome', 'descricao', 'valor');
-    var $column_search = array('id', 'nome', 'descricao', 'valor');
+    var $column_order = array('id', 'nome', 'descricao', 'valor', 'ativo');
+    var $column_search = array('id', 'nome', 'descricao', 'valor', 'ativo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
-        $this->db->select('id,nome,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor');
+        $this->db->select('id,nome,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor, ativo');
         $this->db->from($this->table);
         $i = 0;
 
@@ -107,6 +108,7 @@ class Acessorio_m extends CI_Model {
             $object->nome = $value['nome'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

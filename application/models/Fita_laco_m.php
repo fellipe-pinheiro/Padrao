@@ -7,9 +7,10 @@ class Fita_laco_m extends CI_Model {
     var $id;
     var $nome;
     var $descricao;
+    var $ativo;
     // Ajax 
     var $table = 'fita_laco';
-    var $column_order = array('id', 'nome', 'descricao');
+    var $column_order = array('id', 'nome', 'descricao','ativo');
     var $column_search = array('nome', 'descricao');
     var $order = array('id'=>'asc');
 
@@ -104,6 +105,7 @@ class Fita_laco_m extends CI_Model {
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->descricao = $value['descricao'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

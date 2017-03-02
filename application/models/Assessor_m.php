@@ -12,9 +12,10 @@ class Assessor_m extends CI_Model {
     var $empresa;
     var $comissao;
     var $descricao;
+    var $ativo;
     // Ajax
     var $table = 'assessor';
-    var $column_order = array('id', 'nome', 'sobrenome','empresa','telefone', 'email','comissao','descricao');
+    var $column_order = array('id', 'nome', 'sobrenome','empresa','telefone', 'email','comissao','descricao','ativo');
     var $column_search = array('nome', 'sobrenome','email','empresa');
     var $order = array('id'=>'asc');
 
@@ -33,6 +34,9 @@ class Assessor_m extends CI_Model {
         }
         if($this->input->post('filtro_email')){
             $this->db->where('email', $this->input->post('filtro_email'));
+        }
+        if($this->input->post('filtro_ativo') != '-1'){
+            $this->db->where('ativo', $this->input->post('filtro_ativo'));
         }
         $this->db->from($this->table);
         $i = 0;
@@ -148,6 +152,7 @@ class Assessor_m extends CI_Model {
             $object->empresa = $value['empresa'];
             $object->descricao = $value['descricao'];
             $object->comissao = $value['comissao'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

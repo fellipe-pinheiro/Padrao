@@ -78,6 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Val_38mm</th>
                                             <th>Val_50mm</th>
                                             <th>Val_70mm</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,6 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,6 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -163,6 +166,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--fita_laco-->
                             <div class="col-sm-6">
@@ -282,7 +295,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -421,7 +441,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -539,7 +566,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "valor_22mm","visible": true,"orderable": false},
                 {data: "valor_38mm","visible": true,"orderable": false},
                 {data: "valor_50mm","visible": true,"orderable": false},
-                {data: "valor_70mm","visible": true,"orderable": false}
+                {data: "valor_70mm","visible": true,"orderable": false},
+                {data: "ativo","visible": true,"orderable": false},
             ]
         });
         if(!get_tab_active()){
@@ -613,7 +641,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     columns: [
                         {data: "id","visible": false},
                         {data: "nome","visible": true},
-                        {data: "descricao","visible": true,"orderable": false}
+                        {data: "descricao","visible": true,"orderable": false},
+                        {data: "ativo","visible": true,"orderable": false},
                     ]
                 });
             }else {
@@ -718,6 +747,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {data: "id", "visible": false},
                         {data: "nome", "visible": true},
                         {data: "descricao", "visible": true,"orderable": false},
+                        {data: "ativo", "visible": true,"orderable": false},
                     ]
                 });
             }else {
@@ -742,6 +772,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             row_select(tb_material,this);
         });
         $("#adicionar").click(function(event) {
+            reset_form();
+            $(".ativo-crud").prop('checked', true);
             if(!get_tab_active()){
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
@@ -751,7 +783,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ajax_carregar_fita_laco();
                 clear_valor_mm();
             }
-            reset_form();
             save_method = 'add';
             $("input[name='id']").val("");
             $(form +' .modal-title').text('Adicionar' + modal_title);
@@ -785,7 +816,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             check_valor_mm();
                         }
                         if($('[name="' + index + '"]').is("input, textarea")){
-                            $('[name="' + index + '"]').val(value);
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
                         }else if($('[name="' + index + '"]').is("select")){
                             if(tab_active === "#tab_fita"){
                                 if(index == "fita_laco"){

@@ -31,6 +31,7 @@ class Impressao extends CI_Controller {
                 'impressao_area' => $item->ia_nome,
                 'valor' => $item->i_valor,
                 'descricao' => $item->i_descricao,
+                'ativo' => $item->i_ativo,
                 );
             $data[] = $row;
         }
@@ -91,7 +92,8 @@ class Impressao extends CI_Controller {
             'nome' => $this->input->post('nome'),
             'impressao_area' => $this->input->post('impressao_area'),
             'descricao' => $this->input->post('descricao'),
-            'valor' => decimal_to_db($this->input->post('valor'))
+            'valor' => decimal_to_db($this->input->post('valor')),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -110,6 +112,8 @@ class Impressao extends CI_Controller {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

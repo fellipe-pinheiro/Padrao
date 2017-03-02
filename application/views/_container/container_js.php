@@ -4,6 +4,8 @@ $controller = $this->router->class;
 ?>
 <script>
 	$(document).ready(function () {
+		//Checkbox estilizado
+		$(':checkbox').checkboxpicker();
 		//Empastamento:
 		$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
 		$('#empastamento_quantidade').attr("disabled", true);

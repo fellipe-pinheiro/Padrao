@@ -65,6 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>Bairro</th>
                                 <th>Cidade</th>
                                 <th>CEP</th>
+                                <th>Ativo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,6 +92,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <div class="form-group input-padding">
+                                        <label for="ativo" class="control-label">Ativo:</label>
+                                        <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <!--unidade-->
@@ -177,6 +190,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
+                                <br>
+                                <legend>Endereço</legend>
                                 <!--cep-->
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
@@ -237,7 +252,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="estado" class="control-label">Estado:</label>
-                                        <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                        <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres" placeholder="Estado">
                                         <datalist id="dl_estado">
                                             <?php foreach ($dados['estados'] as $estado): ?>
                                                 <option value="<?=$estado?>"></option>
@@ -250,7 +265,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group input-padding">
                                         <label for="uf" class="control-label">UF:</label>
-                                        <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
+                                        <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres" placeholder="UF">
                                         <datalist id="dl_uf">
                                             <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                 <option value="<?=$uf?>"></option>
@@ -336,24 +351,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-                {data: "id", "visible": true},
-                {data: "unidade", "visible": true},
-                {data: "razao_social", "visible": true},
-                {data: "cnpj", "visible": true},
-                {data: "ie", "visible": false},
-                {data: "im", "visible": false},
-                {data: "telefone", "visible": true},
-                {data: "telefone2", "visible": true},
-                {data: "telefone3", "visible": true},
-                {data: "email", "visible": true},
-                {data: "endereco", "visible": false},
-                {data: "numero", "visible": false},
-                {data: "complemento", "visible": false},
-                {data: "estado", "visible": false},
-                {data: "uf", "visible": false},
-                {data: "bairro", "visible": false},
-                {data: "cidade", "visible": false},
-                {data: "cep", "visible": false},
+                {data: "id", "visible": true,"orderable": true},
+                {data: "unidade", "visible": true,"orderable": true},
+                {data: "razao_social", "visible": true,"orderable": true},
+                {data: "cnpj", "visible": true,"orderable": true},
+                {data: "ie", "visible": false,"orderable": true},
+                {data: "im", "visible": false,"orderable": true},
+                {data: "telefone", "visible": true,"orderable": false},
+                {data: "telefone2", "visible": true,"orderable": false},
+                {data: "telefone3", "visible": true,"orderable": false},
+                {data: "email", "visible": true,"orderable": true},
+                {data: "endereco", "visible": false,"orderable": true},
+                {data: "numero", "visible": false,"orderable": false},
+                {data: "complemento", "visible": false,"orderable": false},
+                {data: "estado", "visible": false,"orderable": true},
+                {data: "uf", "visible": false,"orderable": true},
+                {data: "bairro", "visible": false,"orderable": true},
+                {data: "cidade", "visible": false,"orderable": true},
+                {data: "cep", "visible": false,"orderable": true},
+                {data: "ativo", "visible": true,"orderable": false},
             ]
         });
         // Resaltar a linha selecionada
@@ -368,7 +384,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $("#adicionar").click(function (event) {
             reset_form();
-
+            $(".ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
 
@@ -396,8 +412,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     $.map(data.loja, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
-                        }else{
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
+                        }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });

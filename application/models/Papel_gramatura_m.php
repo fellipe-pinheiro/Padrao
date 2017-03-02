@@ -8,6 +8,7 @@ class Papel_gramatura_m extends CI_Model {
     var $papel;
     var $gramatura;
     var $valor;
+    var $ativo;
     var $selected = false; //boolean
 
     public function get_by_id($id){
@@ -84,6 +85,7 @@ class Papel_gramatura_m extends CI_Model {
             $object->papel = $value['papel'];
             $object->gramatura = $value['gramatura'];
             $object->valor = $value['valor'];
+            $object->ativo = $value['ativo'];
             $object_lista[] = $object;
         }
         return $object_lista;
@@ -93,6 +95,7 @@ class Papel_gramatura_m extends CI_Model {
     {
         $this->db->select($colunas);
         $this->db->where("papel",$id_papel);
+        $this->db->where("ativo",true);
         $this->db->order_by("gramatura", "asc");
         return $this->db->get("papel_gramatura")->result_array();
     }

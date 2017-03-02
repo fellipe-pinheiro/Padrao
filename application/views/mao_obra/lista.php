@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST"
             },
             columns: [
-                {data: "id", "visible": true},
+                {data: "id", "visible": false},
                 {data: "nome", "visible": true},
                 {data: "descricao", "visible": true},
                 {data: "valor", "visible": true}

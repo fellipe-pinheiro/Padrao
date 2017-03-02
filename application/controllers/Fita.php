@@ -38,6 +38,7 @@ class Fita extends CI_Controller {
                 'valor_38mm' => $item->valor_38mm,
                 'valor_50mm' => $item->valor_50mm,
                 'valor_70mm' => $item->valor_70mm,
+                'ativo' => $item->f_ativo,
                 );
             $data[] = $row;
         }
@@ -105,6 +106,7 @@ class Fita extends CI_Controller {
             'valor_38mm' => decimal_to_db($this->input->post('valor_38mm')),
             'valor_50mm' => decimal_to_db($this->input->post('valor_50mm')),
             'valor_70mm' => decimal_to_db($this->input->post('valor_70mm')),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -131,6 +133,8 @@ class Fita extends CI_Controller {
         $this->form_validation->set_rules('valor_38mm', 'valor_38mm', 'trim|required|decimal_positive');
         $this->form_validation->set_rules('valor_50mm', 'valor_50mm', 'trim|required|decimal_positive');
         $this->form_validation->set_rules('valor_70mm', 'valor_70mm', 'trim|required|decimal_positive');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

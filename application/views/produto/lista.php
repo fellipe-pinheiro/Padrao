@@ -28,6 +28,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav nav-filtro-produto">
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#md_filtro_produto"><i class="glyphicon glyphicon-filter"></i> Filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav nav-filtro-produto">
+                        <li>
+                            <a href="javascript:void(0)" onclick="filtro('produto', 'reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
@@ -66,6 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Nome</th>
                                             <th>Descrição</th>
                                             <th>Valor</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -83,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -112,6 +124,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--nome-->
                             <div class="col-sm-4">
@@ -175,6 +197,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -202,45 +232,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </form>
 </div>
 <div class="modal fade" id="md_filtro_produto">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Filtro</h4>
-            </div>
-            <div class="modal-body">
-                <form id="form-filter-produto" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="filtro_categoria" class="col-sm-3 control-label">Categoria</label>
-                        <div class="col-sm-9">
-                            <select id="filtro_categoria" class="form-control selectpicker" data-live-search="true" autofocus="true">
-                                <option value="">Selecione</option>
-                                <?php foreach ($dados['categorias'] as $key => $value) {
+    <form id="form-filter-produto" class="form-horizontal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Filtro</h4>
+                </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-acabamento-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" class="btn-reset" onclick="filtro('produto', 'reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="filtro_categoria" class="col-sm-3 control-label">Categoria</label>
+                            <div class="col-sm-9">
+                                <select id="filtro_categoria" class="form-control selectpicker" data-live-search="true" autofocus="true">
+                                    <option value="">Selecione</option>
+                                    <?php foreach ($dados['categorias'] as $key => $value) {
+                                        ?>
+                                        <option value="<?= $value['nome'] ?>"><?= $value['nome'] ?></option>
+                                        <?php
+                                    }
                                     ?>
-                                    <option value="<?= $value['nome'] ?>"><?= $value['nome'] ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nome" class="col-sm-3 control-label">Produto</label>
-                        <div class="col-sm-9">
-                            <input type="search" id="filtro_produto" class="form-control">
+                        <div class="form-group">
+                            <label for="nome" class="col-sm-3 control-label">Produto</label>
+                            <div class="col-sm-9">
+                                <input type="search" id="filtro_produto" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default" onclick="filtro('produto', 'reset')"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
-                <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto', 'filtrar')">
-                    <span class="glyphicon glyphicon-filter"></span> Filtrar
-                </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="button" id="btn-filter" class="btn btn-default" onclick="filtro('produto', 'filtrar')">
+                        <span class="glyphicon glyphicon-filter"></span> Filtrar
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <style>
@@ -306,12 +357,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     ],
                     fade: true
-                },
-                {
-                    text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
-                    action: function () {
-                        $("#md_filtro_produto").modal('show');
-                    }
                 }
             ],
             language: {
@@ -333,7 +378,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "produto_categoria", "visible": true},
                 {data: "nome", "visible": true},
                 {data: "descricao", "visible": true, "orderable": false},
-                {data: "valor", "visible": true, "orderable": false}
+                {data: "valor", "visible": true, "orderable": false},
+                {data: "ativo", "visible": true, "orderable": false},
             ],
         });
         if (!get_tab_active()) {
@@ -341,10 +387,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return false;
         }
         $("a[href='#tab_produto']").click(function () {
-
+            $(".nav-filtro-produto").show();
             tb_produto.ajax.reload(null, false);
         });
         $("a[href='#tab_categoria']").click(function () {
+            $(".nav-filtro-produto").hide();
             if (!is_datatable_exists("#tb_categoria")) {
                 tb_categoria = $("#tb_categoria").DataTable({
                     scrollX: true,
@@ -403,7 +450,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     columns: [
                         {data: "id", "visible": false},
                         {data: "nome", "visible": true},
-                        {data: "descricao", "visible": true}
+                        {data: "descricao", "visible": true},
+                        {data: "ativo", "visible": true},
                     ]
                 });
             } else {
@@ -418,6 +466,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             row_select(tb_categoria, this);
         });
         $("#adicionar").click(function (event) {
+            reset_form();
+            $(".ativo-crud").prop('checked', true);
             if (!get_tab_active()) {
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
@@ -425,8 +475,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if(tab_active === "#tab_produto"){
                 ajax_carregar_categoria();
             }
-            reset_form();
-
             save_method = 'add';
             $("input[name='id']").val("");
             $('.modal-title').text('Adicionar' + modal_title);
@@ -458,7 +506,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data = switch_data(tab_active, data);
                     $.map(data, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
                         } else if ($('[name="' + index + '"]').is("select")) {
                             if(tab_active === "#tab_produto"){
                                 ajax_carregar_categoria(true,value.id);
@@ -693,11 +746,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#md_filtro_produto").modal('hide');
         } else if (acao === 'reset') {
             $('#form-filter-produto')[0].reset();
-            $('#form-filter-produto ul>li.selected.active').removeClass('selected active');
-            //$($('#form-filter-produto ul li')[0]).addClass('selected active');
-            $(".filter-option").each(function (index, el) {
-                $(".filter-option").text("Selecione");
-            });
+            $('#filtro_categoria').selectpicker('val', '');
             dataTable.ajax.reload(null, false);
         }
     }

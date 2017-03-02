@@ -34,7 +34,8 @@ class Papel extends CI_Controller {
                 'altura' => $item->altura,
                 'largura' => $item->largura,
                 'gramaturas' => $item->gramaturas,
-                'descricao' => $item->descricao
+                'descricao' => $item->descricao,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -160,7 +161,8 @@ class Papel extends CI_Controller {
             'papel_linha' => $this->input->post('papel_linha'),
             'nome' => $this->input->post('nome'),
             'papel_dimensao' => $this->input->post('papel_dimensao'),
-            'descricao' => $this->input->post('descricao')
+            'descricao' => $this->input->post('descricao'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo')
         );
         return $dados;
     }
@@ -187,7 +189,8 @@ class Papel extends CI_Controller {
             'id' => $value['id'],
             'papel' => $id_papel,
             'gramatura' => $value['gramatura'],
-            'valor' => decimal_to_db($value['valor'])
+            'valor' => decimal_to_db($value['valor']),
+            'ativo' => empty($value['ativo']) ? 0 : $value['ativo'],
             );
             if($value['action'] === "ADD"){
                 $dados_lista[]['ADD'] = $dados;
@@ -208,13 +211,13 @@ class Papel extends CI_Controller {
             list( $prefix, $id, $action ) = explode("_",$name);
             switch ($action) {
                 case 'ADD':
-                    $arr =  array("action"=>"ADD","id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]));
+                    $arr =  array("action"=>"ADD","id"=>null,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_ADD"]),"ativo"=>$input["ativo_".$id."_ADD"]);
                     break;
                 case 'UPD':
-                    $arr = array("action"=>"UPD","id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]));
+                    $arr = array("action"=>"UPD","id"=>$id,"gramatura"=>$input[$name],"valor"=>decimal_to_db($input["valor_".$id."_UPD"]),"ativo"=>$input["ativo_".$id."_UPD"]);
                     break;
                 case 'DEL':
-                    $arr = array("action"=>"DEL","id"=>$id,"gramatura"=>$input[$name],"valor"=>null,"name"=>$name);
+                    $arr = array("action"=>"DEL","id"=>$id,"gramatura"=>$input[$name],"valor"=>null,"ativo"=>$input["ativo_".$id."_DEL"],"name"=>$name);
                     break;
                 
                 default:
@@ -245,6 +248,8 @@ class Papel extends CI_Controller {
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('papel_dimensao', 'Dimensão', 'trim|required');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_message('validar_boolean', 'O Papel ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Papel ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

@@ -227,7 +227,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="estado" class="control-label">Estado:</label>
-                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                            <input data-estado='<?=$dados['estados_json']?>' list="dl_estado" id="input_estado" name="estado" class="form-control" pattern=".{1,50}" title="Máximo de 50 caracteres" placeholder="Estado">
                                             <datalist id="dl_estado">
                                                 <?php foreach ($dados['estados'] as $estado): ?>
                                                     <option value="<?=$estado?>"></option>
@@ -240,7 +240,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group input-padding">
                                             <label for="uf" class="control-label">UF:</label>
-                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres">
+                                            <input list="dl_uf" name="uf" id="input_uf" class="form-control" pattern=".{2,2}" title="Máximo de 2 caracteres" placeholder="UF">
                                             <datalist id="dl_uf">
                                                 <?php foreach ($dados['estados'] as $uf =>$estado ): ?>
                                                     <option value="<?=$uf?>"></option>
@@ -288,6 +288,28 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Filtro</h4>
             </div>
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="navbar-brand"></div>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-acabamento-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="javascript:void(0)" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
             <div class="modal-body">
                 <form id="form-filter-cliente" class="form-horizontal">
                     <div class="form-group">
@@ -336,8 +358,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-default btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar filtro</button>
-                <button type="button" id="btn-filter-cliente" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
+                <button type="button" class="btn btn-default" id="btn-filter-cliente"><i class="glyphicon glyphicon-filter"></i> Filtrar</button>
             </div>
         </div>
     </div>
