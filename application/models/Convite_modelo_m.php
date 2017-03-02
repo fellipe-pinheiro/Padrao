@@ -15,10 +15,11 @@ class Convite_modelo_m extends CI_Model {
     var $envelope_largura;
     var $empastamento_borda;
     var $descricao;
+    var $ativo;
     // Ajax 
     var $table = 'convite_modelo';
-    var $column_order = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao');
-    var $column_search = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao');
+    var $column_order = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao','ativo');
+    var $column_search = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao','ativo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -120,6 +121,7 @@ class Convite_modelo_m extends CI_Model {
             $object->envelope_largura = $value['envelope_largura'];
             $object->empastamento_borda = $value['empastamento_borda'];
             $object->descricao = $value['descricao'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

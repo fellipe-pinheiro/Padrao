@@ -26,7 +26,8 @@ class Evento extends CI_Controller {
             $row = array(
                 'DT_RowId' => $item->id,
                 'id' => $item->id,
-                'nome' => $item->nome
+                'nome' => $item->nome,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -84,7 +85,8 @@ class Evento extends CI_Controller {
     private function get_post() {
         $dados = array(
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
-            'nome' => $this->input->post('nome')
+            'nome' => $this->input->post('nome'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -93,7 +95,9 @@ class Evento extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
-
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
+        
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;

@@ -35,6 +35,7 @@ class Produto extends CI_Controller {
                 'produto_categoria' => $item->pc_nome,
                 'valor' => $item->p_valor,
                 'descricao' => $item->p_descricao,
+                'ativo' => $item->p_ativo,
                 );
             $data[] = $row;
         }
@@ -102,7 +103,8 @@ class Produto extends CI_Controller {
             'nome' => $this->input->post('nome'),
             'produto_categoria' => $this->input->post('produto_categoria'),
             'descricao' => $this->input->post('descricao'),
-            'valor' => decimal_to_db($this->input->post('valor'))
+            'valor' => decimal_to_db($this->input->post('valor')),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -115,6 +117,8 @@ class Produto extends CI_Controller {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();
@@ -126,7 +130,7 @@ class Produto extends CI_Controller {
     
     public function session_produto_inserir(){
         $data["status"] = FALSE;
-        $this->validar_formulario_produto();
+        $this->validar_formulario_session_produto();
         $this->session->orcamento->produto[] = $this->set_produto();
         $data["status"] = TRUE;
         print json_encode($data);
@@ -134,7 +138,7 @@ class Produto extends CI_Controller {
 
     public function session_produto_editar(){
         $data["status"] = FALSE;
-        $this->validar_formulario_produto();
+        $this->validar_formulario_session_produto();
         $posicao = $this->uri->segment(3);
         $this->session->orcamento->produto[$posicao] = $this->set_produto();
         $data["status"] = TRUE;
@@ -157,7 +161,7 @@ class Produto extends CI_Controller {
         return $produto;
     }
 
-    private function validar_formulario_produto(){
+    private function validar_formulario_session_produto(){
         $data = array();
         $data['status'] = TRUE;
         

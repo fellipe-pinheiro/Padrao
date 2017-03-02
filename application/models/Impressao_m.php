@@ -9,9 +9,10 @@ class Impressao_m extends CI_Model {
     var $impressao_area;
     var $descricao;
     var $valor;
+    var $ativo;
     // Ajax 
     var $table = 'impressao as i';
-    var $column_order = array('i.id','i.nome', 'ia.nome','i.descricao','i.valor');
+    var $column_order = array('i.id','i.nome', 'ia.nome','i.descricao','i.valor','i.ativo');
     var $column_search = array('i.nome', 'ia.nome','i.descricao');
     var $order = array('i.id'=>'asc');
 
@@ -20,6 +21,7 @@ class Impressao_m extends CI_Model {
             i.id as i_id,
             i.nome as i_nome,
             i.descricao as i_descricao,
+            i.ativo as i_ativo,
             CONCAT("R$ ", format(valor,2,"pt_BR")) as i_valor,
             ia.nome as ia_nome');
         $this->db->from($this->table);
@@ -116,6 +118,7 @@ class Impressao_m extends CI_Model {
             $object->impressao_area = $this->Impressao_area_m->get_by_id($value['impressao_area']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

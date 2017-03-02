@@ -339,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="javascript:void(0)" data-toggle="modal" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                <a href="javascript:void(0)" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
                             </li>
                         </ul>
                     </div>
@@ -578,7 +578,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="javascript:void(0)" data-toggle="modal" class="btn-reset"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                <a href="javascript:void(0)" class="btn-reset" data-reset_filtro="assessor"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
                             </li>
                         </ul>
                     </div>
@@ -598,6 +598,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Email</th>
                                     <th>Comissão(%)</th>
                                     <th>Descrição</th>
+                                    <th>Ativo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -794,12 +795,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         //button reset event click
         $('.btn-reset').click(function () {
-
-            $('#form-filter-cliente')[0].reset();
-            tabela_cliente.ajax.reload(null, false);
-
-            $('#form-filter-assessor')[0].reset();
-            tabela_assessor.ajax.reload(null, false);
+            if($(this).data('reset_filtro') == 'assessor'){
+                console.log('.btn-reset(assessor)');
+                $('#form-filter-assessor')[0].reset();
+                if ($.fn.DataTable.isDataTable('#tabela_assessor')) {
+                    tabela_assessor.ajax.reload(null, false);
+                }
+            }else{
+                console.log('.btn-reset(cliente)');
+                $('#form-filter-cliente')[0].reset();
+                if ($.fn.DataTable.isDataTable('#tabela_cliente')) {
+                    tabela_cliente.ajax.reload(null, false);
+                }
+            }
         });
         //button filter event click
         $('#btn-filter-assessor').click(function () {
@@ -1091,6 +1099,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function adicionar(form, md_tb_crud, md_form_crud) {
         console.log('Função: adicionar()');
         reset_form(form);
+        $(".ativo-crud").prop('checked', true);
         $(md_tb_crud).modal('hide');
 
         save_method = 'add';
@@ -1124,12 +1133,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if (owner == 'assessor') {
                     console.log('owner: assessor');
                     $.map(data.assessor, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
+                        preencher_por_mapeamento(value,index);
                     });
                 } else if (owner == 'cliente') {
                     console.log('owner: cliente');
                     $.map(data.cliente, function (value, index) {
-                        $('[name="' + index + '"]').val(value);
+                        preencher_por_mapeamento(value,index);
                     });
                 }
                 $(md_form).modal('show');
@@ -1142,6 +1151,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 enable_button_salvar();
             }
         });
+    }
+
+    function preencher_por_mapeamento(value,index) {
+        console.log('preencher_por_mapeamento()');
+        if ($('[name="' + index + '"]').is("input, textarea")) {
+            if($('[name="' + index + '"]').is(':checkbox')){
+                if(value === "0"){checked = false;}else{ checked = true;}
+                $('[name="' + index + '"]').prop('checked', checked);
+            }else{
+                $('[name="' + index + '"]').val(value);
+            }
+        }else if ($('[name="' + index + '"]').is("select")){
+            $('[name="' + index + '"] option[value=' + value + ']').prop("selected", "selected");
+        }
     }
 
     function orcamento_info_modal() {
@@ -1208,6 +1231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         data.filtro_sobrenome = $('#filtro_assessor_sobrenome').val();
                         data.filtro_telefone = $('#filtro_assessor_telefone').val();
                         data.filtro_email = $('#filtro_assessor_email').val();
+                        data.filtro_ativo = $('#filtro_assessor_ativo').val();
                     },
                 },
                 columns: [
@@ -1219,6 +1243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {data: "email", "visible": true},
                     {data: "comissao", "visible": false},
                     {data: "descricao", "visible": true},
+                    {data: "ativo", "visible": false},
                 ]
             });
         } else {

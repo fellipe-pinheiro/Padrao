@@ -7,13 +7,14 @@ class Papel_linha_m extends CI_Model {
     var $id;
     var $nome;
     var $descricao;
+    var $ativo;
     // Ajax 
     var $table = 'papel_linha';
-    var $column_order = array('id', 'nome', 'descricao');
+    var $column_order = array('id', 'nome', 'descricao','ativo');
     var $column_search = array('nome', 'descricao');
     var $order = array('id'=>'asc');
 
-    private function _get_datatables_query() {
+    private function get_datatables_query() {
         $this->db->from($this->table);
         $i = 0;
 
@@ -41,7 +42,7 @@ class Papel_linha_m extends CI_Model {
     }
     
     public function get_datatables() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
@@ -49,7 +50,7 @@ class Papel_linha_m extends CI_Model {
     }
     
     public function count_filtered() {
-        $this->_get_datatables_query();
+        $this->get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -104,6 +105,7 @@ class Papel_linha_m extends CI_Model {
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->descricao = $value['descricao'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

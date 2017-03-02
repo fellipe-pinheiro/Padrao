@@ -28,6 +28,7 @@ class Personalizado_categoria extends CI_Controller {
                 'id' => $item->id,
                 'nome' => $item->nome,
                 'descricao' => $item->descricao,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -92,7 +93,8 @@ class Personalizado_categoria extends CI_Controller {
         $dados = array(
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
             'nome' => $this->input->post('nome'),
-            'descricao' => $this->input->post('descricao')
+            'descricao' => $this->input->post('descricao'),
+            'ativo' => $this->input->post('ativo')
             );
         return $dados;
     }
@@ -113,7 +115,9 @@ class Personalizado_categoria extends CI_Controller {
         $this->form_validation->set_message('is_unique','Já exixte um campo com este nome. Dados duplicados não são permitidos.');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]'.$is_unique);
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
-
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
+        
         if(!$this->form_validation->run()){
             $data['form_validation'] = $this->form_validation->error_array();
             $data['status'] = FALSE;

@@ -5,6 +5,12 @@ $(document).ready(function() {
 	$('.datetimepicker').datetimepicker({
 		format:'L'
 	});
+	$(".ativo-crud").checkboxpicker({ // altera os icones do checkbox
+        html: true,
+        offActiveCls: 'btn-warning',
+        offLabel: '<span class="glyphicon glyphicon-remove">',
+        onLabel: '<span class="glyphicon glyphicon-ok">'
+    });
 	// Fix Multiples Modals Scroll Issues
 	$('.modal').on("hidden.bs.modal", function (e) {
 		if($('.modal:visible').length)

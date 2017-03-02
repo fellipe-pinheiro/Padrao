@@ -363,31 +363,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                             <tr>
                                 <td>Recebimento dados</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_recebimento_dados"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_recebimento_dados"></td>
                             </tr>
                             <tr>
                                 <td>Desenvolvimento layout</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_desenvolvimento_layout"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_desenvolvimento_layout"></td>
                             </tr>
                             <tr>
                                 <td>Envio layout</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_envio_layout"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_envio_layout"></td>
                             </tr>
                             <tr>
                                 <td>Aprovado</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_aprovado"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_aprovado"></td>
                             </tr>
                             <tr>
                                 <td>Producao</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_producao"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_producao"></td>
                             </tr>
                             <tr>
                                 <td>Disponivel</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_disponivel"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_disponivel"></td>
                             </tr>
                             <tr>
                                 <td>Retirado</td>
-                                <td><input type="checkbox" class="form-control input-sm date" value="1" name="clear_retirado"></td>
+                                <td><input type="checkbox" data-group-cls="btn-group-sm" class="form-control input-sm date" value="1" name="clear_retirado"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -423,6 +423,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var dados_dblclick;
 
     $(document).ready(function () {
+
         tb_calendario_convite = $("#tb_calendario_convite").DataTable({
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -1211,12 +1212,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             data.add = $(this).children().closest('.add').children()[0].value;
             tb_papel_lista_convite.row(this).data(calcular_folhas(data));
         });
-
         $('#tb_papel_lista_personalizado tbody').on('change', 'tr', function () {
             data = tb_papel_lista_personalizado.row(this).data();
             data.add = $(this).children().closest('.add').children()[0].value;
             tb_papel_lista_personalizado.row(this).data(calcular_folhas(data));
         });
+        $(':checkbox').checkboxpicker();
     });
     function calcular_folhas(data) {
         data.add = Number(data.add);

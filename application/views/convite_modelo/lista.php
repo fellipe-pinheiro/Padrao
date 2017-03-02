@@ -58,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>Envelope Largura</th>
                                 <th>Empastamento Borda</th>
                                 <th>Descricao</th>
+                                <th>Ativo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,6 +85,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" id="id" class="form-control">
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--Nome-->
                             <div class="col-sm-6">
@@ -279,7 +290,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "envelope_altura", "visible": true},
                 {data: "envelope_largura", "visible": true},
                 {data: "empastamento_borda", "visible": true},
-                {data: "descricao", "visible": false}
+                {data: "descricao", "visible": false},
+                {data: "ativo", "visible": false}
             ]
         });
         // Resaltar a linha selecionada
@@ -293,12 +305,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#adicionar").click(function (event) {
             reset_form();
-
+            $(".ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
 
-            $('.modal-title').text('Adicionar Modelo'); // Definir um titulo para o modal
-            $('#modal_form').modal('show'); // Abrir modal
+            $('.modal-title').text('Adicionar Modelo');
+            $('#modal_form').modal('show');
         });
         $("#editar").click(function () {
             // Buscar ID da linha selecionada
@@ -320,8 +332,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     $.map(data.convite_modelo, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
-                        }else{
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
+                        }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });

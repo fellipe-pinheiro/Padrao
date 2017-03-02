@@ -22,10 +22,11 @@ class Loja_m extends CI_Model {
     var $cidade;
     var $cep;
     var $uf;
+    var $ativo;
     // Ajax 
     var $table = 'loja';
-    var $column_order = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep');
-    var $column_search = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep');
+    var $column_order = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep','ativo');
+    var $column_search = array('id', 'unidade','razao_social','cnpj','ie','im','telefone','telefone2','telefone3','email','endereco','numero','complemento','estado','uf','bairro','cidade','cep','ativo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -131,6 +132,7 @@ class Loja_m extends CI_Model {
             $object->cidade = $value['cidade'];
             $object->cep = $value['cep'];
             $object->uf = $value['uf'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

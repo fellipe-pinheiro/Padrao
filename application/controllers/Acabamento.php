@@ -29,6 +29,7 @@ class Acabamento extends CI_Controller {
                 'nome' => $item->nome,
                 'descricao' => $item->descricao,
                 'valor' => $item->valor,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -94,7 +95,8 @@ class Acabamento extends CI_Controller {
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
             'nome' => $this->input->post('nome'),
             'descricao' => $this->input->post('descricao'),
-            'valor' => decimal_to_db($this->input->post('valor'))
+            'valor' => decimal_to_db($this->input->post('valor')),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
         );
         return $dados;
     }
@@ -106,6 +108,8 @@ class Acabamento extends CI_Controller {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|decimal_positive');
+        $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

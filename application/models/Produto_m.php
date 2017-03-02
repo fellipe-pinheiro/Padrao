@@ -9,10 +9,11 @@ class Produto_m extends CI_Model {
     var $produto_categoria;
     var $descricao;
     var $valor;
+    var $ativo;
     // Ajax 
     var $table = 'produto as p';
-    var $column_order = array('p.id','pc.nome','p.nome','p.descricao','p.valor');
-    var $column_search = array('p.id','pc.nome','p.nome','p.descricao','p.valor');
+    var $column_order = array('p.id','pc.nome','p.nome','p.descricao','p.valor', 'p.ativo');
+    var $column_search = array('p.id','pc.nome','p.nome','p.descricao','p.valor', 'p.ativo');
     var $order = array('p.id'=>'asc');
 
     private function get_datatables_query() {
@@ -31,6 +32,7 @@ class Produto_m extends CI_Model {
             p.descricao as p_descricao,
             CONCAT("R$ ", format(p.valor,2,"pt_BR")) as p_valor,
             p.produto_categoria as p_produto_categoria,
+            p.ativo as p_ativo,
             pc.id as pc_id,
             pc.nome as pc_nome,
             pc.descricao as pc_descricao'
@@ -130,6 +132,7 @@ class Produto_m extends CI_Model {
             $object->produto_categoria = $this->Produto_categoria_m->get_by_id($value['produto_categoria']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

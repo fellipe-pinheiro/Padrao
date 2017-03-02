@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>ID</th>
                                 <th>Nome</th>
                                 <th>Descrição</th>
+                                <th>Ativo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,6 +77,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -162,7 +171,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             columns: [
                 {data: "id", "visible": false},
                 {data: "nome", "visible": true},
-                {data: "descricao", "visible": true}
+                {data: "descricao", "visible": true},
+                {data: "ativo", "visible": true},
             ]
         });
         // Resaltar a linha selecionada
@@ -176,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#adicionar").click(function (event) {
             reset_form();
-
+            $(".ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
 
@@ -203,8 +213,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {
                     $.map(data.forma_pagamento, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
-                            $('[name="' + index + '"]').val(value);
-                        }else{
+                            if($('[name="' + index + '"]').is(':checkbox')){
+                                if(value === "0"){checked = false;}else{ checked = true;}
+                                $('[name="' + index + '"]').prop('checked', checked);
+                            }else{
+                                $('[name="' + index + '"]').val(value);
+                            }
+                        }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }
                     });

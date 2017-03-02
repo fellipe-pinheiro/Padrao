@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </ul>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a data-toggle="modal" href='#md_filtro_cliente'><i class="glyphicon glyphicon-filter"></i> Filtrar</a>
+                            <a data-toggle="modal" href='#md_filtro_cliente'><i class="glyphicon glyphicon-filter"></i> Filtro</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav">

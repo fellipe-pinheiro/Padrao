@@ -36,6 +36,7 @@ class Convite_modelo extends CI_Controller {
                 'envelope_largura' => $item->envelope_largura,
                 'empastamento_borda' => $item->empastamento_borda,
                 'descricao' => $item->descricao,
+                'ativo' => $item->ativo,
                 );
             $data[] = $row;
         }
@@ -103,6 +104,7 @@ class Convite_modelo extends CI_Controller {
             'envelope_largura' => $this->input->post('envelope_largura'),
             'empastamento_borda' => $this->input->post('empastamento_borda'),
             'descricao' => $this->input->post('descricao'),
+            'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
         return $dados;
     }
@@ -138,6 +140,8 @@ class Convite_modelo extends CI_Controller {
         $this->form_validation->set_rules('envelope_largura', 'Envelopelargura', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_rules('empastamento_borda', 'Empastamento borda', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+        $this->form_validation->set_message('validar_boolean', 'O Modelo ativo deve ser um valor entre 0 e 1');
+        $this->form_validation->set_rules('ativo', 'Modelo ativo', 'trim|validar_boolean');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

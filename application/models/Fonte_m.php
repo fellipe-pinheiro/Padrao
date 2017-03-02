@@ -6,9 +6,10 @@ class Fonte_m extends CI_Model {
 
     var $id;
     var $nome;
+    var $ativo;
     // Ajax 
     var $table = 'fonte';
-    var $column_order = array('id', 'nome');
+    var $column_order = array('id', 'nome','ativo');
     var $column_search = array('nome');
     var $order = array('id'=>'asc');
 
@@ -102,6 +103,7 @@ class Fonte_m extends CI_Model {
             $object = new Fonte_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
+            $object->ativo = $value['ativo'];
         }
         return $object;
     }

@@ -28,6 +28,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav nav-filtro-papel">
+                        <li>
+                            <a href="javascript:void(0)" onclick="show_filtro_papel()"><i class="glyphicon glyphicon-filter"></i> Filtro</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav nav-filtro-papel">
+                        <li>
+                            <a href="javascript:void(0)" onclick="filtro('reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
@@ -90,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
+                                            <th>Ativo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -181,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-12">
                                 <div class="form-group input-padding">
                                     <label for="ativo" class="control-label">Papel ativo:</label>
-                                    <input type="checkbox" value="1" id="ativo" name="ativo" data-group-cls="btn-group-sm">
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -287,6 +298,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
+                        <!--ativo-->
+                        <div class="col-sm-12">
+                            <div class="form-group input-padding">
+                                <label for="ativo" class="control-label">Ativo:</label>
+                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--nome-->
                         <div class="col-sm-12">
                             <div class="form-group input-padding">
@@ -484,36 +503,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="modal fade" id="md_filtro_papel">
     <form id="form-filter-papel" class="form-horizontal form-filter">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Filtro</h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-acabamento-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" class="btn-reset" onclick="filtro('reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="papel-filtro_linha" class="control-label"> Linha</label>
-                        <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
-                            <option value="">Selecione</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_papel" class="control-label"> Papel</label>
-                        <input type="text" id="papel-filtro_papel" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_altura" placeholder="Papel Altura">
-                    </div>
-                    <div class="form-group">
-                        <label for="papel-filtro_largura" class="control-label"> Papel Largura</label>
-                        <input type="number" min="0" class="form-control" id="papel-filtro_largura" placeholder="Papel Largura">
-                    </div>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_linha" class="control-label"> Linha</label>
+                                    <select id="papel-filtro_linha" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_papel" class="control-label"> Papel</label>
+                                    <input type="text" id="papel-filtro_papel" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_altura" class="control-label"> Papel Altura</label>
+                                    <input type="number" min="0" class="form-control" id="papel-filtro_altura" placeholder="Papel Altura">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="papel-filtro_largura" class="control-label"> Papel Largura</label>
+                                    <input type="number" min="0" class="form-control" id="papel-filtro_largura" placeholder="Papel Largura">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="filtro('reset')">
-                        <span class="glyphicon glyphicon-erase"></span> Limpar Filtro
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-default" onclick="filtro('filtrar')">
                         <span class="glyphicon glyphicon-filter"></span> Filtrar
                     </button>
@@ -596,14 +649,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                     ],
                     fade: true
-                },
-                {   
-                    text: '<i class="glyphicon glyphicon-filter"></i> Filtro',
-                    action: function () {
-                        ajax_carregar_papel_linha();
-                        $('.modal-title').text('Filtro');
-                        $("#md_filtro_papel").modal('show');
-                    }
                 }
             ],
             language: {
@@ -640,10 +685,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return false;
         }
         $("a[href='#tab_papel']").click(function () {
-
+            $(".nav-filtro-papel").show();
             tb_papel.ajax.reload(null, false);
         });
         $("a[href='#tab_linha']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_linha")) {
                 tb_linha = $("#tb_linha").DataTable({
                     scrollX: true,
@@ -703,6 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {data: "id","visible": false},
                         {data: "nome","visible": true},
                         {data: "descricao","visible": true,"orderable": false},
+                        {data: "ativo","visible": true,"orderable": false},
                     ]
                 });
             }else {
@@ -710,6 +757,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("a[href='#tab_acabamento']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_acabamento")) {
                 tb_acabamento = $("#tb_acabamento").DataTable({
                     scrollX: true,
@@ -783,6 +831,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
         $("a[href='#tab_dimensao']").click(function () {
+            $(".nav-filtro-papel").hide();
             if (!is_datatable_exists("#tb_dimensao")) {
                 tb_dimensao = $("#tb_dimensao").DataTable({
                     scrollX: true,
@@ -862,16 +911,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             row_select(tb_dimensao,this);            
         });
         $("#adicionar").click(function(event) {
+            reset_form();
             if(!get_tab_active()){
                 console.log('Não foi possível carregar get_tab_active()');
                 return false;
             }
-            reset_form();
+            $(".ativo-crud").prop('checked', true);
             if(tab_active === "#tab_papel"){
                 $("#add_gramatura").click();
                 ajax_carregar_papel_linha();
                 ajax_carregar_papel_dimensao();
-                $("#form_papel #ativo").prop('checked', true);
             }
             if(tab_active === "#tab_acabamento"){
                 $("#codigo").attr("readonly",false);
@@ -938,7 +987,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 $("#codigo").attr("readonly",true);
                             }
                             if($('[name="' + index + '"]').is("input, textarea")){
-                                $('[name="' + index + '"]').val(value);
+                                if($('[name="' + index + '"]').is(':checkbox')){
+                                    if(value === "0"){checked = false;}else{ checked = true;}
+                                    $('[name="' + index + '"]').prop('checked', checked);
+                                }else{
+                                    $('[name="' + index + '"]').val(value);
+                                }
                             }else if($('[name="' + index + '"]').is("select")){
                                 if( $('[name="' + index + '"]').hasClass("selectpicker") ){
                                     $('[name="' + index + '"]').selectpicker('val', value.id);
@@ -1037,12 +1091,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             count_gramatura++;
             visible_gramatura++;
             clonar_gramatura(false,count_gramatura+"_ADD","","",1);
-        });
-        $("#ativo").checkboxpicker({ // altera os icones do checkbox
-            html: true,
-            offActiveCls: 'btn-warning',
-            offLabel: '<span class="glyphicon glyphicon-remove">',
-            onLabel: '<span class="glyphicon glyphicon-ok">'
         });
     });
 
@@ -1244,7 +1292,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         .done(function(data) {
             console.log("success");
-            //console.log("testando: " + data.db_error_1451);
             if (data.status){   
                 if(tab_active == '#tab_papel' && save_method == 'add'){
                     $.confirm({
@@ -1411,6 +1458,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#papel-filtro_linha').selectpicker('val', '');
             dataTable.ajax.reload(null,false);
         }
+    }
+
+    function show_filtro_papel() {
+        ajax_carregar_papel_linha();
+        $('.modal-title').text('Filtro');
+        $("#md_filtro_papel").modal('show');
     }
 
 </script>
