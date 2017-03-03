@@ -36,7 +36,7 @@ class Sistema extends CI_Controller {
 		$data['status'] = TRUE;
 		$this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
 		$this->form_validation->set_rules('parcelamento_maximo', 'Parcelamento maximo', 'trim|required|numeric|no_leading_zeroes|is_natural_no_zero');
-		$this->form_validation->set_rules('valor_minimo_parcelamento', 'Valor minimo para parcelamento','trim|required|numeric|no_leading_zeroes|decimal_positive');
+		$this->form_validation->set_rules('valor_minimo_parcelamento', 'Valor minimo para parcelamento','trim|required|numeric|decimal_positive');
 		$this->form_validation->set_rules('prazo_validade_orcamento', 'Prazo de validade do orçamento', 'trim|required|numeric|no_leading_zeroes|is_natural_no_zero');
 
 		if (!$this->form_validation->run()) {
