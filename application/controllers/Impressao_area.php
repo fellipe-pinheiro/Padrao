@@ -85,7 +85,7 @@ class Impressao_area extends CI_Controller {
 
     public function ajax_get_personalizado(){
         $arr = array();
-        $arr = $this->Impressao_area_m->get_pesonalizado("id, nome");
+        $arr = $this->Impressao_area_m->get_pesonalizado("id, nome", $this->input->get('ativo'));
         print json_encode($arr);
     }
 

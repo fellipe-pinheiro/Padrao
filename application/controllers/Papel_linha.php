@@ -84,7 +84,7 @@ class Papel_linha extends CI_Controller {
 
     public function ajax_get_personalizado(){
         $arr = array();
-        $arr = $this->Papel_linha_m->get_pesonalizado("id, nome");
+        $arr = $this->Papel_linha_m->get_pesonalizado("id, nome", $this->input->get('ativo'));//get_pesonalizado($colunas,$ativo = true)
         print json_encode($arr);
     }
 

@@ -167,9 +167,9 @@ class Papel extends CI_Controller {
         return $dados;
     }
 
-    public function ajax_get_personalizado($id_papel_linha){
+    public function ajax_get_personalizado(){
         $arr = array();
-        $arr = $this->Papel_m->get_pesonalizado($id_papel_linha,"id, nome");
+        $arr = $this->Papel_m->get_pesonalizado($this->input->get('id_linha'),"id, nome",$this->input->get('ativo'));
         print json_encode($arr);
     }
 

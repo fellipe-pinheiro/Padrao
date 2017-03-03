@@ -161,9 +161,22 @@ class Papel_m extends CI_Model {
         return json_encode($this->papel_gramaturas);
     }
 
-    public function get_pesonalizado($id_papel_linha,$colunas){
+    public function get_pesonalizado($id_linha,$colunas,$ativo = '1'){
         $this->db->select($colunas);
-        $this->db->where("papel_linha",$id_papel_linha);
+        $this->db->where("papel_linha",$id_linha);
+        switch ($ativo) {
+            case '-1':
+                break;
+            case '0':
+                $this->db->where("ativo", false);
+                break;
+            case '1':
+                $this->db->where("ativo", true);
+                break;
+            default:
+                $this->db->where("ativo", true);
+                break;
+        }
         $this->db->order_by("nome", "asc");
         return $this->db->get("papel")->result_array();
     }

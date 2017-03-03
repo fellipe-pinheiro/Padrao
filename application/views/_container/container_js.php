@@ -564,9 +564,10 @@ $controller = $this->router->class;
 	function ajax_carregar_papel(id_linha,editar = false, id_papel = null) {
 		remove_form_select_option_papel();
 		$.ajax({
-			url: '<?= base_url("papel/ajax_get_personalizado/")?>'+id_linha,
+			url: '<?= base_url("papel/ajax_get_personalizado")?>',
 			type: 'GET',
 			dataType: 'json',
+			data: {id_linha: id_linha}
 		})
 		.done(function(data) {
 			$.each(data, function(index, val) {
@@ -781,9 +782,10 @@ $controller = $this->router->class;
 	function ajax_carregar_fita(id_material,editar = false, id_fita = null) {
 		remove_form_select_option_fita();
 		$.ajax({
-			url: '<?= base_url("fita/ajax_get_personalizado/")?>'+id_material,
+			url: '<?= base_url("fita/ajax_get_personalizado")?>',
 			type: 'GET',
 			dataType: 'json',
+			data: {id_material: id_material}
 		})
 		.done(function(data) {
 			console.log(data);

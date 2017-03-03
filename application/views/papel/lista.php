@@ -1113,6 +1113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {ativo: -1}
             })
             .done(function(data) {
                 papel_atualizar = false;

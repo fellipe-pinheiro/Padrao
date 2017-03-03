@@ -85,7 +85,7 @@ class Fita_material extends CI_Controller {
 
     public function ajax_get_personalizado(){
         $arr = array();
-        $arr = $this->Fita_material_m->get_pesonalizado("id, nome");
+        $arr = $this->Fita_material_m->get_pesonalizado("id, nome", $this->input->get('ativo'));
         print json_encode($arr);
     }
 

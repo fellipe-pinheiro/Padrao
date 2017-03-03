@@ -520,6 +520,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: '<?= base_url("impressao_area/ajax_get_personalizado")?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {ativo: -1}
             })
             .done(function(data) {
                 impressao_atualizar = false;

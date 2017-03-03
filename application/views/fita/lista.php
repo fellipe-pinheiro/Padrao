@@ -177,21 +177,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="row">
-                            <!--fita_laco-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                    <label for="fita_laco" class="control-label">Laço:</label>
-                                    <select name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
-                                        <option value="" disabled selected>Selecione</option>
-                                    </select>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
                             <!--fita_material-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="fita_material" class="control-label">Material:</label>
                                     <select name="fita_material" id="fita_material" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
+                                        <option value="" disabled selected>Selecione</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--fita_laco-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="fita_laco" class="control-label">Laço:</label>
+                                    <select name="fita_laco" id="fita_laco" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
                                         <option value="" disabled selected>Selecione</option>
                                     </select>
                                     <span class="help-block"></span>
@@ -931,6 +931,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: '<?= base_url("fita_material/ajax_get_personalizado")?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {ativo: -1}
             })
             .done(function(data) {
                 fita_atualizar = false;
