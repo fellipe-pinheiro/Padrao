@@ -111,10 +111,10 @@ class Fita extends CI_Controller {
         return $dados;
     }
 
-    public function ajax_get_personalizado($id_material){
+    public function ajax_get_personalizado(){
         $arr = array();
         $colunas = "fita.id as id,fl.nome as nome,fita.valor_03mm,fita.valor_07mm,fita.valor_10mm,fita.valor_15mm,fita.valor_22mm,fita.valor_38mm,fita.valor_50mm,fita.valor_70mm";
-        $arr = $this->Fita_m->get_pesonalizado($id_material,$colunas);
+        $arr = $this->Fita_m->get_pesonalizado($this->input->get('id_material'),$colunas,$this->input->get('ativo'));
         print json_encode($arr);
     }
 
@@ -122,7 +122,7 @@ class Fita extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('fita_laco', 'Fita laco', 'trim|required');
+        $this->form_validation->set_rules('fita_laco', 'Fita laco', 'trim|required|callback_check_unique_combination_pk');
         $this->form_validation->set_rules('fita_material', 'Fita material', 'trim|required');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor_03mm', 'valor_03mm', 'trim|required|decimal_positive');
@@ -142,5 +142,14 @@ class Fita extends CI_Controller {
             print json_encode($data);
             exit();
         }
+    }
+
+    public function check_unique_combination_pk(){ //verifica se há combinação das chaves primarias do materia e do laço para não haver duplicidade
+        $fita = $this->Fita_m->get_by_combination($this->input->post('fita_material'),$this->input->post('fita_laco'));
+        if($fita->fita_material->id == $this->input->post('fita_material') && $fita->fita_laco->id == $this->input->post('fita_laco')){
+            $this->form_validation->set_message('check_unique_combination_pk', 'Já existe esta combinação de ' . $fita->fita_laco->nome . ' e ' . $fita->fita_material->nome .' no ID: ' . $fita->id);
+            return false;
+        }
+        return true;
     }
 }
