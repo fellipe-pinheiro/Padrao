@@ -973,6 +973,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: '<?= base_url("fita_laco/ajax_get_personalizado")?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {ativo: -1}
             })
             .done(function(data) {
                 fita_atualizar = false;

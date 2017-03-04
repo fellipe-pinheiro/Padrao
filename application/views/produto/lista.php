@@ -588,6 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: '<?= base_url("produto_categoria/ajax_get_personalizado")?>',
                 type: 'GET',
                 dataType: 'json',
+                data: {ativo: -1}
             })
             .done(function(data) {
                 produto_atualizar = false;

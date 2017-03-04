@@ -82,6 +82,12 @@ class Evento extends CI_Controller {
         print json_encode($data);
     }
 
+    public function ajax_get_personalizado(){
+        $arr = array();
+        $arr = $this->Evento_m->get_pesonalizado("id, nome");
+        print json_encode($arr);
+    }
+
     private function get_post() {
         $dados = array(
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),

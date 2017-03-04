@@ -161,7 +161,7 @@ class Papel_m extends CI_Model {
         return json_encode($this->papel_gramaturas);
     }
 
-    public function get_pesonalizado($id_linha,$colunas,$ativo = '1'){
+    public function get_pesonalizado($id_linha, $colunas, $ativo = '1'){
         $this->db->select($colunas);
         $this->db->where("papel_linha",$id_linha);
         switch ($ativo) {

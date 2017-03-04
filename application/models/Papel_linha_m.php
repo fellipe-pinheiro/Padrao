@@ -110,7 +110,7 @@ class Papel_linha_m extends CI_Model {
         return $object;
     }
 
-    public function get_pesonalizado($colunas,$ativo = '1'){
+    public function get_pesonalizado($colunas, $ativo = '1'){
         $this->db->select($colunas);
         switch ($ativo) {
             case '-1':

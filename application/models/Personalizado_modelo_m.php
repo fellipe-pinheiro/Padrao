@@ -131,9 +131,22 @@ class Personalizado_modelo_m extends CI_Model {
         return $object;
     }
 
-    public function get_pesonalizado($id_categoria,$colunas){
+    public function get_pesonalizado($id_categoria,$colunas, $ativo = '1'){
         $this->db->select($colunas);
         $this->db->where("personalizado_categoria",$id_categoria);
+        switch ($ativo) {
+            case '-1':
+                break;
+            case '0':
+                $this->db->where("ativo", false);
+                break;
+            case '1':
+                $this->db->where("ativo", true);
+                break;
+            default:
+                $this->db->where("ativo", true);
+                break;
+        }
         return $this->db->get("personalizado_modelo")->result_array();
     }
 

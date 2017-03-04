@@ -85,7 +85,7 @@ class Personalizado_categoria extends CI_Controller {
 
     public function ajax_get_personalizado(){
         $arr = array();
-        $arr = $this->Personalizado_categoria_m->get_pesonalizado("id, nome");
+        $arr = $this->Personalizado_categoria_m->get_pesonalizado("id, nome", $this->input->get('ativo'));
         print json_encode($arr);
     }
 

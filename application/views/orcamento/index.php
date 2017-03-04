@@ -756,6 +756,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(e.target).trigger("change");
         });
         $("#input_cep").keyup(carregaCep);
+        //Deixa pré setado o filtro do assessor como somente os ativos
+        $('#filtro_assessor_ativo option[value=1]').prop('selected','selected');
         //Verifica se o orçamento info já foi preechido
         session_orcamento_info(false);
         is_empty_orcamento_info(false);
