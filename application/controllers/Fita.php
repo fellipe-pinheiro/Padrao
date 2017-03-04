@@ -73,7 +73,7 @@ class Fita extends CI_Controller {
 
     public function ajax_update() {
         $data["status"] = FALSE;
-        $this->validar_formulario();
+        $this->validar_formulario(true);
         if ($this->input->post('id')) {
             $dados = $this->get_post();
             if ($this->Fita_m->editar($dados)) {
@@ -118,11 +118,22 @@ class Fita extends CI_Controller {
         print json_encode($arr);
     }
 
-    private function validar_formulario() {
+    private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('fita_laco', 'Fita laco', 'trim|required|callback_check_unique_combination_pk');
+        if($update){
+            $fita = $this->Fita_m->get_by_id($this->input->post('id'));
+            if(!empty($fita) && $fita->fita_material->id == $this->input->post('fita_material') && $fita->fita_laco->id == $this->input->post('fita_laco')){
+                $check_unique_combination_pk =  '';
+            }else{
+                $check_unique_combination_pk =  '|callback_check_unique_combination_pk';
+            }
+        }else{
+            $check_unique_combination_pk =  '|callback_check_unique_combination_pk';
+        }
+
+        $this->form_validation->set_rules('fita_laco', 'Fita laco', 'trim|required'.$check_unique_combination_pk);
         $this->form_validation->set_rules('fita_material', 'Fita material', 'trim|required');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor_03mm', 'valor_03mm', 'trim|required|decimal_positive');
@@ -146,7 +157,7 @@ class Fita extends CI_Controller {
 
     public function check_unique_combination_pk(){ //verifica se há combinação das chaves primarias do materia e do laço para não haver duplicidade
         $fita = $this->Fita_m->get_by_combination($this->input->post('fita_material'),$this->input->post('fita_laco'));
-        if($fita->fita_material->id == $this->input->post('fita_material') && $fita->fita_laco->id == $this->input->post('fita_laco')){
+        if(!empty($fita) && $fita->fita_material->id == $this->input->post('fita_material') && $fita->fita_laco->id == $this->input->post('fita_laco')){
             $this->form_validation->set_message('check_unique_combination_pk', 'Já existe esta combinação de ' . $fita->fita_laco->nome . ' e ' . $fita->fita_material->nome .' no ID: ' . $fita->id);
             return false;
         }
