@@ -27,6 +27,8 @@ class Forma_pagamento extends CI_Controller {
                 'DT_RowId' => $item->id,
                 'id' => $item->id,
                 'nome' => $item->nome,
+                'parcelamento_maximo' => $item->parcelamento_maximo,
+                'valor_minimo' => decimal_to_form($item->valor_minimo),
                 'descricao' => $item->descricao,
                 'ativo' => $item->ativo,
                 );
@@ -87,6 +89,8 @@ class Forma_pagamento extends CI_Controller {
         $dados = array(
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
             'nome' => $this->input->post('nome'),
+            'parcelamento_maximo' => $this->input->post('parcelamento_maximo'),
+            'valor_minimo' => decimal_to_db($this->input->post('valor_minimo')),
             'descricao' => $this->input->post('descricao'),
             'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
             );
@@ -98,6 +102,9 @@ class Forma_pagamento extends CI_Controller {
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
+        $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
+        $this->form_validation->set_rules('parcelamento_maximo', 'Parcelamento máximo', 'trim|required|numeric|no_leading_zeroes|is_natural_no_zero');
+        $this->form_validation->set_rules('valor_minimo', 'Valor mínimo','trim|required|decimal_positive');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('validar_boolean', 'O Ativo deve ser um valor entre 0 e 1');
         $this->form_validation->set_rules('ativo', 'Ativo', 'trim|validar_boolean');

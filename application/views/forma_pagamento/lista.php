@@ -49,6 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th>ID</th>
                                 <th>Nome</th>
+                                <th>Parcelamento Máximo</th>
+                                <th>Valor Mínimo</th>
                                 <th>Descrição</th>
                                 <th>Ativo</th>
                             </tr>
@@ -77,28 +79,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <fieldset>
                         <!--ID-->
                         <input type="hidden" name="id" class="form-control">
-                        <!--ativo-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="ativo" class="control-label">Ativo:</label>
-                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--ativo-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="ativo" class="control-label">Ativo:</label>
+                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--nome-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Forma de pagamento:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Forma de pagamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!--nome-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="nome" class="control-label">Forma de pagamento:</label>
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Forma de pagamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
+                        <div class="row">
+                            <!-- parcelamento_maximo -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="parcelamento_maximo" class="control-label">Parcelamento máximo</label>
+                                    <div class="input-group">
+                                        <input type="number" step="1" min="1" class="form-control" name="parcelamento_maximo" id="parcelamento_maximo" placeholder="Ex: 12" value="">
+                                        <div class="input-group-addon">vezes</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- valor_minimo -->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="valor_minimo" class="control-label">Valor mínimo parcelamento</label>
+                                    <div class="input-group">
+                                        <input type="number" step="0.01" min="0" class="form-control" name="valor_minimo" id="valor_minimo" placeholder="Ex: 100,00" value="">
+                                        <div class="input-group-addon">reais</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--Descrição-->
+                            <div class="col-sm-12">
+                                <div class="form-group input-padding">
+                                    <label for="descricao" class="control-label">Descrição:</label>
+                                    <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -171,6 +203,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             columns: [
                 {data: "id", "visible": false},
                 {data: "nome", "visible": true},
+                {data: "parcelamento_maximo", "visible": true},
+                {data: "valor_minimo", "visible": true},
                 {data: "descricao", "visible": true},
                 {data: "ativo", "visible": true},
             ]

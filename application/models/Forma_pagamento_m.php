@@ -6,12 +6,14 @@ class Forma_pagamento_m extends CI_Model {
 
     var $id;
     var $nome;
+    var $parcelamento_maximo;
+    var $valor_minimo;
     var $descricao;
     var $ativo;
     // Ajax 
     var $table = 'forma_pagamento';
-    var $column_order = array('id', 'nome', 'descricao','ativo');
-    var $column_search = array('nome', 'descricao');
+    var $column_order = array('id', 'nome', 'descricao','ativo','parcelamento_maximo','valor_minimo');
+    var $column_search = array('id', 'nome', 'descricao','ativo','parcelamento_maximo','valor_minimo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -104,6 +106,8 @@ class Forma_pagamento_m extends CI_Model {
             $object = new Forma_pagamento_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
+            $object->parcelamento_maximo = $value['parcelamento_maximo'];
+            $object->valor_minimo = $value['valor_minimo'];
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];
         }
