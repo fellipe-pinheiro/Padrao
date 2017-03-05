@@ -653,12 +653,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="forma_pagamento" class="control-label">Forma de pagamento:</label>
-                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
+                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus onchange="get_quantidade_parcelas()">
                                         <option value="" selected >Selecione</option>
                                         <?php
                                         foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
                                             ?>
-                                            <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
+                                            <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>"><?= $forma_pagamento->nome ?></option>
                                             <?php
                                         }
                                         ?>
@@ -1616,7 +1616,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             title: 'Criar pedido',
             content: 'Deseja realmente criar um pedido?',
             confirm: function(){
-                ajax_get_parcelas_pedido();
                 console.log('criar_pedido()');
                 //$('.data_entrega').show();
                 $.ajax({
@@ -1643,6 +1642,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             cancel: function(){
             }
         });
+    }
+
+    function get_quantidade_parcelas() {
+        ajax_get_parcelas_pedido();
     }
 
     function finalizar_pedido(event) {
@@ -2333,10 +2336,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function ajax_get_parcelas_pedido() {
+        var parcelamento_maximo = $("#forma_pagamento").find(':selected').data('parcelamento_maximo');
+        var valor_minimo = $("#forma_pagamento").find(':selected').data('valor_minimo');
+        var qtd_parcelas = $("#qtd_parcelas option:selected").val();
         $.ajax({
             url: '<?= base_url("pedido/ajax_get_parcelas_pedido") ?>',
             type: 'GET',
             dataType: 'JSON',
+            data: {parcelamento_maximo:parcelamento_maximo,valor_minimo:valor_minimo}
         })
         .done(function (data) {
             //Limpa o select antes de inserir os novos options
@@ -2346,12 +2353,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     value: item.value,
                     text: item.text
                 }));
+                if(item.value == qtd_parcelas){
+                    $("#qtd_parcelas option[value="+qtd_parcelas+"]").prop("selected","selected");
+                }
             });
         })
         .fail(function () {
             return null;
             console.log("Erro ao buscar o valor do pedido");
         })
+        .always(function() {
+            console.log("complete");
+        });
     }
 
     function reload_table_cliente() {

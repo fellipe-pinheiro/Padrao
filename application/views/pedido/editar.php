@@ -679,12 +679,12 @@ $loja = $orcamento->loja;
                                     <!-- Forma de pagamento -->
                                     <div class="form-group">
                                         <?= form_label('Forma de pagamento: ', 'forma_pagamento', array('class' => 'control-label')) ?>
-                                        <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus="true">
+                                        <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus onchange="get_quantidade_parcelas()">
                                             <option value="" selected >Selecione</option>
                                             <?php
                                             foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
                                                 ?>
-                                                <option value="<?= $forma_pagamento->id ?>"><?= $forma_pagamento->nome ?></option>
+                                                <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>"><?= $forma_pagamento->nome ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -694,8 +694,8 @@ $loja = $orcamento->loja;
                                     <!-- Quantidade de parcelas -->
                                     <div class="form-group">
                                         <?= form_label('Quantidade de Parcelas: ', 'qtd_parcelas', array('class' => 'control-label')) ?>
-                                        <select onfocus="atualiza_quantidade_parcelas()" name="qtd_parcelas" id="qtd_parcelas" class="form-control">
-                                            <option value="" selected disabled>Selecione</option>
+                                        <select name="qtd_parcelas" id="qtd_parcelas" class="form-control">
+                                            <option value="" selected>Selecione</option>
                                         </select>
                                         <span class="help-block"></span>
                                     </div>
@@ -1352,16 +1352,22 @@ $loja = $orcamento->loja;
         calcular_total();
     }
 
+    function get_quantidade_parcelas() {
+        atualiza_quantidade_parcelas();
+    }
+
     function atualiza_quantidade_parcelas() {
+        var parcelamento_maximo = $("#forma_pagamento").find(':selected').data('parcelamento_maximo');
+        var valor_minimo = $("#forma_pagamento").find(':selected').data('valor_minimo');
+        var qtd_parcelas = $("#qtd_parcelas option:selected").val();
+
         var total = 0;
-        var num_parcela = <?=$dados['parcelamento_maximo']?>;
-        var valor_minimo = <?=$dados['valor_minimo_parcelamento']?>;
         var valor_parcela = 0;
         var data = [];
         total = numberFormat($('#th-adicional-total_a_pagar')[0].innerText);
 
         $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
-        for (var i = 1; i <= num_parcela; i++) {
+        for (var i = 1; i <= parcelamento_maximo; i++) {
             valor_parcela = total / i;
             if(valor_parcela < valor_minimo){
                 break;
@@ -1370,12 +1376,14 @@ $loja = $orcamento->loja;
             valor_parcela = valor_parcela.replace(".", ",");
             data.push({"value": i, "text": i + " x R$ " + valor_parcela});
         }
-        ;
         $.each(data, function (i, item) {
             $("#qtd_parcelas").append($('<option>', {
                 value: item.value,
                 text: item.text
             }));
+            if(item.value == qtd_parcelas){
+                $("#qtd_parcelas option[value="+qtd_parcelas+"]").prop("selected","selected");
+            }
         });
     }
 

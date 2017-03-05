@@ -161,12 +161,9 @@ class Pedido extends CI_Controller {
         $id = $this->uri->segment(3);
         $data['pedido'] = $this->Pedido_m->get_by_id($id);
         $data['documento_numero'] = "<strong>Pedido Nº " . sprintf('%08d', $data['pedido']->id) . "</strong>";
-        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
+        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome,parcelamento_maximo,valor_minimo");
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
-        $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
-        $data['parcelamento_maximo'] = empty($parcelamento_maximo) ? 12 : $parcelamento_maximo;
-        $valor_minimo = $this->Sistema_m->get_by_nome('valor_minimo_parcelamento');
-        $data['valor_minimo_parcelamento'] = empty($valor_minimo) ? 0 : $valor_minimo;;
+
         set_layout('conteudo', load_content('pedido/editar', $data));
         load_layout();
     }
@@ -745,10 +742,10 @@ class Pedido extends CI_Controller {
     //     return ($valor_total * $assessor_comiisao) / $porcentagem_total;
     // }
     public function ajax_get_parcelas_pedido() {
-        $parcelamento_maximo = $this->Sistema_m->get_by_nome('parcelamento_maximo');
-        $valor_minimo_parcelamento = $this->Sistema_m->get_by_nome('valor_minimo_parcelamento');
+        $parcelamento_maximo = $this->input->get('parcelamento_maximo');
+        $valor_minimo = $this->input->get('valor_minimo');
         $qtd_parcelas = empty($parcelamento_maximo) ?  12 : $parcelamento_maximo; //numero máximo de parcelas
-        $valor_minimo = empty($valor_minimo_parcelamento) ?  0 : $valor_minimo_parcelamento; //valor mínimo para parcela
+        $valor_minimo = empty($valor_minimo) ?  0 : $valor_minimo; //valor mínimo para parcela
         $valor_total = $this->session->orcamento->calcula_total();
         $data = array();
 

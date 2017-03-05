@@ -68,7 +68,7 @@ class Orcamento extends CI_Controller {
     public function index() {
         $data['lojas'] = $this->Loja_m->get_pesonalizado("id, unidade");
         $data['eventos'] = $this->Evento_m->get_pesonalizado("id, nome");
-        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome");
+        $data['forma_pagamento'] = $this->Forma_pagamento_m->get_pesonalizado("id, nome,parcelamento_maximo,valor_minimo");
         $data['estados'] = get_array_estados();
         $data['estados_json'] = json_encode(get_array_estados());
         set_layout('conteudo', load_content('orcamento/index', $data));
