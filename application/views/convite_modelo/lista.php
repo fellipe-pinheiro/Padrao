@@ -50,12 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>ID</th>
                                 <th>Código</th>
                                 <th>Nome</th>
-                                <th>Altura Final</th>
-                                <th>Largura Final</th>
-                                <th>Cartao Altura</th>
-                                <th>Cartao Largura</th>
-                                <th>Envelope Altura</th>
-                                <th>Envelope Largura</th>
                                 <th>Empastamento Borda</th>
                                 <th>Descricao</th>
                                 <th>Ativo</th>
@@ -81,6 +75,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title row"></h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-papel-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-papel-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" id="add_dimensoes"><i class="glyphicon glyphicon-plus"></i> Dimensões</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
                     <fieldset>
                         <!--ID-->
@@ -97,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="row">
                             <!--Nome-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
                                     <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do modelo" pattern=".{1,50}" title="Máximo de 50 caracteres">
@@ -105,91 +121,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <!--Código-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="codigo" class="control-label">Código:</label>
                                     <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <!--altura_final-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                    <label for="altura_final" class="control-label">Altura Final:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="altura_final" id="altura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura final do convite pronto em milímetros. Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                            <!--largura_final-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                <label for="largura_final" class="control-label">Largura Final:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="largura_final" id="largura_final" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura final do convite pronto em milímetros. Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!--cartao_altura-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                <label for="cartao_altura" class="control-label">Cartão Altura:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="cartao_altura" id="cartao_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do cartão para corte Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                            <!--cartao_largura-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                <label for="cartao_largura" class="control-label">Cartão Largura:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="cartao_largura" id="cartao_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do cartão para corte Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!--envelope_altura-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                <label for="envelope_altura" class="control-label">Envelope Altura:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="envelope_altura" id="envelope_altura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Altura do envelope para corte Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                            <!--envelope_largura-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                <label for="envelope_largura" class="control-label">Envelope Largura:</label>
-                                    <div class="input-group">
-                                        <input type="number" name="envelope_largura" id="envelope_largura" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Largura do envelope para corte Ex:200">
-                                        <div class="input-group-addon">mm</div>
-                                    </div>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <!--empastamento_borda-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
-                                <label for="empastamento_borda" class="control-label">Empastamento borda:</label>
+                                    <label for="empastamento_borda" class="control-label">Empastamento borda:</label>
                                     <div class="input-group">
                                         <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
                                         <div class="input-group-addon">mm</div>
@@ -197,9 +139,145 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">                            
-                            </div>
                         </div>
+                        <!-- Dimensão Final -->
+                        <div class="row">
+                            <!-- dimensao_nome_final_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <label for="dimensao_altura_final_default">Dimensão Final</label>
+                                        <input type="hidden" name="dimensao_id_final_default" id="dimensao_id_final_default" class="form-control" value="Dimensão Final">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_altura_final_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_altura_final_default" id="dimensao_altura_final_default" class="form-control" placeholder="Altura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_largura_final_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_largura_final_default" id="dimensao_largura_final_default" class="form-control" placeholder="Largura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <!-- Cartão -->
+                        <div class="row">
+                            <!-- dimensao_nome_cartao_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <label for="dimensao_altura_cartao">Cartão</label>
+                                        <input type="hidden" name="dimensao_id_cartao_default" id="dimensao_id_cartao_default" class="form-control" value="Cartão">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_altura_cartao_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_altura_cartao_default" id="dimensao_altura_cartao_default" class="form-control" placeholder="Altura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_largura_cartao_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_largura_cartao_default" id="dimensao_largura_cartao_default" class="form-control" placeholder="Largura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <!-- Envelope -->
+                        <div class="row">
+                            <!-- dimensao_nome_envelope_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <label for="dimensao_altura_envelope_default">Envelope</label>
+                                        <input type="hidden" name="dimensao_id_envelope_default" id="dimensao_id_envelope_default" class="form-control" value="Envelope">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_altura_envelope_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_altura_envelope_default" id="dimensao_altura_envelope_default" class="form-control" placeholder="Altura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!-- dimensao_largura_envelope_default -->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="dimensao_largura_envelope_default" id="dimensao_largura_envelope_default" class="form-control" placeholder="Largura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <!--Convite Modelo Dimensão-->
+                        <div class="hidden" id="default_dimensao_div">
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" id="default_button_excluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>
+                                        <input type="text" name="default_nome" id="default_nome_input" class="form-control" placeholder="Nome">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="default_altura_input" id="default_altura_input" class="form-control" placeholder="Altura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <input step="1" type="number" min="0" name="default_largura_input" id="default_largura_input" class="form-control" placeholder="Largura ex: 320">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div id="lista_dimensoes" class="row">
+                        </div>
+                        
                         <div class="row">
                             <!--Descrição-->
                             <div class="col-sm-12">
@@ -222,6 +300,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
+    var count_dimensoes = 0;
+
     $(document).ready(function () {
         tabela = $("#tabela_convite_modelo").DataTable({
             scrollX: true,
@@ -230,44 +310,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
+            {
+                extend: 'colvis',
+                text: 'Visualizar colunas'
+            },
+            {
+                extend: 'collection',
+                text: 'Exportar',
+                autoClose: true,
+                buttons: [
                 {
-                    extend: 'colvis',
-                    text: 'Visualizar colunas'
+                    extend: 'print',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 },
                 {
-                    extend: 'collection',
-                    text: 'Exportar',
-                    autoClose: true,
-                    buttons: [
-                        {
-                            extend: 'print',
-                            orientation: 'landscape',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            orientation: 'landscape',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                    ],
-                    fade: true
-                }
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                ],
+                fade: true
+            }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -283,17 +363,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "id", "visible": false},
                 {data: "codigo", "visible": true},
                 {data: "nome", "visible": true},
-                {data: "altura_final", "visible": true},
-                {data: "largura_final", "visible": true},
-                {data: "cartao_altura", "visible": true},
-                {data: "cartao_largura", "visible": true},
-                {data: "envelope_altura", "visible": true},
-                {data: "envelope_largura", "visible": true},
                 {data: "empastamento_borda", "visible": true},
                 {data: "descricao", "visible": false},
                 {data: "ativo", "visible": false}
-            ]
-        });
+                ]
+            });
         // Resaltar a linha selecionada
         $("#tabela_convite_modelo tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
@@ -310,6 +384,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("input[name='id']").val("");
 
             $('.modal-title').text('Adicionar Modelo');
+            visible_gramatura = $(".dimensao_group").length;
             $('#modal_form').modal('show');
         });
         $("#editar").click(function () {
@@ -330,6 +405,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 dataType: "JSON",
                 success: function (data)
                 {
+                    console.log(data);
                     $.map(data.convite_modelo, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             if($('[name="' + index + '"]').is(':checkbox')){
@@ -340,6 +416,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }
                         }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }else if(index === 'dimensoes'){
+                            $.each(value,function(i, dimensoes) {
+                                 switch (dimensoes.nome) {
+                                    case 'Dimensão Final':
+                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_altura_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_largura_final_default"]').val(dimensoes.largura);
+                                        break;
+                                    case 'Cartão':
+                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_altura_cartao_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_largura_cartao_default"]').val(dimensoes.largura);
+                                        break;
+                                    case 'Envelope':
+                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_altura_envelope_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_largura_envelope_default"]').val(dimensoes.largura);
+                                        break;
+                                    default:
+                                    clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.altura,dimensoes.largura);
+                                        break;
+                                }
+                                
+                            });
                         }
                     });
 
@@ -349,6 +449,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao buscar os dados');
+                },
+                complete: function () {
+                    visible_dimensao = $(".dimensao_group").length;
                 }
             });
         });
@@ -425,15 +528,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
+        $("#add_dimensoes").click(function(){
+            count_dimensoes++;
+            clonar_dimensoes(false,count_dimensoes+"_ADD","","","");
+        });
         form_small();
     });
 
+    function clonar_dimensoes(editar,id,nome,altura,largura){//ID = 1_ADD
+        var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');
+        var cl = clone[0];
+
+        // adicionar função para deletar a linha
+        $(cl).find("#default_button_excluir").prop("id","excluir_dimensao_"+id).attr("onclick","remover_dimensao('dimensao_"+id+"',"+editar+",'"+nome+"');");
+
+        // Alterar id, name, for(label) e adicionar required
+        $($(cl).find("#default_nome_input")).prop("id","nome_"+id).prop("name","dimensao_nome_"+id).val(nome).prop("required","required");
+
+        $($(cl).find("#default_altura_input")).prop("id","altura_"+id).prop("name","dimensao_altura_"+id).val(altura).prop("required","required");
+
+        $($(cl).find("#default_largura_input")).prop("id","largura_"+id).prop("name","dimensao_largura_"+id).val(largura).prop("required","required");
+
+        clone.appendTo("#lista_dimensoes");
+    }
+
+    function remover_dimensao(id,editar,nome) {
+        var preenchido = false;
+        $.each($("#"+id+" input"), function(index, element) {
+            if(element.value){
+                preenchido = true;
+            }
+        });
+
+        if(!preenchido){
+            do_remove_dimensao(id,editar);
+        }else{
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o item <strong>' + nome + '</strong>?',
+                confirm: function(){
+                    do_remove_dimensao(id,editar);
+                },
+                cancel: function(){
+                }
+            });
+        }
+    }
+
+    function do_remove_dimensao(id,editar) {
+        if (!editar) {
+            $("#"+id).remove();
+        } else {
+            var arr_nome = new Array();
+            var arr_valor = new Array();
+            var arr_ativo = new Array();
+            // editar o name dos campos
+            var name_nome = $("#"+id+" input")[0].name;
+            arr_nome = name_nome.split("_");
+            $("#"+id+" input")[0].name = arr_nome[0] + "_" + arr_nome[1] + "_" + arr_nome[2]+ "_DEL";
+           
+            var name_altura = $("#"+id+" input")[1].name;
+            arr_altura = name_altura.split("_");
+            $("#"+id+" input")[1].name = arr_altura[0] + "_" + arr_altura[1] + "_" + arr_altura[2]+ "_DEL";
+
+            var  name_largura = $("#"+id+" input")[2].name;
+            arr_largura = name_largura.split("_");
+            $("#"+id+" input")[2].name = arr_largura[0] + "_" + arr_largura[1] + "_" + arr_largura[2]+ "_DEL";
+
+            $("#"+id).hide();
+        }
+    }
+
     function reload_table() {
+
         tabela.ajax.reload(null, false);
     }
 
     function reset_form() {
         $('#form_convite_modelo')[0].reset();
         reset_errors();
+        $("#lista_dimensoes").html("");
     }
 </script>

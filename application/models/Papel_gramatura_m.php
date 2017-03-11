@@ -32,12 +32,6 @@ class Papel_gramatura_m extends CI_Model {
         return false;
     }
 
-    public function get_ids_by_papel_id($id_papel){
-        $this->db->select("id");
-        $this->db->where('papel', $id);
-        return $this->db->get('papel_gramatura')->result_array();;
-    }
-
     public function inserir($dados) {
         if (empty($dados['id'])) {
             if ($this->db->insert('papel_gramatura', $dados)) {

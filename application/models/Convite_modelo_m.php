@@ -7,22 +7,18 @@ class Convite_modelo_m extends CI_Model {
     var $id;
     var $codigo;
     var $nome;
-    var $altura_final;
-    var $largura_final;
-    var $cartao_altura;
-    var $cartao_largura;
-    var $envelope_altura;
-    var $envelope_largura;
+    var $dimensoes;
     var $empastamento_borda;
     var $descricao;
     var $ativo;
     // Ajax 
-    var $table = 'convite_modelo';
-    var $column_order = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao','ativo');
-    var $column_search = array('id','codigo','nome','altura_final','largura_final','cartao_altura','cartao_largura','envelope_altura','envelope_largura','empastamento_borda','descricao','ativo');
+    var $table = 'convite_modelo as cm';
+    var $column_order = array('id','codigo','nome','empastamento_borda','descricao','ativo');
+    var $column_search = array('id','codigo','nome','empastamento_borda','descricao','ativo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
+
         $this->db->from($this->table);
         $i = 0;
 
@@ -113,12 +109,7 @@ class Convite_modelo_m extends CI_Model {
             $object->id = $value['id'];
             $object->codigo = $value['codigo'];
             $object->nome = $value['nome'];
-            $object->altura_final = $value['altura_final'];
-            $object->largura_final = $value['largura_final'];
-            $object->cartao_altura = $value['cartao_altura'];
-            $object->cartao_largura = $value['cartao_largura'];
-            $object->envelope_altura = $value['envelope_altura'];
-            $object->envelope_largura = $value['envelope_largura'];
+            $object->dimensoes = $this->Convite_modelo_dimensao_m->get_by_modelo_id($object->id);
             $object->empastamento_borda = $value['empastamento_borda'];
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];

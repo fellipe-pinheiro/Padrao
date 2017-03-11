@@ -108,5 +108,30 @@ class Teste extends CI_Controller {
         var_dump(date_to_form('1982/04/20'));
     }
 
+    public function testa_convite_modelo(){
+        //print "teste";
+        $this->load->model('Convite_modelo_m');
+        $this->load->model('Convite_modelo_dimensao_m');
+        var_dump($this->Convite_modelo_m->get_by_id(1));
+    }
+
+    public function teste_input()
+    {
+        print "<form action='".base_url("teste/teste_input")."' method='post'>";
+        print  '<input type="text" name="nome[final][]" />'.
+               '<input type="text" name="altura[final][]" />'.
+               '<input type="text" name="largura[final][]" /><br>'.
+               
+               '<input type="text" name="nome[cartao][]" />'.
+               '<input type="text" name="altura[cartao][]" />'.
+               '<input type="text" name="largura[cartao][]" /><br>'.
+
+               '<input type="text" name="nome[envelope][]" />'.
+               '<input type="text" name="altura[envelope][]" />'.
+               '<input type="text" name="largura[envelope][]" /><br>';
+               print "<button>enviar</button>";
+       print "</form>";
+       var_dump($_POST);
+    }
     
 }
