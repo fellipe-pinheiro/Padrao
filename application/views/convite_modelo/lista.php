@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group input-padding">
                                     <div class="input-group">
                                         <label for="dimensao_altura_final_default">Dimensão Final</label>
-                                        <input type="hidden" name="dimensao_id_final_default" id="dimensao_id_final_default" class="form-control" value="Dimensão Final">
+                                        <input type="hidden" name="dimensao_id_final_default" id="dimensao_id_final_default" class="form-control">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group input-padding">
                                     <div class="input-group">
                                         <label for="dimensao_altura_cartao">Cartão</label>
-                                        <input type="hidden" name="dimensao_id_cartao_default" id="dimensao_id_cartao_default" class="form-control" value="Cartão">
+                                        <input type="hidden" name="dimensao_id_cartao_default" id="dimensao_id_cartao_default" class="form-control">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -215,7 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group input-padding">
                                     <div class="input-group">
                                         <label for="dimensao_altura_envelope_default">Envelope</label>
-                                        <input type="hidden" name="dimensao_id_envelope_default" id="dimensao_id_envelope_default" class="form-control" value="Envelope">
+                                        <input type="hidden" name="dimensao_id_envelope_default" id="dimensao_id_envelope_default" class="form-control">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -250,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div class="input-group-btn">
                                             <button type="button" id="default_button_excluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                                         </div>
-                                        <input type="text" name="default_nome" id="default_nome_input" class="form-control" placeholder="Nome">
+                                        <input type="text" name="" id="default_nome_input" class="form-control" placeholder="Nome">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -258,7 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="default_altura_input" id="default_altura_input" class="form-control" placeholder="Altura ex: 320">
+                                        <input step="1" type="number" min="0" name="" id="default_altura_input" class="form-control" placeholder="Altura ex: 320">
                                         <div class="input-group-addon">mm</div>
                                     </div>
                                     <span class="help-block"></span>
@@ -267,7 +267,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="default_largura_input" id="default_largura_input" class="form-control" placeholder="Largura ex: 320">
+                                        <input step="1" type="number" min="0" name="" id="default_largura_input" class="form-control" placeholder="Largura ex: 320">
                                         <div class="input-group-addon">mm</div>
                                     </div>
                                     <span class="help-block"></span>
@@ -404,8 +404,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
-                {
-                    console.log(data);
+                {   
                     $.map(data.convite_modelo, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             if($('[name="' + index + '"]').is(':checkbox')){
@@ -416,31 +415,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }
                         }else if ($('[name="' + index + '"]').is("select")){
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
-                        }else if(index === 'dimensoes'){
+                        }else if(index == 'dimensoes'){
                             $.each(value,function(i, dimensoes) {
                                  switch (dimensoes.nome) {
                                     case 'Dimensão Final':
-                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_id_final_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_final_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_final_default"]').val(dimensoes.largura);
                                         break;
                                     case 'Cartão':
-                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_id_cartao_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_cartao_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_cartao_default"]').val(dimensoes.largura);
                                         break;
                                     case 'Envelope':
-                                        $('[name="dimensao_id_final_default"]').val(dimensoes.altura);
+                                        $('[name="dimensao_id_envelope_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_envelope_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_envelope_default"]').val(dimensoes.largura);
                                         break;
                                     default:
                                     clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.altura,dimensoes.largura);
                                         break;
-                                }
-                                
+                                }  
                             });
-                        }
+                        }      
                     });
 
                     $('#modal_form').modal('show');
@@ -606,6 +604,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function reset_form() {
         $('#form_convite_modelo')[0].reset();
+        $('#form_convite_modelo :input').val(''); //para limpar os inputs hidden (só com o reset não está limpando o valor)
+        $(':checkbox').val('1'); // como limpei com ($(':input').val('');), recoloco o valor do input checkbox para 1
         reset_errors();
         $("#lista_dimensoes").html("");
     }

@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <li><a href="#" id="default_button_excluir">Excluir</a></li>
                                                 </ul>
                                             </div>
-                                            <input step="1" type="number" min="0" name="gramatura" id="default_gramatura_input" class="form-control" placeholder="Gramatura ex: 80">
+                                            <input step="1" type="number" min="0" name="" id="default_gramatura_input" class="form-control" placeholder="Gramatura ex: 80">
                                             <div class="input-group-addon">g</div>
                                         </div>
                                         <span class="help-block"></span>
@@ -253,7 +253,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <div class="form-group input-padding">
                                         <div class="input-group">
                                             <div class="input-group-addon">R$</div>
-                                            <input step="0.01" type="number" min="0" name="valor" id="default_valor_input" class="form-control" placeholder="Valor ex: 3,20">
+                                            <input step="0.01" type="number" min="0" name="" id="default_valor_input" class="form-control" placeholder="Valor ex: 3,20">
                                         </div>
                                         <span class="help-block"></span>
                                     </div>

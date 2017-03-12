@@ -11,3 +11,16 @@ CREATE TABLE `cgolin_localhost`.`convite_modelo_dimensao` (
     REFERENCES `cgolin_localhost`.`convite_modelo` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT);
+
+ALTER TABLE `cgolin_localhost`.`convite_modelo_dimensao` 
+DROP FOREIGN KEY `fk_conviteModeloDimensao_conviteModelo`;
+ALTER TABLE `cgolin_localhost`.`convite_modelo_dimensao` 
+CHANGE COLUMN `modelo` `modelo` INT(11) UNSIGNED NOT NULL ,
+CHANGE COLUMN `altura` `altura` INT(5) NOT NULL ,
+CHANGE COLUMN `largura` `largura` INT(5) NOT NULL ;
+ALTER TABLE `cgolin_localhost`.`convite_modelo_dimensao` 
+ADD CONSTRAINT `fk_conviteModeloDimensao_conviteModelo`
+  FOREIGN KEY (`modelo`)
+  REFERENCES `cgolin_localhost`.`convite_modelo` (`id`);
+
+

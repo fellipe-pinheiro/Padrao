@@ -55,14 +55,14 @@ class Convite_modelo extends CI_Controller {
 
             if ( $id_modelo ) {
                 $dimensoes = $this->get_array_dimensoes_objects( $id_modelo );
-                
+
                 foreach ( $dimensoes as $dimensao ) {
                     if( !empty($dimensao['ADD']) && $dimensao['ADD'] ){
 
                         $this->Convite_modelo_dimensao_m->inserir( $dimensao['ADD'] );
 
-                    }else if( $dimensao['DEFAULT'] ){
-
+                    }else if(!empty($dimensao['DEFAULT']) &&  $dimensao['DEFAULT'] ){
+                
                         $this->Convite_modelo_dimensao_m->inserir( $dimensao['DEFAULT'] );
 
                     }
@@ -110,7 +110,7 @@ class Convite_modelo extends CI_Controller {
                         $this->Convite_modelo_dimensao_m->editar($dimensao['UPD']);
 
                     }else if( !empty($dimensao['DEFAULT']) && $dimensao['DEFAULT']){ // DEFAULT
-
+                        
                         $this->Convite_modelo_dimensao_m->editar($dimensao['DEFAULT']);
 
                     }else if(!empty($dimensao['DEL']) && $dimensao['DEL'] ){ // DELETE
@@ -180,7 +180,7 @@ class Convite_modelo extends CI_Controller {
         // dados fixos
         // Dimensao final
         $dados_lista[]["DEFAULT"] = array(
-            'id' => empty($this->input->post("dimensao_id_final_default"))?null:$this->input->post("dimensao_id_final_default"),
+            'id' => empty($this->input->post("dimensao_id_final_default")) ? null : $this->input->post("dimensao_id_final_default"),
             'modelo' => $id_modelo,
             'nome' => 'Dimensão Final',
             'altura' =>$this->input->post("dimensao_altura_final_default"),
@@ -188,7 +188,7 @@ class Convite_modelo extends CI_Controller {
             );
         // Cartao
         $dados_lista[]["DEFAULT"] = array(
-            'id' => empty($this->input->post("dimensao_id_cartao_default"))?null:$this->input->post("dimensao_id_cartao_default"),
+            'id' => empty($this->input->post("dimensao_id_cartao_default")) ? null : $this->input->post("dimensao_id_cartao_default"),
             'modelo' => $id_modelo,
             'nome' => 'Cartão',
             'altura' =>$this->input->post("dimensao_altura_cartao_default"),
@@ -196,7 +196,7 @@ class Convite_modelo extends CI_Controller {
             );
         // Envelope
         $dados_lista[]["DEFAULT"] = array(
-            'id' => empty($this->input->post("dimensao_id_envelope_default"))?null:$this->input->post("dimensao_id_envelope_default"),
+            'id' => empty($this->input->post("dimensao_id_envelope_default")) ? null : $this->input->post("dimensao_id_envelope_default"),
             'modelo' => $id_modelo,
             'nome' => 'Envelope',
             'altura' =>$this->input->post("dimensao_altura_envelope_default"),
@@ -292,6 +292,24 @@ class Convite_modelo extends CI_Controller {
         }else{
             $is_unique =  '|is_unique[convite_modelo.codigo]';
         }
+        $names_nome = preg_grep( "/dimensao_nome_/", array_keys( $this->input->post() ), 0);
+        $names_altura = preg_grep( "/dimensao_altura_/", array_keys( $this->input->post() ), 0);
+        $names_largura = preg_grep( "/dimensao_largura_/", array_keys( $this->input->post() ), 0);
+        foreach ($names_nome as $name) {
+            $this->form_validation->set_rules($name, 'Nome', 'trim|required|max_length[50]');  
+        }
+        foreach ($names_altura as $altura) {
+            $this->form_validation->set_rules($altura, 'Altura', 'trim|required|max_length[5]|is_natural');    
+        }
+        foreach ($names_largura as $largura) {
+            $this->form_validation->set_rules($largura, 'Largura', 'trim|required|max_length[5]|is_natural');    
+        }
+        $this->form_validation->set_rules('dimensao_altura_final_default', 'Altura final', 'trim|required|max_length[5]|is_natural');
+        $this->form_validation->set_rules('dimensao_largura_final_default', 'Largura final', 'trim|required|max_length[5]|is_natural');
+        $this->form_validation->set_rules('dimensao_altura_cartao_default', 'Cartao altura', 'trim|required|max_length[5]|is_natural');
+        $this->form_validation->set_rules('dimensao_largura_cartao_default', 'Cartao largura', 'trim|required|max_length[5]|is_natural');
+        $this->form_validation->set_rules('dimensao_altura_envelope_default', 'Envelope altura', 'trim|required|max_length[5]|is_natural');
+        $this->form_validation->set_rules('dimensao_largura_envelope_default', 'Envelopelargura', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_message('is_unique','Este valor já está cadastrado no banco.');
         $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
         $this->form_validation->set_rules('codigo', 'Código', 'trim|required|min_length[3]|max_length[20]|alpha_numeric_spaces|strtolower|check_white_spaces'.$is_unique);
