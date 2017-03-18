@@ -75,6 +75,17 @@ KEY `fk_personalizadoModeloDimensao_personalizadoModelo_idx` (`modelo`),
 CONSTRAINT `fk_personalizadoModeloDimensao_personalizadoModelo` FOREIGN KEY (`modelo`) REFERENCES `personalizado_modelo` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ADD COLUMN `dimensao` INT(11) UNSIGNED NOT NULL AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ADD INDEX `fk_personalizadoPapel_personalizadoModeloDimensao_idx` (`dimensao` ASC);
+ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ADD CONSTRAINT `fk_personalizadoPapel_personalizadoModeloDimensao`
+FOREIGN KEY (`dimensao`)
+REFERENCES `cgolin_localhost`.`personalizado_modelo_dimensao` (`id`)
+ON DELETE RESTRICT
+ON UPDATE RESTRICT;
 
 
 

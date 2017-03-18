@@ -130,13 +130,8 @@ class Container_papel_m extends CI_Model {
           3: Verifico o valor total de papeis e divido pela quantidade do pedido e retorno este valor
          */
         //verifica qual variavel do convite_modelo usar
-        if ($this->owner == 'cartao') {
-            $altura = $dimensao->altura;
-            $largura = $dimensao->largura;
-        } else if ($this->owner == 'envelope') {
-            $altura = $dimensao->altura;
-            $largura = $dimensao->largura;
-        }
+        $altura = $dimensao->altura;
+        $largura = $dimensao->largura;
         if ($this->empastamento->adicionar == 1) {
             $altura += $modelo->empastamento_borda;
             $largura += $modelo->empastamento_borda;
@@ -146,12 +141,28 @@ class Container_papel_m extends CI_Model {
         return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
     }
 
+    private function calcula_valor_unitario_personalizado($modelo, $dimensao, $qtd) {
+        $altura = $dimensao->altura;
+        $largura = $dimensao->largura;
+        /*
+        if ($this->empastamento->adicionar == 1) {
+            $altura += $modelo->empastamento_borda;
+            $largura += $modelo->empastamento_borda;
+        }
+        */
+        //calcula a quantidade total de papeis para o pedido arredondando para cima
+        $qtd_papeis = ceil($qtd / $this->calcula_formato($altura, $largura));
+        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
+    }
+
+    /*
     private function calcula_valor_unitario_personalizado($modelo, $qtd) {
         //calcula a quantidade total de papeis para o pedido arredondando para cima
         $qtd_papeis = ceil($qtd / $modelo->formato);
 
         return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
     }
+    */
 
     public function calcula_valor_total($qtd, $valor_unitario) {
 
@@ -338,7 +349,11 @@ class Container_papel_m extends CI_Model {
             $object->id = $value['id'];
             $object->papel = $this->Papel_m->get_by_id($value['papel']);
             $object->papel->set_papel_gramatura_and_valor($value['gramatura'], $value['valor']);
-            $object->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($value['dimensao']);
+            if($owner == 'personalizado'){
+                $object->dimensao = $this->Personalizado_modelo_dimensao_m->get_by_id($value['dimensao']);
+            }else{
+                $object->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($value['dimensao']);
+            }
             $object->owner = $owner;
             $object->quantidade = $value['quantidade'];
 

@@ -148,7 +148,11 @@ class Container_m extends CI_Model {
         //busca o papel pelo id
         $container_papel = new Container_papel_m();
         $container_papel->papel = $this->Papel_m->get_by_id($id);
-        $container_papel->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($dimensao);
+        if($owner == 'personalizado'){
+            $container_papel->dimensao = $this->Personalizado_modelo_dimensao_m->get_by_id($dimensao);
+        }else{
+            $container_papel->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($dimensao);
+        }
         $container_papel->papel->set_papel_gramatura($gramatura);
         $container_papel->quantidade = $quantidade;
         //$container_papel->gramatura = $gramatura;

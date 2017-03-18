@@ -43,6 +43,7 @@ class Orcamento extends CI_Controller {
         $this->load->model('Personalizado_m');
         $this->load->model('Personalizado_modelo_m');
         $this->load->model('Personalizado_categoria_m');
+        $this->load->model('Personalizado_modelo_dimensao_m');
 
         //Materia Prima Convite
         $this->load->model('Papel_m');
