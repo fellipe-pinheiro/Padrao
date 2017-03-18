@@ -653,12 +653,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="forma_pagamento" class="control-label">Forma de pagamento:</label>
-                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus onchange="get_quantidade_parcelas()">
+                                    <select name="forma_pagamento" id="forma_pagamento" class="form-control selectpicker" autofocus onchange="get_quantidade_parcelas()" data-show-subtext="true">
                                         <option value="" selected >Selecione</option>
                                         <?php
                                         foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
                                             ?>
-                                            <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>"><?= $forma_pagamento->nome ?></option>
+                                            <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>" data-subtext="(Max <?=$forma_pagamento->parcelamento_maximo?>x - Min R$ <?=$forma_pagamento->valor_minimo?>)"><?= $forma_pagamento->nome ?></option>
                                             <?php
                                         }
                                         ?>

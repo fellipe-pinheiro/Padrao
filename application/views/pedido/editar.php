@@ -679,12 +679,12 @@ $loja = $orcamento->loja;
                                     <!-- Forma de pagamento -->
                                     <div class="form-group">
                                         <?= form_label('Forma de pagamento: ', 'forma_pagamento', array('class' => 'control-label')) ?>
-                                        <select name="forma_pagamento" id="forma_pagamento" class="form-control"  autofocus onchange="get_quantidade_parcelas()">
+                                        <select name="forma_pagamento" id="forma_pagamento" class="form-control selectpicker"  autofocus onchange="get_quantidade_parcelas()" data-show-subtext="true">
                                             <option value="" selected >Selecione</option>
                                             <?php
                                             foreach ($dados['forma_pagamento'] as $key => $forma_pagamento) {
                                                 ?>
-                                                <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>"><?= $forma_pagamento->nome ?></option>
+                                                <option value="<?= $forma_pagamento->id ?>" data-parcelamento_maximo="<?=$forma_pagamento->parcelamento_maximo?>" data-valor_minimo="<?=$forma_pagamento->valor_minimo?>" data-subtext="(Max <?=$forma_pagamento->parcelamento_maximo?>x - Min R$ <?=$forma_pagamento->valor_minimo?>)"><?= $forma_pagamento->nome ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -1360,21 +1360,23 @@ $loja = $orcamento->loja;
         var parcelamento_maximo = $("#forma_pagamento").find(':selected').data('parcelamento_maximo');
         var valor_minimo = $("#forma_pagamento").find(':selected').data('valor_minimo');
         var qtd_parcelas = $("#qtd_parcelas option:selected").val();
-
         var total = 0;
         var valor_parcela = 0;
         var data = [];
         total = numberFormat($('#th-adicional-total_a_pagar')[0].innerText);
-
         $('#qtd_parcelas').find('option').remove().end().append('<option value="" selected disabled>Selecione</option>');
-        for (var i = 1; i <= parcelamento_maximo; i++) {
-            valor_parcela = total / i;
-            if(valor_parcela < valor_minimo){
-                break;
+        if(valor_minimo < total){
+            for (var i = 1; i <= parcelamento_maximo; i++) {
+                valor_parcela = total / i;
+                if(valor_parcela < valor_minimo){
+                    break;
+                }
+                valor_parcela = parseFloat(valor_parcela).toFixed(2);
+                valor_parcela = valor_parcela.replace(".", ",");
+                data.push({"value": i, "text": i + " x R$ " + valor_parcela});
             }
-            valor_parcela = parseFloat(valor_parcela).toFixed(2);
-            valor_parcela = valor_parcela.replace(".", ",");
-            data.push({"value": i, "text": i + " x R$ " + valor_parcela});
+        }else{
+            data.push({"value": 1, "text": 1 + " x R$ " + total});
         }
         $.each(data, function (i, item) {
             $("#qtd_parcelas").append($('<option>', {

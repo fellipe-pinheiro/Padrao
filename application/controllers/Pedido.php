@@ -43,6 +43,7 @@ class Pedido extends CI_Controller {
         $this->load->model('Personalizado_m');
         $this->load->model('Personalizado_modelo_m');
         $this->load->model('Personalizado_categoria_m');
+        $this->load->model('Personalizado_modelo_dimensao_m');
 
         //Materia Prima Convite
         $this->load->model('Papel_m');
@@ -750,13 +751,19 @@ class Pedido extends CI_Controller {
         $valor_total = $this->session->orcamento->calcula_total();
         $data = array();
 
-        for ($i = 1; $i <= $qtd_parcelas; $i++) {
-            $valor_parcela = $valor_total / $i;
-            if($valor_parcela < $valor_minimo){
-                break;   
+        if($valor_minimo < $valor_total){
+            for ($i = 1; $i <= $qtd_parcelas; $i++) {
+                $valor_parcela = $valor_total / $i;
+                if($valor_parcela < $valor_minimo){
+                    break;   
+                }
+                $temp["value"] = $i;
+                $temp["text"] = $i . " x R$ " . decimal_to_form($valor_parcela);
+                $data[] = $temp;
             }
-            $temp["value"] = $i;
-            $temp["text"] = $i . " x R$ " . decimal_to_form($valor_parcela);
+        }else{
+            $temp["value"] = 1;
+            $temp["text"] = "1 x R$ " . decimal_to_form($valor_total);
             $data[] = $temp;
         }
         print json_encode($data);
