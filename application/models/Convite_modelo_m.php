@@ -109,8 +109,7 @@ class Convite_modelo_m extends CI_Model {
             $object->id = $value['id'];
             $object->codigo = $value['codigo'];
             $object->nome = $value['nome'];
-            //$object->dimensoes = $this->Convite_modelo_dimensao_m->get_by_modelo_id($object->id);
-            $object->dimensoes = array(); // o array está sendo preenchido no conttroller convite/ajax_session_carregar_dimensoes
+            $object->dimensoes = $this->Convite_modelo_dimensao_m->get_by_modelo_id($object->id);
             $object->empastamento_borda = $value['empastamento_borda'];
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];

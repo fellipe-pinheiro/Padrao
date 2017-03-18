@@ -156,8 +156,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_altura_final_default" id="dimensao_altura_final_default" class="form-control" placeholder="Altura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">A</span>
+                                        <input step="1" type="number" min="0" name="dimensao_altura_final_default" id="dimensao_altura_final_default" class="form-control"  title="Altura" placeholder="Altura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -166,8 +167,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_largura_final_default" id="dimensao_largura_final_default" class="form-control" placeholder="Largura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">L</span>
+                                        <input step="1" type="number" min="0" name="dimensao_largura_final_default" id="dimensao_largura_final_default" class="form-control" title="Largura" placeholder="Largura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -190,8 +192,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_altura_cartao_default" id="dimensao_altura_cartao_default" class="form-control" placeholder="Altura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">A</span>
+                                        <input step="1" type="number" min="0" name="dimensao_altura_cartao_default" id="dimensao_altura_cartao_default" class="form-control"  title="Altura" placeholder="Altura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -200,8 +203,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_largura_cartao_default" id="dimensao_largura_cartao_default" class="form-control" placeholder="Largura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">L</span>
+                                        <input step="1" type="number" min="0" name="dimensao_largura_cartao_default" id="dimensao_largura_cartao_default" class="form-control" title="Largura" placeholder="Largura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -224,8 +228,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_altura_envelope_default" id="dimensao_altura_envelope_default" class="form-control" placeholder="Altura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">A</span>
+                                        <input step="1" type="number" min="0" name="dimensao_altura_envelope_default" id="dimensao_altura_envelope_default" class="form-control"  title="Altura" placeholder="Altura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -234,8 +239,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="dimensao_largura_envelope_default" id="dimensao_largura_envelope_default" class="form-control" placeholder="Largura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">L</span>
+                                        <input step="1" type="number" min="0" name="dimensao_largura_envelope_default" id="dimensao_largura_envelope_default" class="form-control" title="Largura" placeholder="Largura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -258,8 +264,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="" id="default_altura_input" class="form-control" placeholder="Altura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">A</span>
+                                        <input step="1" type="number" min="0" name="" id="default_altura_input" class="form-control"  title="Altura" placeholder="Altura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -267,8 +274,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <input step="1" type="number" min="0" name="" id="default_largura_input" class="form-control" placeholder="Largura ex: 320">
-                                        <div class="input-group-addon">mm</div>
+                                        <span class="input-group-addon">L</span>
+                                        <input step="1" type="number" min="0" name="" id="default_largura_input" class="form-control" title="Largura" placeholder="Largura ex: 320">
+                                        <span class="input-group-addon">mm</span>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -557,6 +565,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 preenchido = true;
             }
         });
+        if(nome == ""){
+            nome = $("#"+id+" input").val();
+        }
 
         if(!preenchido){
             do_remove_dimensao(id,editar);
