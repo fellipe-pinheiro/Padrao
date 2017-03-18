@@ -7,15 +7,15 @@ class Personalizado_modelo_m extends CI_Model {
     var $id;
     var $codigo;
     var $nome;
+    var $dimensoes; // Array de Objetos Personalizado_modelo_dimensao_m
     var $personalizado_categoria;
-    var $formato;
     var $descricao;
     var $valor;
     var $ativo;
     // Ajax 
     var $table = 'personalizado_modelo as pm';
-    var $column_order = array('pm.id','pm.personalizado_categoria','pc.nome','pm.nome','pm.codigo','pm.formato', 'pm.descricao', 'pm.valor','pm.ativo');
-    var $column_search = array('pm.id','pm.personalizado_categoria','pc.nome','pm.nome','pm.codigo','pm.formato', 'pm.descricao', 'pm.valor','pm.ativo'); 
+    var $column_order = array('pm.id','pm.personalizado_categoria','pc.nome','pm.nome','pm.codigo', 'pm.descricao', 'pm.valor','pm.ativo');
+    var $column_search = array('pm.id','pm.personalizado_categoria','pc.nome','pm.nome','pm.codigo', 'pm.descricao', 'pm.valor','pm.ativo'); 
     var $order = array('pm.id'=>'asc');
 
     private function get_datatables_query() {
@@ -24,7 +24,6 @@ class Personalizado_modelo_m extends CI_Model {
             pm.personalizado_categoria as pm_personalizado_categoria,
             pm.codigo as pm_codigo,
             pm.nome as pm_nome,
-            pm.formato as pm_formato,
             pm.descricao as pm_descricao,
             pm.ativo as pm_ativo,
             CONCAT("R$ ", format(pm.valor,2,"pt_BR")) as pm_valor,
@@ -122,7 +121,7 @@ class Personalizado_modelo_m extends CI_Model {
             $object->id = $value['id'];
             $object->codigo = $value['codigo'];
             $object->nome = $value['nome'];
-            $object->formato = $value['formato'];
+            $object->dimensoes = $this->Personalizado_modelo_dimensao_m->get_by_modelo_id($object->id);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object->personalizado_categoria = $this->Personalizado_categoria_m->get_by_id($value['personalizado_categoria']);

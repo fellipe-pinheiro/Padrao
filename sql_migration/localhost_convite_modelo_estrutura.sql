@@ -46,8 +46,8 @@ ALTER TABLE `cgolin_localhost`.`cartao_papel`
 ADD CONSTRAINT `fk_cartaoPapel_conviteModeloDimensao`
 FOREIGN KEY (`dimensao`)
 REFERENCES `cgolin_localhost`.`convite_modelo_dimensao` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+ON DELETE RESTRICT
+ON UPDATE RESTRICT;
 
 ALTER TABLE `cgolin_localhost`.`envelope_papel` 
 ADD COLUMN `dimensao` INT(11) UNSIGNED NOT NULL DEFAULT 2 AFTER `papel`;
@@ -61,6 +61,19 @@ REFERENCES `cgolin_localhost`.`convite_modelo_dimensao` (`id`)
 ON DELETE RESTRICT
 ON UPDATE RESTRICT;
 
+ALTER TABLE `cgolin_localhost`.`personalizado_modelo` 
+DROP COLUMN `formato`;
+
+CREATE TABLE `personalizado_modelo_dimensao` (
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`nome` varchar(50) NOT NULL,
+`modelo` int(11) unsigned NOT NULL,
+`altura` int(5) NOT NULL,
+`largura` int(5) NOT NULL,
+PRIMARY KEY (`id`),
+KEY `fk_personalizadoModeloDimensao_personalizadoModelo_idx` (`modelo`),
+CONSTRAINT `fk_personalizadoModeloDimensao_personalizadoModelo` FOREIGN KEY (`modelo`) REFERENCES `personalizado_modelo` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 

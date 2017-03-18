@@ -65,7 +65,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Categoria</th>
                                             <th>Nome</th>
                                             <th>Código</th>
-                                            <th>Formato</th>
                                             <th>Descrição</th>
                                             <th>Valor</th>
                                             <th>Ativo</th>
@@ -111,6 +110,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                     <h4 class="modal-title">Personalizado modelo</h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-papel-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-papel-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" id="add_dimensoes"><i class="glyphicon glyphicon-plus"></i> Dimensões</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
                     <fieldset>
                         <!--ID-->
@@ -127,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="row">
                             <!--personalizado_categoria-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="personalizado_categoria" class="control-label">Categoria:</label>
                                     <select name="personalizado_categoria" id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" required="required" autofocus>
@@ -137,39 +158,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <!--nome-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
                                     <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do modelo" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <!--codigo-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="codigo" class="control-label">Código:</label>
                                     <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,20}$">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <!--formato-->
-                            <div class="col-sm-4">
-                                <div class="form-group input-padding">
-                                    <label for="formato" class="control-label">Formato:</label>
-                                    <input type="number" name="formato" id="formato" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="999" placeholder="Aproveitamento do papel">
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
                             <!--valor-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="valor" class="control-label">Valor:</label>
                                     <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                        </div>
+                        <!--Personalizado Modelo Dimensão-->
+                        <div class="hidden" id="default_dimensao_div">
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" id="default_button_excluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>
+                                        <input type="text" name="" id="default_nome_input" class="form-control" placeholder="Nome">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">A</span>
+                                        <input step="1" type="number" min="0" name="" id="default_altura_input" class="form-control" placeholder="Altura ex: 320" title="Altura">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">L</span>
+                                        <input step="1" type="number" min="0" name="" id="default_largura_input" class="form-control" placeholder="Largura ex: 320" title="Largura">
+                                        <div class="input-group-addon">mm</div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div id="lista_dimensoes" class="row">
                         </div>
                         <div class="row">
                             <!--Descrição-->
@@ -260,6 +310,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var url_update;
     var form;
     var categoria_atualizar = true;
+    var count_dimensoes = 0;
+    var total_dimensao = 0;
 
     $(document).ready(function() {
         tb_personalizado_modelo = $("#tb_personalizado_modelo").DataTable({
@@ -321,7 +373,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "personalizado_categoria","visible": true},
                 {data: "nome","visible": true},
                 {data: "codigo","visible": true},
-                {data: "formato","visible": true},
                 {data: "descricao","visible": false},
                 {data: "valor","visible": true},
                 {data: "ativo","visible": false},
@@ -418,10 +469,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             if(tab_active === "#tab_personalizado_modelo"){
                 ajax_carregar_personalizado_categoria();
             }
-
+            $("#add_dimensoes").click();
             save_method = 'add';
             $("input[name='id']").val("");
             $('.modal-title').text('Adicionar' + modal_title);
+            total_dimensao = $(".dimensao_group").length;
             $(md_form).modal('show');
         });
         $("#editar").click(function () {
@@ -461,6 +513,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }else{
                                 $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                             }
+                        }else if(index == 'dimensoes'){
+                            $.each(value,function(i, dimensoes) {
+                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.altura,dimensoes.largura); 
+                            });
                         }
                     });
                     $(md_form).modal('show');
@@ -469,7 +525,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao buscar os dados');
-                }
+                },
+                complete: function ()
+                {
+                    total_dimensao = $(".dimensao_group").length;
+                },
             });
         });
         $("#deletar").click(function () {
@@ -479,6 +539,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             var id = dataTable.row(".selected").id();
             var nome = dataTable.row(".selected").data().nome;
+            console.log(nome);
             $.confirm({
                 title: 'Atenção!',
                 content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
@@ -517,8 +578,89 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             formulario_submit(e);
         });
+        $("#add_dimensoes").click(function(){
+            count_dimensoes++;
+            total_dimensao++;
+            clonar_dimensoes(false,count_dimensoes+"_ADD","","","");
+        });
         form_small();
     });
+    
+    function clonar_dimensoes(editar,id,nome,altura,largura){//ID = 1_ADD
+        var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');
+        var cl = clone[0];
+
+        // adicionar função para deletar a linha
+        $(cl).find("#default_button_excluir").prop("id","excluir_dimensao_"+id).attr("onclick","remover_dimensao('dimensao_"+id+"',"+editar+",'"+nome+"');");
+
+        // Alterar id, name, for(label) e adicionar required
+        $($(cl).find("#default_nome_input")).prop("id","nome_"+id).prop("name","dimensao_nome_"+id).val(nome).prop("required","required");
+
+        $($(cl).find("#default_altura_input")).prop("id","altura_"+id).prop("name","dimensao_altura_"+id).val(altura).prop("required","required");
+
+        $($(cl).find("#default_largura_input")).prop("id","largura_"+id).prop("name","dimensao_largura_"+id).val(largura).prop("required","required");
+
+        clone.appendTo("#lista_dimensoes");
+    }
+
+    function remover_dimensao(id,editar,nome) {
+        var preenchido = false;
+        $.each($("#"+id+" input"), function(index, element) {
+            if(element.value){
+                preenchido = true;
+            }
+        });
+        if(nome == ""){
+            nome = $("#"+id+" input").val();
+        }
+
+        if(!preenchido){
+            do_remove_dimensao(id,editar);
+        }else{
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o item <strong>' + nome + '</strong>?',
+                confirm: function(){
+                    do_remove_dimensao(id,editar);
+                },
+                cancel: function(){
+                }
+            });
+        }
+    }
+
+    function do_remove_dimensao(id,editar) {
+        if(total_dimensao === 1){
+            $.alert({
+                title: 'Alerta!',
+                content: 'O personalizado precisa ter pelo menos uma dimensão.',
+            });
+            return false;
+        }else{
+            total_dimensao--;
+        }
+        if (!editar) {
+            $("#"+id).remove();
+        } else {
+            var arr_nome = new Array();
+            var arr_valor = new Array();
+            var arr_ativo = new Array();
+            // editar o name dos campos
+            var name_nome = $("#"+id+" input")[0].name;
+            arr_nome = name_nome.split("_");
+            $("#"+id+" input")[0].name = arr_nome[0] + "_" + arr_nome[1] + "_" + arr_nome[2]+ "_DEL";
+           
+            var name_altura = $("#"+id+" input")[1].name;
+            arr_altura = name_altura.split("_");
+            $("#"+id+" input")[1].name = arr_altura[0] + "_" + arr_altura[1] + "_" + arr_altura[2]+ "_DEL";
+
+            var  name_largura = $("#"+id+" input")[2].name;
+            arr_largura = name_largura.split("_");
+            $("#"+id+" input")[2].name = arr_largura[0] + "_" + arr_largura[1] + "_" + arr_largura[2]+ "_DEL";
+
+            $("#"+id).hide();
+        }
+    }
 
     function ajax_carregar_personalizado_categoria(editar = false,id_categoria = null) {
         if(categoria_atualizar){
@@ -663,7 +805,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function reset_form() {
         $(form)[0].reset();
+        $('#form_personalizado_modelo :input').val(''); //para limpar os inputs hidden (só com o reset não está limpando o valor)
+        $(':checkbox').val('1'); // como limpei com ($(':input').val('');), recoloco o valor do input checkbox para 1
         reset_errors();
+        $("#lista_dimensoes").html("");
     }
 
 </script>
