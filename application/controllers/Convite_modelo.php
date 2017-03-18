@@ -178,31 +178,34 @@ class Convite_modelo extends CI_Controller {
 
         $dados_lista = array();
         // dados fixos
-        // Dimensao final
+        // Dimensao final = 0
         $dados_lista[]["DEFAULT"] = array(
             'id' => empty($this->input->post("dimensao_id_final_default")) ? null : $this->input->post("dimensao_id_final_default"),
             'modelo' => $id_modelo,
             'nome' => 'Dimensão Final',
             'altura' =>$this->input->post("dimensao_altura_final_default"),
             'largura' => $this->input->post("dimensao_largura_final_default"),
+            'destino' => 0,
             );
-        // Cartao
+        // Cartao = 1
         $dados_lista[]["DEFAULT"] = array(
             'id' => empty($this->input->post("dimensao_id_cartao_default")) ? null : $this->input->post("dimensao_id_cartao_default"),
             'modelo' => $id_modelo,
             'nome' => 'Cartão',
             'altura' =>$this->input->post("dimensao_altura_cartao_default"),
             'largura' => $this->input->post("dimensao_largura_cartao_default"),
+            'destino' => 1,
             );
-        // Envelope
+        // Envelope = 2
         $dados_lista[]["DEFAULT"] = array(
             'id' => empty($this->input->post("dimensao_id_envelope_default")) ? null : $this->input->post("dimensao_id_envelope_default"),
             'modelo' => $id_modelo,
             'nome' => 'Envelope',
             'altura' =>$this->input->post("dimensao_altura_envelope_default"),
             'largura' => $this->input->post("dimensao_largura_envelope_default"),
+            'destino' => 2,
             );
-        // Dados variaveis
+        // Dados variaveis = -1
         foreach ($arr_dimensoes as $key => $value) {
             $dados = array(
             'id' => $value['id'],
@@ -210,6 +213,7 @@ class Convite_modelo extends CI_Controller {
             'nome' => $value['nome'],
             'altura' => $value['altura'],
             'largura' => $value['largura'],
+            'destino' => -1,
             );
             switch ($value['action']) {
                 case "ADD":

@@ -16,6 +16,7 @@ class Convite extends CI_Controller {
         $this->load->model('Container_acessorio_m');
         $this->load->model('Container_fita_m');
         $this->load->model('Convite_modelo_m');
+        $this->load->model('Convite_modelo_dimensao_m');
         $this->load->model('Mao_obra_m');
         $this->load->model('Assessor_m');
 
@@ -151,6 +152,35 @@ class Convite extends CI_Controller {
         exit();
     }
 
+    public function ajax_session_carregar_dimensoes(){
+        $data['status'] = FALSE;
+        $owner = $this->uri->segment(3);
+        $arr = array();
+        $this->dimensoes = $this->Convite_modelo_dimensao_m->get_by_modelo_id($this->session->convite->modelo->id);
+        switch ($owner) {
+            case 'cartao':
+                foreach ($this->dimensoes as $key => $value) {
+                    if($value->destino == '1' || $value->destino == '-1'){
+                        $arr[] = array('id'=>$value->id, 'nome'=>$value->nome);
+                    }
+                }
+                break;
+            case 'envelope':
+                foreach ($this->dimensoes as $key => $value) {
+                    if($value->destino == '2' || $value->destino == '-1'){
+                        $arr[] = array('id'=>$value->id, 'nome'=>$value->nome);
+                    }
+                }
+                break;
+        }
+        if(!empty($arr)){
+            $data['status'] = true;
+            $data['dimensoes'] = $arr;
+        }
+        print json_encode($data);
+        exit();
+    }
+
     private function validar_formulario_descricao(){
         $data = array();
         $data['status'] = TRUE;
@@ -258,6 +288,7 @@ class Convite extends CI_Controller {
     private function set_papel($owner){
         //Papel:
         $papel = $this->input->post('papel');
+        $dimensao = $this->input->post('dimensao');
         $gramatura = $this->input->post('gramatura');
         //$owner = $this->input->post('owner'); //variável inutilizada para teste. Recebendo desta vêz por parâmetro.
         //Empastamento:
@@ -310,7 +341,7 @@ class Convite extends CI_Controller {
         /*========================================================================================*/
         (!empty($empastamento_quantidade))? $quantidadePapel += $empastamento_quantidade:'';
         //busca o papel pelo id e seta a gramatura
-        $container = $this->Container_m->get_papel($owner,$papel,$quantidadePapel,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche);
+        $container = $this->Container_m->get_papel($owner,$papel,$dimensao,$quantidadePapel,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche);
         return $container;
     }
 
@@ -319,6 +350,7 @@ class Convite extends CI_Controller {
         $data['status'] = TRUE;
 
         $this->form_validation->set_rules('papel', 'Papel', 'required');
+        $this->form_validation->set_rules('dimensao', 'Destino', 'required');
         $this->form_validation->set_rules('gramatura', 'Gramatura', 'required');
         if(!empty($this->input->post('empastamento_adicionar'))){
             $this->form_validation->set_rules('empastamento_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');    

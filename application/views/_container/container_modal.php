@@ -14,21 +14,27 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<input type="hidden" name="owner" id="md_papel_container_owner" class="form-control">
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
+							<label for="form_select_dimensao" class="control-label">Destino:</label>
+							<select name="dimensao" id="form_select_dimensao" class="form-control" required>
+							</select>
+							<span class="help-block"></span>
+						</div>
+						<div class="form-group col-sm-3">
 							<label for="form_select_linha" class="control-label">Linha:</label>
 							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus required>
 								<option value="" selected>Selecione</option>
 							</select>
 							<span class="help-block"></span>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
 							<label for="papel" class="control-label">Papel:</label>
 							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel show-tick" data-live-search="true" required>
 								<option value="" selected>Selecione</option>
 							</select>
 							<span class="help-block"></span>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
 							<label for="gramatura" class="control-label">Gramatura:</label>
 							<select name="gramatura" id="form_select_gramatura" class="form-control" required>
 							</select>
@@ -363,7 +369,7 @@ $controller = $this->router->class;
 									<label for="espessura" class="control-label">Espessura:</label>
 									<select name="espessura" id="form_select_espessura" class="form-control" required>
 										<!-- configurados no controller do convite -->
-										<option value="" selected="selected" disabled="disabled">Selecione</option>
+										<option value="" selected="selected">Selecione</option>
 										<option value="3"><?=$dados['fita_espessura']->esp_03mm?></option>
 										<option value="7"><?=$dados['fita_espessura']->esp_07mm?></option>
 										<option value="10"><?=$dados['fita_espessura']->esp_10mm?></option>

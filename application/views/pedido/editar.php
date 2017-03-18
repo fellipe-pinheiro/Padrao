@@ -510,24 +510,24 @@ $loja = $orcamento->loja;
                                                         <td><?= $count ?></td>
                                                         <!-- Checkbox -->
                                                         <td class="form-group">
-                                                            <input type="checkbox" name="checkbox-adicional-convite-<?= $key ?>" id="checkbox-adicional-convite-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-convite-<?= $key ?>', '.desativar_linha-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>')">
+                                                            <input type="checkbox" data-group-cls="btn-group-sm" name="checkbox-adicional-convite-<?= $key ?>" id="checkbox-adicional-convite-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-convite-<?= $key ?>', '.desativar_linha-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td>Convite</td>
                                                         <td><?= $convite->modelo->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-convite-<?= $key ?>" id="data_entrega-adicional-convite-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $convite->cancelado ?> desativar_linha-convite-<?= $key ?>" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-convite-<?= $key ?>" id="data_entrega-adicional-convite-<?= $key ?>" class="form-control datetimepicker input-sm input-cancelado-<?= $convite->cancelado ?> desativar_linha-convite-<?= $key ?>" value="<?= $convite->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
                                                         <td class="form-group">
-                                                            <input type="number" name="qtd-adicional-convite-<?= $key ?>" id="qtd-adicional-convite-<?= $key ?>" class="form-control input_qtd desativar_linha-convite-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $convite->calcula_unitario() ?>, '#qtd-adicional-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>', '#valor_extra-adicional-convite-<?= $key ?>')">
+                                                            <input type="number" name="qtd-adicional-convite-<?= $key ?>" id="qtd-adicional-convite-<?= $key ?>" class="form-control input-sm input_qtd desativar_linha-convite-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $convite->calcula_unitario() ?>, '#qtd-adicional-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>', '#valor_extra-adicional-convite-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Valor Extra -->
                                                         <td class="form-group">
-                                                            <input type="number" name="valor_extra-adicional-convite-<?= $key ?>" id="valor_extra-adicional-convite-<?= $key ?>" class="form-control input_valor_extra desativar_linha-convite-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $convite->calcula_unitario() ?>, '#qtd-adicional-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>', '#valor_extra-adicional-convite-<?= $key ?>')">
+                                                            <input type="number" name="valor_extra-adicional-convite-<?= $key ?>" id="valor_extra-adicional-convite-<?= $key ?>" class="form-control input-sm input_valor_extra desativar_linha-convite-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $convite->calcula_unitario() ?>, '#qtd-adicional-convite-<?= $key ?>', '#td-sub_total-convite-<?= $key ?>', '#valor_extra-adicional-convite-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td>R$ <?= number_format($convite->calcula_unitario(), 2, ',', '.') ?></td>
@@ -545,24 +545,24 @@ $loja = $orcamento->loja;
                                                         <td><?= $count ?></td>
                                                         <!-- Checkbox -->
                                                         <td  class="form-group">
-                                                            <input type="checkbox" name="checkbox-adicional-personalizado-<?= $key ?>" id="checkbox-adicional-personalizado-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-personalizado-<?= $key ?>', '.desativar_linha-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>')">
+                                                            <input type="checkbox" data-group-cls="btn-group-sm" name="checkbox-adicional-personalizado-<?= $key ?>" id="checkbox-adicional-personalizado-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-personalizado-<?= $key ?>', '.desativar_linha-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td>Personalizado</td>
                                                         <td><?= $personalizado->modelo->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-personalizado-<?= $key ?>" id="data_entrega-adicional-personalizado-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $personalizado->cancelado ?> desativar_linha-personalizado-<?= $key ?>" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-personalizado-<?= $key ?>" id="data_entrega-adicional-personalizado-<?= $key ?>" class="form-control input-sm datetimepicker input-cancelado-<?= $personalizado->cancelado ?> desativar_linha-personalizado-<?= $key ?>" value="<?= $personalizado->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
                                                         <td class="form-group">
-                                                            <input type="number" name="qtd-adicional-personalizado-<?= $key ?>" id="qtd-adicional-personalizado-<?= $key ?>" class="form-control input_qtd desativar_linha-personalizado-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $personalizado->calcula_unitario() ?>, '#qtd-adicional-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>', '#valor_extra-adicional-personalizado-<?= $key ?>')">
+                                                            <input type="number" name="qtd-adicional-personalizado-<?= $key ?>" id="qtd-adicional-personalizado-<?= $key ?>" class="form-control input-sm input_qtd desativar_linha-personalizado-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $personalizado->calcula_unitario() ?>, '#qtd-adicional-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>', '#valor_extra-adicional-personalizado-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Valor Extra -->
                                                         <td class="form-group">
-                                                            <input type="number" name="valor_extra-adicional-personalizado-<?= $key ?>" id="valor_extra-adicional-personalizado-<?= $key ?>" class="form-control input_valor_extra desativar_linha-personalizado-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $personalizado->calcula_unitario() ?>, '#qtd-adicional-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>', '#valor_extra-adicional-personalizado-<?= $key ?>')">
+                                                            <input type="number" name="valor_extra-adicional-personalizado-<?= $key ?>" id="valor_extra-adicional-personalizado-<?= $key ?>" class="form-control input-sm input_valor_extra desativar_linha-personalizado-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $personalizado->calcula_unitario() ?>, '#qtd-adicional-personalizado-<?= $key ?>', '#td-sub_total-personalizado-<?= $key ?>', '#valor_extra-adicional-personalizado-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td>R$ <?= number_format($personalizado->calcula_unitario(), 2, ',', '.') ?></td>
@@ -580,24 +580,24 @@ $loja = $orcamento->loja;
                                                         <td><?= $count ?></td>
                                                         <!-- Checkbox -->
                                                         <td class="form-group">
-                                                            <input type="checkbox" name="checkbox-adicional-produto-<?= $key ?>" id="checkbox-adicional-produto-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-produto-<?= $key ?>', '.desativar_linha-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>')">
+                                                            <input type="checkbox" data-group-cls="btn-group-sm" name="checkbox-adicional-produto-<?= $key ?>" id="checkbox-adicional-produto-<?= $key ?>" class="checkbox-adicional" value="1" onchange="desativar_linha('#checkbox-adicional-produto-<?= $key ?>', '.desativar_linha-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td><?= $container->produto->produto_categoria->nome ?></td>
                                                         <td><?= $container->produto->nome ?></td>
                                                         <!-- Data de entrega -->
                                                         <td class="form-group">
-                                                            <input type="text" name="data_entrega-adicional-produto-<?= $key ?>" id="data_entrega-adicional-produto-<?= $key ?>" class="form-control datetimepicker input-cancelado-<?= $container->cancelado ?> desativar_linha-produto-<?= $key ?>" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
+                                                            <input type="text" name="data_entrega-adicional-produto-<?= $key ?>" id="data_entrega-adicional-produto-<?= $key ?>" class="form-control input-sm datetimepicker input-cancelado-<?= $container->cancelado ?> desativar_linha-produto-<?= $key ?>" value="<?= $container->data_entrega ?>" placeholder="dd/mm/yyyy">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Quantidade -->
                                                         <td class="form-group">
-                                                            <input type="number" name="qtd-adicional-produto-<?= $key ?>" id="qtd-adicional-produto-<?= $key ?>" class="form-control input_qtd desativar_linha-produto-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $container->calcula_unitario() ?>, '#qtd-adicional-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>', '#valor_extra-adicional-produto-<?= $key ?>')">
+                                                            <input type="number" name="qtd-adicional-produto-<?= $key ?>" id="qtd-adicional-produto-<?= $key ?>" class="form-control input-sm input_qtd desativar_linha-produto-<?= $key ?>" min="1" placeholder="qtd" onchange="calcula_sub_total(<?= $container->calcula_unitario() ?>, '#qtd-adicional-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>', '#valor_extra-adicional-produto-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <!-- Valor Extra -->
                                                         <td class="form-group">
-                                                            <input type="number" name="valor_extra-adicional-produto-<?= $key ?>" id="valor_extra-adicional-produto-<?= $key ?>" class="form-control input_valor_extra desativar_linha-produto-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $container->calcula_unitario() ?>, '#qtd-adicional-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>', '#valor_extra-adicional-produto-<?= $key ?>')">
+                                                            <input type="number" name="valor_extra-adicional-produto-<?= $key ?>" id="valor_extra-adicional-produto-<?= $key ?>" class="form-control input-sm input_valor_extra desativar_linha-produto-<?= $key ?>" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcula_sub_total(<?= $container->calcula_unitario() ?>, '#qtd-adicional-produto-<?= $key ?>', '#td-sub_total-produto-<?= $key ?>', '#valor_extra-adicional-produto-<?= $key ?>')">
                                                             <span class="help-block"></span>
                                                         </td>
                                                         <td>R$ <?= number_format($container->calcula_unitario(), 2, ',', '.') ?></td>
@@ -620,7 +620,7 @@ $loja = $orcamento->loja;
                                                 <td></td>
                                                 <td><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="O valor será subtraido no final."></span> Descontos</td>
                                                 <td class="form-group">
-                                                    <input type="number" name="input-adicional-desconto" id="input-adicional-desconto" class="form-control input_desconto" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcular_total()">
+                                                    <input type="number" name="input-adicional-desconto" id="input-adicional-desconto" class="form-control input-sm input_desconto" step="0.01" min="0" placeholder="R$ 0,00" onchange="calcular_total()">
                                                     <span class="help-block"></span>
                                                 </td>
                                             </tr>

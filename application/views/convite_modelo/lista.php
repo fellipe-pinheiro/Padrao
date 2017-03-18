@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <div class="input-group">
-                                        <label for="dimensao_altura_cartao">Cartão</label>
+                                        <label for="dimensao_altura_cartao_default">Cartão</label>
                                         <input type="hidden" name="dimensao_id_cartao_default" id="dimensao_id_cartao_default" class="form-control">
                                     </div>
                                     <span class="help-block"></span>
@@ -417,18 +417,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }else if(index == 'dimensoes'){
                             $.each(value,function(i, dimensoes) {
-                                 switch (dimensoes.nome) {
-                                    case 'Dimensão Final':
+                                 switch (dimensoes.destino) {
+                                    case '0':
                                         $('[name="dimensao_id_final_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_final_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_final_default"]').val(dimensoes.largura);
                                         break;
-                                    case 'Cartão':
+                                    case '1':
                                         $('[name="dimensao_id_cartao_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_cartao_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_cartao_default"]').val(dimensoes.largura);
                                         break;
-                                    case 'Envelope':
+                                    case '2':
                                         $('[name="dimensao_id_envelope_default"]').val(dimensoes.id);
                                         $('[name="dimensao_altura_envelope_default"]').val(dimensoes.altura);
                                         $('[name="dimensao_largura_envelope_default"]').val(dimensoes.largura);

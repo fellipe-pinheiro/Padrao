@@ -109,9 +109,9 @@ $controller = $this->router->class;
 			$("#form_select_espessura").val('');
 			$.each(espessura, function(index, val) {
 				if(val==0){
-					$("#form_select_espessura option[value='"+index+"']").prop('disabled','disabled');
+					$("#form_select_espessura option[value='"+index+"']").hide();
 				}else{
-					$("#form_select_espessura option[value='"+index+"']").prop('disabled','');
+					$("#form_select_espessura option[value='"+index+"']").show();
 				}
 			});
 			if(!$("#form_select_espessura option[value='"+espessura_selected+"']")[0].disabled){
@@ -295,11 +295,12 @@ $controller = $this->router->class;
 		$('#almofada_quantidade').val(null);
 	}
 
-	function editar_papel_modal(owner,posicao,id_papel,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
+	function editar_papel_modal(owner,posicao,id_papel,id_dimensao,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		
 		ajax_carregar_papel_linha(true,id_linha);
 		ajax_carregar_papel(id_linha,true,id_papel);
 		ajax_carregar_gramatura(id_papel,true,id_gramatura);
+		ajax_session_carregar_dimensoes(owner,id_dimensao,true);
 		$("#md_papel_container_owner").val(owner);
 
 		/*====================================================================================*/
@@ -497,14 +498,17 @@ $controller = $this->router->class;
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
-		remove_form_select_option_papel();
+		//remove_form_select_option_papel();
+		limpar_select($('#form_select_papel'),true);
 		ajax_carregar_papel_linha();
+        ajax_session_carregar_dimensoes(owner);
 	}
 
 	function abrir_impressao_modal(owner){
 		reset_form("#form_md_impressao");
 		pre_submit("#form_md_impressao","<?=$controller?>/session_impressao_inserir/"+owner,"#md_impressao",owner);
-		remove_form_select_option_impressao();
+		//remove_form_select_option_impressao();
+		limpar_select($('#form_select_impressao'),true);
 		ajax_carregar_impressao_area();
 	}
 
@@ -524,9 +528,55 @@ $controller = $this->router->class;
 
 	function abrir_fita_modal(owner){
 		reset_form("#form_md_fita");
+		//$('#form_select_fita').selectpicker('val', '');
+		$('#form_select_fita').selectpicker('destroy');
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_inserir/"+owner,"#md_fita",owner);
-		remove_form_select_option_fita();
+		//remove_form_select_option_fita();
+		limpar_select($('#form_select_fita'));
 		ajax_carregar_fita_material();
+	}
+
+	function ajax_session_carregar_dimensoes(owner, id_dimensao = null,editar = false) {
+		var dimensao = $("#form_select_dimensao option:selected").val();
+		switch(owner) {
+		    case 'cartao':
+		    	url = '<?= base_url("convite/ajax_session_carregar_dimensoes/cartao")?>'
+		        break;
+		    case 'envelope':
+		        url = '<?= base_url("convite/ajax_session_carregar_dimensoes/envelope")?>'
+		        break;
+		    case 'personalizado':
+		        url = '<?= base_url("personalizado/ajax_session_carregar_dimensoes/personalizado")?>'
+		        break;
+		}
+		limpar_select($('#form_select_dimensao'),true);
+
+		$.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_dimensao'));
+			$.each(data.dimensoes, function(index, val) {
+				selected = false;
+				if(val.id == dimensao && !editar){
+					selected = true;
+				}else if(val.id == id_dimensao && editar){
+					selected = true;
+				}
+				$('#form_select_dimensao').append($('<option>', {
+				    value: val.id,
+				    text: val.nome,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+		});
 	}
 
 	function ajax_carregar_papel_linha(editar = false,id_linha = null) {
@@ -562,7 +612,9 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_papel(id_linha,editar = false, id_papel = null) {
-		remove_form_select_option_papel();
+		//remove_form_select_option_papel();
+		$('#form_select_papel').selectpicker('destroy');
+		limpar_select($('#form_select_papel'),true);
 		$.ajax({
 			url: '<?= base_url("papel/ajax_get_personalizado")?>',
 			type: 'GET',
@@ -570,6 +622,7 @@ $controller = $this->router->class;
 			data: {id_linha: id_linha}
 		})
 		.done(function(data) {
+			limpar_select($('#form_select_papel'));
 			$.each(data, function(index, val) {
 				$('#form_select_papel').append($('<option>', {
 				    value: val.id,
@@ -590,12 +643,7 @@ $controller = $this->router->class;
 
 	function ajax_carregar_gramatura(id,editar = false, id_gramatura = null) {
 		var gramatura = $("#form_select_gramatura option:selected").text();
-		$('#form_select_gramatura')
-		    .find('option')
-		    .remove()
-		    .end()
-		    .append('<option value="">Selecione</option>')
-		    .val('');
+		limpar_select($('#form_select_gramatura'), true);
 
 		$.ajax({
 			url: '<?= base_url("papel/ajax_get_personalizado_gramatura/")?>'+id,
@@ -603,7 +651,7 @@ $controller = $this->router->class;
 			dataType: 'json',
 		})
 		.done(function(data) {
-			//console.log(id_gramatura);
+			limpar_select($('#form_select_gramatura'));
 			$.each(data, function(index, val) {
 				selected = false;
 				if(val.gramatura == gramatura && !editar){
@@ -657,7 +705,8 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_impressao(id_area,editar = false, id_impressao = null) {
-		remove_form_select_option_impressao();
+		//remove_form_select_option_impressao();
+		limpar_select($('#form_select_impressao'),true);
 
 		$.ajax({
 			url: '<?= base_url("impressao/ajax_get_personalizado/")?>'+id_area,
@@ -665,7 +714,7 @@ $controller = $this->router->class;
 			dataType: 'json',
 		})
 		.done(function(data) {
-			console.log(data);
+			limpar_select($('#form_select_impressao'));
 			$.each(data, function(index, val) {
 				$('#form_select_impressao').append($('<option>', {
 				    value: val.id,
@@ -780,7 +829,8 @@ $controller = $this->router->class;
 	}
 
 	function ajax_carregar_fita(id_material,editar = false, id_fita = null) {
-		remove_form_select_option_fita();
+		//remove_form_select_option_fita();
+		limpar_select($('#form_select_fita'),true);
 		$.ajax({
 			url: '<?= base_url("fita/ajax_get_personalizado")?>',
 			type: 'GET',
@@ -788,7 +838,7 @@ $controller = $this->router->class;
 			data: {id_material: id_material}
 		})
 		.done(function(data) {
-			console.log(data);
+			limpar_select($('#form_select_fita'));
 			$.each(data, function(index, val) {
 				espessura = {3:val.valor_03mm,7:val.valor_07mm,10:val.valor_10mm,15:val.valor_15mm,22:val.valor_22mm,38:val.valor_38mm,50:val.valor_50mm,70:val.valor_70mm};
 				espessura = JSON.stringify(espessura);
@@ -1314,6 +1364,7 @@ $controller = $this->router->class;
         reset_errors();
     }
 
+    /*
     function remove_form_select_option_papel() {
     	$('#form_select_papel').selectpicker('destroy');
 		$('#form_select_papel')
@@ -1343,6 +1394,7 @@ $controller = $this->router->class;
 	    .append('<option value="">Selecione</option>')
 	    .val('');
 	}
+	*/
 
 	function remove_form_select_option_personalizado_modelo() {
 		$('#personalizado_modelo')

@@ -9,6 +9,7 @@ class Convite_modelo_dimensao_m extends CI_Model {
     var $modelo;
     var $altura;
     var $largura;
+    var $destino; //[0 = dimensao final] / [1= cartao]/ [2 = envelope] / [-1 = cartao/envelope]
 
     //var $selected = false; //boolean
 
@@ -81,6 +82,7 @@ class Convite_modelo_dimensao_m extends CI_Model {
             $object->modelo = $value['modelo'];
             $object->altura = $value['altura'];
             $object->largura = $value['largura'];
+            $object->destino = $value['destino'];
             $object_lista[] = $object;
         }
         return $object_lista;

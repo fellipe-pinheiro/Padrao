@@ -13,13 +13,13 @@ foreach ($arr as $key => $value) {
 		if($value == 'cartao'){
 			$session_owner = $this->session->convite->cartao;
 			$session_owner->owner = $value;
-			$panel_title = "Itens Cartão";
+			$panel_title = "Módulo Cartão";
 			$tabela_id = "tabela_cartao";
 			$drop = "dropdown";
 		}else if($value == 'envelope'){
 			$session_owner = $this->session->convite->envelope;
 			$session_owner->owner = $value;
-			$panel_title = "Itens Envelope";
+			$panel_title = "Módulo Envelope";
 			$tabela_id= "tabela_envelope";
 			$drop = "dropup";
 		}
@@ -27,7 +27,7 @@ foreach ($arr as $key => $value) {
 	if($controller == 'personalizado' && $value == 'personalizado'){
 		$session_owner = $this->session->personalizado->personalizado;
 		$session_owner->owner = $value;
-		$panel_title = "Itens personalizado";
+		$panel_title = "Módulo personalizado";
 		$tabela_id= "tabela_personalizado";
 		$drop = "dropdown";
 	}
@@ -54,7 +54,7 @@ foreach ($arr as $key => $value) {
 			                <div class="collapse navbar-collapse navbar-item-<?=$tabela_id?>">
 			                    <ul class="nav navbar-nav">
 			                        <li>
-			                        	<a onclick="abrir_papel_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_papel'><i class="glyphicon glyphicon-file"></i> Papel</a>
+			                        	<a onclick="abrir_papel_modal('<?=$session_owner->owner?>')" data-toggle="modal" data-modelo="" href='#md_papel'><i class="glyphicon glyphicon-file"></i> Papel</a>
 			                        </li>
 			                    </ul>
 			                    <ul class="nav navbar-nav">
@@ -109,13 +109,13 @@ foreach ($arr as $key => $value) {
 												<tr>
 													<td><?= $count = $count + 1 ?></td>
 													<td><span class="<?=$glyphicon?>"></span> <b>Papel</b></td>
-													<td><?=$container_papel->papel->papel_linha->nome?> <?=$container_papel->papel->nome?>, <?=$container_papel->papel->get_selected_papel_gramatura()->gramatura?>g</td>
+													<td><?=$container_papel->dimensao->nome?> : <?=$container_papel->papel->papel_linha->nome?> <?=$container_papel->papel->nome?>, <?=$container_papel->papel->get_selected_papel_gramatura()->gramatura?>g</td>
 													<td><?=$container_papel->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario($session_container->modelo,$session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$session_container->quantidade)), 2, ",", ".") ?>
+													<td>R$ <?= number_format($container_papel->calcula_valor_unitario($session_container->modelo, $container_papel->dimensao,$session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$container_papel->dimensao,$session_container->quantidade)), 2, ",", ".") ?>
 													</td>
 													<td>
-														<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel->papel->id?>,<?=$container_papel->papel->papel_linha->id?>,<?=$container_papel->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel->empastamento->adicionar?>,<?=$container_papel->empastamento->quantidade?>,<?=$container_papel->empastamento->cobrar_servico?>,<?=$container_papel->laminacao->adicionar?>,<?=$container_papel->laminacao->quantidade?>,<?=$container_papel->laminacao->cobrar_servico?>,<?=$container_papel->douracao->adicionar?>,<?=$container_papel->douracao->quantidade?>,<?=$container_papel->douracao->cobrar_servico?>,<?=$container_papel->corte_laser->adicionar?>,<?=$container_papel->corte_laser->quantidade?>,<?=$container_papel->corte_laser->cobrar_servico?>,<?=$container_papel->corte_laser->corte_laser_minutos?>,<?=$container_papel->relevo_seco->adicionar?>,<?=$container_papel->relevo_seco->quantidade?>,<?=$container_papel->relevo_seco->cobrar_servico?>,<?=$container_papel->relevo_seco->cobrar_faca_cliche?>,<?=$container_papel->corte_vinco->adicionar?>,<?=$container_papel->corte_vinco->quantidade?>,<?=$container_papel->corte_vinco->cobrar_servico?>,<?=$container_papel->corte_vinco->cobrar_faca_cliche?>,<?=$container_papel->almofada->adicionar?>,<?=$container_papel->almofada->quantidade?>,<?=$container_papel->almofada->cobrar_servico?>,<?=$container_papel->almofada->cobrar_faca_cliche?>)" id="" class="btn btn-default btn-sm">
+														<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel->papel->id?>,<?=$container_papel->dimensao->id?>,<?=$container_papel->papel->papel_linha->id?>,<?=$container_papel->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel->empastamento->adicionar?>,<?=$container_papel->empastamento->quantidade?>,<?=$container_papel->empastamento->cobrar_servico?>,<?=$container_papel->laminacao->adicionar?>,<?=$container_papel->laminacao->quantidade?>,<?=$container_papel->laminacao->cobrar_servico?>,<?=$container_papel->douracao->adicionar?>,<?=$container_papel->douracao->quantidade?>,<?=$container_papel->douracao->cobrar_servico?>,<?=$container_papel->corte_laser->adicionar?>,<?=$container_papel->corte_laser->quantidade?>,<?=$container_papel->corte_laser->cobrar_servico?>,<?=$container_papel->corte_laser->corte_laser_minutos?>,<?=$container_papel->relevo_seco->adicionar?>,<?=$container_papel->relevo_seco->quantidade?>,<?=$container_papel->relevo_seco->cobrar_servico?>,<?=$container_papel->relevo_seco->cobrar_faca_cliche?>,<?=$container_papel->corte_vinco->adicionar?>,<?=$container_papel->corte_vinco->quantidade?>,<?=$container_papel->corte_vinco->cobrar_servico?>,<?=$container_papel->corte_vinco->cobrar_faca_cliche?>,<?=$container_papel->almofada->adicionar?>,<?=$container_papel->almofada->quantidade?>,<?=$container_papel->almofada->cobrar_servico?>,<?=$container_papel->almofada->cobrar_faca_cliche?>)" id="" class="btn btn-default btn-sm">
 															<span class="glyphicon glyphicon-pencil"></span>
 														</button>
 													</td>

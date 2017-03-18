@@ -409,6 +409,16 @@ function close_loadingModal() {
     $('body').loadingModal('destroy');
 }
 
+function limpar_select(element_id,atualizar = false) {
+	if(atualizar){
+		element_id.find('option').remove().end();
+	    element_id.prepend($('<option></option>').html('Atualizando...'));	
+	}else{
+		element_id.find('option').remove().end().append('<option value="">Selecione</option>').val('');
+	}
+	
+}
+
 /*
 Adiciona tag <i> com a classe nos botões do dataTable
 initComplete: function (settings, json) {

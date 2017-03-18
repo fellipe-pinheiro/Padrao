@@ -144,10 +144,11 @@ class Container_m extends CI_Model {
         return $this->changeToObject($id, $owner);
     }
 
-    public function get_papel($owner, $id, $quantidade, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche) {
+    public function get_papel($owner, $id, $dimensao, $quantidade, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche) {
         //busca o papel pelo id
         $container_papel = new Container_papel_m();
         $container_papel->papel = $this->Papel_m->get_by_id($id);
+        $container_papel->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($dimensao);
         $container_papel->papel->set_papel_gramatura($gramatura);
         $container_papel->quantidade = $quantidade;
         //$container_papel->gramatura = $gramatura;
@@ -286,7 +287,7 @@ class Container_m extends CI_Model {
         $this->total = 0;
         if (!empty($this->container_papel)) {
             foreach ($this->container_papel as $key => $value) {
-                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($modelo, $qtd_pedido));
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($modelo, $value->dimensao, $qtd_pedido));
                 $this->total += $value->calcula_valor_total_empastamento($value->calcula_valor_unitario_empastamento($qtd_pedido), $value->empastamento->quantidade);
                 $this->total += $value->calcula_valor_total_laminacao($value->calcula_valor_unitario_laminacao($qtd_pedido), $value->laminacao->quantidade);
                 $this->total += $value->calcula_valor_total_douracao($value->calcula_valor_unitario_douracao($qtd_pedido), $value->douracao->quantidade);

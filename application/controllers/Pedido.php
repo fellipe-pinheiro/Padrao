@@ -30,6 +30,7 @@ class Pedido extends CI_Controller {
         //Sessão Convite
         $this->load->model('Convite_m');
         $this->load->model('Convite_modelo_m');
+        $this->load->model('Convite_modelo_dimensao_m');
         $this->load->model('Container_m');
         $this->load->model('Container_papel_m');
         $this->load->model('Container_papel_acabamento_m');
