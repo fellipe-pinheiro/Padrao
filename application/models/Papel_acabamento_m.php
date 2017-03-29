@@ -7,11 +7,12 @@ class Papel_acabamento_m extends CI_Model {
     var $id;
     var $nome;
     var $codigo;
+    var $qtd_minima;
     var $descricao;
     var $valor;
     // Ajax 
     var $table = 'papel_acabamento';
-    var $column_order = array('id', 'nome','codigo', 'descricao', 'valor');
+    var $column_order = array('id', 'nome','codigo','qtd_minima', 'descricao', 'valor');
     var $column_search = array('nome','codigo', 'descricao');
     var $order = array('id'=>'asc');
 
@@ -116,6 +117,7 @@ class Papel_acabamento_m extends CI_Model {
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->codigo = $value['codigo'];
+            $object->qtd_minima = $value['qtd_minima'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
         }

@@ -87,5 +87,78 @@ REFERENCES `cgolin_localhost`.`personalizado_modelo_dimensao` (`id`)
 ON DELETE RESTRICT
 ON UPDATE RESTRICT;
 
+ALTER TABLE `cgolin_localhost`.`papel_acabamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
 
+ALTER TABLE `cgolin_localhost`.`cartao_papel_almofada` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_corte_laser` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_corte_vinco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_douracao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_empastamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_faca` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_laminacao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`cartao_papel_relevo_seco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_almofada` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_corte_laser` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_corte_vinco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_douracao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_empastamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_faca` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_laminacao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`envelope_papel_relevo_seco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_almofada` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_corte_laser` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_corte_vinco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_douracao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_empastamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_faca` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_laminacao` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_papel_relevo_seco` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
 

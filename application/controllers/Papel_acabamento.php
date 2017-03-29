@@ -28,6 +28,7 @@ class Papel_acabamento extends CI_Controller {
                 'id' => $item->id,
                 'nome' => $item->nome,
                 'codigo' => $item->codigo,
+                'qtd_minima' => $item->qtd_minima,
                 'descricao' => $item->descricao,
                 'valor' => $item->valor,
                 );
@@ -85,6 +86,7 @@ class Papel_acabamento extends CI_Controller {
                 'id' => $this->input->post('id'),
                 'nome' => $this->input->post('nome'),
                 'descricao' => $this->input->post('descricao'),
+                'qtd_minima' => $this->input->post('qtd_minima'),
                 'valor' => decimal_to_db($this->input->post('valor'))
             );
         }else{
@@ -92,6 +94,7 @@ class Papel_acabamento extends CI_Controller {
                 'id' => null,
                 'nome' => $this->input->post('nome'),
                 'descricao' => $this->input->post('descricao'),
+                'qtd_minima' => $this->input->post('qtd_minima'),
                 'valor' => decimal_to_db($this->input->post('valor')),
                 'codigo' => $this->input->post('codigo')
             );
@@ -119,6 +122,7 @@ class Papel_acabamento extends CI_Controller {
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|numeric|decimal_positive');
+        $this->form_validation->set_rules('qtd_minima', 'Quantidade mínima', 'trim|required|numeric|is_natural_no_zero|no_leading_zeroes');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

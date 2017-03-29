@@ -118,6 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Código</th>
+                                            <th>Qtd Mínima</th>
                                             <th>Descrição</th>
                                             <th>Valor</th>
                                         </tr>
@@ -349,7 +350,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input type="hidden" name="id" class="form-control">
                         <div class="row">
                             <!--nome-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
                                     <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do acessório" pattern=".{1,50}" title="Máximo de 50 caracteres">
@@ -357,15 +358,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <!--codigo-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="codigo" class="control-label">Código:</label>
                                     <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,30}$">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                            <!--qtd_minima-->
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <label for="qtd_minima" class="control-label">Quantidade mínima:</label>
+                                    <input type="number" name="qtd_minima" id="qtd_minima" step="1" min="1" class="form-control" value="" required="required" title="Quantidade mínima" placeholder="Quantidade mínima">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                             <!--valor-->
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="valor" class="control-label">Valor:</label>
                                     <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
@@ -822,8 +831,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {data: "id","visible": true},
                         {data: "nome","visible": true},
                         {data: "codigo","visible": true},
+                        {data: "qtd_minima","visible": true},
                         {data: "descricao","visible": true},
-                        {data: "valor","visible": true}
+                        {data: "valor","visible": true},
                     ]
                 });
             }else {

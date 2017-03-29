@@ -202,10 +202,10 @@ class Container_papel_m extends CI_Model {
 
     public function calcula_valor_unitario_empastamento($qtd) {
         if ($this->empastamento->adicionar == 1 && $this->empastamento->cobrar_servico == 1) {
-            if ($qtd < 100) {
+            if ($qtd < $this->empastamento->papel_acabamento->qtd_minima) {
                 return round($this->empastamento->papel_acabamento->valor / $qtd, 2);
             } else {
-                return round($this->empastamento->papel_acabamento->valor / 100, 2);
+                return round($this->empastamento->papel_acabamento->valor / $this->empastamento->papel_acabamento->qtd_minima, 2);
             }
         }
         return 0;
@@ -218,10 +218,10 @@ class Container_papel_m extends CI_Model {
 
     public function calcula_valor_unitario_laminacao($qtd) {
         if ($this->laminacao->adicionar == 1 && $this->laminacao->cobrar_servico == 1) {
-            if ($qtd < 100) {
+            if ($qtd < $this->laminacao->papel_acabamento->qtd_minima) {
                 return round($this->laminacao->papel_acabamento->valor / $qtd, 2);
             } else {
-                return round($this->laminacao->papel_acabamento->valor / 100, 2);
+                return round($this->laminacao->papel_acabamento->valor / $this->laminacao->papel_acabamento->qtd_minima, 2);
             }
         }
         return 0;
@@ -235,10 +235,10 @@ class Container_papel_m extends CI_Model {
     //O papel tem que ter uma gramatura acima de x ou o papel tem que estar empastado...
     public function calcula_valor_unitario_douracao($qtd) {
         if ($this->douracao->adicionar == 1 && $this->douracao->cobrar_servico == 1) {
-            if ($qtd < 100) {
+            if ($qtd < $this->douracao->papel_acabamento->qtd_minima) {
                 return round($this->douracao->papel_acabamento->valor / $qtd, 2);
             } else {
-                return round($this->douracao->papel_acabamento->valor / 100, 2);
+                return round($this->douracao->papel_acabamento->valor / $this->douracao->papel_acabamento->qtd_minima, 2);
             }
         }
         return 0;
@@ -267,18 +267,18 @@ class Container_papel_m extends CI_Model {
         $valor = 0;
         if ($this->relevo_seco->adicionar == 1 && $this->relevo_seco->cobrar_servico == 1) {
             //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < 100) {
+            if ($qtd < $this->relevo_seco->papel_acabamento->qtd_minima) {
                 $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / 100, 2);
+                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->relevo_seco->papel_acabamento->qtd_minima, 2);
             }
         }
         if ($this->relevo_seco->adicionar == 1 && $this->relevo_seco->cobrar_faca_cliche == 1) {
             //Legenda: cobrar_faca_cliche é cobrar relevo_seco (valor do clichê)
-            if ($qtd < 100) {
+            if ($qtd < $this->relevo_seco->papel_acabamento->qtd_minima) {
                 $valor += round($this->relevo_seco->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor += round($this->relevo_seco->papel_acabamento->valor / 100, 2);
+                $valor += round($this->relevo_seco->papel_acabamento->valor / $this->relevo_seco->papel_acabamento->qtd_minima, 2);
             }
         }
         return $valor;
@@ -293,18 +293,18 @@ class Container_papel_m extends CI_Model {
         $valor = 0;
         if ($this->corte_vinco->adicionar == 1 && $this->corte_vinco->cobrar_servico == 1) {
             //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < 100) {
+            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
                 $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / 100, 2);
+                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
             }
         }
         if ($this->corte_vinco->adicionar == 1 && $this->corte_vinco->cobrar_faca_cliche == 1) {
             //Legenda: cobrar_faca_cliche é cobrar faca (valor da faca)
-            if ($qtd < 100) {
+            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
                 $valor += round($this->faca->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor += round($this->faca->papel_acabamento->valor / 100, 2);
+                $valor += round($this->faca->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
             }
         }
         return $valor;
@@ -319,19 +319,19 @@ class Container_papel_m extends CI_Model {
         $valor = 0;
         if ($this->almofada->adicionar == 1 && $this->almofada->cobrar_servico == 1) {
             //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < 100) {
+            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
                 $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / 100, 2);
+                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
             }
         }
         if ($this->almofada->adicionar == 1 && $this->almofada->cobrar_faca_cliche == 1) {
             //Legenda: cobrar_faca_cliche é cobrar faca (valor da faca)
-            if ($qtd < 100) {
+            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
                 // TODO O valor aqui pode ser o da faca ou almofada (Verificar qual usar)
                 $valor += round($this->almofada->papel_acabamento->valor / $qtd, 2);
             } else {
-                $valor += round($this->almofada->papel_acabamento->valor / 100, 2);
+                $valor += round($this->almofada->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
             }
         }
         return $valor;

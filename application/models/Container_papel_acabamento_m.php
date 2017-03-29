@@ -67,6 +67,7 @@ class Container_papel_acabamento_m extends CI_Model {
             'cobrar_faca_cliche' => $this->cobrar_faca_cliche,
             'corte_laser_minutos' => $this->corte_laser_minutos,
             'valor' => $this->papel_acabamento->valor,
+            'qtd_minima' => $this->papel_acabamento->qtd_minima,
         );
         return $dados;
     }
@@ -94,6 +95,7 @@ class Container_papel_acabamento_m extends CI_Model {
             $object->cobrar_servico = $value['cobrar_servico'];
             $object->cobrar_faca_cliche = $value['cobrar_faca_cliche'];
             $object->corte_laser_minutos = $value['corte_laser_minutos'];
+            $object->qtd_minima = $value['qtd_minima'];
         }
         return $object;
     }
