@@ -91,33 +91,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="row">
                             <!--nome-->
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Forma de pagamento:</label>
                                     <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Forma de pagamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <!-- parcelamento_maximo -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="parcelamento_maximo" class="control-label">Parcelamento máximo</label>
                                     <div class="input-group">
                                         <input type="number" step="1" min="1" class="form-control" name="parcelamento_maximo" id="parcelamento_maximo" placeholder="Ex: 12" value="">
-                                        <div class="input-group-addon">vezes</div>
+                                        <div class="input-group-addon">x</div>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <!-- valor_minimo -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
-                                    <label for="valor_minimo" class="control-label">Valor mínimo parcelamento</label>
+                                    <label for="valor_minimo" class="control-label">Valor mínimo parcel.</label>
                                     <div class="input-group">
+                                        <div class="input-group-addon">R$ </div>
                                         <input type="number" step="0.01" min="0" class="form-control" name="valor_minimo" id="valor_minimo" placeholder="Ex: 100,00" value="">
-                                        <div class="input-group-addon">reais</div>
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
