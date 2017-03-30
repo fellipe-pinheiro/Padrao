@@ -30,6 +30,7 @@ class Container_impressao_m extends CI_Model {
             'quantidade' => $this->quantidade,
             'descricao' => $this->descricao,
             'valor' => $this->impressao->valor,
+            'qtd_minima' => $this->impressao->qtd_minima,
         );
         if ($this->db->insert($tabela, $dados)) {
             $this->id = $this->db->insert_id();
@@ -63,10 +64,10 @@ class Container_impressao_m extends CI_Model {
 
     //CALCULA: valor unitário da impressao
     public function calcula_valor_unitario($qtd) {
-        if ($qtd < 100) {
+        if ($qtd < $this->impressao->qtd_minima) {
             return round($this->impressao->valor / $qtd, 2);
         }
-        return round($this->impressao->valor / 100, 2);
+        return round($this->impressao->valor / $this->impressao->qtd_minima, 2);
     }
 
     //CALCULA: valor total
@@ -82,6 +83,7 @@ class Container_impressao_m extends CI_Model {
             $object->id = $value['id'];
             $object->impressao = $this->Impressao_m->get_by_id($value['impressao']);
             $object->impressao->valor = $value['valor'];
+            $object->impressao->qtd_minima = $value['qtd_minima'];
             $object->owner = $owner;
             $object->quantidade = $value['quantidade'];
             $object->descricao = $value['descricao'];

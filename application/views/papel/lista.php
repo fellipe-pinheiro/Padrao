@@ -365,6 +365,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <!--qtd_minima-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">

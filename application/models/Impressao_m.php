@@ -7,12 +7,13 @@ class Impressao_m extends CI_Model {
     var $id;
     var $nome;
     var $impressao_area;
+    var $qtd_minima;
     var $descricao;
     var $valor;
     var $ativo;
     // Ajax 
     var $table = 'impressao as i';
-    var $column_order = array('i.id','i.nome', 'ia.nome','i.descricao','i.valor','i.ativo');
+    var $column_order = array('i.id','i.nome', 'ia.nome', 'i.qtd_minima','i.descricao','i.valor','i.ativo');
     var $column_search = array('i.nome', 'ia.nome','i.descricao');
     var $order = array('i.id'=>'asc');
 
@@ -20,6 +21,7 @@ class Impressao_m extends CI_Model {
         $this->db->select('
             i.id as i_id,
             i.nome as i_nome,
+            i.qtd_minima as i_qtd_minima,
             i.descricao as i_descricao,
             i.ativo as i_ativo,
             CONCAT("R$ ", format(valor,2,"pt_BR")) as i_valor,
@@ -116,6 +118,7 @@ class Impressao_m extends CI_Model {
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->impressao_area = $this->Impressao_area_m->get_by_id($value['impressao_area']);
+            $object->qtd_minima = $value['qtd_minima'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object->ativo = $value['ativo'];
