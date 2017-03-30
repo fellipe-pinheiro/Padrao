@@ -313,3 +313,8 @@ ALTER TABLE `cgolin_localhost`.`personalizado_acabamento`
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
 ALTER TABLE `cgolin_localhost`.`personalizado_acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+ALTER TABLE `cgolin_localhost`.`produto` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 20 AFTER `ativo`;
+ALTER TABLE `cgolin_localhost`.`produto` 
+CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;

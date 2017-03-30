@@ -1537,7 +1537,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#produto').append($('<option>', {
                     value: val.id,
                     text: val.nome
-                }));
+                }).attr('data-subtext', '( mínimo de ' + val.qtd_minima + ' )'));
             });
         })
         .fail(function() {

@@ -6,13 +6,14 @@ class Produto_m extends CI_Model {
 
     var $id;
     var $nome;
+    var $qtd_minima;
     var $produto_categoria;
     var $descricao;
     var $valor;
     var $ativo;
     // Ajax 
     var $table = 'produto as p';
-    var $column_order = array('p.id','pc.nome','p.nome','p.descricao','p.valor', 'p.ativo');
+    var $column_order = array('p.id','pc.nome','p.nome','p.qtd_minima','p.descricao','p.valor', 'p.ativo');
     var $column_search = array('p.id','pc.nome','p.nome','p.descricao','p.valor', 'p.ativo');
     var $order = array('p.id'=>'asc');
 
@@ -29,6 +30,7 @@ class Produto_m extends CI_Model {
         $this->db->select('
             p.id as p_id,
             p.nome as p_nome,
+            p.qtd_minima as p_qtd_minima,
             p.descricao as p_descricao,
             CONCAT("R$ ", format(p.valor,2,"pt_BR")) as p_valor,
             p.produto_categoria as p_produto_categoria,
@@ -129,6 +131,7 @@ class Produto_m extends CI_Model {
             $object = new Produto_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
+            $object->qtd_minima = $value['qtd_minima'];
             $object->produto_categoria = $this->Produto_categoria_m->get_by_id($value['produto_categoria']);
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];

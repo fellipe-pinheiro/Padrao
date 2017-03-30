@@ -32,6 +32,7 @@ class Produto extends CI_Controller {
                 'DT_RowId' => $item->p_id,
                 'id' => $item->p_id,
                 'nome' => $item->p_nome,
+                'qtd_minima' => $item->p_qtd_minima,
                 'produto_categoria' => $item->pc_nome,
                 'valor' => $item->p_valor,
                 'descricao' => $item->p_descricao,
@@ -93,7 +94,7 @@ class Produto extends CI_Controller {
 
     public function ajax_get_personalizado($id_categoria){
         $arr = array();
-        $arr = $this->Produto_m->get_pesonalizado($id_categoria,"id, nome");
+        $arr = $this->Produto_m->get_pesonalizado($id_categoria,"id, nome, qtd_minima");
         print json_encode($arr);
     }
 
@@ -101,6 +102,7 @@ class Produto extends CI_Controller {
         $dados = array(
             'id' => empty($this->input->post('id')) ? null:$this->input->post('id'),
             'nome' => $this->input->post('nome'),
+            'qtd_minima' => $this->input->post('qtd_minima'),
             'produto_categoria' => $this->input->post('produto_categoria'),
             'descricao' => $this->input->post('descricao'),
             'valor' => decimal_to_db($this->input->post('valor')),
@@ -113,6 +115,7 @@ class Produto extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('qtd_minima', 'Quantidade mínima', 'trim|required|numeric|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('produto_categoria', 'Produto categoria', 'trim|required');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
