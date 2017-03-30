@@ -49,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th>ID</th>
                                 <th>Nome</th>
+                                <th>Qtd Mínima</th>
                                 <th>Descrição</th>
                                 <th>Valor</th>
                                 <th>Ativo</th>
@@ -86,15 +87,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <!--nome-->
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group input-padding">
                                 <label for="nome" class="control-label">Nome:</label>
                                 <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome do acabamento" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                 <span class="help-block"></span>
                             </div>
                         </div>
+                        <!--qtd_minima-->
+                        <div class="col-sm-4">
+                            <div class="form-group input-padding">
+                                <label for="qtd_minima" class="control-label">Quantidade mínima:</label>
+                                <input type="number" name="qtd_minima" id="qtd_minima" step="1" min="1" class="form-control" value="" required="required" title="Quantidade mínima" placeholder="Quantidade mínima">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <!--valor-->
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group input-padding">
                                 <label for="valor" class="control-label">Valor:</label>
                                 <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" placeholder="Valor">
@@ -179,7 +188,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             columns: [
                 {data: "id","visible": false},
                 {data: "nome","visible": true},
-                {data: "descricao","visible": false},
+                {data: "qtd_minima", "visible": true, "orderable": false},
+                {data: "descricao","visible": false, "orderable": false},
                 {data: "valor","visible": true},
                 {data: "ativo","visible": true}
             ]

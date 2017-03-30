@@ -30,6 +30,7 @@ class Container_acabamento_m extends CI_Model {
             'quantidade' => $this->quantidade,
             'descricao' => $this->descricao,
             'valor' => $this->acabamento->valor,
+            'qtd_minima' => $this->acabamento->qtd_minima,
         );
         if ($this->db->insert($tabela, $dados)) {
             $this->id = $this->db->insert_id();
@@ -62,13 +63,10 @@ class Container_acabamento_m extends CI_Model {
 
     //CALCULA: valor unitário do acabamento
     public function calcula_valor_unitario($qtd_convite) {
-        /* Especificação: Se a quantidade do pedido for menor que 100, o valor será diluido para a quantidade solicitada.
-          O serviço é cobrado pelo cento (100)
-         */
-        if ($qtd_convite < 100) {
+        if ($qtd_convite < $this->acabamento->qtd_minima) {
             return round($this->acabamento->valor / $qtd_convite, 2);
         }
-        return round($this->acabamento->valor / 100, 2);
+        return round($this->acabamento->valor / $this->acabamento->qtd_minima, 2);
     }
 
     //CALCULA: valor total
@@ -84,6 +82,7 @@ class Container_acabamento_m extends CI_Model {
             $object->id = $value['id'];
             $object->acabamento = $this->Acabamento_m->get_by_id($value['acabamento']);
             $object->acabamento->valor = $value['valor'];
+            $object->acabamento->qtd_minima = $value['qtd_minima'];
             $object->owner = $owner;
             $object->quantidade = $value['quantidade'];
             $object->descricao = $value['descricao'];

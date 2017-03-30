@@ -274,20 +274,42 @@ ON UPDATE RESTRICT;
 
 ALTER TABLE `orcas394_db_dev`.`impressao` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `ativo`;
-ALTER TABLE `cgolin_localhost`.`impressao` 
+ALTER TABLE `orcas394_db_dev`.`impressao` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`cartao_impressao` 
+ALTER TABLE `orcas394_db_dev`.`cartao_impressao` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`cartao_impressao` 
+ALTER TABLE `orcas394_db_dev`.`cartao_impressao` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`envelope_impressao` 
+ALTER TABLE `orcas394_db_dev`.`envelope_impressao` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`envelope_impressao` 
+ALTER TABLE `orcas394_db_dev`.`envelope_impressao` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`personalizado_impressao` 
+ALTER TABLE `orcas394_db_dev`.`personalizado_impressao` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`personalizado_impressao` 
+ALTER TABLE `orcas394_db_dev`.`personalizado_impressao` 
+CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+
+
+ALTER TABLE `orcas394_db_dev`.`acabamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `ativo`;
+ALTER TABLE `orcas394_db_dev`.`acabamento` 
+CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+ALTER TABLE `cgolin_localhost`.`cartao_acabamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+ALTER TABLE `cgolin_localhost`.`cartao_acabamento` 
+CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+ALTER TABLE `cgolin_localhost`.`envelope_acabamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+ALTER TABLE `cgolin_localhost`.`envelope_acabamento` 
+CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+ALTER TABLE `cgolin_localhost`.`personalizado_acabamento` 
+ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
+ALTER TABLE `cgolin_localhost`.`personalizado_acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
