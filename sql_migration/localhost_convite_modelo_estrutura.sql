@@ -270,7 +270,13 @@ FOREIGN KEY (`dimensao`)
 REFERENCES `orcas394_db_dev`.`convite_modelo_dimensao` (`id`)
 ON DELETE RESTRICT
 ON UPDATE RESTRICT;
-*/
+
+ALTER TABLE `orcas394_db_dev`.`forma_pagamento` 
+ADD COLUMN `parcelamento_maximo` INT(11) NOT NULL DEFAULT 12 AFTER `ativo`,
+ADD COLUMN `valor_minimo` DECIMAL(10,2) NOT NULL DEFAULT 100 AFTER `parcelamento_maximo`;
+ALTER TABLE `orcas394_db_dev`.`forma_pagamento` 
+CHANGE COLUMN `parcelamento_maximo` `parcelamento_maximo` INT(11) NOT NULL ,
+CHANGE COLUMN `valor_minimo` `valor_minimo` DECIMAL(10,2) NOT NULL ;
 
 ALTER TABLE `orcas394_db_dev`.`impressao` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `ativo`;
@@ -299,22 +305,24 @@ ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `ativo`;
 ALTER TABLE `orcas394_db_dev`.`acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`cartao_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`cartao_acabamento` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`cartao_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`cartao_acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`envelope_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`envelope_acabamento` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`envelope_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`envelope_acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`personalizado_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`personalizado_acabamento` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 100 AFTER `valor`;
-ALTER TABLE `cgolin_localhost`.`personalizado_acabamento` 
+ALTER TABLE `orcas394_db_dev`.`personalizado_acabamento` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-ALTER TABLE `cgolin_localhost`.`produto` 
+ALTER TABLE `orcas394_db_dev`.`produto` 
 ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 20 AFTER `ativo`;
-ALTER TABLE `cgolin_localhost`.`produto` 
+ALTER TABLE `orcas394_db_dev`.`produto` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
+
+*/
