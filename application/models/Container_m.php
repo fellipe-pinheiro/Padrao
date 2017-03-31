@@ -144,7 +144,7 @@ class Container_m extends CI_Model {
         return $this->changeToObject($id, $owner);
     }
 
-    public function get_papel($owner, $id, $dimensao, $quantidade, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche) {
+    public function get_papel($owner, $id, $dimensao, $quantidade, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $hot_stamping_adicionar,$hot_stamping_quantidade,$hot_stamping_cobrar,$hot_stamping_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche) {
         //busca o papel pelo id
         $container_papel = new Container_papel_m();
         $container_papel->papel = $this->Papel_m->get_by_id($id);
@@ -158,7 +158,7 @@ class Container_m extends CI_Model {
         //$container_papel->gramatura = $gramatura;
         $container_papel->owner = $owner;
 
-        //FACA	 ID 8
+        //FACA
         //Este bloco existe somente para obter o valor da faca
         $container_papel->faca = new Container_papel_acabamento_m();
         $container_papel->faca->owner = 'faca';
@@ -169,7 +169,7 @@ class Container_m extends CI_Model {
         $container_papel->faca->cobrar_faca_cliche = 0;
         $container_papel->faca->corte_laser_minutos = 0;
 
-        //CORTE_VINCO	 ID 4
+        //CORTE_VINCO
         $container_papel->corte_vinco = new Container_papel_acabamento_m();
         $container_papel->corte_vinco->owner = 'corte_vinco';
         $container_papel->corte_vinco->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('corte_vinco');
@@ -179,7 +179,7 @@ class Container_m extends CI_Model {
         $container_papel->corte_vinco->cobrar_faca_cliche = $this->is_empty($corte_vinco_cobrar_faca_cliche);
         $container_papel->corte_vinco->corte_laser_minutos = 0;
 
-        //EMPASTAMENTO ID 1
+        //EMPASTAMENTO
         $container_papel->empastamento = new Container_papel_acabamento_m();
         $container_papel->empastamento->owner = 'empastamento';
         $container_papel->empastamento->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('empastamento');
@@ -189,7 +189,7 @@ class Container_m extends CI_Model {
         $container_papel->empastamento->cobrar_faca_cliche = 0;
         $container_papel->empastamento->corte_laser_minutos = 0;
 
-        //LAMINACAO ID 2
+        //LAMINACAO
         $container_papel->laminacao = new Container_papel_acabamento_m();
         $container_papel->laminacao->owner = 'laminacao';
         $container_papel->laminacao->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('laminacao');
@@ -199,7 +199,7 @@ class Container_m extends CI_Model {
         $container_papel->laminacao->cobrar_faca_cliche = 0;
         $container_papel->laminacao->corte_laser_minutos = 0;
 
-        //DOURAÇÃO ID 6
+        //DOURAÇÃO
         $container_papel->douracao = new Container_papel_acabamento_m();
         $container_papel->douracao->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('douracao');
         $container_papel->douracao->adicionar = $this->is_empty($douracao_adicionar);
@@ -208,7 +208,7 @@ class Container_m extends CI_Model {
         $container_papel->douracao->cobrar_faca_cliche = 0;
         $container_papel->douracao->corte_laser_minutos = 0;
 
-        //CORTE LASER ID 7
+        //CORTE LASER
         $container_papel->corte_laser = new Container_papel_acabamento_m();
         $container_papel->corte_laser->owner = 'corte_laser';
         $container_papel->corte_laser->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('corte_laser');
@@ -218,7 +218,7 @@ class Container_m extends CI_Model {
         $container_papel->corte_laser->cobrar_faca_cliche = 0;
         $container_papel->corte_laser->corte_laser_minutos = $this->is_empty($corte_laser_minutos);
 
-        //RELEVO SECO ID 3
+        //RELEVO SECO
         $container_papel->relevo_seco = new Container_papel_acabamento_m();
         $container_papel->relevo_seco->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('relevo_seco');
         $container_papel->relevo_seco->adicionar = $this->is_empty($relevo_seco_adicionar);
@@ -227,7 +227,16 @@ class Container_m extends CI_Model {
         $container_papel->relevo_seco->cobrar_faca_cliche = $this->is_empty($relevo_seco_cobrar_faca_cliche);
         $container_papel->relevo_seco->corte_laser_minutos = 0;
 
-        //ALMOFADA ID 5
+        //HOT STAMPING
+        $container_papel->hot_stamping = new Container_papel_acabamento_m();
+        $container_papel->hot_stamping->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('hot_stamping');
+        $container_papel->hot_stamping->adicionar = $this->is_empty($hot_stamping_adicionar);
+        $container_papel->hot_stamping->quantidade = $this->is_empty($hot_stamping_quantidade);
+        $container_papel->hot_stamping->cobrar_servico = $this->is_empty($hot_stamping_cobrar);
+        $container_papel->hot_stamping->cobrar_faca_cliche = $this->is_empty($hot_stamping_cobrar_faca_cliche);
+        $container_papel->hot_stamping->corte_laser_minutos = 0;
+
+        //ALMOFADA
         $container_papel->almofada = new Container_papel_acabamento_m();
         $container_papel->almofada->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('almofada');
         $container_papel->almofada->adicionar = $this->is_empty($almofada_adicionar);

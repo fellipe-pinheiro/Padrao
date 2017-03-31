@@ -323,6 +323,13 @@ class Convite extends CI_Controller {
         empty($this->input->post('relevo_seco_cobrar'))? $relevo_seco_cobrar = 0 : $relevo_seco_cobrar = 1;
         empty($this->input->post('relevo_seco_cobrar_faca_cliche'))? $relevo_seco_cobrar_faca_cliche = 0 : $relevo_seco_cobrar_faca_cliche = 1;
 
+        //Hot Stamping:
+        empty($this->input->post('hot_stamping_quantidade'))? $hot_stamping_quantidade = 0 : $hot_stamping_quantidade = $this->input->post('hot_stamping_quantidade');
+        empty($this->input->post('hot_stamping_adicionar'))? $hot_stamping_adicionar = 0 : $hot_stamping_adicionar = 1;
+        $quantidadePapel = 1;
+        empty($this->input->post('hot_stamping_cobrar'))? $hot_stamping_cobrar = 0 : $hot_stamping_cobrar = 1;
+        empty($this->input->post('hot_stamping_cobrar_faca_cliche'))? $hot_stamping_cobrar_faca_cliche = 0 : $hot_stamping_cobrar_faca_cliche = 1;
+
         //Corte Vinco:
         empty($this->input->post('corte_vinco_quantidade'))? $corte_vinco_quantidade = 0 : $corte_vinco_quantidade = $this->input->post('corte_vinco_quantidade');
         empty($this->input->post('corte_vinco_adicionar'))? $corte_vinco_adicionar = 0 : $corte_vinco_adicionar = 1;
@@ -341,7 +348,7 @@ class Convite extends CI_Controller {
         /*========================================================================================*/
         (!empty($empastamento_quantidade))? $quantidadePapel += $empastamento_quantidade:'';
         //busca o papel pelo id e seta a gramatura
-        $container = $this->Container_m->get_papel($owner,$papel,$dimensao,$quantidadePapel,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche);
+        $container = $this->Container_m->get_papel($owner,$papel,$dimensao,$quantidadePapel,$gramatura,$empastamento_adicionar,$empastamento_quantidade,$empastamento_cobrar,$laminacao_adicionar,$laminacao_quantidade,$laminacao_cobrar,$douracao_adicionar,$douracao_quantidade,$douracao_cobrar,$corte_laser_adicionar,$corte_laser_quantidade,$corte_laser_cobrar,$corte_laser_minutos,$relevo_seco_adicionar,$relevo_seco_quantidade,$relevo_seco_cobrar,$relevo_seco_cobrar_faca_cliche,$hot_stamping_adicionar,$hot_stamping_quantidade,$hot_stamping_cobrar,$hot_stamping_cobrar_faca_cliche,$corte_vinco_adicionar,$corte_vinco_quantidade,$corte_vinco_cobrar,$corte_vinco_cobrar_faca_cliche,$almofada_adicionar,$almofada_quantidade,$almofada_cobrar,$almofada_cobrar_faca_cliche);
         return $container;
     }
 

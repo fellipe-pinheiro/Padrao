@@ -361,7 +361,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="codigo" class="control-label">Código:</label>
-                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9]{3,30}$">
+                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9_]{3,30}$">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -830,7 +830,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         type: "POST"
                     },
                     columns: [
-                        {data: "id","visible": true},
+                        {data: "id","visible": false},
                         {data: "nome","visible": true},
                         {data: "codigo","visible": true},
                         {data: "qtd_minima","visible": true},

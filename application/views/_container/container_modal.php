@@ -146,6 +146,26 @@ $controller = $this->router->class;
 
 										</tr>
 										<tr>
+											<td>Hot Stamping</td>
+											<td>
+												<div class="form-group">
+													<input type="number" name="hot_stamping_quantidade" id="hot_stamping_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<span class="help-block"></span>
+												</div>
+											</td>
+											<td>N / A</td>
+											<td>
+												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_adicionar" id="hot_stamping_adicionar" class="form-control input-sm" value="1">
+											</td>
+											<td>
+												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar" id="hot_stamping_cobrar" class="form-control input-sm" value="1">
+											</td>
+											<td>
+												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar_faca_cliche" id="hot_stamping_cobrar_faca_cliche" class="form-control input-sm" value="1">
+											</td>
+
+										</tr>
+										<tr>
 											<td>Corte Vinco</td>
 											<td>
 												<div class="form-group">

@@ -48,6 +48,15 @@ $controller = $this->router->class;
 			alteraRelevoSeco();
 		});
 		/*====================================================================================*/
+		//Hot Stamping:
+		$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
+		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		$('#hot_stamping_quantidade').attr("disabled", true);
+
+		$($($('#hot_stamping_adicionar').parent().children()[1])).click(function () {
+			alteraHotStamping();
+		});
+		/*====================================================================================*/
 		//Corte e Vinco:
 		$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
 		$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
@@ -166,6 +175,14 @@ $controller = $this->router->class;
 		}
 	}
 
+	function alteraHotStamping(){
+		if($('#hot_stamping_adicionar').is(':checked')){
+			hotStampingOn();
+		}else{
+			hotStampingOff();
+		}
+	}
+
 	function alteraCorteVinco(){
 		if($('#corte_vinco_adicionar').is(':checked')){
 			corteVincoOn();
@@ -259,6 +276,24 @@ $controller = $this->router->class;
 		$('#relevo_seco_quantidade').val(null);
 	}
 
+	function hotStampingOn() {
+		$($('#hot_stamping_cobrar').parent().children()[1]).removeClass('hidden');
+		$('#hot_stamping_cobrar').prop('checked', true);
+		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
+		$('#hot_stamping_cobrar_faca_cliche').prop('checked', true);
+		$('#hot_stamping_quantidade').attr("disabled", false);
+		$('#hot_stamping_quantidade').val(1);
+	}
+
+	function hotStampingOff() {
+		$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
+		$('#hot_stamping_cobrar').prop('checked', false);
+		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		$('#hot_stamping_cobrar_faca_cliche').prop('checked', false);
+		$('#hot_stamping_quantidade').attr("disabled", true);
+		$('#hot_stamping_quantidade').val(null);
+	}
+
 	function corteVincoOn() {
 		$($('#corte_vinco_cobrar').parent().children()[1]).removeClass('hidden');
 		$('#corte_vinco_cobrar').prop('checked', true);
@@ -295,7 +330,7 @@ $controller = $this->router->class;
 		$('#almofada_quantidade').val(null);
 	}
 
-	function editar_papel_modal(owner,posicao,id_papel,id_dimensao,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
+	function editar_papel_modal(owner,posicao,id_papel,id_dimensao,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,hot_stamping_adicionar,hot_stamping_quantidade,hot_stamping_cobrar,hot_stamping_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		
 		ajax_carregar_papel_linha(true,id_linha);
 		ajax_carregar_papel(id_linha,true,id_papel);
@@ -399,6 +434,30 @@ $controller = $this->router->class;
 		}
 		$('#relevo_seco_quantidade').val(relevo_seco_quantidade);
 		/*====================================================================================*/
+		//Hot Stamping:
+		if(hot_stamping_adicionar ==1){
+			$('#hot_stamping_adicionar').prop('checked',true);
+			$('#hot_stamping_quantidade').attr("disabled", false);
+			$($('#hot_stamping_cobrar').parent().children()[1]).removeClass('hidden');
+			$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
+		}else{
+			$('#hot_stamping_adicionar').prop('checked',false);
+			$('#hot_stamping_quantidade').attr("disabled", true);
+			$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
+			$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
+		}
+		if(hot_stamping_cobrar ==1){
+			$('#hot_stamping_cobrar').prop('checked',true);
+		}else{
+			$('#hot_stamping_cobrar').prop('checked',false);
+		}
+		if(hot_stamping_cobrar_faca_cliche ==1){
+			$('#hot_stamping_cobrar_faca_cliche').prop('checked',true);
+		}else{
+			$('#hot_stamping_cobrar_faca_cliche').prop('checked',false);
+		}
+		$('#hot_stamping_quantidade').val(hot_stamping_quantidade);
+		/*====================================================================================*/
 		//Corte Vinco:
 		if(corte_vinco_adicionar ==1){
 			$('#corte_vinco_adicionar').prop('checked',true);
@@ -493,10 +552,13 @@ $controller = $this->router->class;
 		douracaoOff();
 		corteLaserOff();
 		relevoSecoOff();
+		hotStampingOff();
 		corteVincoOff();
 		almofadaOff();
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
+		limpar_select($('#form_select_dimensao'),true);
+		$('#form_select_papel').selectpicker('val', '');
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 		//remove_form_select_option_papel();
 		limpar_select($('#form_select_papel'),true);

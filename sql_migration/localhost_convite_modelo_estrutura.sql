@@ -326,3 +326,58 @@ ALTER TABLE `orcas394_db_dev`.`produto`
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
 */
+
+CREATE TABLE `cartao_papel_hot_stamping` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `papel_acabamento` int(11) unsigned NOT NULL,
+  `cartao_papel` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `adicionar` tinyint(1) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca_cliche` tinyint(1) NOT NULL,
+  `corte_laser_minutos` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_cartao_papel_hot_stamping` (`papel_acabamento`),
+  KEY `fk_cartaoPapelHotStamping_cartaoPapel` (`cartao_papel`),
+  CONSTRAINT `fk_cartaoPapelHotStamping_cartaoPapel` FOREIGN KEY (`cartao_papel`) REFERENCES `cartao_papel` (`id`),
+  CONSTRAINT `fk_cartaoPapelHotStamping_papelAcabamento` FOREIGN KEY (`papel_acabamento`) REFERENCES `papel_acabamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `envelope_papel_hot_stamping` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `papel_acabamento` int(11) unsigned NOT NULL,
+  `envelope_papel` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `adicionar` tinyint(1) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca_cliche` tinyint(1) NOT NULL,
+  `corte_laser_minutos` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_envelope_papel_hot_stamping` (`papel_acabamento`),
+  KEY `fk_ep_hot_stamping` (`envelope_papel`),
+  CONSTRAINT `fk_envelopePapelHotStamping_envelopePapel` FOREIGN KEY (`envelope_papel`) REFERENCES `envelope_papel` (`id`),
+  CONSTRAINT `fk_envelopePapelHotStamping_papelAcabamento` FOREIGN KEY (`papel_acabamento`) REFERENCES `papel_acabamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `personalizado_papel_hot_stamping` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `papel_acabamento` int(11) unsigned NOT NULL,
+  `personalizado_papel` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `adicionar` tinyint(1) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca_cliche` tinyint(1) NOT NULL,
+  `corte_laser_minutos` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_personalizado_papel_hot_stamping` (`papel_acabamento`),
+  KEY `fk_personalizadoPapelHotStamping_personalizadoPapel` (`personalizado_papel`),
+  CONSTRAINT `fk_personalizadoPapelHotStamping_papelAcabamento` FOREIGN KEY (`papel_acabamento`) REFERENCES `papel_acabamento` (`id`),
+  CONSTRAINT `fk_personalizadoPapelHotStamping_personalizadoPapel` FOREIGN KEY (`personalizado_papel`) REFERENCES `personalizado_papel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+

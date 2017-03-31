@@ -115,7 +115,7 @@ foreach ($arr as $key => $value) {
 													<td>R$ <?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$container_papel->dimensao,$session_container->quantidade)), 2, ",", ".") ?>
 													</td>
 													<td>
-														<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel->papel->id?>,<?=$container_papel->dimensao->id?>,<?=$container_papel->papel->papel_linha->id?>,<?=$container_papel->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel->empastamento->adicionar?>,<?=$container_papel->empastamento->quantidade?>,<?=$container_papel->empastamento->cobrar_servico?>,<?=$container_papel->laminacao->adicionar?>,<?=$container_papel->laminacao->quantidade?>,<?=$container_papel->laminacao->cobrar_servico?>,<?=$container_papel->douracao->adicionar?>,<?=$container_papel->douracao->quantidade?>,<?=$container_papel->douracao->cobrar_servico?>,<?=$container_papel->corte_laser->adicionar?>,<?=$container_papel->corte_laser->quantidade?>,<?=$container_papel->corte_laser->cobrar_servico?>,<?=$container_papel->corte_laser->corte_laser_minutos?>,<?=$container_papel->relevo_seco->adicionar?>,<?=$container_papel->relevo_seco->quantidade?>,<?=$container_papel->relevo_seco->cobrar_servico?>,<?=$container_papel->relevo_seco->cobrar_faca_cliche?>,<?=$container_papel->corte_vinco->adicionar?>,<?=$container_papel->corte_vinco->quantidade?>,<?=$container_papel->corte_vinco->cobrar_servico?>,<?=$container_papel->corte_vinco->cobrar_faca_cliche?>,<?=$container_papel->almofada->adicionar?>,<?=$container_papel->almofada->quantidade?>,<?=$container_papel->almofada->cobrar_servico?>,<?=$container_papel->almofada->cobrar_faca_cliche?>)" id="" class="btn btn-default btn-sm">
+														<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel->papel->id?>,<?=$container_papel->dimensao->id?>,<?=$container_papel->papel->papel_linha->id?>,<?=$container_papel->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel->empastamento->adicionar?>,<?=$container_papel->empastamento->quantidade?>,<?=$container_papel->empastamento->cobrar_servico?>,<?=$container_papel->laminacao->adicionar?>,<?=$container_papel->laminacao->quantidade?>,<?=$container_papel->laminacao->cobrar_servico?>,<?=$container_papel->douracao->adicionar?>,<?=$container_papel->douracao->quantidade?>,<?=$container_papel->douracao->cobrar_servico?>,<?=$container_papel->corte_laser->adicionar?>,<?=$container_papel->corte_laser->quantidade?>,<?=$container_papel->corte_laser->cobrar_servico?>,<?=$container_papel->corte_laser->corte_laser_minutos?>,<?=$container_papel->relevo_seco->adicionar?>,<?=$container_papel->relevo_seco->quantidade?>,<?=$container_papel->relevo_seco->cobrar_servico?>,<?=$container_papel->relevo_seco->cobrar_faca_cliche?>,<?=$container_papel->hot_stamping->adicionar?>,<?=$container_papel->hot_stamping->quantidade?>,<?=$container_papel->hot_stamping->cobrar_servico?>,<?=$container_papel->hot_stamping->cobrar_faca_cliche?>,<?=$container_papel->corte_vinco->adicionar?>,<?=$container_papel->corte_vinco->quantidade?>,<?=$container_papel->corte_vinco->cobrar_servico?>,<?=$container_papel->corte_vinco->cobrar_faca_cliche?>,<?=$container_papel->almofada->adicionar?>,<?=$container_papel->almofada->quantidade?>,<?=$container_papel->almofada->cobrar_servico?>,<?=$container_papel->almofada->cobrar_faca_cliche?>)" id="" class="btn btn-default btn-sm">
 															<span class="glyphicon glyphicon-pencil"></span>
 														</button>
 													</td>
@@ -177,6 +177,17 @@ foreach ($arr as $key => $value) {
 													<td><?=$container_papel->relevo_seco->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total_relevo_seco($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade),$container_papel->relevo_seco->quantidade), 2, ",", ".") ?></td>
+													<td></td>
+													<td></td>
+												</tr>
+												<?php ($container_papel->hot_stamping->quantidade == 0) ? $class = "hidden" : $class = ""?>
+												<tr class="<?=$class?>">
+													<td></td>
+													<td><span class="glyphicon glyphicon-compressed"></span> <b><?=$container_papel->hot_stamping->papel_acabamento->nome?></b></td>
+													<td></td>
+													<td><?=$container_papel->hot_stamping->quantidade?></td>
+													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_papel->calcula_valor_total_hot_stamping($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade),$container_papel->hot_stamping->quantidade), 2, ",", ".") ?></td>
 													<td></td>
 													<td></td>
 												</tr>

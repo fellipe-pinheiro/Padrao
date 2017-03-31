@@ -17,6 +17,7 @@ class Container_papel_m extends CI_Model {
     var $douracao; //Objeto Container_papel_acabamento_m()
     var $corte_laser; //Objeto Container_papel_acabamento_m()
     var $relevo_seco; //Objeto Container_papel_acabamento_m()
+    var $hot_stamping; //Objeto Container_papel_acabamento_m()
     var $almofada; //Objeto Container_papel_acabamento_m()
     var $faca; //Objeto Container_papel_acabamento_m()
 
@@ -49,7 +50,7 @@ class Container_papel_m extends CI_Model {
             return false;
         }
         //inserir todos papel_acabamento
-        //O corte e vinco sempre gravar pois há dependentes dele como: [relevo_seco, almofada]
+        //O corte e vinco sempre gravar pois há dependentes dele como: [relevo_seco, hot_stamping, almofada]
         if (!$this->corte_vinco->inserir($this->id, $this->owner)) {
             return false;
         }
@@ -75,6 +76,11 @@ class Container_papel_m extends CI_Model {
         }
         if (!empty($this->relevo_seco->adicionar)) {
             if (!$this->relevo_seco->inserir($this->id, $this->owner)) {
+                return false;
+            }
+        }
+        if (!empty($this->hot_stamping->adicionar)) {
+            if (!$this->hot_stamping->inserir($this->id, $this->owner)) {
                 return false;
             }
         }
@@ -289,6 +295,32 @@ class Container_papel_m extends CI_Model {
         return $unitario * $qtd;
     }
 
+    public function calcula_valor_unitario_hot_stamping($qtd) {
+        $valor = 0;
+        if ($this->hot_stamping->adicionar == 1 && $this->hot_stamping->cobrar_servico == 1) {
+            //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
+            if ($qtd < $this->hot_stamping->papel_acabamento->qtd_minima) {
+                $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
+            } else {
+                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->hot_stamping->papel_acabamento->qtd_minima, 2);
+            }
+        }
+        if ($this->hot_stamping->adicionar == 1 && $this->hot_stamping->cobrar_faca_cliche == 1) {
+            //Legenda: cobrar_faca_cliche é cobrar hot_stamping (valor do clichê)
+            if ($qtd < $this->hot_stamping->papel_acabamento->qtd_minima) {
+                $valor += round($this->hot_stamping->papel_acabamento->valor / $qtd, 2);
+            } else {
+                $valor += round($this->hot_stamping->papel_acabamento->valor / $this->hot_stamping->papel_acabamento->qtd_minima, 2);
+            }
+        }
+        return $valor;
+    }
+
+    public function calcula_valor_total_hot_stamping($unitario, $qtd) {
+
+        return $unitario * $qtd;
+    }
+
     public function calcula_valor_unitario_corte_vinco($qtd) {
         $valor = 0;
         if ($this->corte_vinco->adicionar == 1 && $this->corte_vinco->cobrar_servico == 1) {
@@ -363,6 +395,7 @@ class Container_papel_m extends CI_Model {
             $object->douracao = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'douracao');
             $object->corte_laser = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'corte_laser');
             $object->relevo_seco = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'relevo_seco');
+            $object->hot_stamping = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'hot_stamping');
             $object->almofada = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'almofada');
             $object->faca = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'faca');
             $object_lista[] = $object;
