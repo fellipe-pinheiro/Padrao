@@ -68,6 +68,8 @@ class Convite extends CI_Controller {
         if(empty($this->session->convite->quantidade) || empty($this->session->convite->modelo)){
             $this->criar_convite();
         }
+        $data['papel_acabamento'] = $this->Papel_acabamento_m->get_codigo_nome('nome,codigo');
+
         set_layout('conteudo', load_content('convite/index',$data));
         load_layout();
     }

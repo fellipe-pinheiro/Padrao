@@ -124,4 +124,21 @@ class Papel_acabamento_m extends CI_Model {
         return $object;
     }
 
+    public function get_pesonalizado($colunas){
+        $this->db->select($colunas);
+        $this->db->order_by("nome", "asc");
+        return $this->db->get("papel_acabamento")->result_array();
+    }
+
+    public function get_codigo_nome($colunas){
+        $this->db->select($colunas);
+        $this->db->order_by("nome", "asc");
+        $papel_acabamento = $this->db->get("papel_acabamento")->result_array();
+        $array_aux = array();
+        foreach ($papel_acabamento as $key => $value) {
+            $array_aux[$value['codigo']] = $value['nome'];
+        }
+        return $array_aux;
+    }    
+
 }

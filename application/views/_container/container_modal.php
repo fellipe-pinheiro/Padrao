@@ -52,11 +52,12 @@ $controller = $this->router->class;
 										<th>Cobrar Faca / Clichê ?</th>
 									</tr>
 									<tbody>
+										<!--Empastamento-->
 										<tr>
-											<td>Empastamento</td>
+											<td><?=$dados['papel_acabamento']['empastamento']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="empastamento_quantidade" id="empastamento_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="empastamento_quantidade" id="empastamento_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -69,11 +70,12 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 										</tr>
+										<!--Laminação-->
 										<tr>
-											<td>Laminação</td>
+											<td><?=$dados['papel_acabamento']['laminacao']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="laminacao_quantidade" id="laminacao_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="laminacao_quantidade" id="laminacao_quantidade" class="form-control input-sm" value="" step="1" min="1" required  placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -86,11 +88,12 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 										</tr>
+										<!--Douração-->
 										<tr>
-											<td>Douração</td>
+											<td><?=$dados['papel_acabamento']['douracao']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="douracao_quantidade" id="douracao_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="douracao_quantidade" id="douracao_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -103,17 +106,18 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 										</tr>
+										<!--Corte Laser-->
 										<tr>
-											<td>Corte Laser</td>
+											<td><?=$dados['papel_acabamento']['corte_laser']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="corte_laser_quantidade" id="corte_laser_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="corte_laser_quantidade" id="corte_laser_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="corte_laser_minutos" id="corte_laser_minutos" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="corte_laser_minutos" id="corte_laser_minutos" class="form-control input-sm" value="" step="1" min="1" required  placeholder="Minutos" title="Minutos">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -125,11 +129,12 @@ $controller = $this->router->class;
 											</td>
 											<td>N / A</td>
 										</tr>
+										<!--Relevo Seco-->
 										<tr>
-											<td>Relevo Seco</td>
+											<td><?=$dados['papel_acabamento']['relevo_seco']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="relevo_seco_quantidade" id="relevo_seco_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="relevo_seco_quantidade" id="relevo_seco_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -143,13 +148,13 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-
 										</tr>
+										<!--Hot Stamping-->
 										<tr>
-											<td>Hot Stamping</td>
+											<td><?=$dados['papel_acabamento']['hot_stamping']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="hot_stamping_quantidade" id="hot_stamping_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="hot_stamping_quantidade" id="hot_stamping_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -163,13 +168,13 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar_faca_cliche" id="hot_stamping_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-
 										</tr>
+										<!--Corte Vinco-->
 										<tr>
-											<td>Corte Vinco</td>
+											<td><?=$dados['papel_acabamento']['corte_vinco']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="corte_vinco_quantidade" id="corte_vinco_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="corte_vinco_quantidade" id="corte_vinco_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>
@@ -183,13 +188,13 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-
 										</tr>
+										<!--Almofada-->
 										<tr>
-											<td>Almofada</td>
+											<td><?=$dados['papel_acabamento']['almofada']?></td>
 											<td>
 												<div class="form-group">
-													<input type="number" name="almofada_quantidade" id="almofada_quantidade" class="form-control input-sm" value="" step="1" min="1" required>
+													<input type="number" name="almofada_quantidade" id="almofada_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
 													<span class="help-block"></span>
 												</div>
 											</td>

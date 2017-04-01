@@ -124,7 +124,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="codigo" class="control-label">Código:</label>
-                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">C</span>
+                                        <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Código do modelo Ex: abc123" pattern="[a-z0-9]{3,20}$">
+                                    </div>                                            
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -133,6 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group input-padding">
                                     <label for="empastamento_borda" class="control-label">Empastamento borda:</label>
                                     <div class="input-group">
+                                        <span class="input-group-addon">E</span>
                                         <input type="number" name="empastamento_borda" id="empastamento_borda" class="form-control" value="" required="required" title="Utilize somente números de até 5 dígitos" min="0" max="99999" placeholder="Borda adicionada caso haja empastamento. Ex:10">
                                         <div class="input-group-addon">mm</div>
                                     </div>

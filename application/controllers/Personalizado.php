@@ -68,6 +68,7 @@ class Personalizado extends CI_Controller {
         if (empty($this->session->personalizado->quantidade) || empty($this->session->personalizado->modelo)) {
             $this->criar_personalizado();
         }
+        $data['papel_acabamento'] = $this->Papel_acabamento_m->get_codigo_nome('nome,codigo');
         set_layout('conteudo', load_content('personalizado/index', $data));
         load_layout();
     }
