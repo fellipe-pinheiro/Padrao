@@ -38,6 +38,7 @@
                         <li><a href="<?= base_url('impressao') ?>"><i class="glyphicon glyphicon-print"></i> Impressão</a></li>
                         <li><a href="<?= base_url('papel') ?>"><i class="glyphicon glyphicon-file"></i> Papel</a></li>
                         <li><a href="<?= base_url('fonte') ?>"><i class="fa fa-font" aria-hidden="true"></i> Fonte</a></li>
+                        <li><a href="<?= base_url('cliche') ?>"><i class="glyphicon glyphicon-registration-mark" aria-hidden="true"></i> Clichê</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Produtos</li>
                         <li><a href="<?= base_url('produto') ?>"><i class="glyphicon glyphicon-gift"></i> Produto</a></li>

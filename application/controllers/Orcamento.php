@@ -38,6 +38,9 @@ class Orcamento extends CI_Controller {
         $this->load->model('Container_acabamento_m');
         $this->load->model('Container_acessorio_m');
         $this->load->model('Container_fita_m');
+        $this->load->model('Cliche_m');
+        $this->load->model('Cliche_dimensao_m');
+        $this->load->model('Container_cliche_m');
 
         //Sessão Personalizado
         $this->load->model('Personalizado_m');

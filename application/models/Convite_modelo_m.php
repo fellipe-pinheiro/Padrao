@@ -12,7 +12,7 @@ class Convite_modelo_m extends CI_Model {
     var $descricao;
     var $ativo;
     // Ajax 
-    var $table = 'convite_modelo as cm';
+    var $table = 'convite_modelo';
     var $column_order = array('id','codigo','nome','empastamento_borda','descricao','ativo');
     var $column_search = array('id','codigo','nome','empastamento_borda','descricao','ativo');
     var $order = array('id'=>'asc');

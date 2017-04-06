@@ -77,6 +77,11 @@ foreach ($arr as $key => $value) {
 			                        	<a onclick="abrir_fita_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_fita'><i class="glyphicon glyphicon-tag"></i> Fita</a>
 		                        	</li>
 			                    </ul>
+			                    <ul class="nav navbar-nav">
+			                        <li>
+			                        	<a onclick="abrir_cliche_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_cliche'><i class="glyphicon glyphicon-registration-mark"></i> Clichê</a>
+		                        	</li>
+			                    </ul>
 			                </div>
 			            </div>
 			        </nav>
@@ -183,7 +188,7 @@ foreach ($arr as $key => $value) {
 												<?php ($container_papel->hot_stamping->quantidade == 0) ? $class = "hidden" : $class = ""?>
 												<tr class="<?=$class?>">
 													<td></td>
-													<td><span class="glyphicon glyphicon-compressed"></span> <b><?=$container_papel->hot_stamping->papel_acabamento->nome?></b></td>
+													<td><span class="glyphicon glyphicon-registration-mark"></span> <b><?=$container_papel->hot_stamping->papel_acabamento->nome?></b></td>
 													<td></td>
 													<td><?=$container_papel->hot_stamping->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade), 2, ",", ".") ?></td>
@@ -331,6 +336,34 @@ foreach ($arr as $key => $value) {
 										}
 										?>
 										<!-- FIM: FITA -->
+										<!-- INICIO: CLICHÊ -->
+										<?php 
+										if(!empty($session_owner->container_cliche)){
+										    foreach ($session_owner->container_cliche as $key => $container_cliche) {
+										        ?>
+										        <tr>
+										            <td><?= $count = $count + 1 ?></td>
+										            <td><span class="glyphicon glyphicon-registration-mark"></span> <b>Clichê</b></td>
+										            <td><?=$container_cliche->cliche->nome?></td>
+										            <td><?=$container_cliche->quantidade?></td>
+										            <td>R$ <?= number_format($container_cliche->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+										            <td>R$ <?= number_format($container_cliche->calcula_valor_total($container_cliche->quantidade,$container_cliche->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+										            <td>
+										                <button onclick="editar_cliche_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_cliche->cliche->id?>,<?=$container_cliche->quantidade?>,'<?=$container_cliche->descricao?>',<?=$container_cliche->cliche->get_selected_cliche_dimensao()->id?>,<?=$container_cliche->cobrar_servico?>,<?=$container_cliche->cobrar_cliche?>)" id="" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-pencil"></span>
+										                </button>
+										            </td>
+										            <td>
+										                <button onclick="excluir_cliche('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-trash"></span>
+										                </button>
+										            </td>
+										        </tr>
+										        <?php
+										    }
+										}
+										?>
+										<!-- FIM: CLICHÊ -->
 									</tbody>
 									<tfoot>
 										<tr>

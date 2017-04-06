@@ -2,34 +2,22 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Papel_m extends CI_Model {
+class Cliche_m extends CI_Model {
 
     var $id;
     var $nome;
-    var $papel_linha; // Object Papel_linha_m()
-    var $papel_dimensao; // Object Papel_dimensao_m()
-    var $papel_gramaturas; // array Object Papel_gramatura_m()
+    var $qtd_minima;
+    var $dimensoes; // Array de Objetos Cliche_dimensao_m
     var $descricao;
     var $ativo;
     // Ajax 
-    var $table = 'v_papel_gramatura_group';
-    var $column_order = array('id','linha','papel','altura','largura','gramaturas','descricao','ativo');
-    var $column_search = array('id','linha','papel','altura','largura','gramaturas','descricao','ativo');
-    var $order = array('papel'=>'asc');
+    var $table = 'cliche';
+    var $column_order = array('id','nome','qtd_minima','descricao','ativo');
+    var $column_search = array('id','nome','ativo');
+    var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
-        if($this->input->post('filtro_papel')){
-            $this->db->like('papel', $this->input->post('filtro_papel'));
-        }
-        if($this->input->post('filtro_linha')){
-            $this->db->where('linha', $this->input->post('filtro_linha'));
-        }
-        if($this->input->post('filtro_altura')){
-            $this->db->where('altura', $this->input->post('filtro_altura'));
-        }
-        if($this->input->post('filtro_largura')){
-            $this->db->where('largura', $this->input->post('filtro_largura'));
-        }
+
         $this->db->from($this->table);
         $i = 0;
 
@@ -44,9 +32,9 @@ class Papel_m extends CI_Model {
 
                 if (count($this->column_search) - 1 == $i)
                     $this->db->group_end();
-                }
-                $i++;
             }
+            $i++;
+        }
 
         if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -78,16 +66,16 @@ class Papel_m extends CI_Model {
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
-        $result = $this->db->get('papel');
+        $result = $this->db->get($this->table);
         if($result->num_rows() > 0){
-            return $this->changeToObject($result->result_array());
+            return  $this->changeToObject($result->result_array());
         }
         return null;
     }
 
     public function inserir($dados) {
         if (empty($dados['id'])) {
-            if ($this->db->insert('papel', $dados)) {
+            if ($this->db->insert($this->table, $dados)) {
                 return $this->db->insert_id();
             }
         }
@@ -95,9 +83,9 @@ class Papel_m extends CI_Model {
     }
 
     public function editar($dados) {
-        if ( !empty($dados['id']) ) {
+        if (!empty($dados['id'])) {
             $this->db->where('id', $dados['id']);
-            if ( $this->db->update('papel', $dados) ) {
+            if ($this->db->update($this->table, $dados)) {
                 return true;
             }
         }
@@ -107,81 +95,68 @@ class Papel_m extends CI_Model {
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
-            if ($this->db->delete('papel')) {
+            if ($this->db->delete($this->table)) {
                 return true;
             }
         }
         return false;
     }
 
-    public function set_papel_gramatura($id,$valor = 0,$atualizar = false){
-        foreach ($this->papel_gramaturas as $value) {
+    public function set_cliche_dimensao($id,$valorServico = 0,$valorCliche = 0,$atualizar = false){
+        foreach ($this->dimensoes as $value) {
             if($value->id === $id){
                 $value->selected = true;
                 if($atualizar){
-                    $value->valor = $valor;
+                    $value->valorServico = $valorServico;
+                    $value->valorCliche = $valorCliche;
                 }
             }else{
                 $value->selected = false;
             }
         }
     }
-    /*
-    public function set_papel_gramatura_and_valor($id,$valor){
-        foreach ($this->papel_gramaturas as $value) {
-            if($value->id === $id){
-                $value->selected = true;
-                $value->valor = $valor;
-            }else{
-                $value->selected = false;
-            }
-        }
-    }
-    */
 
-    public function get_selected_papel_gramatura(){
-        foreach ($this->papel_gramaturas as $object) {
+    public function get_selected_cliche_dimensao(){
+        foreach ($this->dimensoes as $object) {
             if($object->selected){
                 return $object;
             }
         }
     }
 
+    public function name(){
+        
+    }
+
     private function changeToObject($result_db) {
         foreach ($result_db as $key => $value) {
-            $object = new Papel_m();
+            $object = new Cliche_m();
             $object->id = $value['id'];
-            $object->papel_linha = $this->Papel_linha_m->get_by_id($value['papel_linha']);
             $object->nome = $value['nome'];
-            $object->papel_dimensao = $this->Papel_dimensao_m->get_by_id($value['papel_dimensao']);
-            $object->papel_gramaturas = $this->Papel_gramatura_m->get_by_papel_id($object->id);
+            $object->qtd_minima = $value['qtd_minima'];
+            $object->dimensoes = $this->Cliche_dimensao_m->get_by_modelo_id($object->id);
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];
         }
         return $object;
     }
 
-    public function get_papel_gramaturas_json(){
-        return json_encode($this->papel_gramaturas);
-    }
-
-    public function get_pesonalizado($id_linha, $colunas, $ativo = '1'){
+    public function get_pesonalizado($colunas, $ativo = '1'){
         $this->db->select($colunas);
-        $this->db->where("papel_linha",$id_linha);
         switch ($ativo) {
             case '-1':
-                break;
+            break;
             case '0':
-                $this->db->where("ativo", false);
-                break;
+            $this->db->where("ativo", false);
+            break;
             case '1':
-                $this->db->where("ativo", true);
-                break;
+            $this->db->where("ativo", true);
+            break;
             default:
-                $this->db->where("ativo", true);
-                break;
+            $this->db->where("ativo", true);
+            break;
         }
-        $this->db->order_by("nome", "asc");
-        return $this->db->get("papel")->result_array();
+        return $this->db->get($this->table)->result_array();
     }
+
 }

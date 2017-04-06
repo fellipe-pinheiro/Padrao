@@ -434,6 +434,71 @@ $controller = $this->router->class;
 		</div>
 	</form>
 </div>
+<!-- MODAL: CLICHÊ -->
+<div class="modal fade" id="md_cliche">
+	<form class="form_ajax" id="form_md_cliche" action="" method="post" accept-charset="utf-8">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Clichê</h4>
+				</div>
+				<div class="modal-body">
+					<fieldset>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<!-- Lista de Clichê -->
+								<span class="glyphicon glyphicon-scissors"></span>
+								<label for="form_select_cliche" class="control-label">Clichê</label>
+								<select name="cliche" id="form_select_cliche" class="form-control selectpicker" autofocus data-live-search="true" required>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="dimensao" class="control-label">Dimensão:</label>
+								<select name="dimensao" id="form_select_cliche_dimensao" class="form-control" required>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="form_qtd_cliche" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_cliche" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+								<span class="help-block"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label for="cobrar_servico" class="control-label col-sm-12">Cobrar serviço:</label>
+								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servico" id="cobrar_servico" class="form-control input-sm" value="1">
+								<span class="help-block"></span>
+							</div>
+
+							<div class="form-group col-sm-6">
+								<label for="cobrar_cliche" class="control-label col-sm-12">Cobrar clichê:</label>
+								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_cliche" id="cobrar_cliche" class="form-control input-sm" value="1">
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group col-sm-12">
+							<!--Descrição-->
+							<span class="glyphicon glyphicon-pencil"></span>
+							<label for="form_descricao_cliche" class="control-label">Descrição:</label>
+							<textarea name="descricao" id="form_descricao_cliche" class="form-control" rows="3" placeholder="Descrição"></textarea>
+							<span class="help-block"></span>
+						</div>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
 <!-- MODAL: CONVITE -->
 <div class="modal fade" id="md_convite">
 	<form class="form_ajax" id="form_convite" action="" method="post" accept-charset="utf-8" role="form">
