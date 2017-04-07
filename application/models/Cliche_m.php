@@ -102,13 +102,13 @@ class Cliche_m extends CI_Model {
         return false;
     }
 
-    public function set_cliche_dimensao($id,$valorServico = 0,$valorCliche = 0,$atualizar = false){
+    public function set_cliche_dimensao($id,$valor_servico = 0,$valor_cliche = 0,$atualizar = false){
         foreach ($this->dimensoes as $value) {
             if($value->id === $id){
                 $value->selected = true;
                 if($atualizar){
-                    $value->valorServico = $valorServico;
-                    $value->valorCliche = $valorCliche;
+                    $value->valor_servico = $valor_servico;
+                    $value->valor_cliche = $valor_cliche;
                 }
             }else{
                 $value->selected = false;

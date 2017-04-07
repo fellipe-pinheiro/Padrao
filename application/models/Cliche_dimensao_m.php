@@ -7,8 +7,8 @@ class Cliche_dimensao_m extends CI_Model {
     var $id;
     var $nome;
     var $cliche;
-    var $valorServico;
-    var $valorCliche;
+    var $valor_servico;
+    var $valor_cliche;
     var $table = 'cliche_dimensao';
     var $selected = false; //boolean : setado dentro do objeto Cliche_m
 
@@ -79,8 +79,8 @@ class Cliche_dimensao_m extends CI_Model {
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->cliche = $value['cliche'];
-            $object->valorServico = $value['valor_servico'];
-            $object->valorCliche = $value['valor_cliche'];
+            $object->valor_servico = $value['valor_servico'];
+            $object->valor_cliche = $value['valor_cliche'];
             $object_lista[] = $object;
         }
         return $object_lista;

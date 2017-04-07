@@ -302,7 +302,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }else if(index == 'dimensoes'){
                             $.each(value,function(i, dimensoes) {
-                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.valorServico,dimensoes.valorCliche);
+                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.valor_servico,dimensoes.valor_cliche);
                             });
                         }      
                     });
@@ -399,7 +399,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         form_small();
     });
 
-    function clonar_dimensoes(editar,id,nome,valorServico,valorCliche){//ID = 1_ADD
+    function clonar_dimensoes(editar,id,nome,valor_servico,valor_cliche){//ID = 1_ADD
         var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');
         var cl = clone[0];
 
@@ -409,9 +409,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // Alterar id, name, for(label) e adicionar required
         $($(cl).find("#default_nome_input")).prop("id","nome_"+id).prop("name","dimensao_nome_"+id).val(nome).prop("required","required");
 
-        $($(cl).find("#default_valorServico_input")).prop("id","valorServico_"+id).prop("name","dimensao_valorServico_"+id).val(valorServico).prop("required","required");
+        $($(cl).find("#default_valorServico_input")).prop("id","valorServico_"+id).prop("name","dimensao_valorServico_"+id).val(valor_servico).prop("required","required");
 
-        $($(cl).find("#default_valorCliche_input")).prop("id","valorCliche_"+id).prop("name","dimensao_valorCliche_"+id).val(valorCliche).prop("required","required");
+        $($(cl).find("#default_valorCliche_input")).prop("id","valorCliche_"+id).prop("name","dimensao_valorCliche_"+id).val(valor_cliche).prop("required","required");
 
         clone.appendTo("#lista_dimensoes");
     }
@@ -454,13 +454,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             arr_nome = name_nome.split("_");
             $("#"+id+" input")[0].name = arr_nome[0] + "_" + arr_nome[1] + "_" + arr_nome[2]+ "_DEL";
            
-            var name_valorServico = $("#"+id+" input")[1].name;
-            arr_valorServico = name_valorServico.split("_");
-            $("#"+id+" input")[1].name = arr_valorServico[0] + "_" + arr_valorServico[1] + "_" + arr_valorServico[2]+ "_DEL";
+            var name_valor_servico = $("#"+id+" input")[1].name;
+            arr_valor_servico = name_valor_servico.split("_");
+            $("#"+id+" input")[1].name = arr_valor_servico[0] + "_" + arr_valor_servico[1] + "_" + arr_valor_servico[2]+ "_DEL";
 
-            var  name_valorCliche = $("#"+id+" input")[2].name;
-            arr_valorCliche = name_valorCliche.split("_");
-            $("#"+id+" input")[2].name = arr_valorCliche[0] + "_" + arr_valorCliche[1] + "_" + arr_valorCliche[2]+ "_DEL";
+            var  name_valor_cliche = $("#"+id+" input")[2].name;
+            arr_valor_cliche = name_valor_cliche.split("_");
+            $("#"+id+" input")[2].name = arr_valor_cliche[0] + "_" + arr_valor_cliche[1] + "_" + arr_valor_cliche[2]+ "_DEL";
 
             $("#"+id).hide();
         }

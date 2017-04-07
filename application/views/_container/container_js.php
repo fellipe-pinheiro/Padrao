@@ -549,11 +549,12 @@ $controller = $this->router->class;
 		$("#md_fita").modal();
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_editar/" + owner + "/" + posicao,"#md_fita",owner);
 	}
-
+	
 	function editar_cliche_modal(owner,posicao,id_cliche,quantidade,descricao,id_dimensao,cobrarServico,cobrarCliche){
 		ajax_carregar_cliche(true,id_cliche,id_dimensao);
 		ajax_carregar_cliche_dimensao(id_cliche,true,id_dimensao);
 		$("#form_qtd_cliche").val(quantidade);
+		console.log(descricao);
 		$("#form_descricao_cliche").val(descricao);
 		if(cobrarServico ==1){
 			$('#cobrar_servico').prop('checked',true);

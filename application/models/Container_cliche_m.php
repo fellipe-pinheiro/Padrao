@@ -8,8 +8,8 @@ class Container_cliche_m extends CI_Model {
     var $cliche; //Objeto Cliche_m()
     var $owner; //id do cartão/envelope/personalizado
     var $quantidade;
-    var $cobrarServico; //boolean
-    var $cobrarCliche; //boolean
+    var $cobrar_servico; //boolean
+    var $cobrar_cliche; //boolean
     var $descricao;
 
     public function inserir($id) {
@@ -30,12 +30,12 @@ class Container_cliche_m extends CI_Model {
             'cliche' => $this->cliche->id,
             $coluna => $id,
             'quantidade' => $this->quantidade,
-            'cobrar_servico' => $this->cobrarServico,
-            'cobrar_cliche' => $this->cobrarCliche,
+            'cobrar_servico' => $this->cobrar_servico,
+            'cobrar_cliche' => $this->cobrar_cliche,
             'descricao' => $this->descricao,
             'cliche_dimensao' => $this->cliche->get_selected_cliche_dimensao()->id,
-            'valor_servico' => $this->cliche->get_selected_cliche_dimensao()->valorServico,
-            'valor_cliche' => $this->cliche->get_selected_cliche_dimensao()->valorCliche,
+            'valor_servico' => $this->cliche->get_selected_cliche_dimensao()->valor_servico,
+            'valor_cliche' => $this->cliche->get_selected_cliche_dimensao()->valor_cliche,
             'qtd_minima' => $this->cliche->qtd_minima,
         );
         if ($this->db->insert($tabela, $dados)) {
@@ -73,10 +73,10 @@ class Container_cliche_m extends CI_Model {
         $valor = 0;
 
         if($this->cobrar_servico){
-            $valor = $cliche_dimensao->valorServico;
+            $valor = $cliche_dimensao->valor_servico;
         }
         if($this->cobrar_cliche){
-            $valor += $cliche_dimensao->valorCliche;
+            $valor += $cliche_dimensao->valor_cliche;
         }
 
         if ($qtd_convite < $this->cliche->qtd_minima) {

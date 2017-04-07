@@ -19,7 +19,14 @@ class Personalizado_m extends CI_Model {
     public function inserir() {
 
         $personalizado = $this->personalizado;
-        if (!empty($personalizado->container_papel) || !empty($personalizado->container_impressao) || !empty($personalizado->container_fita) || !empty($personalizado->container_acabamento) || !empty($personalizado->container_acessorio)) {
+        if (
+                !empty($personalizado->container_papel) || 
+                !empty($personalizado->container_impressao) || 
+                !empty($personalizado->container_fita) || 
+                !empty($personalizado->container_acabamento) || 
+                !empty($personalizado->container_acessorio) ||
+                !empty($personalizado->container_cliche)
+            ) {
             if (!$personalizado->inserir()) {
                 return false;
             }

@@ -71,7 +71,7 @@ $controller = $this->router->class;
 											<td>N / A</td>
 										</tr>
 										<!--Laminação-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['laminacao']?></td>
 											<td>
 												<div class="form-group">
@@ -87,9 +87,9 @@ $controller = $this->router->class;
 												<input type="checkbox" data-group-cls="btn-group-sm" name="laminacao_cobrar" id="laminacao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
-										</tr>
+										</tr-->
 										<!--Douração-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['douracao']?></td>
 											<td>
 												<div class="form-group">
@@ -105,7 +105,7 @@ $controller = $this->router->class;
 												<input type="checkbox" data-group-cls="btn-group-sm" name="douracao_cobrar" id="douracao_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
-										</tr>
+										</tr-->
 										<!--Corte Laser-->
 										<tr>
 											<td><?=$dados['papel_acabamento']['corte_laser']?></td>
@@ -130,7 +130,7 @@ $controller = $this->router->class;
 											<td>N / A</td>
 										</tr>
 										<!--Relevo Seco-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['relevo_seco']?></td>
 											<td>
 												<div class="form-group">
@@ -148,9 +148,9 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-										</tr>
+										</tr-->
 										<!--Hot Stamping-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['hot_stamping']?></td>
 											<td>
 												<div class="form-group">
@@ -168,7 +168,7 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar_faca_cliche" id="hot_stamping_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-										</tr>
+										</tr-->
 										<!--Corte Vinco-->
 										<tr>
 											<td><?=$dados['papel_acabamento']['corte_vinco']?></td>
@@ -226,7 +226,7 @@ $controller = $this->router->class;
 <!-- MODAL: IMPRESSÃO -->
 <div class="modal fade" id="md_impressao">
 	<form class="form_ajax" id="form_md_impressao" action="" method="post" accept-charset="utf-8">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

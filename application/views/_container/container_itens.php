@@ -92,6 +92,7 @@ foreach ($arr as $key => $value) {
 									<tr>
 										<th>#</th>
 										<th>Material</th>
+										<th>Item</th>
 										<th>Descrição</th>
 										<th>Qtd</th>
 										<th>Unitário</th>
@@ -115,6 +116,7 @@ foreach ($arr as $key => $value) {
 													<td><?= $count = $count + 1 ?></td>
 													<td><span class="<?=$glyphicon?>"></span> <b>Papel</b></td>
 													<td><?=$container_papel->dimensao->nome?> : <?=$container_papel->papel->papel_linha->nome?> <?=$container_papel->papel->nome?>, <?=$container_papel->papel->get_selected_papel_gramatura()->gramatura?>g</td>
+													<td></td>
 													<td><?=$container_papel->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario($session_container->modelo, $container_papel->dimensao,$session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$container_papel->dimensao,$session_container->quantidade)), 2, ",", ".") ?>
@@ -135,6 +137,7 @@ foreach ($arr as $key => $value) {
 													<td></td>
 													<td><span class="glyphicon glyphicon-align-justify"></span> <b><?=$container_papel->empastamento->papel_acabamento->nome?></b></td>
 													<td></td>
+													<td></td>
 													<td><?=$container_papel->empastamento->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total_empastamento($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade),$container_papel->empastamento->quantidade), 2, ",", ".") ?></td>
@@ -145,6 +148,7 @@ foreach ($arr as $key => $value) {
 												<tr class="<?=$class?>">
 													<td></td>
 													<td><span class="glyphicon glyphicon-open-file"></span> <b><?=$container_papel->laminacao->papel_acabamento->nome?></b></td>
+													<td></td>
 													<td></td>
 													<td><?=$container_papel->laminacao->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade), 2, ",", ".") ?></td>
@@ -157,6 +161,7 @@ foreach ($arr as $key => $value) {
 													<td></td>
 													<td><span class="glyphicon glyphicon-certificate"></span> <b><?=$container_papel->douracao->papel_acabamento->nome?></b></td>
 													<td></td>
+													<td></td>
 													<td><?=$container_papel->douracao->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_douracao($session_container->quantidade), 2, ",", ".") ?></span></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total_douracao($container_papel->calcula_valor_unitario_douracao($session_container->quantidade),$container_papel->douracao->quantidade), 2, ",", ".") ?></td>
@@ -167,6 +172,7 @@ foreach ($arr as $key => $value) {
 												<tr class="<?=$class?>">
 													<td></td>
 													<td><span class="glyphicon glyphicon-flash"></span> <b><?=$container_papel->corte_laser->papel_acabamento->nome?></b></td>
+													<td></td>
 													<td></td>
 													<td><?=$container_papel->corte_laser->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade), 2, ",", ".") ?></td>
@@ -179,6 +185,7 @@ foreach ($arr as $key => $value) {
 													<td></td>
 													<td><span class="glyphicon glyphicon-object-align-bottom"></span> <b><?=$container_papel->relevo_seco->papel_acabamento->nome?></b></td>
 													<td></td>
+													<td></td>
 													<td><?=$container_papel->relevo_seco->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total_relevo_seco($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade),$container_papel->relevo_seco->quantidade), 2, ",", ".") ?></td>
@@ -189,6 +196,7 @@ foreach ($arr as $key => $value) {
 												<tr class="<?=$class?>">
 													<td></td>
 													<td><span class="glyphicon glyphicon-registration-mark"></span> <b><?=$container_papel->hot_stamping->papel_acabamento->nome?></b></td>
+													<td></td>
 													<td></td>
 													<td><?=$container_papel->hot_stamping->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade), 2, ",", ".") ?></td>
@@ -201,6 +209,7 @@ foreach ($arr as $key => $value) {
 													<td></td>
 													<td><span class="glyphicon glyphicon-th"></span> <b><?=$container_papel->corte_vinco->papel_acabamento->nome?></b></td>
 													<td></td>
+													<td></td>
 													<td><?=$container_papel->corte_vinco->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_total_corte_vinco($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade),$container_papel->corte_vinco->quantidade), 2, ",", ".") ?></td>
@@ -211,6 +220,7 @@ foreach ($arr as $key => $value) {
 												<tr class="<?=$class?>">
 													<td></td>
 													<td><span class="glyphicon glyphicon-unchecked"></span> <b><?=$container_papel->almofada->papel_acabamento->nome?></b></td>
+													<td></td>
 													<td></td>
 													<td><?=$container_papel->almofada->quantidade?></td>
 													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_almofada($session_container->quantidade), 2, ",", ".") ?></td>
@@ -231,7 +241,9 @@ foreach ($arr as $key => $value) {
 												<tr>
 													<td><?= $count = $count + 1 ?></td>
 													<td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
-													<td><?=$container_impressao->impressao->nome?> : <?=$container_impressao->impressao->impressao_area->nome?></td>
+													<td><?=$container_impressao->impressao->nome?> / <?=$container_impressao->impressao->impressao_area->nome?>
+													</td>
+													<td><?=$container_impressao->descricao?></td>
 													<td><?=$container_impressao->quantidade?></td>
 													<td>R$ <?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?>
@@ -261,6 +273,7 @@ foreach ($arr as $key => $value) {
 													<td><?= $count = $count + 1 ?></td>
 													<td><span class="glyphicon glyphicon-scissors"></span> <b>Acabamento</b></td>
 													<td><?=$container_acabamento->acabamento->nome?></td>
+													<td><?=$container_acabamento->descricao?></td>
 													<td><?=$container_acabamento->quantidade?></td>
 													<td>R$ <?= number_format($container_acabamento->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_acabamento->calcula_valor_total($container_acabamento->quantidade,$container_acabamento->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
@@ -289,6 +302,7 @@ foreach ($arr as $key => $value) {
 													<td><?= $count = $count + 1 ?></td>
 													<td><i class="fa fa-diamond" aria-hidden="true"></i> <b>Acessório</b></td>
 													<td><?=$container_acessorio->acessorio->nome?></td>
+													<td><?=$container_acessorio->descricao?></td>
 													<td><?=$container_acessorio->quantidade?></td>
 													<td>R$ <?= number_format($container_acessorio->calcula_valor_unitario(), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_acessorio->calcula_valor_total($container_acessorio->quantidade,$container_acessorio->calcula_valor_unitario()), 2, ",", ".") ?></td>
@@ -316,7 +330,8 @@ foreach ($arr as $key => $value) {
 												<tr>
 													<td><?= $count = $count + 1 ?></td>
 													<td><span class="glyphicon glyphicon-tags"></span> <b>Fita</b></td>
-													<td><?=$container_fita->fita->fita_material->nome?>(<?=$container_fita->espessura?>mm) : <?=$container_fita->fita->fita_laco->nome?></td>
+													<td><?=$container_fita->fita->fita_material->nome?>(<?=$container_fita->espessura?>mm) / <?=$container_fita->fita->fita_laco->nome?></td>
+													<td><?=$container_fita->descricao?></td>
 													<td><?=$container_fita->quantidade?></td>
 													<td>R$ <?= number_format($container_fita->calcula_valor_unitario(), 2, ",", ".") ?></td>
 													<td>R$ <?= number_format($container_fita->calcula_valor_total($container_fita->quantidade,$container_fita->calcula_valor_unitario()), 2, ",", ".") ?></td>
@@ -344,7 +359,9 @@ foreach ($arr as $key => $value) {
 										        <tr>
 										            <td><?= $count = $count + 1 ?></td>
 										            <td><span class="glyphicon glyphicon-registration-mark"></span> <b>Clichê</b></td>
-										            <td><?=$container_cliche->cliche->nome?></td>
+										            <td><?=$container_cliche->cliche->nome?> / <?=$container_cliche->cliche->get_selected_cliche_dimensao()->nome?>
+										            </td>
+										            <td><?=$container_cliche->descricao?></td>
 										            <td><?=$container_cliche->quantidade?></td>
 										            <td>R$ <?= number_format($container_cliche->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
 										            <td>R$ <?= number_format($container_cliche->calcula_valor_total($container_cliche->quantidade,$container_cliche->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>

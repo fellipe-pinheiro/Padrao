@@ -181,8 +181,8 @@ class Cliche extends CI_Controller {
             'id' => $value['id'],
             'cliche' => $id_cliche,
             'nome' => $value['nome'],
-            'valor_servico' => $value['valorServico'],
-            'valor_cliche' => $value['valorCliche']
+            'valor_servico' => $value['valor_servico'],
+            'valor_cliche' => $value['valor_cliche']
             );
             switch ($value['action']) {
                 case "ADD":
@@ -212,8 +212,8 @@ class Cliche extends CI_Controller {
                         "action"=>"ADD",
                         "id"=>null,
                         "nome"=>$input["dimensao_nome_".$id."_ADD"],
-                        "valorServico"=>$input["dimensao_valorServico_".$id."_ADD"],
-                        "valorCliche"=>$input["dimensao_valorCliche_".$id."_ADD"]);
+                        "valor_servico"=>$input["dimensao_valorServico_".$id."_ADD"],
+                        "valor_cliche"=>$input["dimensao_valorCliche_".$id."_ADD"]);
 
                     break;
                 case 'UPD':
@@ -221,16 +221,16 @@ class Cliche extends CI_Controller {
                         "action"=>"UPD",
                         "id"=>$id,
                         "nome"=>$input["dimensao_nome_".$id."_UPD"],
-                        "valorServico"=>$input["dimensao_valorServico_".$id."_UPD"],
-                        "valorCliche"=>$input["dimensao_valorCliche_".$id."_UPD"]);
+                        "valor_servico"=>$input["dimensao_valorServico_".$id."_UPD"],
+                        "valor_cliche"=>$input["dimensao_valorCliche_".$id."_UPD"]);
                     break;
                 case 'DEL':
                     $arr =  array(
                         "action"=>"DEL",
                         "id"=>$id,
                         "nome"=>$input["dimensao_nome_".$id."_DEL"],
-                        "valorServico"=>$input["dimensao_valorServico_".$id."_DEL"],
-                        "valorCliche"=>$input["dimensao_valorCliche_".$id."_DEL"],
+                        "valor_servico"=>$input["dimensao_valorServico_".$id."_DEL"],
+                        "valor_cliche"=>$input["dimensao_valorCliche_".$id."_DEL"],
                         "name"=>$name);
                     break;
                 
@@ -262,16 +262,16 @@ class Cliche extends CI_Controller {
         $data = array();
         $data['status'] = TRUE;
         $names_nome = preg_grep( "/dimensao_nome_/", array_keys( $this->input->post() ), 0);
-        $names_valorServico = preg_grep( "/dimensao_valorServico_/", array_keys( $this->input->post() ), 0);
-        $names_valorCliche = preg_grep( "/dimensao_valorCliche_/", array_keys( $this->input->post() ), 0);
+        $names_valor_servico = preg_grep( "/dimensao_valorServico_/", array_keys( $this->input->post() ), 0);
+        $names_valor_cliche = preg_grep( "/dimensao_valorCliche_/", array_keys( $this->input->post() ), 0);
         foreach ($names_nome as $name) {
             $this->form_validation->set_rules($name, 'Nome', 'trim|required|max_length[50]');  
         }
-        foreach ($names_valorServico as $valorServico) {
-            $this->form_validation->set_rules($valorServico, 'Valor do serviço', 'trim|required|decimal_positive');    
+        foreach ($names_valor_servico as $valor_servico) {
+            $this->form_validation->set_rules($valor_servico, 'Valor do serviço', 'trim|required|decimal_positive');    
         }
-        foreach ($names_valorCliche as $valorCliche) {
-            $this->form_validation->set_rules($valorCliche, 'Valor do clichê', 'trim|required|decimal_positive');    
+        foreach ($names_valor_cliche as $valor_cliche) {
+            $this->form_validation->set_rules($valor_cliche, 'Valor do clichê', 'trim|required|decimal_positive');    
         }
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('qtd_minima', 'Quantidade mínima', 'trim|required|numeric|is_natural_no_zero|no_leading_zeroes');
