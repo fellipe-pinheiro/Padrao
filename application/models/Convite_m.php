@@ -20,13 +20,25 @@ class Convite_m extends CI_Model {
     public function inserir() {
 
         $cartao = $this->cartao;
-        if (!empty($cartao->container_papel) || !empty($cartao->container_impressao) || !empty($cartao->container_fita) || !empty($cartao->container_acabamento) || !empty($cartao->container_acessorio)) {
+        if (!empty($cartao->container_papel) ||
+            !empty($cartao->container_impressao) ||
+            !empty($cartao->container_fita) || 
+            !empty($cartao->container_acabamento) || 
+            !empty($cartao->container_acessorio) ||
+            !empty($cartao->container_cliche)
+            ) {
             if (!$cartao->inserir()) {
                 return false;
             }
         }
         $envelope = $this->envelope;
-        if (!empty($envelope->container_papel) || !empty($envelope->container_impressao) || !empty($envelope->container_fita) || !empty($envelope->container_acabamento) || !empty($envelope->container_acessorio)) {
+        if (!empty($envelope->container_papel) ||
+            !empty($envelope->container_impressao) || 
+            !empty($envelope->container_fita) || 
+            !empty($envelope->container_acabamento) || 
+            !empty($envelope->container_acessorio) ||
+            !empty($envelope->container_cliche)
+            ) {
             if (!$envelope->inserir()) {
                 return false;
             }

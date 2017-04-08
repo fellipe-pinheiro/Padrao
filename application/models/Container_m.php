@@ -11,6 +11,7 @@ class Container_m extends CI_Model {
     var $container_acabamento; //Array de objetos acabamento
     var $container_acessorio; //Array de objetos acessorio
     var $container_fita; //Array de objetos fita
+    var $container_cliche; //Array de objetos cliche
     var $table;
     var $column_order = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
     var $column_search = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
@@ -130,6 +131,13 @@ class Container_m extends CI_Model {
         if (!empty($this->container_fita)) {
             foreach ($this->container_fita as $fita) {
                 if (!$fita->inserir($this->id)) {
+                    return false;
+                }
+            }
+        }
+        if (!empty($this->container_cliche)) {
+            foreach ($this->container_cliche as $cliche) {
+                if (!$cliche->inserir($this->id)) {
                     return false;
                 }
             }
@@ -295,6 +303,19 @@ class Container_m extends CI_Model {
         return $container_fita;
     }
 
+    public function get_cliche($owner, $id, $dimensao, $quantidade, $cobrar_servico, $cobrar_cliche, $descricao) {
+        //busca o cliche pelo id
+        $container_cliche = new Container_cliche_m();
+        $container_cliche->cliche = $this->Cliche_m->get_by_id($id);
+        $container_cliche->cliche->set_cliche_dimensao($dimensao);
+        $container_cliche->quantidade = $quantidade;
+        $container_cliche->cobrar_servico = $cobrar_servico;
+        $container_cliche->cobrar_cliche = $cobrar_cliche;
+        $container_cliche->descricao = $descricao;
+        $container_cliche->owner = $owner;
+        return $container_cliche;
+    }
+
     //retorna a soma dos valores do array de: PAPEL, IMPRESSÃO, FITA, ACABAMENTO e ACESSÓRIO
     public function calcula_total($modelo, $qtd_pedido) {
         $this->total = 0;
@@ -329,6 +350,11 @@ class Container_m extends CI_Model {
         if (!empty($this->container_fita)) {
             foreach ($this->container_fita as $key => $value) {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario());
+            }
+        }
+        if (!empty($this->container_cliche)) {
+            foreach ($this->container_cliche as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
         return $this->total;
@@ -369,6 +395,11 @@ class Container_m extends CI_Model {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario());
             }
         }
+        if (!empty($this->container_cliche)) {
+            foreach ($this->container_cliche as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
+            }
+        }
         return $this->total;
     }
 
@@ -381,6 +412,7 @@ class Container_m extends CI_Model {
         $object->container_acabamento = $this->Container_acabamento_m->get_by_container_id($id, $owner);
         $object->container_acessorio = $this->Container_acessorio_m->get_by_container_id($id, $owner);
         $object->container_fita = $this->Container_fita_m->get_by_container_id($id, $owner);
+        $object->container_cliche = $this->Container_cliche_m->get_by_container_id($id, $owner);
         return $object;
     }
 

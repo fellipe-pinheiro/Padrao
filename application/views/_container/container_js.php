@@ -128,6 +128,12 @@ $controller = $this->router->class;
 			}
 		});
 
+		$("#form_select_cliche").change(function(event){
+			var option = $(this).find('option:selected');
+			var id_cliche = option.val();
+			ajax_carregar_cliche_dimensao(id_cliche);
+		});
+
 		$("#personalizado_categoria").change(function(event) {
 			var option = $(this).find('option:selected');
 			var id_categoria = option.val();
@@ -543,6 +549,27 @@ $controller = $this->router->class;
 		$("#md_fita").modal();
 		pre_submit("#form_md_fita","<?=$controller?>/session_fita_editar/" + owner + "/" + posicao,"#md_fita",owner);
 	}
+	
+	function editar_cliche_modal(owner,posicao,id_cliche,quantidade,descricao,id_dimensao,cobrarServico,cobrarCliche){
+		ajax_carregar_cliche(true,id_cliche,id_dimensao);
+		ajax_carregar_cliche_dimensao(id_cliche,true,id_dimensao);
+		$("#form_qtd_cliche").val(quantidade);
+		console.log(descricao);
+		$("#form_descricao_cliche").val(descricao);
+		if(cobrarServico ==1){
+			$('#cobrar_servico').prop('checked',true);
+		}else{
+			$('#cobrar_servico').prop('checked',false);
+		}
+		if(cobrarCliche ==1){
+			$('#cobrar_cliche').prop('checked',true);
+		}else{
+			$('#cobrar_cliche').prop('checked',false);
+		}
+
+		$("#md_cliche").modal();
+		pre_submit("#form_md_cliche","<?=$controller?>/session_cliche_editar/" + owner + "/" + posicao,"#md_cliche",owner);
+	}
 
 	function abrir_papel_modal(owner){
 		$("#md_papel_container_owner").val(owner);
@@ -596,6 +623,14 @@ $controller = $this->router->class;
 		//remove_form_select_option_fita();
 		limpar_select($('#form_select_fita'));
 		ajax_carregar_fita_material();
+	}
+
+	function abrir_cliche_modal(owner){
+		reset_form("#form_md_cliche");
+		pre_submit("#form_md_cliche","<?=$controller?>/session_cliche_inserir/"+owner,"#md_cliche",owner);
+		$('#form_select_cliche').selectpicker('val', '');
+		limpar_select($('#form_select_cliche_dimensao'));
+		ajax_carregar_cliche();
 	}
 
 	function ajax_session_carregar_dimensoes(owner, id_dimensao = null,editar = false) {
@@ -823,6 +858,66 @@ $controller = $this->router->class;
 			if(editar){
 				$('#form_select_acabamento').selectpicker('val', id_acabamento);
 			}
+		});
+	}
+
+	function ajax_carregar_cliche(editar = false, id_cliche = null, id_dimensao = null) {
+		$('#form_select_cliche')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("cliche/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_cliche').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_cliche");
+		})
+		.always(function() {
+			$('#form_select_cliche').selectpicker('refresh');
+			if(editar){
+				$('#form_select_cliche').selectpicker('val', id_cliche);
+			}
+		});
+	}
+
+	function ajax_carregar_cliche_dimensao(id,editar = false, idClicheDimensao = null) {
+		limpar_select($('#form_select_cliche_dimensao'), true);
+
+		$.ajax({
+			url: '<?= base_url("cliche/ajax_get_personalizado_cliche_dimensao/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_cliche_dimensao'));
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.id == idClicheDimensao && editar){
+					selected = true;
+				}
+				$('#form_select_cliche_dimensao').append($('<option>', {
+				    value: val.id,
+				    text: val.nome,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_cliche_dimensao");
+		})
+		.always(function() {
 		});
 	}
 
@@ -1061,6 +1156,10 @@ $controller = $this->router->class;
 
 	function excluir_fita(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_fita_excluir",owner,posicao);
+	}
+
+	function excluir_cliche(owner,posicao) {
+		excluir_item_posicao("<?=$controller?>/session_cliche_excluir",owner,posicao);
 	}
 
 	function excluir_convite() {

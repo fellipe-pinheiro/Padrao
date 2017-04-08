@@ -412,7 +412,7 @@ function close_loadingModal() {
 function limpar_select(element_id,atualizar = false) {
 	if(atualizar){
 		element_id.find('option').remove().end();
-	    element_id.prepend($('<option></option>').html('Atualizando...'));	
+	    element_id.prepend($('<option value=""></option>').html('Atualizando...'));	
 	}else{
 		element_id.find('option').remove().end().append('<option value="">Selecione</option>').val('');
 	}

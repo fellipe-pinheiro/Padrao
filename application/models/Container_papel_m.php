@@ -380,7 +380,7 @@ class Container_papel_m extends CI_Model {
             $object = new Container_papel_m();
             $object->id = $value['id'];
             $object->papel = $this->Papel_m->get_by_id($value['papel']);
-            $object->papel->set_papel_gramatura_and_valor($value['gramatura'], $value['valor']);
+            $object->papel->set_papel_gramatura($value['gramatura'],$value['valor'],true);
             if($owner == 'personalizado'){
                 $object->dimensao = $this->Personalizado_modelo_dimensao_m->get_by_id($value['dimensao']);
             }else{
