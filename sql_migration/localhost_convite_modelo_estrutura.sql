@@ -550,3 +550,23 @@ ADD CONSTRAINT `fk_personalizadoCliche_clicheDimensao`
   REFERENCES `cgolin_localhost`.`cliche_dimensao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
+
+CREATE TABLE `faca` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `faca_dimensao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `faca` int(11) unsigned NOT NULL,
+  `valor_servico` decimal(10,2) NOT NULL,
+  `valor_faca` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk__idx` (`faca`),
+  CONSTRAINT `fk_facaDimensao_faca` FOREIGN KEY (`faca`) REFERENCES `faca` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
