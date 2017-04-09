@@ -2,16 +2,16 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cliche_m extends CI_Model {
+class Faca_m extends CI_Model {
 
     var $id;
     var $nome;
     var $qtd_minima;
-    var $dimensoes; // Array de Objetos Cliche_dimensao_m
+    var $dimensoes; // Array de Objetos Faca_dimensao_m
     var $descricao;
     var $ativo;
     // Ajax 
-    var $table = 'cliche';
+    var $table = 'faca';
     var $column_order = array('id','nome','qtd_minima','descricao','ativo');
     var $column_search = array('id','nome','ativo');
     var $order = array('id'=>'asc');
@@ -102,13 +102,13 @@ class Cliche_m extends CI_Model {
         return false;
     }
 
-    public function set_cliche_dimensao($id,$valor_servico = 0,$valor_cliche = 0,$atualizar = false){
+    public function set_faca_dimensao($id,$valor_servico = 0,$valor_faca = 0,$atualizar = false){
         foreach ($this->dimensoes as $value) {
             if($value->id === $id){
                 $value->selected = true;
                 if($atualizar){
                     $value->valor_servico = $valor_servico;
-                    $value->valor_cliche = $valor_cliche;
+                    $value->valor_faca = $valor_faca;
                 }
             }else{
                 $value->selected = false;
@@ -116,7 +116,7 @@ class Cliche_m extends CI_Model {
         }
     }
 
-    public function get_selected_cliche_dimensao(){
+    public function get_selected_faca_dimensao(){
         foreach ($this->dimensoes as $object) {
             if($object->selected){
                 return $object;
@@ -126,11 +126,11 @@ class Cliche_m extends CI_Model {
 
     private function changeToObject($result_db) {
         foreach ($result_db as $key => $value) {
-            $object = new Cliche_m();
+            $object = new Faca_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
             $object->qtd_minima = $value['qtd_minima'];
-            $object->dimensoes = $this->Cliche_dimensao_m->get_by_modelo_id($object->id);
+            $object->dimensoes = $this->Faca_dimensao_m->get_by_modelo_id($object->id);
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];
         }
