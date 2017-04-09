@@ -8,13 +8,7 @@ class Convite extends CI_Controller {
         parent::__construct();
         $this->load->model('Orcamento_m');
         $this->load->model('Convite_m');
-        $this->load->model('Container_m');
-        $this->load->model('Container_papel_m');
-        $this->load->model('Container_papel_acabamento_m');
-        $this->load->model('Container_impressao_m');
-        $this->load->model('Container_acabamento_m');
-        $this->load->model('Container_acessorio_m');
-        $this->load->model('Container_fita_m');
+
         $this->load->model('Convite_modelo_m');
         $this->load->model('Convite_modelo_dimensao_m');
         $this->load->model('Mao_obra_m');
@@ -36,7 +30,18 @@ class Convite extends CI_Controller {
         $this->load->model('Fita_espessura_m');
         $this->load->model('Cliche_m');
         $this->load->model('Cliche_dimensao_m');
+        $this->load->model('Faca_m');
+        $this->load->model('Faca_dimensao_m');
+
+        $this->load->model('Container_m');
+        $this->load->model('Container_papel_m');
+        $this->load->model('Container_papel_acabamento_m');
+        $this->load->model('Container_impressao_m');
+        $this->load->model('Container_acabamento_m');
+        $this->load->model('Container_acessorio_m');
+        $this->load->model('Container_fita_m');
         $this->load->model('Container_cliche_m');
+        $this->load->model('Container_faca_m');
 
         init_layout();
         set_layout('titulo', 'Convite',FALSE);
@@ -688,7 +693,7 @@ class Convite extends CI_Controller {
         }
     }
 
-    //SESSION: cliche
+    //SESSION: CLICHÊ
     public function session_cliche_inserir(){
         $this->validar_formulario_cliche();
         if($this->uri->segment(3) == 'cartao'){
@@ -726,7 +731,7 @@ class Convite extends CI_Controller {
 
     private function set_cliche($owner){
         //busca o cliche pelo id e seta a quantidade e descrição
-        empty($this->input->post('cobrar_servico'))? $cobrar_servico = 0 : $cobrar_servico = 1;
+        empty($this->input->post('cobrar_servicoCliche'))? $cobrar_servico = 0 : $cobrar_servico = 1;
         empty($this->input->post('cobrar_cliche'))? $cobrar_cliche = 0 : $cobrar_cliche = 1;
         $container = $this->Container_m->get_cliche($owner,$this->input->post('cliche'),$this->input->post('dimensao'),$this->input->post('quantidade'),$cobrar_servico,$cobrar_cliche,$this->input->post('descricao'));
         return $container;
@@ -749,6 +754,67 @@ class Convite extends CI_Controller {
         }
     }
 
+    //SESSION: FACA
+    public function session_faca_inserir(){
+        $this->validar_formulario_faca();
+        if($this->uri->segment(3) == 'cartao'){
+            $this->session->convite->cartao->container_faca[] = $this->set_faca('cartao');
+        }else if($this->uri->segment(3) == 'envelope'){
+            $this->session->convite->envelope->container_faca[] = $this->set_faca('envelope');
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> inserido com sucesso'));
+        exit();  
+    }
+
+    public function session_faca_editar(){
+        $this->validar_formulario_faca();
+        $posicao = $this->uri->segment(4);
+        if($this->uri->segment(3) == 'cartao'){
+            $this->session->convite->cartao->container_faca[$posicao] = $this->set_faca('cartao');
+        }else if($this->uri->segment(3) == 'envelope'){
+            $this->session->convite->envelope->container_faca[$posicao] = $this->set_faca('envelope');
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> editado com sucesso'));
+        exit();   
+    }
+
+    public function session_faca_excluir(){
+        $posicao = $this->input->post('posicao');
+        $owner = $this->input->post('owner');
+        if($owner == 'cartao'){
+            unset($this->session->convite->cartao->container_faca[$posicao]);
+        }else if($owner == 'envelope'){
+            unset($this->session->convite->envelope->container_faca[$posicao]);
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> excluido com sucesso'));
+        exit(); 
+    }
+
+    private function set_faca($owner){
+        //busca o faca pelo id e seta a quantidade e descrição
+        empty($this->input->post('cobrar_servicoFaca'))? $cobrar_servico = 0 : $cobrar_servico = 1;
+        empty($this->input->post('cobrar_faca'))? $cobrar_faca = 0 : $cobrar_faca = 1;
+        $container = $this->Container_m->get_faca($owner,$this->input->post('faca'),$this->input->post('dimensao'),$this->input->post('quantidade'),$cobrar_servico,$cobrar_faca,$this->input->post('descricao'));
+        return $container;
+    }
+
+    private function validar_formulario_faca(){
+        $data = array();
+        $data['status'] = TRUE;
+        
+        $this->form_validation->set_rules('faca', 'Faca', 'required');
+        $this->form_validation->set_rules('dimensao', 'Dimensão', 'required');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+
+        if (!$this->form_validation->run()) {
+            $data['form_validation'] = $this->form_validation->error_array();
+            $data['status'] = FALSE;
+            print json_encode($data);
+            exit();
+        }
+    }
+
     //Verifica se existem itens e mão de obra no [cartão, envelope]
     public function is_empty_container_itens(){
         $data = array();
@@ -756,7 +822,21 @@ class Convite extends CI_Controller {
         $cartao = $this->session->convite->cartao;
         $envelope = $this->session->convite->envelope;
 
-        if(empty($cartao->container_papel) && empty($cartao->container_impressao) && empty($cartao->container_acabamento) && empty($cartao->container_acessorio)  && empty($cartao->container_fita) && empty($cartao->container_cliche) && empty($envelope->container_papel) && empty($envelope->container_impressao) && empty($envelope->container_acabamento) && empty($envelope->container_acessorio)  && empty($envelope->container_fita && empty($envelope->container_cliche))){
+        if( empty($cartao->container_papel) && 
+            empty($cartao->container_impressao) && 
+            empty($cartao->container_acabamento) && 
+            empty($cartao->container_acessorio)  && 
+            empty($cartao->container_fita) && 
+            empty($cartao->container_cliche) && 
+            empty($cartao->container_faca) && 
+            empty($envelope->container_papel) && 
+            empty($envelope->container_impressao) && 
+            empty($envelope->container_acabamento) && 
+            empty($envelope->container_acessorio)  && 
+            empty($envelope->container_fita) && 
+            empty($envelope->container_cliche) &&
+            empty($envelope->container_faca)
+        ){
             $data['status'] = FALSE;
             $data['msg'] = "O cartão e envelope estão vazios";
         }else if(empty($this->session->convite->mao_obra->id)){

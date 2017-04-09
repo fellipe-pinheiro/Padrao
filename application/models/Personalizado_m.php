@@ -25,7 +25,8 @@ class Personalizado_m extends CI_Model {
                 !empty($personalizado->container_fita) || 
                 !empty($personalizado->container_acabamento) || 
                 !empty($personalizado->container_acessorio) ||
-                !empty($personalizado->container_cliche)
+                !empty($personalizado->container_cliche) ||
+                !empty($personalizado->container_faca)
             ) {
             if (!$personalizado->inserir()) {
                 return false;

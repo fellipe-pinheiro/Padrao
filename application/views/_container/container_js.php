@@ -134,6 +134,12 @@ $controller = $this->router->class;
 			ajax_carregar_cliche_dimensao(id_cliche);
 		});
 
+		$("#form_select_faca").change(function(event){
+			var option = $(this).find('option:selected');
+			var id_faca = option.val();
+			ajax_carregar_faca_dimensao(id_faca);
+		});
+
 		$("#personalizado_categoria").change(function(event) {
 			var option = $(this).find('option:selected');
 			var id_categoria = option.val();
@@ -557,9 +563,9 @@ $controller = $this->router->class;
 		console.log(descricao);
 		$("#form_descricao_cliche").val(descricao);
 		if(cobrarServico ==1){
-			$('#cobrar_servico').prop('checked',true);
+			$('#cobrar_servicoCliche').prop('checked',true);
 		}else{
-			$('#cobrar_servico').prop('checked',false);
+			$('#cobrar_servicoCliche').prop('checked',false);
 		}
 		if(cobrarCliche ==1){
 			$('#cobrar_cliche').prop('checked',true);
@@ -569,6 +575,27 @@ $controller = $this->router->class;
 
 		$("#md_cliche").modal();
 		pre_submit("#form_md_cliche","<?=$controller?>/session_cliche_editar/" + owner + "/" + posicao,"#md_cliche",owner);
+	}
+
+	function editar_faca_modal(owner,posicao,id_faca,quantidade,descricao,id_dimensao,cobrarServico,cobrarCliche){
+		ajax_carregar_faca(true,id_faca,id_dimensao);
+		ajax_carregar_faca_dimensao(id_faca,true,id_dimensao);
+		$("#form_qtd_faca").val(quantidade);
+		console.log(descricao);
+		$("#form_descricao_faca").val(descricao);
+		if(cobrarServico ==1){
+			$('#cobrar_servicoFaca').prop('checked',true);
+		}else{
+			$('#cobrar_servicoFaca').prop('checked',false);
+		}
+		if(cobrarCliche ==1){
+			$('#cobrar_faca').prop('checked',true);
+		}else{
+			$('#cobrar_faca').prop('checked',false);
+		}
+
+		$("#md_faca").modal();
+		pre_submit("#form_md_faca","<?=$controller?>/session_faca_editar/" + owner + "/" + posicao,"#md_faca",owner);
 	}
 
 	function abrir_papel_modal(owner){
@@ -631,6 +658,14 @@ $controller = $this->router->class;
 		$('#form_select_cliche').selectpicker('val', '');
 		limpar_select($('#form_select_cliche_dimensao'));
 		ajax_carregar_cliche();
+	}
+	
+	function abrir_faca_modal(owner){
+		reset_form("#form_md_faca");
+		pre_submit("#form_md_faca","<?=$controller?>/session_faca_inserir/"+owner,"#md_faca",owner);
+		$('#form_select_faca').selectpicker('val', '');
+		limpar_select($('#form_select_faca_dimensao'));
+		ajax_carregar_faca();
 	}
 
 	function ajax_session_carregar_dimensoes(owner, id_dimensao = null,editar = false) {
@@ -921,6 +956,66 @@ $controller = $this->router->class;
 		});
 	}
 
+	function ajax_carregar_faca(editar = false, id_faca = null, id_dimensao = null) {
+		$('#form_select_faca')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("faca/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_faca').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_faca");
+		})
+		.always(function() {
+			$('#form_select_faca').selectpicker('refresh');
+			if(editar){
+				$('#form_select_faca').selectpicker('val', id_faca);
+			}
+		});
+	}
+
+	function ajax_carregar_faca_dimensao(id,editar = false, idClicheDimensao = null) {
+		limpar_select($('#form_select_faca_dimensao'), true);
+
+		$.ajax({
+			url: '<?= base_url("faca/ajax_get_personalizado_faca_dimensao/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_faca_dimensao'));
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.id == idClicheDimensao && editar){
+					selected = true;
+				}
+				$('#form_select_faca_dimensao').append($('<option>', {
+				    value: val.id,
+				    text: val.nome,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_faca_dimensao");
+		})
+		.always(function() {
+		});
+	}
+
 	function ajax_carregar_acessorio(editar = false,id_acessorio = null) {
 		$('#form_select_acessorio')
 		    .find('option')
@@ -1160,6 +1255,10 @@ $controller = $this->router->class;
 
 	function excluir_cliche(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_cliche_excluir",owner,posicao);
+	}
+
+	function excluir_faca(owner,posicao) {
+		excluir_item_posicao("<?=$controller?>/session_faca_excluir",owner,posicao);
 	}
 
 	function excluir_convite() {

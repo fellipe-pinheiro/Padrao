@@ -82,6 +82,11 @@ foreach ($arr as $key => $value) {
 			                        	<a onclick="abrir_cliche_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_cliche'><i class="glyphicon glyphicon-registration-mark"></i> Clichê</a>
 		                        	</li>
 			                    </ul>
+			                    <ul class="nav navbar-nav">
+			                        <li>
+			                        	<a onclick="abrir_faca_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_faca'><i class="fa fa-map-o" aria-hidden="true"></i> Faca</a>
+		                        	</li>
+			                    </ul>
 			                </div>
 			            </div>
 			        </nav>
@@ -91,7 +96,7 @@ foreach ($arr as $key => $value) {
 								<table id="<?=$tabela_id?>" class="table table-hover table-condensed">
 									<tr>
 										<th>#</th>
-										<th>Material</th>
+										<th>Componente</th>
 										<th>Item</th>
 										<th>Descrição</th>
 										<th>Qtd</th>
@@ -381,9 +386,40 @@ foreach ($arr as $key => $value) {
 										}
 										?>
 										<!-- FIM: CLICHÊ -->
+										<!-- INICIO: FACA -->
+										<?php 
+										if(!empty($session_owner->container_faca)){
+										    foreach ($session_owner->container_faca as $key => $container_faca) {
+										        ?>
+										        <tr>
+										            <td><?= $count = $count + 1 ?></td>
+										            <td><i class="fa fa-map-o" aria-hidden="true"></i> <b>Faca</b></td>
+										            <td><?=$container_faca->faca->nome?> / <?=$container_faca->faca->get_selected_faca_dimensao()->nome?>
+										            </td>
+										            <td><?=$container_faca->descricao?></td>
+										            <td><?=$container_faca->quantidade?></td>
+										            <td>R$ <?= number_format($container_faca->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+										            <td>R$ <?= number_format($container_faca->calcula_valor_total($container_faca->quantidade,$container_faca->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+										            <td>
+										                <button onclick="editar_faca_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_faca->faca->id?>,<?=$container_faca->quantidade?>,'<?=$container_faca->descricao?>',<?=$container_faca->faca->get_selected_faca_dimensao()->id?>,<?=$container_faca->cobrar_servico?>,<?=$container_faca->cobrar_faca?>)" id="" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-pencil"></span>
+										                </button>
+										            </td>
+										            <td>
+										                <button onclick="excluir_faca('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-trash"></span>
+										                </button>
+										            </td>
+										        </tr>
+										        <?php
+										    }
+										}
+										?>
+										<!-- FIM: FACA -->
 									</tbody>
 									<tfoot>
 										<tr>
+											<th></th>
 											<th></th>
 											<th></th>
 											<th></th>

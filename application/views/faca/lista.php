@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <div class="navbar-brand">Clichê</div>
+                    <div class="navbar-brand">Faca</div>
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-12">
                 <div class="col-sm-12 table-responsive">
-                    <table id="tabela_cliche" class="table display compact table-bordered " cellspacing="0" width="100%">
+                    <table id="tabela_faca" class="table display compact table-bordered " cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal_form">
-    <form action="#" method="POST" role="form" class="form-horizontal" id="form_cliche">
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_faca">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </div>
-                        <!--Clichê Dimensão-->
+                        <!--Faca Dimensão-->
                         <div class="hidden" id="default_dimensao_div">
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div class="input-group-btn">
                                             <button type="button" id="default_button_excluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                                         </div>
-                                        <input type="text" name="" id="default_nome_input" class="form-control" title="Tamanho / apelido do clichê" placeholder="Tamanho / apelido do clichê">
+                                        <input type="text" name="" id="default_nome_input" class="form-control" title="Tamanho / apelido da faca" placeholder="Tamanho / apelido da faca">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group input-padding">
                                     <div class="input-group">
                                         <span class="input-group-addon">R$</span>
-                                        <input type="number" name="valor" id="default_valorCliche_input" step="0.01" min="0" class="form-control" value="" title="Valor do clichê" placeholder="Valor do clichê">
+                                        <input type="number" name="valor" id="default_valorFaca_input" step="0.01" min="0" class="form-control" value="" title="Valor da faca" placeholder="Valor da faca">
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var visible_dimensao = 0;
 
     $(document).ready(function () {
-        tabela = $("#tabela_cliche").DataTable({
+        tabela = $("#tabela_faca").DataTable({
             scrollX: true,
             scrollY: "500px",
             scrollCollapse: true,
@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             serverSide: true,
             order: [[2, 'asc']],//nome
             ajax: {
-                url: "<?= base_url('cliche/ajax_list') ?>",
+                url: "<?= base_url('faca/ajax_list') ?>",
                 type: "POST"
             },
             columns: [
@@ -255,7 +255,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ]
             });
         // Resaltar a linha selecionada
-        $("#tabela_cliche tbody").on("click", "tr", function () {
+        $("#tabela_faca tbody").on("click", "tr", function () {
             if ($(this).hasClass("selected")) {
                 $(this).removeClass("selected");
             } else {
@@ -269,7 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             save_method = 'add';
             $("input[name='id']").val("");
             $("#add_dimensoes").click();
-            $('.modal-title').text('Adicionar Clichê');
+            $('.modal-title').text('Adicionar Faca');
             visible_dimensao = $(".dimensao_group").length;
             $('#modal_form').modal('show');
         });
@@ -286,12 +286,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("input[name='id']").val(id);
             //Ajax Load data from ajax
             $.ajax({
-                url: "<?= base_url('cliche/ajax_edit/') ?>" + id,
+                url: "<?= base_url('faca/ajax_edit/') ?>" + id,
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
                 {   
-                    $.map(data.cliche, function (value, index) {
+                    $.map(data.faca, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             if($('[name="' + index + '"]').is(':checkbox')){
                                 if(value === "0"){checked = false;}else{ checked = true;}
@@ -303,13 +303,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
                         }else if(index == 'dimensoes'){
                             $.each(value,function(i, dimensoes) {
-                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.valor_servico,dimensoes.valor_cliche);
+                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.valor_servico,dimensoes.valor_faca);
                             });
                         }      
                     });
 
                     $('#modal_form').modal('show');
-                    $('.modal-title').text('Editar Clichê ID: '+id);
+                    $('.modal-title').text('Editar Faca ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -331,7 +331,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 cancelButtonClass: 'btn-default',
                 confirm: function(){
                     $.ajax({
-                        url: "<?= base_url('cliche/ajax_delete/') ?>" + id,
+                        url: "<?= base_url('faca/ajax_delete/') ?>" + id,
                         type: "POST",
                         dataType: "JSON",
                         success: function (data)
@@ -355,19 +355,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-        $("#form_cliche").submit(function (event) {
+        $("#form_faca").submit(function (event) {
             event.preventDefault();
             disable_button_salvar();
             var url;
             if (save_method == 'add') {
-                url = "<?php echo site_url('cliche/ajax_add') ?>";
+                url = "<?php echo site_url('faca/ajax_add') ?>";
             } else {
-                url = "<?php echo site_url('cliche/ajax_update') ?>";
+                url = "<?php echo site_url('faca/ajax_update') ?>";
             }
             $.ajax({
                 url: url,
                 type: "POST",
-                data: $('#form_cliche').serialize(),
+                data: $('#form_faca').serialize(),
                 dataType: "JSON",
                 success: function (data)
                 {
@@ -401,7 +401,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         form_small();
     });
 
-    function clonar_dimensoes(editar,id,nome,valor_servico,valor_cliche){//ID = 1_ADD
+    function clonar_dimensoes(editar,id,nome,valor_servico,valor_faca){//ID = 1_ADD
         var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');
         var cl = clone[0];
 
@@ -413,7 +413,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $($(cl).find("#default_valorServico_input")).prop("id","valorServico_"+id).prop("name","dimensao_valorServico_"+id).val(valor_servico).prop("required","required");
 
-        $($(cl).find("#default_valorCliche_input")).prop("id","valorCliche_"+id).prop("name","dimensao_valorCliche_"+id).val(valor_cliche).prop("required","required");
+        $($(cl).find("#default_valorFaca_input")).prop("id","valorFaca_"+id).prop("name","dimensao_valorFaca_"+id).val(valor_faca).prop("required","required");
 
         clone.appendTo("#lista_dimensoes");
     }
@@ -448,7 +448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if(visible_dimensao === 1){
             $.alert({
                 title: 'Alerta!',
-                content: 'O clichê precisa ter pelo menos uma dimensão.',
+                content: 'A faca precisa ter pelo menos uma dimensão.',
             });
             return false;
         }else{
@@ -469,9 +469,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             arr_valor_servico = name_valor_servico.split("_");
             $("#"+id+" input")[1].name = arr_valor_servico[0] + "_" + arr_valor_servico[1] + "_" + arr_valor_servico[2]+ "_DEL";
 
-            var  name_valor_cliche = $("#"+id+" input")[2].name;
-            arr_valor_cliche = name_valor_cliche.split("_");
-            $("#"+id+" input")[2].name = arr_valor_cliche[0] + "_" + arr_valor_cliche[1] + "_" + arr_valor_cliche[2]+ "_DEL";
+            var  name_valor_faca = $("#"+id+" input")[2].name;
+            arr_valor_faca = name_valor_faca.split("_");
+            $("#"+id+" input")[2].name = arr_valor_faca[0] + "_" + arr_valor_faca[1] + "_" + arr_valor_faca[2]+ "_DEL";
 
             $("#"+id).hide();
         }
@@ -483,8 +483,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function reset_form() {
-        $('#form_cliche')[0].reset();
-        $('#form_cliche :input').val(''); //para limpar os inputs hidden (só com o reset não está limpando o valor)
+        $('#form_faca')[0].reset();
+        $('#form_faca :input').val(''); //para limpar os inputs hidden (só com o reset não está limpando o valor)
         $(':checkbox').val('1'); // como limpei com ($(':input').val('');), recoloco o valor do input checkbox para 1
         reset_errors();
         $("#lista_dimensoes").html("");

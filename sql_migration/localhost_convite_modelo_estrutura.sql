@@ -550,3 +550,86 @@ ADD CONSTRAINT `fk_personalizadoCliche_clicheDimensao`
   REFERENCES `cgolin_localhost`.`cliche_dimensao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
+
+CREATE TABLE `faca` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `faca_dimensao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `faca` int(11) unsigned NOT NULL,
+  `valor_servico` decimal(10,2) NOT NULL,
+  `valor_faca` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk__idx` (`faca`),
+  CONSTRAINT `fk_facaDimensao_faca` FOREIGN KEY (`faca`) REFERENCES `faca` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `cartao_faca` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cartao` int(11) unsigned NOT NULL,
+  `faca` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca` tinyint(1) NOT NULL,
+  `descricao` text,
+  `faca_dimensao` int(11) unsigned NOT NULL,
+  `valor_servico` decimal(10,2) NOT NULL,
+  `valor_faca` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_cartaoFaca_cartao_idx` (`cartao`),
+  KEY `fk_cartaoFaca_faca_idx` (`faca`),
+  KEY `fk_cartaoFaca_facaDimensao_idx` (`faca_dimensao`),
+  CONSTRAINT `fk_cartaoFaca_cartao` FOREIGN KEY (`cartao`) REFERENCES `cartao` (`id`),
+  CONSTRAINT `fk_cartaoFaca_faca` FOREIGN KEY (`faca`) REFERENCES `faca` (`id`),
+  CONSTRAINT `fk_cartaoFaca_facaDimensao` FOREIGN KEY (`faca_dimensao`) REFERENCES `faca_dimensao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `envelope_faca` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `envelope` int(11) unsigned NOT NULL,
+  `faca` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca` tinyint(1) NOT NULL,
+  `descricao` text,
+  `faca_dimensao` int(11) unsigned NOT NULL,
+  `valor_servico` decimal(10,2) NOT NULL,
+  `valor_faca` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_envelopeFaca_envelope_idx` (`envelope`),
+  KEY `fk_envelopeFaca_faca_idx` (`faca`),
+  KEY `fk_envelopeFaca_facaDimensao_idx` (`faca_dimensao`),
+  CONSTRAINT `fk_envelopeFaca_faca` FOREIGN KEY (`faca`) REFERENCES `faca` (`id`),
+  CONSTRAINT `fk_envelopeFaca_facaDimensao` FOREIGN KEY (`faca_dimensao`) REFERENCES `faca_dimensao` (`id`),
+  CONSTRAINT `fk_envelopeFaca_envelope` FOREIGN KEY (`envelope`) REFERENCES `envelope` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `personalizado_faca` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `personalizado` int(11) unsigned NOT NULL,
+  `faca` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `cobrar_servico` tinyint(1) NOT NULL,
+  `cobrar_faca` tinyint(1) NOT NULL,
+  `descricao` text,
+  `faca_dimensao` int(11) unsigned NOT NULL,
+  `valor_servico` decimal(10,2) NOT NULL,
+  `valor_faca` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_personalizadoFaca_personalizado_idx` (`personalizado`),
+  KEY `fk_personalizadoFaca_faca_idx` (`faca`),
+  KEY `fk_personalizadoFaca_facaDimensao_idx` (`faca_dimensao`),
+  CONSTRAINT `fk_personalizadoFaca_faca` FOREIGN KEY (`faca`) REFERENCES `faca` (`id`),
+  CONSTRAINT `fk_personalizadoFaca_facaDimensao` FOREIGN KEY (`faca_dimensao`) REFERENCES `faca_dimensao` (`id`),
+  CONSTRAINT `fk_personalizadoFaca_personalizado` FOREIGN KEY (`personalizado`) REFERENCES `personalizado` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
