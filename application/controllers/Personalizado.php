@@ -11,13 +11,7 @@ class Personalizado extends CI_Controller {
         $this->load->model('Personalizado_modelo_m');
         $this->load->model('Personalizado_modelo_dimensao_m');
         $this->load->model('Personalizado_categoria_m');
-        $this->load->model('Container_m');
-        $this->load->model('Container_papel_m');
-        $this->load->model('Container_papel_acabamento_m');
-        $this->load->model('Container_impressao_m');
-        $this->load->model('Container_acabamento_m');
-        $this->load->model('Container_acessorio_m');
-        $this->load->model('Container_fita_m');
+
         $this->load->model('Mao_obra_m');
         $this->load->model('Assessor_m');
 
@@ -35,6 +29,20 @@ class Personalizado extends CI_Controller {
         $this->load->model('Fita_laco_m');
         $this->load->model('Fita_material_m');
         $this->load->model('Fita_espessura_m');
+        $this->load->model('Cliche_m');
+        $this->load->model('Cliche_dimensao_m');
+        $this->load->model('Faca_m');
+        $this->load->model('Faca_dimensao_m');
+
+        $this->load->model('Container_m');
+        $this->load->model('Container_papel_m');
+        $this->load->model('Container_papel_acabamento_m');
+        $this->load->model('Container_impressao_m');
+        $this->load->model('Container_acabamento_m');
+        $this->load->model('Container_acessorio_m');
+        $this->load->model('Container_fita_m');
+        $this->load->model('Container_cliche_m');
+        $this->load->model('Container_faca_m');
 
         init_layout();
         set_layout('titulo', 'Personalizado', FALSE);
@@ -611,13 +619,116 @@ class Personalizado extends CI_Controller {
         }
     }
 
+    //SESSION: CLICHÊ
+    public function session_cliche_inserir(){
+        $this->validar_formulario_cliche();
+        $this->session->personalizado->personalizado->container_cliche[] = $this->set_cliche('personalizado');
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Clichê</strong> inserido com sucesso'));
+        exit();  
+    }
+
+    public function session_cliche_editar(){
+        $this->validar_formulario_cliche();
+        $posicao = $this->uri->segment(4);
+        $this->session->personalizado->personalizado->container_cliche[$posicao] = $this->set_cliche('personalizado');
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Clichê</strong> editado com sucesso'));
+        exit();   
+    }
+
+    public function session_cliche_excluir(){
+        $posicao = $this->input->post('posicao');
+        unset($this->session->personalizado->personalizado->container_cliche[$posicao]);
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Clichê</strong> excluido com sucesso'));
+        exit(); 
+    }
+
+    private function set_cliche($owner){
+        //busca o cliche pelo id e seta a quantidade e descrição
+        empty($this->input->post('cobrar_servicoCliche'))? $cobrar_servico = 0 : $cobrar_servico = 1;
+        empty($this->input->post('cobrar_cliche'))? $cobrar_cliche = 0 : $cobrar_cliche = 1;
+        $container = $this->Container_m->get_cliche($owner,$this->input->post('cliche'),$this->input->post('dimensao'),$this->input->post('quantidade'),$cobrar_servico,$cobrar_cliche,$this->input->post('descricao'));
+        return $container;
+    }
+
+    private function validar_formulario_cliche(){
+        $data = array();
+        $data['status'] = TRUE;
+        
+        $this->form_validation->set_rules('cliche', 'Clichê', 'required');
+        $this->form_validation->set_rules('dimensao', 'Dimensão', 'required');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+
+        if (!$this->form_validation->run()) {
+            $data['form_validation'] = $this->form_validation->error_array();
+            $data['status'] = FALSE;
+            print json_encode($data);
+            exit();
+        }
+    }
+
+    //SESSION: FACA
+    public function session_faca_inserir(){
+        $this->validar_formulario_faca();
+        $this->session->personalizado->personalizado->container_faca[] = $this->set_faca('personalizado');
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> inserido com sucesso'));
+        exit();  
+    }
+
+    public function session_faca_editar(){
+        $this->validar_formulario_faca();
+        $posicao = $this->uri->segment(4);
+        $this->session->personalizado->personalizado->container_faca[$posicao] = $this->set_faca('personalizado');
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> editado com sucesso'));
+        exit();   
+    }
+
+    public function session_faca_excluir(){
+        $posicao = $this->input->post('posicao');
+        unset($this->session->personalizado->personalizado->container_faca[$posicao]);
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Faca</strong> excluido com sucesso'));
+        exit(); 
+    }
+
+    private function set_faca($owner){
+        //busca o faca pelo id e seta a quantidade e descrição
+        empty($this->input->post('cobrar_servicoFaca'))? $cobrar_servico = 0 : $cobrar_servico = 1;
+        empty($this->input->post('cobrar_faca'))? $cobrar_faca = 0 : $cobrar_faca = 1;
+        $container = $this->Container_m->get_faca($owner,$this->input->post('faca'),$this->input->post('dimensao'),$this->input->post('quantidade'),$cobrar_servico,$cobrar_faca,$this->input->post('descricao'));
+        return $container;
+    }
+
+    private function validar_formulario_faca(){
+        $data = array();
+        $data['status'] = TRUE;
+        
+        $this->form_validation->set_rules('faca', 'Faca', 'required');
+        $this->form_validation->set_rules('dimensao', 'Dimensão', 'required');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+
+        if (!$this->form_validation->run()) {
+            $data['form_validation'] = $this->form_validation->error_array();
+            $data['status'] = FALSE;
+            print json_encode($data);
+            exit();
+        }
+    }
+
     //Verifica se existem itens e mão de obra na [personalizado]
     public function is_empty_container_itens() {
         $data = array();
         $data['status'] = TRUE;
         $personalizado = $this->session->personalizado->personalizado;
 
-        if (empty($personalizado->container_papel) && empty($personalizado->container_impressao) && empty($personalizado->container_acabamento) && empty($personalizado->container_acessorio) && empty($personalizado->container_fita)) {
+        if (empty($personalizado->container_papel) && 
+            empty($personalizado->container_impressao) && 
+            empty($personalizado->container_acabamento) && 
+            empty($personalizado->container_acessorio) && 
+            empty($personalizado->container_fita) &&
+            empty($personalizado->container_cliche) &&
+            empty($personalizado->container_faca)
+            ) {
             $data['status'] = FALSE;
             $data['msg'] = "O produto personalizado está vazio!";
         } else if (empty($this->session->personalizado->mao_obra->id)) {

@@ -170,7 +170,7 @@ $controller = $this->router->class;
 											</td>
 										</tr-->
 										<!--Corte Vinco-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['corte_vinco']?></td>
 											<td>
 												<div class="form-group">
@@ -188,9 +188,9 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-										</tr>
+										</tr-->
 										<!--Almofada-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['almofada']?></td>
 											<td>
 												<div class="form-group">
@@ -208,7 +208,7 @@ $controller = $this->router->class;
 											<td>
 												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_cobrar_faca_cliche" id="almofada_cobrar_faca_cliche" class="form-control input-sm" value="1">
 											</td>
-										</tr>
+										</tr-->
 									</tbody>
 								</table>
 							</div>
@@ -380,6 +380,7 @@ $controller = $this->router->class;
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
+									<i class="glyphicon glyphicon-tag"></i>
 									<label for="form_select_fita" class="control-label">Fita:</label>
 									<select name="fita" id="form_select_fita" class="form-control selectpicker show-tick" data-live-search="true" required>
 										<option value="" selected>Selecione</option>
@@ -448,7 +449,7 @@ $controller = $this->router->class;
 						<div class="row">
 							<div class="form-group col-sm-4">
 								<!-- Lista de Clichê -->
-								<span class="glyphicon glyphicon-scissors"></span>
+								<span class="glyphicon glyphicon-registration-mark"></span>
 								<label for="form_select_cliche" class="control-label">Clichê</label>
 								<select name="cliche" id="form_select_cliche" class="form-control selectpicker" autofocus data-live-search="true" required>
 									<option value="" selected="selected">Selecione</option>
@@ -469,8 +470,8 @@ $controller = $this->router->class;
 						</div>
 						<div class="row">
 							<div class="form-group col-sm-6">
-								<label for="cobrar_servico" class="control-label col-sm-12">Cobrar serviço:</label>
-								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servico" id="cobrar_servico" class="form-control input-sm" value="1">
+								<label for="cobrar_servicoCliche" class="control-label col-sm-12">Cobrar serviço:</label>
+								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoCliche" id="cobrar_servicoCliche" class="form-control input-sm" value="1">
 								<span class="help-block"></span>
 							</div>
 
@@ -498,7 +499,70 @@ $controller = $this->router->class;
 		</div>
 	</form>
 </div>
+<!-- MODAL: FACA -->
+<div class="modal fade" id="md_faca">
+	<form class="form_ajax" id="form_md_faca" action="" method="post" accept-charset="utf-8">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Faca</h4>
+				</div>
+				<div class="modal-body">
+					<fieldset>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<!-- Lista de Faca -->
+								<i class="fa fa-map-o" aria-hidden="true"></i>
+								<label for="form_select_faca" class="control-label">Faca</label>
+								<select name="faca" id="form_select_faca" class="form-control selectpicker" autofocus data-live-search="true" required>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="dimensao" class="control-label">Dimensão:</label>
+								<select name="dimensao" id="form_select_faca_dimensao" class="form-control" required>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="form_qtd_faca" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_faca" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+								<span class="help-block"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label for="cobrar_servicoFaca" class="control-label col-sm-12">Cobrar serviço:</label>
+								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoFaca" id="cobrar_servicoFaca" class="form-control input-sm" value="1">
+								<span class="help-block"></span>
+							</div>
 
+							<div class="form-group col-sm-6">
+								<label for="cobrar_faca" class="control-label col-sm-12">Cobrar faca:</label>
+								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_faca" id="cobrar_faca" class="form-control input-sm" value="1">
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group col-sm-12">
+							<!--Descrição-->
+							<span class="glyphicon glyphicon-pencil"></span>
+							<label for="form_descricao_faca" class="control-label">Descrição:</label>
+							<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
+							<span class="help-block"></span>
+						</div>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
 <!-- MODAL: CONVITE -->
 <div class="modal fade" id="md_convite">
 	<form class="form_ajax" id="form_convite" action="" method="post" accept-charset="utf-8" role="form">

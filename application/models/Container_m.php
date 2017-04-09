@@ -12,6 +12,7 @@ class Container_m extends CI_Model {
     var $container_acessorio; //Array de objetos acessorio
     var $container_fita; //Array de objetos fita
     var $container_cliche; //Array de objetos cliche
+    var $container_faca; //Array de objetos faca
     var $table;
     var $column_order = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
     var $column_search = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
@@ -138,6 +139,13 @@ class Container_m extends CI_Model {
         if (!empty($this->container_cliche)) {
             foreach ($this->container_cliche as $cliche) {
                 if (!$cliche->inserir($this->id)) {
+                    return false;
+                }
+            }
+        }
+        if (!empty($this->container_faca)) {
+            foreach ($this->container_faca as $faca) {
+                if (!$faca->inserir($this->id)) {
                     return false;
                 }
             }
@@ -316,6 +324,19 @@ class Container_m extends CI_Model {
         return $container_cliche;
     }
 
+    public function get_faca($owner, $id, $dimensao, $quantidade, $cobrar_servico, $cobrar_faca, $descricao) {
+        //busca o faca pelo id
+        $container_faca = new Container_faca_m();
+        $container_faca->faca = $this->Faca_m->get_by_id($id);
+        $container_faca->faca->set_faca_dimensao($dimensao);
+        $container_faca->quantidade = $quantidade;
+        $container_faca->cobrar_servico = $cobrar_servico;
+        $container_faca->cobrar_faca = $cobrar_faca;
+        $container_faca->descricao = $descricao;
+        $container_faca->owner = $owner;
+        return $container_faca;
+    }
+
     //retorna a soma dos valores do array de: PAPEL, IMPRESSÃO, FITA, ACABAMENTO e ACESSÓRIO
     public function calcula_total($modelo, $qtd_pedido) {
         $this->total = 0;
@@ -354,6 +375,11 @@ class Container_m extends CI_Model {
         }
         if (!empty($this->container_cliche)) {
             foreach ($this->container_cliche as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
+            }
+        }
+        if (!empty($this->container_faca)) {
+            foreach ($this->container_faca as $key => $value) {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
@@ -400,6 +426,11 @@ class Container_m extends CI_Model {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
+        if (!empty($this->container_faca)) {
+            foreach ($this->container_faca as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
+            }
+        }
         return $this->total;
     }
 
@@ -413,6 +444,7 @@ class Container_m extends CI_Model {
         $object->container_acessorio = $this->Container_acessorio_m->get_by_container_id($id, $owner);
         $object->container_fita = $this->Container_fita_m->get_by_container_id($id, $owner);
         $object->container_cliche = $this->Container_cliche_m->get_by_container_id($id, $owner);
+        $object->container_faca = $this->Container_faca_m->get_by_container_id($id, $owner);
         return $object;
     }
 
