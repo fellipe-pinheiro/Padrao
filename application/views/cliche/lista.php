@@ -187,6 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
     var count_dimensoes = 0;
+    var visible_dimensao = 0;
 
     $(document).ready(function () {
         tabela = $("#tabela_cliche").DataTable({
@@ -196,44 +197,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {
-                extend: 'colvis',
-                text: 'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -267,9 +268,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(".ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
-
+            $("#add_dimensoes").click();
             $('.modal-title').text('Adicionar Clichê');
-            visible_gramatura = $(".dimensao_group").length;
+            visible_dimensao = $(".dimensao_group").length;
             $('#modal_form').modal('show');
         });
         $("#editar").click(function () {
@@ -394,6 +395,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#add_dimensoes").click(function(){
             count_dimensoes++;
+            visible_dimensao++;
             clonar_dimensoes(false,count_dimensoes+"_ADD","","","");
         });
         form_small();
@@ -443,6 +445,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function do_remove_dimensao(id,editar) {
+        if(visible_dimensao === 1){
+            $.alert({
+                title: 'Alerta!',
+                content: 'O clichê precisa ter pelo menos uma dimensão.',
+            });
+            return false;
+        }else{
+            visible_dimensao--;
+        }
         if (!editar) {
             $("#"+id).remove();
         } else {
