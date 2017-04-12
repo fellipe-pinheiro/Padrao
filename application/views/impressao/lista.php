@@ -5,8 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="panel-body panel-nav">
         <nav class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-impressao-menu">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-modelo_convite-menu">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -15,7 +16,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="navbar-brand">Impressão</div>
                 </div>
                 
-                <div class="collapse navbar-collapse navbar-impressao-menu">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-modelo_convite-menu">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="javascript:void(0)" id="adicionar"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
@@ -39,66 +41,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </nav>
-        <div class="col-md-12">
-            <div role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#tab_impressao" aria-controls="tab_impressao" role="tab" data-toggle="tab">Impressão</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#tab_area" aria-controls="tab_area" role="tab" data-toggle="tab">Área de Impressão</a>
-                    </li>
-                </ul>
-
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="tab_impressao">
-                        <div class="row">
-                            <div class="col-sm-12 table-responsive">
-                                <table id="tb_impressao" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nome</th>
-                                            <th>Impressão Área</th>
-                                            <th>Qtd Mínima</th>
-                                            <th>Descrição</th>
-                                            <th>Valor</th>
-                                            <th>Ativo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_area">
-                        <div class="row">
-                            <div class="col-sm-12 table-responsive">
-                                <table id="tb_area" class="table display compact table-bordered " cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nome</th>
-                                            <th>Descrição</th>
-                                            <th>Ativo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-12 table-responsive">
+                    <table id="tabela_impressao" class="table display compact table-bordered " cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Qnt Mínima</th>
+                                <th>Descricao</th>
+                                <th>Ativo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="md_form_impressao">
+<div class="modal fade" id="modal_form">
     <form action="#" method="POST" role="form" class="form-horizontal" id="form_impressao">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -107,12 +72,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Impressão</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-papel-menu">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand"></div>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse navbar-papel-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="javascript:void(0)" id="add_dimensoes"><i class="glyphicon glyphicon-plus"></i> Dimensões</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <div class="modal-body">
                     <fieldset>
                         <!--ID-->
-                        <input type="hidden" name="id" class="form-control">
+                        <input type="hidden" name="id" id="id" class="form-control">
                         <div class="row">
                             <!--ativo-->
                             <div class="col-sm-12">
@@ -124,27 +111,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="row">
-                            <!--nome-->
+                            <!--Nome-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
-                                    <input type="text" name="nome" id="nome" class="form-control" required="required" placeholder="Nome da impressão" pattern=".{1,50}" title="Máximo de 50 caracteres">
+                                    <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                            <!--impressao_area-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                    <label for="impressao_area" class="control-label">Área:</label>
-                                    <select name="impressao_area" id="impressao_area" class="form-control" required="required">
-                                        <option disabled selected>Selecione</option>
-                                    </select>
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!--qtd_minima-->
+                         <!--qtd_minima-->
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
                                     <label for="qtd_minima" class="control-label">Quantidade mínima:</label>
@@ -152,15 +127,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                            <!--valor-->
+                        </div>
+                        <!--Impressão Dimensão-->
+                        <div class="hidden" id="default_dimensao_div">
                             <div class="col-sm-6">
                                 <div class="form-group input-padding">
-                                    <label for="valor" class="control-label">Valor:</label>
-                                    <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" id="default_button_excluir" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>
+                                        <input type="text" name="" id="default_nome_input" class="form-control" title="Tamanho / apelido do impressão" placeholder="Tamanho / apelido do impressão">
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group input-padding">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">R$</span>
+                                        <input type="number" name="valor" id="default_valorImpressao_input" step="0.01" min="0" class="form-control" value="" title="Valor da impressão" placeholder="Valor da impressão">
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <hr>
                         </div>
+                        <div id="lista_dimensoes" class="row">
+                        </div>
+                        
                         <div class="row">
                             <!--Descrição-->
                             <div class="col-sm-12">
@@ -171,55 +165,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </fieldset>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-default btnSubmit">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="modal fade" id="md_form_area">
-    <form action="#" method="POST" role="form" class="form-horizontal" id="form_area">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <fieldset>
-                        <!--ID-->
-                        <input type="hidden" name="id" class="form-control">
-                        <!--ativo-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="ativo" class="control-label">Ativo:</label>
-                                <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--nome-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="nome" class="control-label">Nome:</label>
-                                <input type="text" name="nome" id="nome" class="form-control" value="" placeholder="Nome do modelo" required="required" autofocus pattern=".{1,50}" title="Máximo de 50 caracteres">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <!--Descrição-->
-                        <div class="col-sm-12">
-                            <div class="form-group input-padding">
-                                <label for="descricao" class="control-label">Descrição:</label>
-                                <textarea name="descricao" id="descricao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
                     </fieldset>
                 </div>
                 <div class="modal-footer">
@@ -228,31 +173,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-    </form>
+    </form>    
 </div>
 <?php $this->load->view('_include/dataTable'); ?>
-<style>
-    .tab-pane{
-        margin-top: 30px;
-    }
-</style>
 <script type="text/javascript">
-
-    var tb_impressao;
-    var tb_area;
-    var tab_active;
-    var dataTable;
-    var md_form;
-    var modal_title;
-    var url_edit;
-    var save_method;
-    var url_add;
-    var url_update;
-    var form;
-    var impressao_atualizar = true;
+    var count_dimensoes = 0;
+    var visible_dimensao = 0;
 
     $(document).ready(function () {
-        tb_impressao = $("#tb_impressao").DataTable({
+        tabela = $("#tabela_impressao").DataTable({
             scrollX: true,
             scrollY: "500px",
             scrollCollapse: true,
@@ -270,6 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     buttons: [
                         {
                             extend: 'print',
+                            orientation: 'landscape',
                             exportOptions: {
                                 columns: ':visible'
                             }
@@ -288,6 +218,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         },
                         {
                             extend: 'pdfHtml5',
+                            orientation: 'landscape',
                             exportOptions: {
                                 columns: ':visible'
                             }
@@ -301,135 +232,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             processing: true,
             serverSide: true,
-            order: [[1, 'asc']],//nome
+            order: [[2, 'asc']],//nome
             ajax: {
                 url: "<?= base_url('impressao/ajax_list') ?>",
                 type: "POST"
             },
             columns: [
-                {data: "id", "visible": false, "orderable": true},
-                {data: "nome", "visible": true, "orderable": true},
-                {data: "impressao_area", "visible": true, "orderable": true},
-                {data: "qtd_minima", "visible": true, "orderable": false},
-                {data: "descricao", "visible": false, "orderable": false},
-                {data: "valor", "visible": true, "orderable": false},
-                {data: "ativo", "visible": true, "orderable": false},
-            ],
-        });
-        if (!get_tab_active()) {
-            console.log('Não foi possível carregar get_tab_active()');
-            return false;
-        }
-        $("a[href='#tab_impressao']").click(function () {
-
-            tb_impressao.ajax.reload(null, false);
-            if (!get_tab_active()) {
-                console.log('Não foi possível carregar get_tab_active()');
-                return false;
-            }
-        });
-        $("a[href='#tab_area']").click(function () {
-            if (!is_datatable_exists("#tb_area")) {
-                tb_area = $("#tb_area").DataTable({
-                    scrollX: true,
-                    scrollY: "500px",
-                    scrollCollapse: true,
-                    dom: 'lBfrtip',
-                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
-                    buttons: [
-                        {
-                            extend: 'colvis',
-                            text: 'Visualizar colunas'
-                        },
-                        {
-                            extend: 'collection',
-                            text: 'Exportar',
-                            autoClose: true,
-                            buttons: [
-                                {
-                                    extend: 'print',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'copy',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excel',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'pdfHtml5',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                            ],
-                            fade: true
-                        }
-                    ],
-                    language: {
-                        url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
-                    },
-                    processing: true,
-                    serverSide: true,
-                    order: [[1, 'asc']],//nome
-                    ajax: {
-                        url: "<?= base_url('impressao_area/ajax_list') ?>",
-                        type: "POST"
-                    },
-                    columns: [
-                        {data: "id", "visible": false},
-                        {data: "nome", "visible": true},
-                        {data: "descricao", "visible": true, "orderable": false},
-                        {data: "ativo", "visible": true, "orderable": false},
-                    ]
-                });
+                {data: "id", "visible": false},
+                {data: "nome", "visible": true},
+                {data: "qtd_minima", "visible": true},
+                {data: "descricao", "visible": false},
+                {data: "ativo", "visible": false}
+                ]
+            });
+        // Resaltar a linha selecionada
+        $("#tabela_impressao tbody").on("click", "tr", function () {
+            if ($(this).hasClass("selected")) {
+                $(this).removeClass("selected");
             } else {
-                tb_area.ajax.reload(null, false);
+                tabela.$("tr.selected").removeClass("selected");
+                $(this).addClass("selected");
             }
-            if (!get_tab_active()) {
-                console.log('Não foi possível carregar get_tab_active()');
-                return false;
-            }
-        });
-        //seleciona a linha da tabela
-        $("#tb_impressao tbody").on("click", "tr", function () {
-            row_select(tb_impressao, this);
-        });
-        $("#tb_area tbody").on("click", "tr", function () {
-            row_select(tb_area, this);
         });
         $("#adicionar").click(function (event) {
             reset_form();
             $(".ativo-crud").prop('checked', true);
-            if (!get_tab_active()) {
-                console.log('Não foi possível carregar get_tab_active()');
-                return false;
-            }
-            if(tab_active === "#tab_impressao"){
-                ajax_carregar_impressao_area();
-            }
-
             save_method = 'add';
             $("input[name='id']").val("");
-            $(form + ' .modal-title').text('Adicionar' + modal_title);
-            $(md_form).modal('show');
+            $("#add_dimensoes").click();
+            $('.modal-title').text('Adicionar Impressão');
+            visible_dimensao = $(".dimensao_group").length;
+            $('#modal_form').modal('show');
         });
         $("#editar").click(function () {
-            if (!get_tab_active()) {
-                console.log('Não foi possível carregar get_tab_active()');
-                return false;
-            }
-
-            var id = dataTable.row(".selected").id();
-
+            // Buscar ID da linha selecionada
+            var id = tabela.row(".selected").id();
             if (!id) {
                 return;
             }
@@ -438,14 +275,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             save_method = 'edit';
             $("input[name='id']").val(id);
+            //Ajax Load data from ajax
             $.ajax({
-                url: url_edit + id,
+                url: "<?= base_url('impressao/ajax_edit/') ?>" + id,
                 type: "POST",
                 dataType: "JSON",
                 success: function (data)
-                {
-                    data = switch_data(tab_active, data);
-                    $.map(data, function (value, index) {
+                {   
+                    $.map(data.impressao, function (value, index) {
                         if ($('[name="' + index + '"]').is("input, textarea")) {
                             if($('[name="' + index + '"]').is(':checkbox')){
                                 if(value === "0"){checked = false;}else{ checked = true;}
@@ -453,47 +290,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }else{
                                 $('[name="' + index + '"]').val(value);
                             }
-                        } else if ($('[name="' + index + '"]').is("select")) {
-                            if(tab_active === "#tab_impressao"){
-                                ajax_carregar_impressao_area(true,value.id);
-                            }else{
-                                $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
-                            }
-                        }
+                        }else if ($('[name="' + index + '"]').is("select")){
+                            $('[name="' + index + '"] option[value=' + value.id + ']').prop("selected", "selected");
+                        }else if(index == 'dimensoes'){
+                            $.each(value,function(i, dimensoes) {
+                                clonar_dimensoes(true,dimensoes.id+"_UPD",dimensoes.nome,dimensoes.valor_impressao);
+                            });
+                        }      
                     });
-                    $(md_form).modal('show');
-                    $(form + ' .modal-title').text('Editar' + modal_title + ' ID: '+id);
+
+                    $('#modal_form').modal('show');
+                    $('.modal-title').text('Editar Impressão ID: '+id);
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
                     alert('Erro ao buscar os dados');
+                },
+                complete: function () {
+                    visible_dimensao = $(".dimensao_group").length;
                 }
             });
         });
         $("#deletar").click(function () {
-            if (!get_tab_active()) {
-                console.log('Não foi possível carregar get_tab_active()');
-                return false;
-            }
-            var id = dataTable.row(".selected").id();
-            var nome = dataTable.row(".selected").data().nome;
+
+            var id = tabela.row(".selected").id();
+            var nome = tabela.row(".selected").data().nome;
             $.confirm({
-                title: 'Confirmação!',
+                title: 'Atenção!',
                 content: 'Deseja realmente excluir o <strong>ID: ' + id + ' ' + nome + '</strong>',
                 confirmButtonClass: 'btn-danger',
                 cancelButtonClass: 'btn-default',
-                confirm: function () {
+                confirm: function(){
                     $.ajax({
-                        url: url_delete + id,
+                        url: "<?= base_url('impressao/ajax_delete/') ?>" + id,
                         type: "POST",
                         dataType: "JSON",
                         success: function (data)
                         {
                             if (data.status) {
-                                if(tab_active === '#tab_area'){
-                                    impressao_atualizar = true;
-                                }
-                                reload_table(dataTable);
+                                reload_table();
+                                $.alert('<strong>ID: ' + id + ' ' + nome + '</strong> excluido com sucesso!');
                             } else {
                                 alert("Erro ao excluir o registro");
                             }
@@ -505,168 +341,137 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                 },
-                cancel: function () {
+                cancel: function(){
                     $.alert('Cancelado!')
                 }
             });
         });
-        $("form").submit(function (e) {
-            formulario_submit(e);
+        $("#form_impressao").submit(function (event) {
+            event.preventDefault();
+            disable_button_salvar();
+            var url;
+            if (save_method == 'add') {
+                url = "<?php echo site_url('impressao/ajax_add') ?>";
+            } else {
+                url = "<?php echo site_url('impressao/ajax_update') ?>";
+            }
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: $('#form_impressao').serialize(),
+                dataType: "JSON",
+                success: function (data)
+                {
+                    if (data.status)
+                    {
+                        $('#modal_form').modal('hide');
+                        reload_table();
+                    } else
+                    {
+                        $.map(data.form_validation, function (value, index) {
+                            $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
+                            $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
+                        });
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Erro ao Adicionar ou Editar');
+                },
+                complete: function () {
+                    enable_button_salvar();
+                    reload_table();
+                }
+            });
         });
-        $(".check_filter_dirty").change(function (event) {
-            check_filter_dirty();
+        $("#add_dimensoes").click(function(){
+            count_dimensoes++;
+            visible_dimensao++;
+            clonar_dimensoes(false,count_dimensoes+"_ADD","","");
         });
         form_small();
     });
 
-    function ajax_carregar_impressao_area(editar = false,id_impressao_area = null) {
-        if(impressao_atualizar){
-            $('#impressao_area')
-            .find('option')
-            .remove()
-            .end()
-            .append('<option value="">Selecione</option>')
-            .val('');
+    function clonar_dimensoes(editar,id,nome,valor_impressao){//ID = 1_ADD
+        var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');
+        var cl = clone[0];
 
-            $.ajax({
-                url: '<?= base_url("impressao_area/ajax_get_personalizado")?>',
-                type: 'GET',
-                dataType: 'json',
-                data: {ativo: -1}
-            })
-            .done(function(data) {
-                impressao_atualizar = false;
-                $.each(data, function(index, val) {
-                    $('#impressao_area').append($('<option>', {
-                        value: val.id,
-                        text: val.nome
-                    }));
-                });
-            })
-            .fail(function() {
-                console.log("erro ao ajax_carregar_impressao_area");
-            })
-            .always(function() {
-                if(editar){
-                    $("#impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
-                }else{
-                    $("#impressao_area option[value='']").prop('selected','selected');
-                }
-            });
-        }else{
-            if(editar){
-                $("#impressao_area option[value='"+id_impressao_area+"']").prop('selected','selected');
-            }else{
-                $("#impressao_area option[value='']").prop('selected','selected');
-            }
-        }
+        // adicionar função para deletar a linha
+        $(cl).find("#default_button_excluir").prop("id","excluir_dimensao_"+id).attr("onclick","remover_dimensao('dimensao_"+id+"',"+editar+",'"+nome+"');");
+
+        // Alterar id, name, for(label) e adicionar required
+        $($(cl).find("#default_nome_input")).prop("id","nome_"+id).prop("name","dimensao_nome_"+id).val(nome).prop("required","required");
+
+        $($(cl).find("#default_valorImpressao_input")).prop("id","valorImpressao_"+id).prop("name","dimensao_valorImpressao_"+id).val(valor_impressao).prop("required","required");
+
+        clone.appendTo("#lista_dimensoes");
     }
 
-    function formulario_submit(e) {
-        disable_button_salvar();
-        if (!get_tab_active()) {
-            console.log('Não foi possível carregar get_tab_active()');
-            return false;
-        }
-        reset_errors();
-        var url_submit;
-        if (save_method == 'add') {
-            url_submit = url_add;
-        } else {
-            url_submit = url_update;
-        }
-        $.ajax({
-            url: url_submit,
-            type: "POST",
-            data: $(form).serialize(),
-            dataType: "JSON",
-            success: function (data)
-            {
-                if (data.status)
-                {
-                    $(md_form).modal('hide');
-                    reload_table(dataTable);
-                    if(tab_active != '#tab_impressao'){
-                        impressao_atualizar = true;
-                    }
-                } else
-                {
-                    $.map(data.form_validation, function (value, index) {
-                        $('[name="' + index + '"]').closest(".form-group").addClass('has-error');
-                        $('[name="' + index + '"]').closest(".form-group").find('.help-block').text(value);
-                    });
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Erro ao Adicionar ou Editar');
-            },
-            complete: function () {
-                enable_button_salvar();
-                reload_table(dataTable);
+    function remover_dimensao(id,editar,nome) {
+        var preenchido = false;
+        $.each($("#"+id+" input"), function(index, element) {
+            if(element.value){
+                preenchido = true;
             }
         });
-        e.preventDefault();
-    }
+        if(nome == ""){
+            nome = $("#"+id+" input").val();
+        }
 
-    function get_tab_active() {
-        tab_active = $(".nav-tabs li.active a")[0].hash;
-        switch (tab_active) {
-            case '#tab_impressao':
-                dataTable = tb_impressao;
-                md_form = '#md_form_impressao';
-                modal_title = ' Impressão';
-                url_edit = "<?= base_url('impressao/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('impressao/ajax_add') ?>";
-                url_update = "<?php echo site_url('impressao/ajax_update') ?>";
-                url_delete = "<?= base_url('impressao/ajax_delete/') ?>";
-                form = '#form_impressao';
-                return true;
-                break;
-            case '#tab_area':
-                dataTable = tb_area;
-                md_form = '#md_form_area';
-                modal_title = ' Área de Impressão';
-                url_edit = "<?= base_url('impressao_area/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('impressao_area/ajax_add') ?>";
-                url_update = "<?php echo site_url('impressao_area/ajax_update') ?>";
-                url_delete = "<?= base_url('impressao_area/ajax_delete/') ?>";
-                form = '#form_area';
-                return true;
-                break;
-            default:
-                return false;
+        if(!preenchido){
+            do_remove_dimensao(id,editar);
+        }else{
+            $.confirm({
+                title: 'Atenção!',
+                content: 'Deseja realmente excluir o item <strong>' + nome + '</strong>?',
+                confirm: function(){
+                    do_remove_dimensao(id,editar);
+                },
+                cancel: function(){
+                }
+            });
         }
     }
 
-    function switch_data(tab_active, data) {
-        switch (tab_active) {
-            case '#tab_impressao':
-                return data.impressao;
-                break;
-            case '#tab_area':
-                return data.impressao_area;
-                break;
+    function do_remove_dimensao(id,editar) {
+        if(visible_dimensao === 1){
+            $.alert({
+                title: 'Alerta!',
+                content: 'O impressão precisa ter pelo menos uma dimensão.',
+            });
+            return false;
+        }else{
+            visible_dimensao--;
         }
-    }
-
-    function row_select(table, tr) {
-        if ($(tr).hasClass("selected")) {
-            $(tr).removeClass("selected");
+        if (!editar) {
+            $("#"+id).remove();
         } else {
-            table.$("tr.selected").removeClass("selected");
-            $(tr).addClass("selected");
+            var arr_nome = new Array();
+            //var arr_valor = new Array();
+            //var arr_ativo = new Array();
+            // editar o name dos campos
+            var name_nome = $("#"+id+" input")[0].name;
+            arr_nome = name_nome.split("_");
+            $("#"+id+" input")[0].name = arr_nome[0] + "_" + arr_nome[1] + "_" + arr_nome[2]+ "_DEL";
+
+            var  name_valor_impressao = $("#"+id+" input")[1].name;
+            arr_valor_impressao = name_valor_impressao.split("_");
+            $("#"+id+" input")[1].name = arr_valor_impressao[0] + "_" + arr_valor_impressao[1] + "_" + arr_valor_impressao[2]+ "_DEL";
+
+            $("#"+id).hide();
         }
     }
 
-    function reload_table(tabela) {
+    function reload_table() {
 
         tabela.ajax.reload(null, false);
     }
 
     function reset_form() {
-        $(form)[0].reset();
+        $('#form_impressao')[0].reset();
+        $('#form_impressao :input').val(''); //para limpar os inputs hidden (só com o reset não está limpando o valor)
+        $(':checkbox').val('1'); // como limpei com ($(':input').val('');), recoloco o valor do input checkbox para 1
         reset_errors();
+        $("#lista_dimensoes").html("");
     }
-
 </script>

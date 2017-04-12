@@ -6,26 +6,18 @@ class Impressao_m extends CI_Model {
 
     var $id;
     var $nome;
-    var $impressao_area;
     var $qtd_minima;
+    var $dimensoes; // Array de Objetos Impressao_dimensao_m
     var $descricao;
-    var $valor;
     var $ativo;
     // Ajax 
-    var $table = 'impressao as i';
-    var $column_order = array('i.id','i.nome', 'ia.nome', 'i.qtd_minima','i.descricao','i.valor','i.ativo');
-    var $column_search = array('i.nome', 'ia.nome','i.descricao');
-    var $order = array('i.id'=>'asc');
+    var $table = 'impressao';
+    var $column_order = array('id','nome','qtd_minima','descricao','ativo');
+    var $column_search = array('id','nome','ativo');
+    var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
-        $this->db->select('
-            i.id as i_id,
-            i.nome as i_nome,
-            i.qtd_minima as i_qtd_minima,
-            i.descricao as i_descricao,
-            i.ativo as i_ativo,
-            CONCAT("R$ ", format(valor,2,"pt_BR")) as i_valor,
-            ia.nome as ia_nome');
+
         $this->db->from($this->table);
         $i = 0;
 
@@ -40,9 +32,9 @@ class Impressao_m extends CI_Model {
 
                 if (count($this->column_search) - 1 == $i)
                     $this->db->group_end();
-                }
-                $i++;
             }
+            $i++;
+        }
 
         if (isset($_POST['order'])) {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -56,14 +48,12 @@ class Impressao_m extends CI_Model {
         $this->get_datatables_query();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
-        $this->db->join('impressao_area as ia', 'i.impressao_area = ia.id', 'left');
         $query = $this->db->get();
         return $query->result();
     }
     
     public function count_filtered() {
         $this->get_datatables_query();
-        $this->db->join('impressao_area as ia', 'i.impressao_area = ia.id', 'left');
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -76,7 +66,7 @@ class Impressao_m extends CI_Model {
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
-        $result = $this->db->get('impressao');
+        $result = $this->db->get($this->table);
         if($result->num_rows() > 0){
             return  $this->changeToObject($result->result_array());
         }
@@ -85,7 +75,7 @@ class Impressao_m extends CI_Model {
 
     public function inserir($dados) {
         if (empty($dados['id'])) {
-            if ($this->db->insert('impressao', $dados)) {
+            if ($this->db->insert($this->table, $dados)) {
                 return $this->db->insert_id();
             }
         }
@@ -95,7 +85,7 @@ class Impressao_m extends CI_Model {
     public function editar($dados) {
         if (!empty($dados['id'])) {
             $this->db->where('id', $dados['id']);
-            if ($this->db->update('impressao', $dados)) {
+            if ($this->db->update($this->table, $dados)) {
                 return true;
             }
         }
@@ -105,11 +95,33 @@ class Impressao_m extends CI_Model {
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
-            if ($this->db->delete('impressao')) {
+            if ($this->db->delete($this->table)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public function set_impressao_dimensao($id,$valor_servico = 0,$valor_impressao = 0,$atualizar = false){
+        foreach ($this->dimensoes as $value) {
+            if($value->id === $id){
+                $value->selected = true;
+                if($atualizar){
+                    $value->valor_servico = $valor_servico;
+                    $value->valor_impressao = $valor_impressao;
+                }
+            }else{
+                $value->selected = false;
+            }
+        }
+    }
+
+    public function get_selected_impressao_dimensao(){
+        foreach ($this->dimensoes as $object) {
+            if($object->selected){
+                return $object;
+            }
+        }
     }
 
     private function changeToObject($result_db) {
@@ -117,32 +129,30 @@ class Impressao_m extends CI_Model {
             $object = new Impressao_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object->impressao_area = $this->Impressao_area_m->get_by_id($value['impressao_area']);
             $object->qtd_minima = $value['qtd_minima'];
+            $object->dimensoes = $this->Impressao_dimensao_m->get_by_modelo_id($object->id);
             $object->descricao = $value['descricao'];
-            $object->valor = $value['valor'];
             $object->ativo = $value['ativo'];
         }
         return $object;
     }
 
-    public function get_pesonalizado($id_area, $colunas, $ativo = '1'){
+    public function get_pesonalizado($colunas, $ativo = '1'){
         $this->db->select($colunas);
-        $this->db->where("impressao_area",$id_area);
         switch ($ativo) {
             case '-1':
-                break;
+            break;
             case '0':
-                $this->db->where("ativo", false);
-                break;
+            $this->db->where("ativo", false);
+            break;
             case '1':
-                $this->db->where("ativo", true);
-                break;
+            $this->db->where("ativo", true);
+            break;
             default:
-                $this->db->where("ativo", true);
-                break;
+            $this->db->where("ativo", true);
+            break;
         }
-        $this->db->order_by("nome", "asc");
-        return $this->db->get("impressao")->result_array();
+        return $this->db->get($this->table)->result_array();
     }
+
 }
