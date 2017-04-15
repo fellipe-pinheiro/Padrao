@@ -22,7 +22,7 @@ class Personalizado extends CI_Controller {
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Papel_gramatura_m');
         $this->load->model('Impressao_m');
-        $this->load->model('Impressao_area_m');
+        $this->load->model('Impressao_dimensao_m');
         $this->load->model('Acabamento_m');
         $this->load->model('Acessorio_m');
         $this->load->model('Fita_m');
@@ -401,17 +401,18 @@ class Personalizado extends CI_Controller {
         exit();
     }
 
-    private function set_impressao($owner) {
-        //busca a impressão pelo id e seta a quantidade e descrição
-        $container = $this->Container_m->get_impressao($owner, $this->input->post('impressao'), $this->input->post('quantidade'), $this->input->post('descricao'));
+    private function set_impressao($owner){
+        //busca o impressao pelo id e seta a quantidade e descrição
+        $container = $this->Container_m->get_impressao($owner,$this->input->post('impressao'),$this->input->post('dimensao'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
 
     private function validar_formulario_impressao() {
         $data = array();
         $data['status'] = TRUE;
-
+        
         $this->form_validation->set_rules('impressao', 'Impressão', 'required');
+        $this->form_validation->set_rules('dimensao', 'Dimensão', 'required');
         $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 

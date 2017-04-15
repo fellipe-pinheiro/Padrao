@@ -234,34 +234,36 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-body">
 					<fieldset>
-						<!-- Lista de impressões -->
-						<div class="form-group col-sm-4">
-							<span class="glyphicon glyphicon-resize-full"></span>
-							<label for="form_select_impressao_area" class="control-label">Área de Impressão</label>
-							<select id="form_select_impressao_area" class="form-control" autofocus required>
-								<option value="" selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<!-- Lista de Impressão -->
+								<span class="glyphicon glyphicon-print"></span>
+								<label for="form_select_impressao" class="control-label">Impressão</label>
+								<select name="impressao" id="form_select_impressao" class="form-control selectpicker" autofocus data-live-search="true" required>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="dimensao" class="control-label">Dimensão:</label>
+								<select name="dimensao" id="form_select_impressao_dimensao" class="form-control" required>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="form_qtd_impressao" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_impressao" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-4">
-							<span class="glyphicon glyphicon-print"></span>
-							<label for="form_select_impressao" class="control-label">Impressão:</label>
-							<select name="impressao" id="form_select_impressao" class="form-control selectpicker" data-live-search="true" required>
-								<option value="" selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
-						</div>
-						<div class="form-group col-sm-4">
-							<label for="form_qtd_impressao" class="control-label">Quantidade:</label>
-							<input type="number" name="quantidade" id="form_qtd_impressao" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-							<span class="help-block"></span>
-						</div>
-						<div class="form-group col-sm-12">
-							<!--Descrição-->
-							<span class="glyphicon glyphicon-pencil"></span>
-							<label for="form_descricao_impressao" class="control-label">Descrição:</label>
-							<textarea name="descricao" id="form_descricao_impressao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_impressao" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_impressao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>
@@ -284,26 +286,30 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-body">
 					<fieldset>
-						<div class="form-group col-sm-6">
-							<!-- Lista de acabamento -->
-							<span class="glyphicon glyphicon-scissors"></span>
-							<label for="form_select_acabamento" class="control-label">Acabamento</label>
-							<select name="acabamento" id="form_select_acabamento" class="form-control selectpicker" autofocus data-live-search="true" required>
-								<option value="" selected="selected">Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<!-- Lista de acabamento -->
+								<span class="glyphicon glyphicon-scissors"></span>
+								<label for="form_select_acabamento" class="control-label">Acabamento</label>
+								<select name="acabamento" id="form_select_acabamento" class="form-control selectpicker" autofocus data-live-search="true" required>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="form_qtd_acabamento" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_acabamento" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="form_qtd_acabamento" class="control-label">Quantidade:</label>
-							<input type="number" name="quantidade" id="form_qtd_acabamento" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-							<span class="help-block"></span>
-						</div>
-						<div class="form-group col-sm-12">
-							<!--Descrição-->
-							<span class="glyphicon glyphicon-pencil"></span>
-							<label for="form_descricao_acabamento" class="control-label">Descrição:</label>
-							<textarea name="descricao" id="form_descricao_acabamento" class="form-control" rows="3" placeholder="Descrição"></textarea>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_acabamento" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_acabamento" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>
@@ -326,26 +332,30 @@ $controller = $this->router->class;
 				</div>
 				<div class="modal-body">
 					<fieldset>
-						<div class="form-group col-sm-6">
-							<!-- Lista de acessorio -->
-							<i class="fa fa-diamond" aria-hidden="true"></i>
-							<label for="form_select_acessorio" class="control-label">Acessório:</label>
-							<select name="acessorio" id="form_select_acessorio" class="form-control selectpicker" data-live-search="true" required autofocus>
-								<option value="" selected="selected">Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<!-- Lista de acessorio -->
+								<i class="fa fa-diamond" aria-hidden="true"></i>
+								<label for="form_select_acessorio" class="control-label">Acessório:</label>
+								<select name="acessorio" id="form_select_acessorio" class="form-control selectpicker" data-live-search="true" required autofocus>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="form_qtd_acessorio" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_acessorio" class="form-control" value="" min="1" step="1" placeholder="Quantidade" required>
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="form_qtd_acessorio" class="control-label">Quantidade:</label>
-							<input type="number" name="quantidade" id="form_qtd_acessorio" class="form-control" value="" min="1" step="1" placeholder="Quantidade" required>
-							<span class="help-block"></span>
-						</div>
-						<div class="form-group col-sm-12">
-							<!--Descrição-->
-							<span class="glyphicon glyphicon-pencil"></span>
-							<label for="form_descricao_acessorio" class="control-label">Descrição:</label>
-							<textarea name="descricao" id="form_descricao_acessorio" class="form-control" rows="3" placeholder="Descrição"></textarea>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_acessorio" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_acessorio" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					<fieldset>
 				</div>
@@ -481,13 +491,14 @@ $controller = $this->router->class;
 								<span class="help-block"></span>
 							</div>
 						</div>
-
-						<div class="form-group col-sm-12">
-							<!--Descrição-->
-							<span class="glyphicon glyphicon-pencil"></span>
-							<label for="form_descricao_cliche" class="control-label">Descrição:</label>
-							<textarea name="descricao" id="form_descricao_cliche" class="form-control" rows="3" placeholder="Descrição"></textarea>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_cliche" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_cliche" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>
@@ -545,13 +556,14 @@ $controller = $this->router->class;
 								<span class="help-block"></span>
 							</div>
 						</div>
-
-						<div class="form-group col-sm-12">
-							<!--Descrição-->
-							<span class="glyphicon glyphicon-pencil"></span>
-							<label for="form_descricao_faca" class="control-label">Descrição:</label>
-							<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_faca" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>

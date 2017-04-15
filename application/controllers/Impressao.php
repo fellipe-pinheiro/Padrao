@@ -9,7 +9,7 @@ class Impressao extends CI_Controller {
         $this->load->model('Impressao_m');
         $this->load->model('Impressao_dimensao_m');
         init_layout();
-        set_layout('titulo', 'Impressao', FALSE);
+        set_layout('titulo', 'Impressão', FALSE);
         restrito_logado();
     }
 

@@ -102,12 +102,11 @@ class Impressao_m extends CI_Model {
         return false;
     }
 
-    public function set_impressao_dimensao($id,$valor_servico = 0,$valor_impressao = 0,$atualizar = false){
+    public function set_impressao_dimensao($id,$valor_impressao = 0,$atualizar = false){
         foreach ($this->dimensoes as $value) {
             if($value->id === $id){
                 $value->selected = true;
                 if($atualizar){
-                    $value->valor_servico = $valor_servico;
                     $value->valor_impressao = $valor_impressao;
                 }
             }else{
