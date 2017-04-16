@@ -32,6 +32,7 @@ class Convite extends CI_Controller {
         $this->load->model('Cliche_dimensao_m');
         $this->load->model('Faca_m');
         $this->load->model('Faca_dimensao_m');
+        $this->load->model('Laser_m');
 
         $this->load->model('Container_m');
         $this->load->model('Container_papel_m');
@@ -42,6 +43,7 @@ class Convite extends CI_Controller {
         $this->load->model('Container_fita_m');
         $this->load->model('Container_cliche_m');
         $this->load->model('Container_faca_m');
+        $this->load->model('Container_laser_m');
 
         init_layout();
         set_layout('titulo', 'Convite',FALSE);
@@ -815,6 +817,65 @@ class Convite extends CI_Controller {
         }
     }
 
+    //SESSION: LASER
+    public function session_laser_inserir(){
+        $this->validar_formulario_laser();
+        if($this->uri->segment(3) == 'cartao'){
+            $this->session->convite->cartao->container_laser[] = $this->set_laser('cartao');
+        }else if($this->uri->segment(3) == 'envelope'){
+            $this->session->convite->envelope->container_laser[] = $this->set_laser('envelope');
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Laser</strong> inserido com sucesso'));
+        exit();  
+    }
+
+    public function session_laser_editar(){
+        $this->validar_formulario_laser();
+        $posicao = $this->uri->segment(4);
+        if($this->uri->segment(3) == 'cartao'){
+            $this->session->convite->cartao->container_laser[$posicao] = $this->set_laser('cartao');
+        }else if($this->uri->segment(3) == 'envelope'){
+            $this->session->convite->envelope->container_laser[$posicao] = $this->set_laser('envelope');
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Laser</strong> editado com sucesso'));
+        exit();   
+    }
+
+    public function session_laser_excluir(){
+        $posicao = $this->input->post('posicao');
+        $owner = $this->input->post('owner');
+        if($owner == 'cartao'){
+            unset($this->session->convite->cartao->container_laser[$posicao]);
+        }else if($owner == 'envelope'){
+            unset($this->session->convite->envelope->container_laser[$posicao]);
+        }
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Laser</strong> excluido com sucesso'));
+        exit(); 
+    }
+
+    private function set_laser($owner){
+        //busca o laser pelo id e seta a quantidade e descrição
+        $container = $this->Container_m->get_laser($owner,$this->input->post('laser'),$this->input->post('quantidade'),$this->input->post('qtd_minutos'),$this->input->post('descricao'));
+        return $container;
+    }
+
+    private function validar_formulario_laser(){
+        $data = array();
+        $data['status'] = TRUE;
+        
+        $this->form_validation->set_rules('laser', 'Laser', 'required');
+        $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+        $this->form_validation->set_rules('qtd_minutos', 'Qtd em Minutos', 'required|is_natural_no_zero|no_leading_zeroes');
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
+
+        if (!$this->form_validation->run()) {
+            $data['form_validation'] = $this->form_validation->error_array();
+            $data['status'] = FALSE;
+            print json_encode($data);
+            exit();
+        }
+    }
+
     //Verifica se existem itens e mão de obra no [cartão, envelope]
     public function is_empty_container_itens(){
         $data = array();
@@ -822,20 +883,22 @@ class Convite extends CI_Controller {
         $cartao = $this->session->convite->cartao;
         $envelope = $this->session->convite->envelope;
 
-        if( empty($cartao->container_papel) && 
-            empty($cartao->container_impressao) && 
-            empty($cartao->container_acabamento) && 
-            empty($cartao->container_acessorio)  && 
-            empty($cartao->container_fita) && 
-            empty($cartao->container_cliche) && 
-            empty($cartao->container_faca) && 
-            empty($envelope->container_papel) && 
-            empty($envelope->container_impressao) && 
-            empty($envelope->container_acabamento) && 
-            empty($envelope->container_acessorio)  && 
-            empty($envelope->container_fita) && 
+        if( empty($cartao->container_papel) &&
+            empty($cartao->container_impressao) &&
+            empty($cartao->container_acabamento) &&
+            empty($cartao->container_acessorio)  &&
+            empty($cartao->container_fita) &&
+            empty($cartao->container_cliche) &&
+            empty($cartao->container_faca) &&
+            empty($cartao->container_laser) &&
+            empty($envelope->container_papel) &&
+            empty($envelope->container_impressao) &&
+            empty($envelope->container_acabamento) &&
+            empty($envelope->container_acessorio)  &&
+            empty($envelope->container_fita) &&
             empty($envelope->container_cliche) &&
-            empty($envelope->container_faca)
+            empty($envelope->container_faca) &&
+            empty($envelope->container_laser)
         ){
             $data['status'] = FALSE;
             $data['msg'] = "O cartão e envelope estão vazios";

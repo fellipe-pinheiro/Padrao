@@ -40,6 +40,7 @@ class Orcamento extends CI_Controller {
         $this->load->model('Container_fita_m');
         $this->load->model('Container_cliche_m');
         $this->load->model('Container_faca_m');
+        $this->load->model('Container_laser_m');
 
         //Sessão Personalizado
         $this->load->model('Personalizado_m');
@@ -65,6 +66,7 @@ class Orcamento extends CI_Controller {
         $this->load->model('Cliche_dimensao_m');
         $this->load->model('Faca_m');
         $this->load->model('Faca_dimensao_m');
+        $this->load->model('Laser_m');
 
         //TODO CARREGAR TODOS OS OBJETOS DAS VARIAVEIS DO ORÇAMENTO PARA NÃO DAR ERRRO!!
         init_layout();

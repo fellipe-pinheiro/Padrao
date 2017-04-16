@@ -712,3 +712,61 @@ CREATE TABLE `personalizado_impressao` (
   CONSTRAINT `fk_personalizadoImpressao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`),
   CONSTRAINT `fk_personalizadoImpressao_impressaoDimensao` FOREIGN KEY (`impressao_dimensao`) REFERENCES `impressao_dimensao` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `laser` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `minutos` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `cartao_laser` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cartao` int(11) unsigned NOT NULL,
+  `laser` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `qtd_minutos` int(5) NOT NULL,
+  `descricao` text,
+  `valor` decimal(10,2) NOT NULL,
+  `minutos` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cartaoLaser_cartao_fk` (`cartao`),
+  KEY `cartaoLaser_laser_fk` (`laser`),
+  CONSTRAINT `fk_cartaoLaser_laser` FOREIGN KEY (`laser`) REFERENCES `laser` (`id`),
+  CONSTRAINT `fk_cartaoLaser_cartao` FOREIGN KEY (`cartao`) REFERENCES `cartao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `envelope_laser` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `envelope` int(11) unsigned NOT NULL,
+  `laser` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `qtd_minutos` int(5) NOT NULL,
+  `descricao` text,
+  `valor` decimal(10,2) NOT NULL,
+  `minutos` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `envelopeLaser_envelope_fk` (`envelope`),
+  KEY `envelopeLaser_laser_fk` (`laser`),
+  CONSTRAINT `fk_envelopeLaser_laser` FOREIGN KEY (`laser`) REFERENCES `laser` (`id`),
+  CONSTRAINT `fk_envelopeLaser_envelope` FOREIGN KEY (`envelope`) REFERENCES `envelope` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `personalizado_laser` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `personalizado` int(11) unsigned NOT NULL,
+  `laser` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `qtd_minutos` int(5) NOT NULL,
+  `descricao` text,
+  `valor` decimal(10,2) NOT NULL,
+  `minutos` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `personalizadoLaser_personalizado_fk` (`personalizado`),
+  KEY `personalizadoLaser_laser_fk` (`laser`),
+  CONSTRAINT `fk_personalizadoLaser_laser` FOREIGN KEY (`laser`) REFERENCES `laser` (`id`),
+  CONSTRAINT `fk_personalizadoLaser_personalizado` FOREIGN KEY (`personalizado`) REFERENCES `personalizado` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

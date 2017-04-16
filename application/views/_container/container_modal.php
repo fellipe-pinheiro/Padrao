@@ -107,7 +107,7 @@ $controller = $this->router->class;
 											<td>N / A</td>
 										</tr-->
 										<!--Corte Laser-->
-										<tr>
+										<!--tr>
 											<td><?=$dados['papel_acabamento']['corte_laser']?></td>
 											<td>
 												<div class="form-group">
@@ -128,7 +128,7 @@ $controller = $this->router->class;
 												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_laser_cobrar" id="corte_laser_cobrar" class="form-control input-sm" value="1">
 											</td>
 											<td>N / A</td>
-										</tr>
+										</tr-->
 										<!--Relevo Seco-->
 										<!--tr>
 											<td><?=$dados['papel_acabamento']['relevo_seco']?></td>
@@ -562,6 +562,57 @@ $controller = $this->router->class;
 								<span class="glyphicon glyphicon-pencil"></span>
 								<label for="form_descricao_faca" class="control-label">Descrição:</label>
 								<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
+								<span class="help-block"></span>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="submit" class="btn btn-default btnSubmit" >Salvar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- MODAL: LASER -->
+<div class="modal fade" id="md_laser">
+	<form class="form_ajax" id="form_md_laser" action="" method="post" accept-charset="utf-8">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Laser</h4>
+				</div>
+				<div class="modal-body">
+					<fieldset>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<!-- Lista de laser -->
+								<span class="glyphicon glyphicon-flash"></span>
+								<label for="form_select_laser" class="control-label">Laser</label>
+								<select name="laser" id="form_select_laser" class="form-control selectpicker" autofocus data-live-search="true" required>
+									<option value="" selected="selected">Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="form_qtd_laser" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="form_qtd_laser" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="form_qtdMinutos_laser" class="control-label">Qtd em Minutos:</label>
+								<input type="number" name="qtd_minutos" id="form_qtdMinutos_laser" class="form-control" value="" min="1" step="1" required placeholder="Qtd em Minutos" title="Qtd em Minutos">
+								<span class="help-block"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<!--Descrição-->
+								<span class="glyphicon glyphicon-pencil"></span>
+								<label for="form_descricao_laser" class="control-label">Descrição:</label>
+								<textarea name="descricao" id="form_descricao_laser" class="form-control" rows="3" placeholder="Descrição"></textarea>
 								<span class="help-block"></span>
 							</div>
 						</div>

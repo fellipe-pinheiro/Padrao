@@ -56,6 +56,7 @@ class Pedido extends CI_Controller {
         $this->load->model('Cliche_dimensao_m');
         $this->load->model('Faca_m');
         $this->load->model('Faca_dimensao_m');
+        $this->load->model('Laser_m');
         
         $this->load->model('Container_m');
         $this->load->model('Container_papel_m');
@@ -66,6 +67,7 @@ class Pedido extends CI_Controller {
         $this->load->model('Container_fita_m');
         $this->load->model('Container_cliche_m');
         $this->load->model('Container_faca_m');
+        $this->load->model('Container_laser_m');
 
         init_layout();
         set_layout('titulo', 'Pedido', FALSE);
