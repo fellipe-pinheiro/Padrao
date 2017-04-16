@@ -6,18 +6,18 @@ class Laser_m extends CI_Model {
 
     var $id;
     var $nome;
-    var $qtd_minima;
+    var $minutos;
     var $descricao;
     var $valor;
     var $ativo;
     // Ajax 
     var $table = 'laser';
-    var $column_order = array('id', 'nome', 'qtd_minima', 'descricao', 'valor', 'ativo');
+    var $column_order = array('id', 'nome', 'minutos', 'descricao', 'valor', 'ativo');
     var $column_search = array('nome', 'descricao');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
-        $this->db->select('id,nome,qtd_minima,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor,ativo');
+        $this->db->select('id,nome,minutos,descricao,CONCAT("R$ ", format(valor,2,"pt_BR")) as valor,ativo');
         $this->db->from($this->table);
         $i = 0;
 
@@ -107,7 +107,7 @@ class Laser_m extends CI_Model {
             $object = new Laser_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object->qtd_minima = $value['qtd_minima'];
+            $object->minutos = $value['minutos'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
             $object->ativo = $value['ativo'];

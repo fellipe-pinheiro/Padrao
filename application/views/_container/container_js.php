@@ -597,6 +597,15 @@ $controller = $this->router->class;
 		pre_submit("#form_md_faca","<?=$controller?>/session_faca_editar/" + owner + "/" + posicao,"#md_faca",owner);
 	}
 
+	function editar_laser_modal(owner,posicao,id_laser,quantidade,qtd_minutos,descricao){
+		ajax_carregar_laser(true,id_laser);
+		$("#form_qtd_laser").val(quantidade);
+		$("#form_qtdMinutos_laser").val(qtd_minutos);
+		$("#form_descricao_laser").val(descricao);
+		$("#md_laser").modal();
+		pre_submit("#form_md_laser","<?=$controller?>/session_laser_editar/" + owner + "/" + posicao,"#md_laser",owner);
+	}
+
 	function abrir_papel_modal(owner){
 		$("#md_papel_container_owner").val(owner);
 		$("#md_corte_laser_minutos").val(null);
@@ -665,6 +674,13 @@ $controller = $this->router->class;
 		$('#form_select_faca').selectpicker('val', '');
 		limpar_select($('#form_select_faca_dimensao'));
 		ajax_carregar_faca();
+	}
+
+	function abrir_laser_modal(owner){
+		reset_form("#form_md_laser");
+		pre_submit("#form_md_laser","<?=$controller?>/session_laser_inserir/"+owner,"#md_laser",owner);
+		$('#form_select_laser').selectpicker('val', '');
+		ajax_carregar_laser();
 	}
 
 	function ajax_session_carregar_dimensoes(owner, id_dimensao = null,editar = false) {
@@ -1015,6 +1031,37 @@ $controller = $this->router->class;
 		});
 	}
 
+	function ajax_carregar_laser(editar = false,id_laser = null) {
+		$('#form_select_laser')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+		$.ajax({
+			url: '<?= base_url("laser/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_laser').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_laser");
+		})
+		.always(function() {
+			$('#form_select_laser').selectpicker('refresh');
+			if(editar){
+				$('#form_select_laser').selectpicker('val', id_laser);
+			}
+		});
+	}
+
 	function ajax_carregar_acessorio(editar = false,id_acessorio = null) {
 		$('#form_select_acessorio')
 		    .find('option')
@@ -1258,6 +1305,10 @@ $controller = $this->router->class;
 
 	function excluir_faca(owner,posicao) {
 		excluir_item_posicao("<?=$controller?>/session_faca_excluir",owner,posicao);
+	}
+
+	function excluir_laser(owner,posicao) {
+		excluir_item_posicao("<?=$controller?>/session_laser_excluir",owner,posicao);
 	}
 
 	function excluir_convite() {

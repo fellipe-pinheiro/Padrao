@@ -87,6 +87,11 @@ foreach ($arr as $key => $value) {
 			                        	<a onclick="abrir_faca_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_faca'><i class="fa fa-map-o" aria-hidden="true"></i> Faca</a>
 		                        	</li>
 			                    </ul>
+			                    <ul class="nav navbar-nav">
+			                        <li>
+			                        	<a onclick="abrir_laser_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_laser'><i class="glyphicon glyphicon-flash"></i> Laser</a>
+		                        	</li>
+			                    </ul>
 			                </div>
 			            </div>
 			        </nav>
@@ -415,6 +420,35 @@ foreach ($arr as $key => $value) {
 										}
 										?>
 										<!-- FIM: FACA -->
+										<!-- INICIO: LASER -->
+										<?php
+										if(!empty($session_owner->container_laser)){
+											foreach ($session_owner->container_laser as $key => $container_laser) {
+												?>
+												<tr>
+													<td><?= $count = $count + 1 ?></td>
+													<td><span class="glyphicon glyphicon-flash"></span> <b>Laser</b></td>
+													<td><?=$container_laser->laser->nome?></td>
+													<td><?=$container_laser->descricao?></td>
+													<td><?=$container_laser->quantidade?></td>
+													<td>R$ <?= number_format($container_laser->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_laser->calcula_valor_total($container_laser->quantidade,$container_laser->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+													<td>
+														<button onclick="editar_laser_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_laser->laser->id?>,<?=$container_laser->quantidade?>,<?=$container_laser->qtd_minutos?>,'<?=$container_laser->descricao?>')" id="" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</button>
+													</td>
+													<td>
+														<button onclick="excluir_laser('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-trash"></span>
+														</button>
+													</td>
+												</tr>
+												<?php
+											}
+										}
+										?>
+										<!-- FIM: ACABAMENTO -->
 									</tbody>
 									<tfoot>
 										<tr>

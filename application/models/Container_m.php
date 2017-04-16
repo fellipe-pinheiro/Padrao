@@ -13,6 +13,7 @@ class Container_m extends CI_Model {
     var $container_fita; //Array de objetos fita
     var $container_cliche; //Array de objetos cliche
     var $container_faca; //Array de objetos faca
+    var $container_laser; //Array de objetos laser
     var $table;
     var $column_order = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
     var $column_search = array('pedido_id', 'orcamento_id', 'produto_id', 'item_id', 'grupo', 'item', 'material', 'quantidade', 'descricao');
@@ -146,6 +147,13 @@ class Container_m extends CI_Model {
         if (!empty($this->container_faca)) {
             foreach ($this->container_faca as $faca) {
                 if (!$faca->inserir($this->id)) {
+                    return false;
+                }
+            }
+        }
+        if (!empty($this->container_laser)) {
+            foreach ($this->container_laser as $laser) {
+                if (!$laser->inserir($this->id)) {
                     return false;
                 }
             }
@@ -338,6 +346,17 @@ class Container_m extends CI_Model {
         return $container_faca;
     }
 
+    public function get_laser($owner, $id, $quantidade, $qtd_minutos, $descricao) {
+        //busca o laser pelo id
+        $container_laser = new Container_laser_m();
+        $container_laser->laser = $this->Laser_m->get_by_id($id);
+        $container_laser->quantidade = $quantidade;
+        $container_laser->qtd_minutos = $qtd_minutos;
+        $container_laser->descricao = $descricao;
+        $container_laser->owner = $owner;
+        return $container_laser;
+    }
+
     //retorna a soma dos valores do array de: PAPEL, IMPRESSÃO, FITA, ACABAMENTO e ACESSÓRIO
     public function calcula_total($modelo, $qtd_pedido) {
         $this->total = 0;
@@ -358,7 +377,6 @@ class Container_m extends CI_Model {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
-
         if (!empty($this->container_acabamento)) {
             foreach ($this->container_acabamento as $key => $value) {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
@@ -381,6 +399,11 @@ class Container_m extends CI_Model {
         }
         if (!empty($this->container_faca)) {
             foreach ($this->container_faca as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
+            }
+        }
+        if (!empty($this->container_laser)) {
+            foreach ($this->container_laser as $key => $value) {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
@@ -432,6 +455,11 @@ class Container_m extends CI_Model {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
             }
         }
+        if (!empty($this->container_laser)) {
+            foreach ($this->container_laser as $key => $value) {
+                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($qtd_pedido));
+            }
+        }
         return $this->total;
     }
 
@@ -446,6 +474,7 @@ class Container_m extends CI_Model {
         $object->container_fita = $this->Container_fita_m->get_by_container_id($id, $owner);
         $object->container_cliche = $this->Container_cliche_m->get_by_container_id($id, $owner);
         $object->container_faca = $this->Container_faca_m->get_by_container_id($id, $owner);
+        $object->container_laser = $this->Container_laser_m->get_by_container_id($id, $owner);
         return $object;
     }
 

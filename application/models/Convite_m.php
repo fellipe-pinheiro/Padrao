@@ -26,7 +26,8 @@ class Convite_m extends CI_Model {
             !empty($cartao->container_acabamento) || 
             !empty($cartao->container_acessorio) ||
             !empty($cartao->container_cliche) ||
-            !empty($cartao->container_faca)
+            !empty($cartao->container_faca) ||
+            !empty($cartao->container_laser)
             ) {
             if (!$cartao->inserir()) {
                 return false;
@@ -39,7 +40,8 @@ class Convite_m extends CI_Model {
             !empty($envelope->container_acabamento) || 
             !empty($envelope->container_acessorio) ||
             !empty($envelope->container_cliche) ||
-            !empty($envelope->container_faca)
+            !empty($envelope->container_faca) ||
+            !empty($envelope->container_laser)
             ) {
             if (!$envelope->inserir()) {
                 return false;

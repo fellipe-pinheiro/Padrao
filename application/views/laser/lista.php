@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th>ID</th>
                                 <th>Nome</th>
-                                <th>Qtd Mínima</th>
+                                <th>Minutos</th>
                                 <th>Descrição</th>
                                 <th>Valor</th>
                                 <th>Ativo</th>
@@ -95,11 +95,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                            <!--qtd_minima-->
+                            <!--minutos-->
                             <div class="col-sm-4">
                                 <div class="form-group input-padding">
-                                    <label for="qtd_minima" class="control-label">Quantidade mínima:</label>
-                                    <input type="number" name="qtd_minima" id="qtd_minima" step="1" min="1" class="form-control" value="" required="required" title="Quantidade mínima" placeholder="Quantidade mínima">
+                                    <label for="minutos" class="control-label">Minutos:</label>
+                                    <input type="number" name="minutos" id="minutos" step="1" min="1" class="form-control" value="" required="required" title="Minutos" placeholder="Minutos">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             columns: [
                 {data: "id","visible": false},
                 {data: "nome","visible": true},
-                {data: "qtd_minima", "visible": true, "orderable": false},
+                {data: "minutos", "visible": true, "orderable": false},
                 {data: "descricao","visible": false, "orderable": false},
                 {data: "valor","visible": true},
                 {data: "ativo","visible": true}
