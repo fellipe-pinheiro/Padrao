@@ -712,3 +712,13 @@ CREATE TABLE `personalizado_impressao` (
   CONSTRAINT `fk_personalizadoImpressao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`),
   CONSTRAINT `fk_personalizadoImpressao_impressaoDimensao` FOREIGN KEY (`impressao_dimensao`) REFERENCES `impressao_dimensao` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `laser` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
