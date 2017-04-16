@@ -31,13 +31,6 @@ class Pedido extends CI_Controller {
         $this->load->model('Convite_m');
         $this->load->model('Convite_modelo_m');
         $this->load->model('Convite_modelo_dimensao_m');
-        $this->load->model('Container_m');
-        $this->load->model('Container_papel_m');
-        $this->load->model('Container_papel_acabamento_m');
-        $this->load->model('Container_impressao_m');
-        $this->load->model('Container_acabamento_m');
-        $this->load->model('Container_acessorio_m');
-        $this->load->model('Container_fita_m');
 
         //Sessão Personalizado
         $this->load->model('Personalizado_m');
@@ -52,13 +45,28 @@ class Pedido extends CI_Controller {
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Papel_gramatura_m');
         $this->load->model('Impressao_m');
-        $this->load->model('Impressao_area_m');
+        $this->load->model('Impressao_dimensao_m');
         $this->load->model('Acabamento_m');
         $this->load->model('Acessorio_m');
         $this->load->model('Fita_m');
         $this->load->model('Fita_laco_m');
         $this->load->model('Fita_material_m');
         $this->load->model('Fita_espessura_m');
+        $this->load->model('Cliche_m');
+        $this->load->model('Cliche_dimensao_m');
+        $this->load->model('Faca_m');
+        $this->load->model('Faca_dimensao_m');
+        
+        $this->load->model('Container_m');
+        $this->load->model('Container_papel_m');
+        $this->load->model('Container_papel_acabamento_m');
+        $this->load->model('Container_impressao_m');
+        $this->load->model('Container_acabamento_m');
+        $this->load->model('Container_acessorio_m');
+        $this->load->model('Container_fita_m');
+        $this->load->model('Container_cliche_m');
+        $this->load->model('Container_faca_m');
+
         init_layout();
         set_layout('titulo', 'Pedido', FALSE);
         empty($this->session->pedido) ? $this->criar_pedido() : '';

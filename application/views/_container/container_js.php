@@ -99,10 +99,10 @@ $controller = $this->router->class;
 			ajax_carregar_gramatura(id_papel);
 		});
 
-		$("#form_select_impressao_area").change(function(event) {
+		$("#form_select_impressao").change(function(event){
 			var option = $(this).find('option:selected');
-			var id_area = option.val();
-			ajax_carregar_impressao(id_area);
+			var id_impressao = option.val();
+			ajax_carregar_impressao_dimensao(id_impressao);
 		});
 
 		$("#form_select_fita_material").change(function(event) {
@@ -520,10 +520,10 @@ $controller = $this->router->class;
 		$("#md_papel").modal();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_editar/" + owner + "/" + posicao,"#md_papel",owner);
 	}
-	
-	function editar_impressao_modal(owner,posicao,id_impressao,id_area,quantidade,descricao){
-		ajax_carregar_impressao_area(true,id_area);
-		ajax_carregar_impressao(id_area,true,id_impressao);
+
+	function editar_impressao_modal(owner,posicao,id_impressao,quantidade,descricao,id_dimensao){
+		ajax_carregar_impressao(true,id_impressao,id_dimensao);
+		ajax_carregar_impressao_dimensao(id_impressao,true,id_dimensao);
 		$("#form_qtd_impressao").val(quantidade);
 		$("#form_descricao_impressao").val(descricao);
 		$("#md_impressao").modal();
@@ -560,7 +560,6 @@ $controller = $this->router->class;
 		ajax_carregar_cliche(true,id_cliche,id_dimensao);
 		ajax_carregar_cliche_dimensao(id_cliche,true,id_dimensao);
 		$("#form_qtd_cliche").val(quantidade);
-		console.log(descricao);
 		$("#form_descricao_cliche").val(descricao);
 		if(cobrarServico ==1){
 			$('#cobrar_servicoCliche').prop('checked',true);
@@ -623,9 +622,9 @@ $controller = $this->router->class;
 	function abrir_impressao_modal(owner){
 		reset_form("#form_md_impressao");
 		pre_submit("#form_md_impressao","<?=$controller?>/session_impressao_inserir/"+owner,"#md_impressao",owner);
-		//remove_form_select_option_impressao();
-		limpar_select($('#form_select_impressao'),true);
-		ajax_carregar_impressao_area();
+		$('#form_select_impressao').selectpicker('val', '');
+		limpar_select($('#form_select_impressao_dimensao'));
+		ajax_carregar_impressao();
 	}
 
 	function abrir_acabamento_modal(owner){
@@ -805,48 +804,19 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_impressao_area(editar = false,id_area = null) {
-		$('#form_select_impressao_area')
+	function ajax_carregar_impressao(editar = false, id_impressao = null, id_dimensao = null) {
+		$('#form_select_impressao')
 		    .find('option')
 		    .remove()
 		    .end()
 		    .append('<option value="">Selecione</option>')
 		    .val('');
-
 		$.ajax({
-			url: '<?= base_url("impressao_area/ajax_get_personalizado")?>',
+			url: '<?= base_url("impressao/ajax_get_personalizado")?>',
 			type: 'GET',
 			dataType: 'json',
 		})
 		.done(function(data) {
-			$.each(data, function(index, val) {
-				$('#form_select_impressao_area').append($('<option>', {
-				    value: val.id,
-				    text: val.nome
-				}));
-			});
-		})
-		.fail(function() {
-			console.log("erro ao ajax_carregar_impressao_area");
-		})
-		.always(function() {
-			if(editar){
-				$("#form_select_impressao_area option[value='"+id_area+"']").prop('selected','selected');
-			}
-		});
-	}
-
-	function ajax_carregar_impressao(id_area,editar = false, id_impressao = null) {
-		//remove_form_select_option_impressao();
-		limpar_select($('#form_select_impressao'),true);
-
-		$.ajax({
-			url: '<?= base_url("impressao/ajax_get_personalizado/")?>'+id_area,
-			type: 'GET',
-			dataType: 'json',
-		})
-		.done(function(data) {
-			limpar_select($('#form_select_impressao'));
 			$.each(data, function(index, val) {
 				$('#form_select_impressao').append($('<option>', {
 				    value: val.id,
@@ -855,13 +825,42 @@ $controller = $this->router->class;
 			});
 		})
 		.fail(function() {
-			console.log("erro ao ajax_carregar_papel");
+			console.log("erro ao ajax_carregar_impressao");
 		})
 		.always(function() {
 			$('#form_select_impressao').selectpicker('refresh');
 			if(editar){
 				$('#form_select_impressao').selectpicker('val', id_impressao);
 			}
+		});
+	}
+
+	function ajax_carregar_impressao_dimensao(id,editar = false, idImpressaoDimensao = null) {
+		limpar_select($('#form_select_impressao_dimensao'), true);
+
+		$.ajax({
+			url: '<?= base_url("impressao/ajax_get_personalizado_impressao_dimensao/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_impressao_dimensao'));
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.id == idImpressaoDimensao && editar){
+					selected = true;
+				}
+				$('#form_select_impressao_dimensao').append($('<option>', {
+				    value: val.id,
+				    text: val.nome,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_impressao_dimensao");
+		})
+		.always(function() {
 		});
 	}
 

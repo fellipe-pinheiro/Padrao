@@ -241,31 +241,30 @@ foreach ($arr as $key => $value) {
 										<!-- INICIO: IMPRESSÃO -->
 										<?php 
 										if(!empty($session_owner->container_impressao)){
-											foreach ($session_owner->container_impressao as $key => $container_impressao) {
-												?>
-												<tr>
-													<td><?= $count = $count + 1 ?></td>
-													<td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
-													<td><?=$container_impressao->impressao->nome?> / <?=$container_impressao->impressao->impressao_area->nome?>
-													</td>
-													<td><?=$container_impressao->descricao?></td>
-													<td><?=$container_impressao->quantidade?></td>
-													<td>R$ <?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?>
-													</td>
-													<td>
-														<button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->impressao->impressao_area->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>')" id="" class="btn btn-default btn-sm">
-															<span class="glyphicon glyphicon-pencil"></span>
-														</button>
-													</td>
-													<td>
-														<button onclick="excluir_impressao('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
-															<span class="glyphicon glyphicon-trash"></span>
-														</button>
-													</td>
-												</tr>
-												<?php
-											}
+										    foreach ($session_owner->container_impressao as $key => $container_impressao) {
+										        ?>
+										        <tr>
+										            <td><?= $count = $count + 1 ?></td>
+										            <td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
+										            <td><?=$container_impressao->impressao->nome?> / <?=$container_impressao->impressao->get_selected_impressao_dimensao()->nome?>
+										            </td>
+										            <td><?=$container_impressao->descricao?></td>
+										            <td><?=$container_impressao->quantidade?></td>
+										            <td>R$ <?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+										            <td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+										            <td>
+										                <button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>',<?=$container_impressao->impressao->get_selected_impressao_dimensao()->id?>)" id="" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-pencil"></span>
+										                </button>
+										            </td>
+										            <td>
+										                <button onclick="excluir_impressao('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+										                    <span class="glyphicon glyphicon-trash"></span>
+										                </button>
+										            </td>
+										        </tr>
+										        <?php
+										    }
 										}
 										?>
 										<!-- FIM: IMPRESSÃO -->

@@ -21,7 +21,7 @@ class Convite extends CI_Controller {
         $this->load->model('Papel_dimensao_m');
         $this->load->model('Papel_acabamento_m');
         $this->load->model('Impressao_m');
-        $this->load->model('Impressao_area_m');
+        $this->load->model('Impressao_dimensao_m');
         $this->load->model('Acabamento_m');
         $this->load->model('Acessorio_m');
         $this->load->model('Fita_m');
@@ -399,17 +399,16 @@ class Convite extends CI_Controller {
             exit();
         }
     }
-    //SESSION: IMPRESSAO
+    //SESSION: IMPRESSÃO
     public function session_impressao_inserir(){
-        $this->input->post();
         $this->validar_formulario_impressao();
         if($this->uri->segment(3) == 'cartao'){
             $this->session->convite->cartao->container_impressao[] = $this->set_impressao('cartao');
         }else if($this->uri->segment(3) == 'envelope'){
             $this->session->convite->envelope->container_impressao[] = $this->set_impressao('envelope');
         }
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> inserida com sucesso'));
-        exit();
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> inserido com sucesso'));
+        exit();  
     }
 
     public function session_impressao_editar(){
@@ -420,8 +419,8 @@ class Convite extends CI_Controller {
         }else if($this->uri->segment(3) == 'envelope'){
             $this->session->convite->envelope->container_impressao[$posicao] = $this->set_impressao('envelope');
         }
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> editada com sucesso'));
-        exit();  
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> editado com sucesso'));
+        exit();   
     }
 
     public function session_impressao_excluir(){
@@ -432,13 +431,13 @@ class Convite extends CI_Controller {
         }else if($owner == 'envelope'){
             unset($this->session->convite->envelope->container_impressao[$posicao]);
         }
-        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> excluida com sucesso'));
-        exit();
+        print json_encode(array("status" => TRUE, 'msg' => '<strong>Impressão</strong> excluido com sucesso'));
+        exit(); 
     }
 
     private function set_impressao($owner){
-        //busca a impressão pelo id e seta a quantidade e descrição
-        $container = $this->Container_m->get_impressao($owner,$this->input->post('impressao'),$this->input->post('quantidade'),$this->input->post('descricao'));
+        //busca o impressao pelo id e seta a quantidade e descrição
+        $container = $this->Container_m->get_impressao($owner,$this->input->post('impressao'),$this->input->post('dimensao'),$this->input->post('quantidade'),$this->input->post('descricao'));
         return $container;
     }
 
@@ -447,6 +446,7 @@ class Convite extends CI_Controller {
         $data['status'] = TRUE;
         
         $this->form_validation->set_rules('impressao', 'Impressão', 'required');
+        $this->form_validation->set_rules('dimensao', 'Dimensão', 'required');
         $this->form_validation->set_rules('quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 

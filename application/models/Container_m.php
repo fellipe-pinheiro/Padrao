@@ -270,10 +270,11 @@ class Container_m extends CI_Model {
         return $item;
     }
 
-    public function get_impressao($owner, $id, $quantidade, $descricao) {
-        //busca a impressão pelo id
+    public function get_impressao($owner, $id, $dimensao, $quantidade, $descricao) {
+        //busca o impressao pelo id
         $container_impressao = new Container_impressao_m();
         $container_impressao->impressao = $this->Impressao_m->get_by_id($id);
+        $container_impressao->impressao->set_impressao_dimensao($dimensao);
         $container_impressao->quantidade = $quantidade;
         $container_impressao->descricao = $descricao;
         $container_impressao->owner = $owner;

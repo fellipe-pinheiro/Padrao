@@ -633,3 +633,82 @@ CREATE TABLE `personalizado_faca` (
   CONSTRAINT `fk_personalizadoFaca_facaDimensao` FOREIGN KEY (`faca_dimensao`) REFERENCES `faca_dimensao` (`id`),
   CONSTRAINT `fk_personalizadoFaca_personalizado` FOREIGN KEY (`personalizado`) REFERENCES `personalizado` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `cartao_impressao`;
+DROP TABLE IF EXISTS `envelope_impressao`;
+DROP TABLE IF EXISTS `personalizado_impressao`;
+DROP TABLE IF EXISTS `impressao`;
+DROP TABLE IF EXISTS `impressao_area`;
+
+CREATE TABLE `impressao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `impressao_dimensao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `impressao` int(11) unsigned NOT NULL,
+  `valor_impressao` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk__idx` (`impressao`),
+  CONSTRAINT `fk_impressaoDimensao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `cartao_impressao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cartao` int(11) unsigned NOT NULL,
+  `impressao` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `descricao` text,
+  `impressao_dimensao` int(11) unsigned NOT NULL,
+  `valor_impressao` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_cartaoImpressao_cartao_idx` (`cartao`),
+  KEY `fk_cartaoImpressao_impressao_idx` (`impressao`),
+  KEY `fk_cartaoImpressao_impressaoDimensao_idx` (`impressao_dimensao`),
+  CONSTRAINT `fk_cartaoImpressao_cartao` FOREIGN KEY (`cartao`) REFERENCES `cartao` (`id`),
+  CONSTRAINT `fk_cartaoImpressao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`),
+  CONSTRAINT `fk_cartaoImpressao_impressaoDimensao` FOREIGN KEY (`impressao_dimensao`) REFERENCES `impressao_dimensao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `envelope_impressao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `envelope` int(11) unsigned NOT NULL,
+  `impressao` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `descricao` text,
+  `impressao_dimensao` int(11) unsigned NOT NULL,
+  `valor_impressao` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_envelopeImpressao_envelope_idx` (`envelope`),
+  KEY `fk_envelopeImpressao_impressao_idx` (`impressao`),
+  KEY `fk_envelopeImpressao_impressaoDimensao_idx` (`impressao_dimensao`),
+  CONSTRAINT `fk_envelopeImpressao_envelope` FOREIGN KEY (`envelope`) REFERENCES `envelope` (`id`),
+  CONSTRAINT `fk_envelopeImpressao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`),
+  CONSTRAINT `fk_envelopeImpressao_impressaoDimensao` FOREIGN KEY (`impressao_dimensao`) REFERENCES `impressao_dimensao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `personalizado_impressao` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `personalizado` int(11) unsigned NOT NULL,
+  `impressao` int(11) unsigned NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `descricao` text,
+  `impressao_dimensao` int(11) unsigned NOT NULL,
+  `valor_impressao` decimal(10,2) NOT NULL,
+  `qtd_minima` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_personalizadoImpressao_personalizado_idx` (`personalizado`),
+  KEY `fk_personalizadoImpressao_impressao_idx` (`impressao`),
+  KEY `fk_personalizadoImpressao_impressaoDimensao_idx` (`impressao_dimensao`),
+  CONSTRAINT `fk_personalizadoImpressao_personalizado` FOREIGN KEY (`personalizado`) REFERENCES `personalizado` (`id`),
+  CONSTRAINT `fk_personalizadoImpressao_impressao` FOREIGN KEY (`impressao`) REFERENCES `impressao` (`id`),
+  CONSTRAINT `fk_personalizadoImpressao_impressaoDimensao` FOREIGN KEY (`impressao_dimensao`) REFERENCES `impressao_dimensao` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
