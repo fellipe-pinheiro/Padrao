@@ -6,75 +6,6 @@ $controller = $this->router->class;
 	$(document).ready(function () {
 		//Checkbox estilizado
 		$(':checkbox').checkboxpicker();
-		//Empastamento:
-		$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
-		$('#empastamento_quantidade').attr("disabled", true);
-
-		$($($('#empastamento_adicionar').parent().children()[1])).click(function () {
-			alteraEmpastamento();
-		});
-		/*====================================================================================*/
-		//Laminação:
-		$($('#laminacao_cobrar').parent().children()[1]).addClass('hidden');
-		$('#laminacao_quantidade').attr("disabled", true);
-
-		$($($('#laminacao_adicionar').parent().children()[1])).click(function () {
-			alteraLaminacao();
-		});
-		/*====================================================================================*/
-		//Douração:
-		$($('#douracao_cobrar').parent().children()[1]).addClass('hidden');
-		$('#douracao_quantidade').attr("disabled", true);
-
-		$($($('#douracao_adicionar').parent().children()[1])).click(function () {
-			alteraDouracao();
-		});
-		/*====================================================================================*/
-		//Corte Laser:
-		$($('#corte_laser_cobrar').parent().children()[1]).addClass('hidden');
-		$('#corte_laser_quantidade').attr("disabled", true);
-		$('#corte_laser_minutos').attr("disabled", true);
-
-		$($($('#corte_laser_adicionar').parent().children()[1])).click(function () {
-			alteraCorteLaser();
-		});
-		/*====================================================================================*/
-		//Relevo Seco:
-		$($('#relevo_seco_cobrar').parent().children()[1]).addClass('hidden');
-		$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#relevo_seco_quantidade').attr("disabled", true);
-
-		$($($('#relevo_seco_adicionar').parent().children()[1])).click(function () {
-			alteraRelevoSeco();
-		});
-		/*====================================================================================*/
-		//Hot Stamping:
-		$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
-		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#hot_stamping_quantidade').attr("disabled", true);
-
-		$($($('#hot_stamping_adicionar').parent().children()[1])).click(function () {
-			alteraHotStamping();
-		});
-		/*====================================================================================*/
-		//Corte e Vinco:
-		$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
-		$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#corte_vinco_quantidade').attr("disabled", true);
-
-		$($($('#corte_vinco_adicionar').parent().children()[1])).click(function () {
-			alteraCorteVinco();
-		});
-		/*====================================================================================*/
-		//Almofada:
-		$($('#almofada_cobrar').parent().children()[1]).addClass('hidden');
-		$($('#almofada_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#almofada_quantidade').attr("disabled", true);
-
-		$($($('#almofada_adicionar').parent().children()[1])).click(function () {
-			alteraAlmofada();
-		});
-		/*====================================================================================*/
 		//Esconde ou mostra os itens
 		if('<?=$controller?>' == "convite"){
 			$("#md_convite_titulo").text('Novo Convite');
@@ -90,13 +21,37 @@ $controller = $this->router->class;
 		$("#form_select_linha").change(function(event) {
 			var option = $(this).find('option:selected');
 			var id_linha = option.val();
-			ajax_carregar_papel(id_linha);
+			ajax_carregar_papel(id_linha,false,null);
+		});
+
+		$("#form_select_linha-1").change(function(event) {
+			var option = $(this).find('option:selected');
+			var id_linha = option.val();
+			ajax_carregar_papel1(id_linha,false,null);
+		});
+
+		$("#form_select_linha-2").change(function(event) {
+			var option = $(this).find('option:selected');
+			var id_linha = option.val();
+			ajax_carregar_papel2(id_linha,false,null);
 		});
 
 		$("#form_select_papel").change(function(event){
 			var option = $(this).find('option:selected');
 			var id_papel = option.val();
-			ajax_carregar_gramatura(id_papel);
+			ajax_carregar_gramatura(id_papel,false,null);
+		});
+
+		$("#form_select_papel-1").change(function(event){
+			var option = $(this).find('option:selected');
+			var id_papel = option.val();
+			ajax_carregar_gramatura1(id_papel,false,null);
+		});
+
+		$("#form_select_papel-2").change(function(event){
+			var option = $(this).find('option:selected');
+			var id_papel = option.val();
+			ajax_carregar_gramatura2(id_papel,false,null);
 		});
 
 		$("#form_select_impressao").change(function(event){
@@ -147,376 +102,132 @@ $controller = $this->router->class;
 		});
 	});
 
-	function alteraEmpastamento(){
-		if($('#empastamento_adicionar').is(':checked')){
-			empastamentoOn();		
+	function altera_quantidade_empastamento(action, editar = false){
+		var qtd_empastamento = $("#qtd_empastamento").val();
+
+		if(action == 'minus'){
+			qtd_empastamento--;
+		}else if(action == 'plus'){
+			qtd_empastamento++;
 		}else{
-			empastamentoOff();
+			console.log('Ação indefinida => Função:altera_quantidade_empastamento()');
+		}
+
+		switch(qtd_empastamento){
+			case 1:
+				set_papel1();
+				break;
+			case 2:
+				set_papel2();
+				break;
+			default :
+				set_papel_default();
+				break;
+		}
+		$("#qtd_empastamento").val(qtd_empastamento);
+	}
+
+	function set_papel_default() {
+		btn_empastamento_ativo(true,false);
+		show_papel(false,false);
+		papel_action(0,0);
+		papel_obrigatorio(false,false);
+	}
+
+	function set_papel1() {
+		show_papel(true,false);
+		papel_action(1,0);
+		btn_empastamento_ativo(false,false);
+		papel_obrigatorio(true,false);
+	}
+
+	function set_papel2() {
+		show_papel(true,true);
+		papel_action(1,1);
+		btn_empastamento_ativo(false,true);
+		papel_obrigatorio(true,true);
+	}
+
+	function papel_obrigatorio(papel1,papel2) { //(boolean,boolean)
+		//habilita e desabilita o select
+		$("#form_select_empastamento").prop('disabled', !papel1);
+		$("#form_select_empastamento").selectpicker('refresh');
+
+		//required
+		$("#form_select_empastamento").attr('required', papel1);
+
+		//papel1
+		$("#form_select_linha-1").attr('required', papel1);
+		$("#form_select_papel-1").attr('required', papel1);
+		$("#form_select_gramatura-1").attr('required', papel1);
+		//papel2
+		$("#form_select_linha-2").attr('required', papel2);
+		$("#form_select_papel-2").attr('required', papel2);
+		$("#form_select_gramatura-2").attr('required', papel2);
+	}
+
+	function btn_empastamento_ativo(minus,plus) { //(boolean,boolean)
+		if('<?=$controller?>' == "personalizado"){
+			//desativar botão de adicionar e adiciona o title
+			$("#btn_empastamento_minus").attr('disabled', true);
+			$("#btn_empastamento_plus").attr('disabled', true);
+			$(".div_empastamento_title").attr('title', 'Somente para convite');
+		}else{
+			$("#btn_empastamento_minus").attr('disabled', minus);
+			$("#btn_empastamento_plus").attr('disabled', plus);
 		}
 	}
 
-	function alteraLaminacao(){
-		if($('#laminacao_adicionar').is(':checked')){
-			laminacaoOn();
+	function papel_action(papel1,papel2) { //int (0,1)
+		$("#papel_action-1").val(papel1);
+		$("#papel_action-2").val(papel2);
+	}
+
+	function show_papel(papel1,papel2) { //(boolean,boolean)
+		if(papel1){
+			$("#papel-1").removeClass("hidden");
 		}else{
-			laminacaoOff();
+			$("#papel-1").addClass("hidden");
+		}
+		if(papel2){
+			$("#papel-2").removeClass("hidden");
+		}else{
+			$("#papel-2").addClass("hidden");
 		}
 	}
 
-	function alteraDouracao(){
-		if($('#douracao_adicionar').is(':checked')){
-			douracaoOn();
-		}else{
-			douracaoOff()
-		}
-	}
+	function editar_papel_modal(owner,posicao,id_dimensao,id_papel,id_linha,id_gramatura,id_empastamento,id_papel1,id_linha1,id_gramatura1,id_papel2,id_linha2,id_gramatura2){
 
-	function alteraCorteLaser(){
-		if($('#corte_laser_adicionar').is(':checked')){
-			corteLaserOn();
-		}else{
-			corteLaserOff();
-		}
-	}
+		//TODO receber uma variavel depois da id_gramatura2 para setar o empastamento
+		ajax_carregar_empastamento(true,id_empastamento);
 
-	function alteraRelevoSeco(){
-		if($('#relevo_seco_adicionar').is(':checked')){
-			relevoSecoOn();
-		}else{
-			relevoSecoOff();
-		}
-	}
 
-	function alteraHotStamping(){
-		if($('#hot_stamping_adicionar').is(':checked')){
-			hotStampingOn();
-		}else{
-			hotStampingOff();
-		}
-	}
-
-	function alteraCorteVinco(){
-		if($('#corte_vinco_adicionar').is(':checked')){
-			corteVincoOn();
-		}else{
-			corteVincoOff();
-		}
-	}
-
-	function alteraAlmofada(){
-		if($('#almofada_adicionar').is(':checked')){
-			almofadaOn();
-		}else{
-			almofadaOff();
-		}
-	}
-
-	function empastamentoOn(){
-		$($('#empastamento_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#empastamento_cobrar').prop('checked', true);
-		$('#empastamento_quantidade').attr("disabled", false);
-		$('#empastamento_quantidade').val(1);
-	}
-
-	function empastamentoOff(){
-		$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
-		$('#empastamento_cobrar').prop('checked', false);
-		$('#empastamento_quantidade').attr("disabled", true);
-		$('#empastamento_quantidade').val(null);
-	}
-
-	function laminacaoOn() {
-		$($('#laminacao_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#laminacao_cobrar').prop('checked', true);
-		$('#laminacao_quantidade').attr("disabled", false);
-		$('#laminacao_quantidade').val(1);
-	}
-
-	function laminacaoOff() {
-		$($('#laminacao_cobrar').parent().children()[1]).addClass('hidden');
-		$('#laminacao_cobrar').prop('checked', false);
-		$('#laminacao_quantidade').attr("disabled", true);
-		$('#laminacao_quantidade').val(null);
-	}
-
-	function douracaoOn() {
-		$($('#douracao_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#douracao_cobrar').prop('checked', true);
-		$('#douracao_quantidade').attr("disabled", false);
-		$('#douracao_quantidade').val(1);
-	}
-
-	function douracaoOff() {
-		$($('#douracao_cobrar').parent().children()[1]).addClass('hidden');
-		$('#douracao_cobrar').prop('checked', false);
-		$('#douracao_quantidade').attr("disabled", true);
-		$('#douracao_quantidade').val(null);
-	}
-
-	function corteLaserOn() {
-		$($('#corte_laser_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#corte_laser_cobrar').prop('checked', true);
-		$('#corte_laser_quantidade').attr("disabled", false);
-		$('#corte_laser_minutos').attr("disabled", false);
-		$('#corte_laser_quantidade').val(1);
-	}
-
-	function corteLaserOff() {
-		$($('#corte_laser_cobrar').parent().children()[1]).addClass('hidden');
-		$('#corte_laser_cobrar').prop('checked', false);
-		$('#corte_laser_quantidade').attr("disabled", true);
-		$('#corte_laser_minutos').attr("disabled", true);
-		$('#corte_laser_quantidade').val(null);
-		$('#corte_laser_minutos').val(null);
-	}
-
-	function relevoSecoOn() {
-		$($('#relevo_seco_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#relevo_seco_cobrar').prop('checked', true);
-		$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		$('#relevo_seco_cobrar_faca_cliche').prop('checked', true);
-		$('#relevo_seco_quantidade').attr("disabled", false);
-		$('#relevo_seco_quantidade').val(1);
-	}
-
-	function relevoSecoOff() {
-		$($('#relevo_seco_cobrar').parent().children()[1]).addClass('hidden');
-		$('#relevo_seco_cobrar').prop('checked', false);
-		$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#relevo_seco_cobrar_faca_cliche').prop('checked', false);
-		$('#relevo_seco_quantidade').attr("disabled", true);
-		$('#relevo_seco_quantidade').val(null);
-	}
-
-	function hotStampingOn() {
-		$($('#hot_stamping_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#hot_stamping_cobrar').prop('checked', true);
-		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		$('#hot_stamping_cobrar_faca_cliche').prop('checked', true);
-		$('#hot_stamping_quantidade').attr("disabled", false);
-		$('#hot_stamping_quantidade').val(1);
-	}
-
-	function hotStampingOff() {
-		$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
-		$('#hot_stamping_cobrar').prop('checked', false);
-		$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#hot_stamping_cobrar_faca_cliche').prop('checked', false);
-		$('#hot_stamping_quantidade').attr("disabled", true);
-		$('#hot_stamping_quantidade').val(null);
-	}
-
-	function corteVincoOn() {
-		$($('#corte_vinco_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#corte_vinco_cobrar').prop('checked', true);
-		$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		$('#corte_vinco_cobrar_faca_cliche').prop('checked', true);
-		$('#corte_vinco_quantidade').attr("disabled", false);
-		$('#corte_vinco_quantidade').val(1);
-	}
-
-	function corteVincoOff() {
-		$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
-		$('#corte_vinco_cobrar').prop('checked', false);
-		$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#corte_vinco_cobrar_faca_cliche').prop('checked', false);
-		$('#corte_vinco_quantidade').attr("disabled", true);
-		$('#corte_vinco_quantidade').val(null);
-	}
-
-	function almofadaOn() {
-		$($('#almofada_cobrar').parent().children()[1]).removeClass('hidden');
-		$('#almofada_cobrar').prop('checked', true);
-		$($('#almofada_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		$('#almofada_cobrar_faca_cliche').prop('checked', true);
-		$('#almofada_quantidade').attr("disabled", false);
-		$('#almofada_quantidade').val(1);
-	}
-
-	function almofadaOff() {
-		$($('#almofada_cobrar').parent().children()[1]).addClass('hidden');
-		$('#almofada_cobrar').prop('checked', false);
-		$($('#almofada_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		$('#almofada_cobrar_faca_cliche').prop('checked', false);
-		$('#almofada_quantidade').attr("disabled", true);
-		$('#almofada_quantidade').val(null);
-	}
-
-	function editar_papel_modal(owner,posicao,id_papel,id_dimensao,id_linha,id_gramatura,empastamento_adicionar,empastamento_quantidade,empastamento_cobrar,laminacao_adicionar,laminacao_quantidade,laminacao_cobrar,douracao_adicionar,douracao_quantidade,douracao_cobrar,corte_laser_adicionar,corte_laser_quantidade,corte_laser_cobrar,corte_laser_minutos,relevo_seco_adicionar,relevo_seco_quantidade,relevo_seco_cobrar,relevo_seco_cobrar_faca_cliche,hot_stamping_adicionar,hot_stamping_quantidade,hot_stamping_cobrar,hot_stamping_cobrar_faca_cliche,corte_vinco_adicionar,corte_vinco_quantidade,corte_vinco_cobrar,corte_vinco_cobrar_faca_cliche,almofada_adicionar,almofada_quantidade,almofada_cobrar,almofada_cobrar_faca_cliche){
 		
 		ajax_carregar_papel_linha(true,id_linha);
+		ajax_carregar_papel_linha1(true,id_linha1);
+		ajax_carregar_papel_linha2(true,id_linha2);
+
+		if(id_papel1 != "" && id_linha1 != "" && id_gramatura1 != ""){
+			set_papel1();
+			$("#qtd_empastamento").val(1);
+		}
+
+		if(id_papel2 != "" && id_linha2 != "" && id_gramatura2 != ""){
+			set_papel2();
+			$("#qtd_empastamento").val(2);
+		}
+
 		ajax_carregar_papel(id_linha,true,id_papel);
+		ajax_carregar_papel1(id_linha1,true,id_papel1);
+		ajax_carregar_papel2(id_linha2,true,id_papel2);
+
 		ajax_carregar_gramatura(id_papel,true,id_gramatura);
+		ajax_carregar_gramatura1(id_papel1,true,id_gramatura1);
+		ajax_carregar_gramatura2(id_papel2,true,id_gramatura2);
+
+
 		ajax_session_carregar_dimensoes(owner,id_dimensao,true);
 		$("#md_papel_container_owner").val(owner);
-
-		/*====================================================================================*/
-		//Empastamento:
-		if(empastamento_adicionar ==1){
-			$('#empastamento_adicionar').prop('checked',true);
-			$('#empastamento_quantidade').attr("disabled", false);
-			$($('#empastamento_cobrar').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#empastamento_adicionar').prop('checked',false);
-			$('#empastamento_quantidade').attr("disabled", true);
-			$($('#empastamento_cobrar').parent().children()[1]).addClass('hidden');
-		}
-		if(empastamento_cobrar ==1){
-			$('#empastamento_cobrar').prop('checked',true);
-		}else{
-			$('#empastamento_cobrar').prop('checked',false);
-		}
-		$('#empastamento_quantidade').val(empastamento_quantidade);
-		/*====================================================================================*/
-		//Laminação:
-		if(laminacao_adicionar ==1){
-			$('#laminacao_adicionar').prop('checked',true);
-			$('#laminacao_quantidade').attr("disabled", false);
-			$($('#laminacao_cobrar').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#laminacao_adicionar').prop('checked',false);
-			$('#laminacao_quantidade').attr("disabled", true);
-			$($('#laminacao_cobrar').parent().children()[1]).addClass('hidden');
-		}
-		if(laminacao_cobrar ==1){
-			$('#laminacao_cobrar').prop('checked',true);
-		}else{
-			$('#laminacao_cobrar').prop('checked',false);
-		}
-		$('#laminacao_quantidade').val(laminacao_quantidade);
-		/*====================================================================================*/
-		//Douração:
-		if(douracao_adicionar ==1){
-			$('#douracao_adicionar').prop('checked',true);
-			$('#douracao_quantidade').attr("disabled", false);
-			$($('#douracao_cobrar').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#douracao_adicionar').prop('checked',false);
-			$('#douracao_quantidade').attr("disabled", true);
-			$($('#douracao_cobrar').parent().children()[1]).addClass('hidden');
-		}
-		if(douracao_cobrar ==1){
-			$('#douracao_cobrar').prop('checked',true);
-		}else{
-			$('#douracao_cobrar').prop('checked',false);
-		}
-		$('#douracao_quantidade').val(douracao_quantidade);
-		/*====================================================================================*/
-		//Corte Laser:
-		if(corte_laser_adicionar ==1){
-			$('#corte_laser_adicionar').prop('checked',true);
-			$('#corte_laser_quantidade').attr("disabled", false);
-			$('#corte_laser_minutos').attr("disabled", false);
-			$($('#corte_laser_cobrar').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#corte_laser_adicionar').prop('checked',false);
-			$('#corte_laser_quantidade').attr("disabled", true);
-			$('#corte_laser_minutos').attr("disabled", true);
-			$($('#corte_laser_cobrar').parent().children()[1]).addClass('hidden');
-		}
-		if(corte_laser_cobrar ==1){
-			$('#corte_laser_cobrar').prop('checked',true);
-		}else{
-			$('#corte_laser_cobrar').prop('checked',false);
-		}
-		$('#corte_laser_minutos').val(corte_laser_minutos);
-		$('#corte_laser_quantidade').val(corte_laser_quantidade);
-		/*====================================================================================*/
-		//Relevo Seco:
-		if(relevo_seco_adicionar ==1){
-			$('#relevo_seco_adicionar').prop('checked',true);
-			$('#relevo_seco_quantidade').attr("disabled", false);
-			$($('#relevo_seco_cobrar').parent().children()[1]).removeClass('hidden');
-			$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#relevo_seco_adicionar').prop('checked',false);
-			$('#relevo_seco_quantidade').attr("disabled", true);
-			$($('#relevo_seco_cobrar').parent().children()[1]).addClass('hidden');
-			$($('#relevo_seco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		}
-		if(relevo_seco_cobrar ==1){
-			$('#relevo_seco_cobrar').prop('checked',true);
-		}else{
-			$('#relevo_seco_cobrar').prop('checked',false);
-		}
-		if(relevo_seco_cobrar_faca_cliche ==1){
-			$('#relevo_seco_cobrar_faca_cliche').prop('checked',true);
-		}else{
-			$('#relevo_seco_cobrar_faca_cliche').prop('checked',false);
-		}
-		$('#relevo_seco_quantidade').val(relevo_seco_quantidade);
-		/*====================================================================================*/
-		//Hot Stamping:
-		if(hot_stamping_adicionar ==1){
-			$('#hot_stamping_adicionar').prop('checked',true);
-			$('#hot_stamping_quantidade').attr("disabled", false);
-			$($('#hot_stamping_cobrar').parent().children()[1]).removeClass('hidden');
-			$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#hot_stamping_adicionar').prop('checked',false);
-			$('#hot_stamping_quantidade').attr("disabled", true);
-			$($('#hot_stamping_cobrar').parent().children()[1]).addClass('hidden');
-			$($('#hot_stamping_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		}
-		if(hot_stamping_cobrar ==1){
-			$('#hot_stamping_cobrar').prop('checked',true);
-		}else{
-			$('#hot_stamping_cobrar').prop('checked',false);
-		}
-		if(hot_stamping_cobrar_faca_cliche ==1){
-			$('#hot_stamping_cobrar_faca_cliche').prop('checked',true);
-		}else{
-			$('#hot_stamping_cobrar_faca_cliche').prop('checked',false);
-		}
-		$('#hot_stamping_quantidade').val(hot_stamping_quantidade);
-		/*====================================================================================*/
-		//Corte Vinco:
-		if(corte_vinco_adicionar ==1){
-			$('#corte_vinco_adicionar').prop('checked',true);
-			$('#corte_vinco_quantidade').attr("disabled", false);
-			$($('#corte_vinco_cobrar').parent().children()[1]).removeClass('hidden');
-			$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#corte_vinco_adicionar').prop('checked',false);
-			$('#corte_vinco_quantidade').attr("disabled", true);
-			$($('#corte_vinco_cobrar').parent().children()[1]).addClass('hidden');
-			$($('#corte_vinco_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		}
-		if(corte_vinco_cobrar ==1){
-			$('#corte_vinco_cobrar').prop('checked',true);
-		}else{
-			$('#corte_vinco_cobrar').prop('checked',false);
-		}
-		if(corte_vinco_cobrar_faca_cliche ==1){
-			$('#corte_vinco_cobrar_faca_cliche').prop('checked',true);
-		}else{
-			$('#corte_vinco_cobrar_faca_cliche').prop('checked',false);
-		}
-		$('#corte_vinco_quantidade').val(corte_vinco_quantidade);
-		/*====================================================================================*/
-		//Almofada:
-		if(almofada_adicionar ==1){
-			$('#almofada_adicionar').prop('checked',true);
-			$('#almofada_quantidade').attr("disabled", false);
-			$($('#almofada_cobrar').parent().children()[1]).removeClass('hidden');
-			$($('#almofada_cobrar_faca_cliche').parent().children()[1]).removeClass('hidden');
-		}else{
-			$('#almofada_adicionar').prop('checked',false);
-			$('#almofada_quantidade').attr("disabled", true);
-			$($('#almofada_cobrar').parent().children()[1]).addClass('hidden');
-			$($('#almofada_cobrar_faca_cliche').parent().children()[1]).addClass('hidden');
-		}
-		if(almofada_cobrar ==1){
-			$('#almofada_cobrar').prop('checked',true);
-		}else{
-			$('#almofada_cobrar').prop('checked',false);
-		}
-		if(almofada_cobrar_faca_cliche ==1){
-			$('#almofada_cobrar_faca_cliche').prop('checked',true);
-		}else{
-			$('#almofada_cobrar_faca_cliche').prop('checked',false);
-		}
-		$('#almofada_quantidade').val(almofada_quantidade);
 		$("#md_papel").modal();
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_editar/" + owner + "/" + posicao,"#md_papel",owner);
 	}
@@ -608,23 +319,26 @@ $controller = $this->router->class;
 
 	function abrir_papel_modal(owner){
 		$("#md_papel_container_owner").val(owner);
-		$("#md_corte_laser_minutos").val(null);
-		empastamentoOff();
-		laminacaoOff();
-		douracaoOff();
-		corteLaserOff();
-		relevoSecoOff();
-		hotStampingOff();
-		corteVincoOff();
-		almofadaOff();
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
-		limpar_select($('#form_select_dimensao'),true);
 		$('#form_select_papel').selectpicker('val', '');
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 		//remove_form_select_option_papel();
-		limpar_select($('#form_select_papel'),true);
-		ajax_carregar_papel_linha();
+		limpar_select($('#form_select_dimensao'),true);
+		limpar_select($('#form_select_papel'),false);
+
+		//TODO não esta funcionando...=> limpar_select()
+		limpar_select($('#form_select_papel-1'),false);
+		limpar_select($('#form_select_papel-2'),false);
+
+		set_papel_default();
+
+		//remover o atributo required dos papeins 1 e 2
+		ajax_carregar_papel_linha(false,null);
+		ajax_carregar_papel_linha1(false,null);
+		ajax_carregar_papel_linha2(false,null);
+
+        ajax_carregar_empastamento(false,null);
         ajax_session_carregar_dimensoes(owner);
 	}
 
@@ -726,7 +440,7 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_papel_linha(editar = false,id_linha = null) {
+	function ajax_carregar_papel_linha( editar = false, id_linha = null ) {
 		$('#form_select_linha')
 		    .find('option')
 		    .remove()
@@ -758,8 +472,103 @@ $controller = $this->router->class;
 		});
 	}
 
+	function ajax_carregar_papel_linha1( editar = false, id_linha = null ) {
+		$('#form_select_linha-1')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_linha-1').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel_linha");
+		})
+		.always(function() {
+			$('#form_select_linha-1').selectpicker('refresh');
+			if(editar){
+				$('#form_select_linha-1').selectpicker('val', id_linha);
+			}
+		});
+	}
+
+	function ajax_carregar_papel_linha2( editar = false, id_linha = null ) {
+		$('#form_select_linha-2')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel_linha/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_linha-2').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel_linha");
+		})
+		.always(function() {
+			$('#form_select_linha-2').selectpicker('refresh');
+			if(editar){
+				$('#form_select_linha-2').selectpicker('val', id_linha);
+			}
+		});
+	}
+
+	function ajax_carregar_empastamento( editar = false, id_empastamento = null ) {
+		$('#form_select_empastamento')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Selecione</option>')
+		    .val('');
+
+		$.ajax({
+			url: '<?= base_url("papel_empastamento/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			$.each(data, function(index, val) {
+				$('#form_select_empastamento').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel_linha");
+		})
+		.always(function() {
+			$('#form_select_empastamento').selectpicker('refresh');
+			if(editar){
+				$('#form_select_empastamento').selectpicker('val', id_empastamento);
+			}
+		});
+	}
+
 	function ajax_carregar_papel(id_linha,editar = false, id_papel = null) {
-		//remove_form_select_option_papel();
 		$('#form_select_papel').selectpicker('destroy');
 		limpar_select($('#form_select_papel'),true);
 		$.ajax({
@@ -788,7 +597,65 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_gramatura(id,editar = false, id_gramatura = null) {
+	function ajax_carregar_papel1(id_linha,editar = false, id_papel = null) {
+		$('#form_select_papel-1').selectpicker('destroy');
+		limpar_select($('#form_select_papel-1'),true);
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+			data: {id_linha: id_linha}
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_papel-1'));
+			$.each(data, function(index, val) {
+				$('#form_select_papel-1').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+			$('#form_select_papel-1').selectpicker('refresh');
+			if(editar){
+				$('#form_select_papel-1').selectpicker('val', id_papel);
+			}
+		});
+	}
+
+	function ajax_carregar_papel2(id_linha,editar = false, id_papel = null) {
+		$('#form_select_papel-2').selectpicker('destroy');
+		limpar_select($('#form_select_papel-2'),true);
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado")?>',
+			type: 'GET',
+			dataType: 'json',
+			data: {id_linha: id_linha}
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_papel-2'));
+			$.each(data, function(index, val) {
+				$('#form_select_papel-2').append($('<option>', {
+				    value: val.id,
+				    text: val.nome
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+			$('#form_select_papel-2').selectpicker('refresh');
+			if(editar){
+				$('#form_select_papel-2').selectpicker('val', id_papel);
+			}
+		});
+	}
+
+	function ajax_carregar_gramatura( id, editar = false, id_gramatura = null) {
 		var gramatura = $("#form_select_gramatura option:selected").text();
 		limpar_select($('#form_select_gramatura'), true);
 
@@ -820,7 +687,71 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_impressao(editar = false, id_impressao = null, id_dimensao = null) {
+	function ajax_carregar_gramatura1( id, editar = false, id_gramatura = null) {
+		var gramatura = $("#form_select_gramatura-1 option:selected").text();
+		limpar_select($('#form_select_gramatura-1'), true);
+
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado_gramatura/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_gramatura-1'));
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.gramatura == gramatura && !editar){
+					selected = true;
+				}else if(val.id == id_gramatura && editar){
+					selected = true;
+				}
+				$('#form_select_gramatura-1').append($('<option>', {
+				    value: val.id,
+				    text: val.gramatura,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+		});
+	}
+
+	function ajax_carregar_gramatura2( id, editar = false, id_gramatura = null) {
+		var gramatura = $("#form_select_gramatura-2 option:selected").text();
+		limpar_select($('#form_select_gramatura-2'), true);
+
+		$.ajax({
+			url: '<?= base_url("papel/ajax_get_personalizado_gramatura/")?>'+id,
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			limpar_select($('#form_select_gramatura-2'));
+			$.each(data, function(index, val) {
+				selected = false;
+				if(val.gramatura == gramatura && !editar){
+					selected = true;
+				}else if(val.id == id_gramatura && editar){
+					selected = true;
+				}
+				$('#form_select_gramatura-2').append($('<option>', {
+				    value: val.id,
+				    text: val.gramatura,
+				    selected: selected
+				}));
+			});
+		})
+		.fail(function() {
+			console.log("erro ao ajax_carregar_papel");
+		})
+		.always(function() {
+		});
+	}
+
+	function ajax_carregar_impressao( editar = false, id_impressao = null, id_dimensao = null) {
 		$('#form_select_impressao')
 		    .find('option')
 		    .remove()
@@ -851,7 +782,7 @@ $controller = $this->router->class;
 		});
 	}
 
-	function ajax_carregar_impressao_dimensao(id,editar = false, idImpressaoDimensao = null) {
+	function ajax_carregar_impressao_dimensao( id, editar = false, idImpressaoDimensao = null) {
 		limpar_select($('#form_select_impressao_dimensao'), true);
 
 		$.ajax({
@@ -1673,38 +1604,6 @@ $controller = $this->router->class;
         $(form)[0].reset(); // Zerar formulario
         reset_errors();
     }
-
-    /*
-    function remove_form_select_option_papel() {
-    	$('#form_select_papel').selectpicker('destroy');
-		$('#form_select_papel')
-	    .find('option')
-	    .remove()
-	    .end()
-	    .append('<option value="">Selecione</option>')
-	    .val('');
-	}
-
-	function remove_form_select_option_impressao() {
-		$('#form_select_impressao').selectpicker('destroy');
-		$('#form_select_impressao')
-	    .find('option')
-	    .remove()
-	    .end()
-	    .append('<option value="">Selecione</option>')
-	    .val('');
-	}
-
-	function remove_form_select_option_fita() {
-    	$('#form_select_fita').selectpicker('destroy');
-		$('#form_select_fita')
-	    .find('option')
-	    .remove()
-	    .end()
-	    .append('<option value="">Selecione</option>')
-	    .val('');
-	}
-	*/
 
 	function remove_form_select_option_personalizado_modelo() {
 		$('#personalizado_modelo')

@@ -11,16 +11,14 @@ class Personalizado extends CI_Controller {
         $this->load->model('Personalizado_modelo_m');
         $this->load->model('Personalizado_modelo_dimensao_m');
         $this->load->model('Personalizado_categoria_m');
-
         $this->load->model('Mao_obra_m');
         $this->load->model('Assessor_m');
-
-        //Carrego a materia prima para compor o personalizado
+        
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
-        $this->load->model('Papel_dimensao_m');
-        $this->load->model('Papel_acabamento_m');
         $this->load->model('Papel_gramatura_m');
+        $this->load->model('Papel_dimensao_m');
+        $this->load->model('Papel_empastamento_m');
         $this->load->model('Impressao_m');
         $this->load->model('Impressao_dimensao_m');
         $this->load->model('Acabamento_m');
@@ -78,7 +76,7 @@ class Personalizado extends CI_Controller {
         if (empty($this->session->personalizado->quantidade) || empty($this->session->personalizado->modelo)) {
             $this->criar_personalizado();
         }
-        $data['papel_acabamento'] = $this->Papel_acabamento_m->get_codigo_nome('nome,codigo');
+        
         set_layout('conteudo', load_content('personalizado/index', $data));
         load_layout();
     }
@@ -282,95 +280,46 @@ class Personalizado extends CI_Controller {
         exit();
     }
 
-    private function set_papel($owner) {
-        //Papel:
-        $papel = $this->input->post('papel');
-        $dimensao = $this->input->post('dimensao');
-        $gramatura = $this->input->post('gramatura');
-        //$tipo = $this->input->post('tipo'); variável inutilizada para teste. O valor agora vem do parâmetro
-        //Empastamento:
-        empty($this->input->post('empastamento_quantidade')) ? $empastamento_quantidade = 0 : $empastamento_quantidade = $this->input->post('empastamento_quantidade');
-        empty($this->input->post('empastamento_adicionar')) ? $empastamento_adicionar = 0 : $empastamento_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('empastamento_cobrar')) ? $empastamento_cobrar = 0 : $empastamento_cobrar = 1;
+    private function set_papel($owner){
+        $container = array();
+        $quantidade = 1; //qtd de papel
 
-        //Laminação:
-        empty($this->input->post('laminacao_quantidade')) ? $laminacao_quantidade = 0 : $laminacao_quantidade = $this->input->post('laminacao_quantidade');
-        empty($this->input->post('laminacao_adicionar')) ? $laminacao_adicionar = 0 : $laminacao_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('laminacao_cobrar')) ? $laminacao_cobrar = 0 : $laminacao_cobrar = 1;
+        $empastado = !empty( $this->input->post('papel_action-1') ) ? true : false;
 
-        //Douração:
-        empty($this->input->post('douracao_quantidade')) ? $douracao_quantidade = 0 : $douracao_quantidade = $this->input->post('douracao_quantidade');
-        empty($this->input->post('douracao_adicionar')) ? $douracao_adicionar = 0 : $douracao_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('douracao_cobrar')) ? $douracao_cobrar = 0 : $douracao_cobrar = 1;
+        $container['papel-0'] = $this->Container_m->get_papel($owner, $this->input->post('papel'), $this->input->post('dimensao'), $quantidade, $this->input->post('gramatura'), null,$empastado);
 
-        //Corte Laser:
-        empty($this->input->post('corte_laser_quantidade')) ? $corte_laser_quantidade = 0 : $corte_laser_quantidade = $this->input->post('corte_laser_quantidade');
-        empty($this->input->post('corte_laser_adicionar')) ? $corte_laser_adicionar = 0 : $corte_laser_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('corte_laser_cobrar')) ? $corte_laser_cobrar = 0 : $corte_laser_cobrar = 1;
-        empty($this->input->post('corte_laser_minutos')) ? $corte_laser_minutos = 0 : $corte_laser_minutos = $this->input->post('corte_laser_minutos');
+        if(!empty($this->input->post('papel_action-1'))){
+            $container['papel-1'] = $this->Container_m->get_papel($owner, $this->input->post('papel-1'), $this->input->post('dimensao'), $quantidade, $this->input->post('gramatura-1'), $this->input->post('empastamento'), $empastado);
+        }
 
-        //Relevo Seco:
-        empty($this->input->post('relevo_seco_quantidade')) ? $relevo_seco_quantidade = 0 : $relevo_seco_quantidade = $this->input->post('relevo_seco_quantidade');
-        empty($this->input->post('relevo_seco_adicionar')) ? $relevo_seco_adicionar = 0 : $relevo_seco_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('relevo_seco_cobrar')) ? $relevo_seco_cobrar = 0 : $relevo_seco_cobrar = 1;
-        empty($this->input->post('relevo_seco_cobrar_faca_cliche')) ? $relevo_seco_cobrar_faca_cliche = 0 : $relevo_seco_cobrar_faca_cliche = 1;
-
-        //Corte Vinco:
-        empty($this->input->post('corte_vinco_quantidade')) ? $corte_vinco_quantidade = 0 : $corte_vinco_quantidade = $this->input->post('corte_vinco_quantidade');
-        empty($this->input->post('corte_vinco_adicionar')) ? $corte_vinco_adicionar = 0 : $corte_vinco_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('corte_vinco_cobrar')) ? $corte_vinco_cobrar = 0 : $corte_vinco_cobrar = 1;
-        empty($this->input->post('corte_vinco_cobrar_faca_cliche')) ? $corte_vinco_cobrar_faca_cliche = 0 : $corte_vinco_cobrar_faca_cliche = 1;
-
-        //Almofada:
-        empty($this->input->post('almofada_quantidade')) ? $almofada_quantidade = 0 : $almofada_quantidade = $this->input->post('almofada_quantidade');
-        empty($this->input->post('almofada_adicionar')) ? $almofada_adicionar = 0 : $almofada_adicionar = 1;
-        $quantidadePapel = 1;
-        empty($this->input->post('almofada_cobrar')) ? $almofada_cobrar = 0 : $almofada_cobrar = 1;
-        empty($this->input->post('almofada_cobrar_faca_cliche')) ? $almofada_cobrar_faca_cliche = 0 : $almofada_cobrar_faca_cliche = 1;
-
-
-        /* ======================================================================================== */
-        (!empty($empastamento_quantidade)) ? $quantidadePapel += $empastamento_quantidade : '';
-        //busca o papel pelo id e seta a gramatura
-        $container = $this->Container_m->get_papel($owner, $papel,$dimensao, $quantidadePapel, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche);
-        return $container;
+        if(!empty($this->input->post('papel_action-2'))){
+            $container['papel-2'] = $this->Container_m->get_papel( $owner, $this->input->post('papel-2'), $this->input->post('dimensao'), $quantidade, $this->input->post('gramatura-2'), $this->input->post('empastamento'), $empastado);
+        }
+        return $container; //array de papeis
     }
 
     private function validar_formulario_papel() {
         $data = array();
         $data['status'] = TRUE;
 
-        $this->form_validation->set_rules('papel', 'Papel', 'required');
         $this->form_validation->set_rules('dimensao', 'Destino', 'required');
+        $this->form_validation->set_rules('empastamento', 'Empastamento', 'required');
+        
+        //papel-0
+        $this->form_validation->set_rules('papel', 'Papel', 'required');
         $this->form_validation->set_rules('gramatura', 'Gramatura', 'required');
-        if (!empty($this->input->post('empastamento_adicionar'))) {
-            $this->form_validation->set_rules('empastamento_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+
+        //papel-1
+        if( !empty( $this->input->post('papel_action-1') ) ){
+            $this->form_validation->set_rules('papel-1', 'Papel', 'required');
+            $this->form_validation->set_rules('gramatura-1', 'Gramatura', 'required');
         }
-        if (!empty($this->input->post('laminacao_adicionar'))) {
-            $this->form_validation->set_rules('laminacao_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
+        //papel-2
+        if( !empty( $this->input->post('papel_action-2') ) ){
+            $this->form_validation->set_rules('papel-2', 'Papel', 'required');
+            $this->form_validation->set_rules('gramatura-2', 'Gramatura', 'required');
         }
-        if (!empty($this->input->post('douracao_adicionar'))) {
-            $this->form_validation->set_rules('douracao_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
-        }
-        if (!empty($this->input->post('corte_laser_adicionar'))) {
-            $this->form_validation->set_rules('corte_laser_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
-            $this->form_validation->set_rules('corte_laser_minutos', 'Minutos', 'required|is_natural_no_zero|no_leading_zeroes');
-        }
-        if (!empty($this->input->post('relevo_seco_adicionar'))) {
-            $this->form_validation->set_rules('relevo_seco_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
-        }
-        if (!empty($this->input->post('corte_vinco_adicionar'))) {
-            $this->form_validation->set_rules('corte_vinco_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
-        }
-        if (!empty($this->input->post('almofada_adicionar'))) {
-            $this->form_validation->set_rules('almofada_quantidade', 'Quantidade', 'required|is_natural_no_zero|no_leading_zeroes');
-        }
+        $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
 
         if (!$this->form_validation->run()) {
             $data['form_validation'] = $this->form_validation->error_array();

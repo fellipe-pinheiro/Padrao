@@ -2,23 +2,23 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Papel_acabamento extends CI_Controller {
+class Papel_empastamento extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('Papel_acabamento_m');
+        $this->load->model('Papel_empastamento_m');
         init_layout();
-        set_layout('titulo', 'Papel acabamento', FALSE);
+        set_layout('titulo', 'Papel empastamento', FALSE);
         restrito_logado();
     }
 
     public function index() {
-        set_layout('conteudo', load_content('papel_acabamento/lista', ""));
+        set_layout('conteudo', load_content('papel_empastamento/lista', ""));
         load_layout();
     }
 
     public function ajax_list() {
-        $list = $this->Papel_acabamento_m->get_datatables();
+        $list = $this->Papel_empastamento_m->get_datatables();
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $item) {
@@ -27,7 +27,6 @@ class Papel_acabamento extends CI_Controller {
                 'DT_RowId' => $item->id,
                 'id' => $item->id,
                 'nome' => $item->nome,
-                'codigo' => $item->codigo,
                 'qtd_minima' => $item->qtd_minima,
                 'descricao' => $item->descricao,
                 'valor' => $item->valor,
@@ -36,8 +35,8 @@ class Papel_acabamento extends CI_Controller {
         }
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->Papel_acabamento_m->count_all(),
-            "recordsFiltered" => $this->Papel_acabamento_m->count_filtered(),
+            "recordsTotal" => $this->Papel_empastamento_m->count_all(),
+            "recordsFiltered" => $this->Papel_empastamento_m->count_filtered(),
             "data" => $data,
             );
         //output to json format
@@ -48,14 +47,14 @@ class Papel_acabamento extends CI_Controller {
         $data['status'] = FALSE;
         $this->validar_formulario();
         $dados = $this->get_post();
-        if ( $this->Papel_acabamento_m->inserir($dados)) {
+        if ( $this->Papel_empastamento_m->inserir($dados)) {
             $data['status'] = TRUE;
         }
         print json_encode($data);
     }
 
     public function ajax_edit($id) {
-        $data["papel_acabamento"] = $this->Papel_acabamento_m->get_by_id($id);
+        $data["papel_empastamento"] = $this->Papel_empastamento_m->get_by_id($id);
         $data["status"] = TRUE;
         print json_encode($data);
     }
@@ -65,7 +64,7 @@ class Papel_acabamento extends CI_Controller {
         $this->validar_formulario(true);
         if ($this->input->post('id')) {
             $dados = $this->get_post(true);
-            if ($this->Papel_acabamento_m->editar($dados)) {
+            if ($this->Papel_empastamento_m->editar($dados)) {
                 $data["status"] = TRUE;
             }
         }
@@ -74,51 +73,33 @@ class Papel_acabamento extends CI_Controller {
 
     public function ajax_delete($id) {
         $data["status"] = FALSE;
-        if($this->Papel_acabamento_m->deletar($id)){
+        if($this->Papel_empastamento_m->deletar($id)){
             $data["status"] = TRUE;                
         }
         print json_encode($data);
     }
 
+    public function ajax_get_personalizado(){
+        $arr = array();
+        $arr = $this->Papel_empastamento_m->get_pesonalizado("id, nome", $this->input->get('ativo'));
+        print json_encode($arr);
+    }
+
     private function get_post($update = false) {
-        if($update){
-            $dados = array(
-                'id' => $this->input->post('id'),
-                'nome' => $this->input->post('nome'),
-                'descricao' => $this->input->post('descricao'),
-                'qtd_minima' => $this->input->post('qtd_minima'),
-                'valor' => decimal_to_db($this->input->post('valor'))
-            );
-        }else{
-            $dados = array(
-                'id' => null,
-                'nome' => $this->input->post('nome'),
-                'descricao' => $this->input->post('descricao'),
-                'qtd_minima' => $this->input->post('qtd_minima'),
-                'valor' => decimal_to_db($this->input->post('valor')),
-                'codigo' => $this->input->post('codigo')
-            );
-        }
+        $dados = array(
+            'id' => $this->input->post('id'),
+            'nome' => $this->input->post('nome'),
+            'descricao' => $this->input->post('descricao'),
+            'qtd_minima' => $this->input->post('qtd_minima'),
+            'valor' => decimal_to_db($this->input->post('valor'))
+        );
         return $dados;
     }
 
     private function validar_formulario($update = false) {
         $data = array();
         $data['status'] = TRUE;
-        if($update && !empty($this->input->post('id'))){
-            $object = $this->Papel_acabamento_m->get_by_id($this->input->post('id'));
-            if($this->input->post('codigo') != $object->codigo){
-                $is_unique =  '|is_unique[papel_acabamento.codigo]';
-            }else{
-                $is_unique =  '';
-            }   
-        }else{
-            $is_unique =  '|is_unique[papel_acabamento.codigo]';
-        }
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|max_length[50]');
-        $this->form_validation->set_message('check_white_spaces', 'O código não pode ser uma palavra composta');
-        $this->form_validation->set_message('is_unique', 'Este código já existe no banco de dados!');
-        $this->form_validation->set_rules('codigo', 'Código', 'trim|required|max_length[30]|strtolower|check_white_spaces'.$is_unique);
         $this->form_validation->set_rules('descricao', 'Descrição', 'trim');
         $this->form_validation->set_message('decimal_positive', 'O valor não pode ser menor que 0 (zero)');
         $this->form_validation->set_rules('valor', 'Valor', 'trim|required|numeric|decimal_positive');

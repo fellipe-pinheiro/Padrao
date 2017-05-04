@@ -27,17 +27,17 @@ class Container_m extends CI_Model {
         if ($this->input->post('componente')) {
             switch ($this->input->post('componente')) {
                 case 'cartao':
-                    $this->table = 'v_materiais_servicos_cartao';
-                    break;
+                $this->table = 'v_materiais_servicos_cartao';
+                break;
                 case 'envelope':
-                    $this->table = 'v_materiais_servicos_envelope';
-                    break;
+                $this->table = 'v_materiais_servicos_envelope';
+                break;
                 case 'personalizado':
-                    $this->table = 'v_materiais_servicos_personalizado';
-                    break;
+                $this->table = 'v_materiais_servicos_personalizado';
+                break;
                 default:
                     # code...
-                    break;
+                break;
             }
         }
         $this->db->from($this->table);
@@ -102,10 +102,26 @@ class Container_m extends CI_Model {
         } else {
             return false;
         }
+
         if (!empty($this->container_papel)) {
-            foreach ($this->container_papel as $papel) {
-                if (!$papel->inserir($this->id)) {
-                    return false;
+            foreach ($this->container_papel as $key_parent => $papel_parent) {
+                //$key_parent = posição do array
+                foreach ($papel_parent as $key_children => $papel_children) {
+                    //$key_children = 'papel-0', 'papel-1' ou 'papel-2'
+                    switch ($key_children) {
+                        case 'papel-1':
+                            $posicao_papel_children = 1;
+                            break;
+                        case 'papel-2':
+                            $posicao_papel_children = 2;
+                            break;
+                        default: //'papel-0'
+                            $posicao_papel_children = 0;
+                            break;
+                    }
+                    if ( !$papel_children->inserir( $this->id, $posicao_papel_children , $key_parent) ) {
+                        return false;
+                    }
                 }
             }
         }
@@ -168,7 +184,7 @@ class Container_m extends CI_Model {
         return $this->changeToObject($id, $owner);
     }
 
-    public function get_papel($owner, $id, $dimensao, $quantidade, $gramatura, $empastamento_adicionar, $empastamento_quantidade, $empastamento_cobrar, $laminacao_adicionar, $laminacao_quantidade, $laminacao_cobrar, $douracao_adicionar, $douracao_quantidade, $douracao_cobrar, $corte_laser_adicionar, $corte_laser_quantidade, $corte_laser_cobrar, $corte_laser_minutos, $relevo_seco_adicionar, $relevo_seco_quantidade, $relevo_seco_cobrar, $relevo_seco_cobrar_faca_cliche, $hot_stamping_adicionar,$hot_stamping_quantidade,$hot_stamping_cobrar,$hot_stamping_cobrar_faca_cliche, $corte_vinco_adicionar, $corte_vinco_quantidade, $corte_vinco_cobrar, $corte_vinco_cobrar_faca_cliche, $almofada_adicionar, $almofada_quantidade, $almofada_cobrar, $almofada_cobrar_faca_cliche) {
+    public function get_papel($owner, $id, $dimensao, $quantidade, $gramatura, $empastamento, $empastado) {
         //busca o papel pelo id
         $container_papel = new Container_papel_m();
         $container_papel->papel = $this->Papel_m->get_by_id($id);
@@ -177,97 +193,15 @@ class Container_m extends CI_Model {
         }else{
             $container_papel->dimensao = $this->Convite_modelo_dimensao_m->get_by_id($dimensao);
         }
+        if(!empty($empastamento)){
+            $container_papel->empastamento = $this->Papel_empastamento_m->get_by_id($empastamento);
+        }else{
+            $container_papel->empastamento = new Papel_empastamento_m();
+        }
+        $container_papel->empastado = $empastado;
         $container_papel->papel->set_papel_gramatura($gramatura);
         $container_papel->quantidade = $quantidade;
-        //$container_papel->gramatura = $gramatura;
         $container_papel->owner = $owner;
-
-        //FACA
-        //Este bloco existe somente para obter o valor da faca
-        $container_papel->faca = new Container_papel_acabamento_m();
-        $container_papel->faca->owner = 'faca';
-        $container_papel->faca->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('faca');
-        $container_papel->faca->adicionar = 0;
-        $container_papel->faca->quantidade = 0;
-        $container_papel->faca->cobrar_servico = 0;
-        $container_papel->faca->cobrar_faca_cliche = 0;
-        $container_papel->faca->corte_laser_minutos = 0;
-
-        //CORTE_VINCO
-        $container_papel->corte_vinco = new Container_papel_acabamento_m();
-        $container_papel->corte_vinco->owner = 'corte_vinco';
-        $container_papel->corte_vinco->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('corte_vinco');
-        $container_papel->corte_vinco->adicionar = $this->is_empty($corte_vinco_adicionar);
-        $container_papel->corte_vinco->quantidade = $this->is_empty($corte_vinco_quantidade);
-        $container_papel->corte_vinco->cobrar_servico = $this->is_empty($corte_vinco_cobrar);
-        $container_papel->corte_vinco->cobrar_faca_cliche = $this->is_empty($corte_vinco_cobrar_faca_cliche);
-        $container_papel->corte_vinco->corte_laser_minutos = 0;
-
-        //EMPASTAMENTO
-        $container_papel->empastamento = new Container_papel_acabamento_m();
-        $container_papel->empastamento->owner = 'empastamento';
-        $container_papel->empastamento->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('empastamento');
-        $container_papel->empastamento->adicionar = $this->is_empty($empastamento_adicionar);
-        $container_papel->empastamento->quantidade = $this->is_empty($empastamento_quantidade);
-        $container_papel->empastamento->cobrar_servico = $this->is_empty($empastamento_cobrar);
-        $container_papel->empastamento->cobrar_faca_cliche = 0;
-        $container_papel->empastamento->corte_laser_minutos = 0;
-
-        //LAMINACAO
-        $container_papel->laminacao = new Container_papel_acabamento_m();
-        $container_papel->laminacao->owner = 'laminacao';
-        $container_papel->laminacao->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('laminacao');
-        $container_papel->laminacao->adicionar = $this->is_empty($laminacao_adicionar);
-        $container_papel->laminacao->quantidade = $this->is_empty($laminacao_quantidade);
-        $container_papel->laminacao->cobrar_servico = $this->is_empty($laminacao_cobrar);
-        $container_papel->laminacao->cobrar_faca_cliche = 0;
-        $container_papel->laminacao->corte_laser_minutos = 0;
-
-        //DOURAÇÃO
-        $container_papel->douracao = new Container_papel_acabamento_m();
-        $container_papel->douracao->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('douracao');
-        $container_papel->douracao->adicionar = $this->is_empty($douracao_adicionar);
-        $container_papel->douracao->quantidade = $this->is_empty($douracao_quantidade);
-        $container_papel->douracao->cobrar_servico = $this->is_empty($douracao_cobrar);
-        $container_papel->douracao->cobrar_faca_cliche = 0;
-        $container_papel->douracao->corte_laser_minutos = 0;
-
-        //CORTE LASER
-        $container_papel->corte_laser = new Container_papel_acabamento_m();
-        $container_papel->corte_laser->owner = 'corte_laser';
-        $container_papel->corte_laser->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('corte_laser');
-        $container_papel->corte_laser->adicionar = $this->is_empty($corte_laser_adicionar);
-        $container_papel->corte_laser->quantidade = $this->is_empty($corte_laser_quantidade);
-        $container_papel->corte_laser->cobrar_servico = $this->is_empty($corte_laser_cobrar);
-        $container_papel->corte_laser->cobrar_faca_cliche = 0;
-        $container_papel->corte_laser->corte_laser_minutos = $this->is_empty($corte_laser_minutos);
-
-        //RELEVO SECO
-        $container_papel->relevo_seco = new Container_papel_acabamento_m();
-        $container_papel->relevo_seco->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('relevo_seco');
-        $container_papel->relevo_seco->adicionar = $this->is_empty($relevo_seco_adicionar);
-        $container_papel->relevo_seco->quantidade = $this->is_empty($relevo_seco_quantidade);
-        $container_papel->relevo_seco->cobrar_servico = $this->is_empty($relevo_seco_cobrar);
-        $container_papel->relevo_seco->cobrar_faca_cliche = $this->is_empty($relevo_seco_cobrar_faca_cliche);
-        $container_papel->relevo_seco->corte_laser_minutos = 0;
-
-        //HOT STAMPING
-        $container_papel->hot_stamping = new Container_papel_acabamento_m();
-        $container_papel->hot_stamping->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('hot_stamping');
-        $container_papel->hot_stamping->adicionar = $this->is_empty($hot_stamping_adicionar);
-        $container_papel->hot_stamping->quantidade = $this->is_empty($hot_stamping_quantidade);
-        $container_papel->hot_stamping->cobrar_servico = $this->is_empty($hot_stamping_cobrar);
-        $container_papel->hot_stamping->cobrar_faca_cliche = $this->is_empty($hot_stamping_cobrar_faca_cliche);
-        $container_papel->hot_stamping->corte_laser_minutos = 0;
-
-        //ALMOFADA
-        $container_papel->almofada = new Container_papel_acabamento_m();
-        $container_papel->almofada->papel_acabamento = $this->Papel_acabamento_m->get_by_codigo('almofada');
-        $container_papel->almofada->adicionar = $this->is_empty($almofada_adicionar);
-        $container_papel->almofada->quantidade = $this->is_empty($almofada_quantidade);
-        $container_papel->almofada->cobrar_servico = $this->is_empty($almofada_cobrar);
-        $container_papel->almofada->cobrar_faca_cliche = $this->is_empty($almofada_cobrar_faca_cliche);
-        $container_papel->almofada->corte_laser_minutos = 0;
         return $container_papel;
     }
 
@@ -361,15 +295,14 @@ class Container_m extends CI_Model {
     public function calcula_total($modelo, $qtd_pedido) {
         $this->total = 0;
         if (!empty($this->container_papel)) {
-            foreach ($this->container_papel as $key => $value) {
-                $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($modelo, $value->dimensao, $qtd_pedido));
-                $this->total += $value->calcula_valor_total_empastamento($value->calcula_valor_unitario_empastamento($qtd_pedido), $value->empastamento->quantidade);
-                $this->total += $value->calcula_valor_total_laminacao($value->calcula_valor_unitario_laminacao($qtd_pedido), $value->laminacao->quantidade);
-                $this->total += $value->calcula_valor_total_douracao($value->calcula_valor_unitario_douracao($qtd_pedido), $value->douracao->quantidade);
-                $this->total += $value->calcula_valor_total_corte_laser($value->calcula_valor_unitario_corte_laser($qtd_pedido), $value->corte_laser->quantidade);
-                $this->total += $value->calcula_valor_total_relevo_seco($value->calcula_valor_unitario_relevo_seco($qtd_pedido), $value->relevo_seco->quantidade);
-                $this->total += $value->calcula_valor_total_corte_vinco($value->calcula_valor_unitario_corte_vinco($qtd_pedido), $value->corte_vinco->quantidade);
-                $this->total += $value->calcula_valor_total_almofada($value->calcula_valor_unitario_almofada($qtd_pedido), $value->almofada->quantidade);
+            foreach ($this->container_papel as $container_papel) {
+                foreach ($container_papel as $value) {
+                    $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario($modelo, $value->dimensao, $qtd_pedido));
+
+                    if(!empty($value->empastamento->id)){
+                        $this->total += $value->calcula_valor_total_empastamento(1,$value->calcula_valor_unitario_empastamento($qtd_pedido));
+                    }
+                }
             }
         }
         if (!empty($this->container_impressao)) {
@@ -415,13 +348,6 @@ class Container_m extends CI_Model {
         if (!empty($this->container_papel)) {
             foreach ($this->container_papel as $key => $value) {
                 $this->total += $value->calcula_valor_total($value->quantidade, $value->calcula_valor_unitario_personalizado($modelo, $qtd_pedido));
-                $this->total += $value->calcula_valor_total_empastamento($value->calcula_valor_unitario_empastamento($qtd_pedido), $value->empastamento->quantidade);
-                $this->total += $value->calcula_valor_total_laminacao($value->calcula_valor_unitario_laminacao($qtd_pedido), $value->laminacao->quantidade);
-                $this->total += $value->calcula_valor_total_douracao($value->calcula_valor_unitario_douracao($qtd_pedido), $value->douracao->quantidade);
-                $this->total += $value->calcula_valor_total_corte_laser($value->calcula_valor_unitario_corte_laser($qtd_pedido), $value->corte_laser->quantidade);
-                $this->total += $value->calcula_valor_total_relevo_seco($value->calcula_valor_unitario_relevo_seco($qtd_pedido), $value->relevo_seco->quantidade);
-                $this->total += $value->calcula_valor_total_corte_vinco($value->calcula_valor_unitario_corte_vinco($qtd_pedido), $value->corte_vinco->quantidade);
-                $this->total += $value->calcula_valor_total_almofada($value->calcula_valor_unitario_almofada($qtd_pedido), $value->almofada->quantidade);
             }
         }
         if (!empty($this->container_impressao)) {

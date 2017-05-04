@@ -5,7 +5,7 @@ $controller = $this->router->class;
 <!-- MODAL: PAPEL-->
 <div class="modal fade" id="md_papel">
 	<form class="form_ajax" id="form_md_papel" action="" method="post" accept-charset="utf-8">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -14,203 +14,140 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<input type="hidden" name="owner" id="md_papel_container_owner" class="form-control">
-						<div class="form-group col-sm-3">
-							<label for="form_select_dimensao" class="control-label">Destino:</label>
-							<select name="dimensao" id="form_select_dimensao" class="form-control" required>
-							</select>
-							<span class="help-block"></span>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_dimensao" class="control-label"><i class="glyphicon glyphicon-share-alt"></i> Destino:</label>
+									<select name="dimensao" id="form_select_dimensao" class="form-control" required>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4 div_empastamento_title">
+                                <div class="form-group">
+                                	<label for="form_empastamento" class="control-label">Qtd empastamento:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                        	<button type="button" class="btn btn-default btn-sm" onclick="altera_quantidade_empastamento('minus')" id="btn_empastamento_minus" disabled>
+                                        		<i class="glyphicon glyphicon-minus"></i>
+                                        	</button>
+                                        </div>
+                                        <input step="1" type="number" min="0" max="2" name="qtd_empastamento" id="qtd_empastamento" class="form-control input-sm" readonly="" value="0">
+                                        <div class="input-group-btn">
+                                        	<button type="button" class="btn btn-default btn-sm" onclick="altera_quantidade_empastamento('plus')" id="btn_empastamento_plus">
+                                        		<i class="glyphicon glyphicon-plus"></i>
+                                    		</button>
+                                        </div>
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 div_empastamento_title" >
+								<div class="form-group">
+									<label for="form_select_empastamento" class="control-label"><i class="glyphicon glyphicon-compressed"></i> Empastamento:</label>
+									<select id="form_select_empastamento" name="empastamento" class="form-control selectpicker" data-live-search="true" disabled>
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
 						</div>
-						<div class="form-group col-sm-3">
-							<label for="form_select_linha" class="control-label">Linha:</label>
-							<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus required>
-								<option value="" selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="row" id="papel-0">
+							<input type="hidden" name="papel_action" id="papel_action-0" value="1">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_linha" class="control-label"><i class="glyphicon glyphicon-book"></i> Linha:</label>
+									<select id="form_select_linha" class="form-control selectpicker" data-live-search="true" autofocus required>
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_papel" class="control-label"><i class="glyphicon glyphicon-file"></i> Papel:</label>
+									<select id="form_select_papel" name="papel" class="form-control selectpicker select_papel show-tick" data-live-search="true" required>
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_gramatura" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Gramatura:</label>
+									<select id="form_select_gramatura" name="gramatura" class="form-control" required>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
 						</div>
-						<div class="form-group col-sm-3">
-							<label for="papel" class="control-label">Papel:</label>
-							<select name="papel" id="form_select_papel" class="form-control selectpicker select_papel show-tick" data-live-search="true" required>
-								<option value="" selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="row hidden" id="papel-1">
+							<input type="hidden" name="papel_action-1" id="papel_action-1">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_linha-1" class="control-label"><i class="glyphicon glyphicon-book"></i> Linha:</label>
+									<select id="form_select_linha-1" class="form-control selectpicker" data-live-search="true" autofocus>
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_papel-1" class="control-label"><i class="glyphicon glyphicon-file"></i> Papel:</label>
+									<select id="form_select_papel-1" name="papel-1" class="form-control selectpicker select_papel show-tick" data-live-search="true">
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_gramatura-1" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Gramatura:</label>
+									<select id="form_select_gramatura-1" name="gramatura-1" class="form-control">
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
 						</div>
-						<div class="form-group col-sm-3">
-							<label for="gramatura" class="control-label">Gramatura:</label>
-							<select name="gramatura" id="form_select_gramatura" class="form-control" required>
-							</select>
-							<span class="help-block"></span>
+						<div class="row hidden" id="papel-2">
+							<input type="hidden" name="papel_action-2" id="papel_action-2">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_linha-2" class="control-label"><i class="glyphicon glyphicon-book"></i> Linha:</label>
+									<select id="form_select_linha-2" class="form-control selectpicker" data-live-search="true" autofocus>
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_papel-2" class="control-label"><i class="glyphicon glyphicon-file"></i> Papel:</label>
+									<select id="form_select_papel-2" name="papel-2" class="form-control selectpicker select_papel show-tick" data-live-search="true">
+										<option value="" selected>Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_select_gramatura-2" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Gramatura:</label>
+									<select id="form_select_gramatura-2" name="gramatura-2" class="form-control">
+									</select>
+									<span class="help-block"></span>
+								</div>
+							</div>
 						</div>
-						<div class="form-group col-sm-12">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<tr>
-										<th>Acabamento</th>
-										<th>Quantidade</th>
-										<th>Qts min/peça?</th>
-										<th>Adicionar Serviço?</th>
-										<th>Cobrar Serviço ?</th>
-										<th>Cobrar Faca / Clichê ?</th>
-									</tr>
-									<tbody>
-										<!--Empastamento-->
-										<tr>
-											<td><?=$dados['papel_acabamento']['empastamento']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="empastamento_quantidade" id="empastamento_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-											<input type="checkbox" data-group-cls="btn-group-sm" name="empastamento_adicionar" id="empastamento_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="empastamento_cobrar" id="empastamento_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>N / A</td>
-										</tr>
-										<!--Laminação-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['laminacao']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="laminacao_quantidade" id="laminacao_quantidade" class="form-control input-sm" value="" step="1" min="1" required  placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="laminacao_adicionar" id="laminacao_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="laminacao_cobrar" id="laminacao_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>N / A</td>
-										</tr-->
-										<!--Douração-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['douracao']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="douracao_quantidade" id="douracao_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="douracao_adicionar" id="douracao_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="douracao_cobrar" id="douracao_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>N / A</td>
-										</tr-->
-										<!--Corte Laser-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['corte_laser']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="corte_laser_quantidade" id="corte_laser_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="corte_laser_minutos" id="corte_laser_minutos" class="form-control input-sm" value="" step="1" min="1" required  placeholder="Minutos" title="Minutos">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_laser_adicionar" id="corte_laser_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_laser_cobrar" id="corte_laser_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>N / A</td>
-										</tr-->
-										<!--Relevo Seco-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['relevo_seco']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="relevo_seco_quantidade" id="relevo_seco_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_adicionar" id="relevo_seco_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar" id="relevo_seco_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="relevo_seco_cobrar_faca_cliche" id="relevo_seco_cobrar_faca_cliche" class="form-control input-sm" value="1">
-											</td>
-										</tr-->
-										<!--Hot Stamping-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['hot_stamping']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="hot_stamping_quantidade" id="hot_stamping_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_adicionar" id="hot_stamping_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar" id="hot_stamping_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="hot_stamping_cobrar_faca_cliche" id="hot_stamping_cobrar_faca_cliche" class="form-control input-sm" value="1">
-											</td>
-										</tr-->
-										<!--Corte Vinco-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['corte_vinco']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="corte_vinco_quantidade" id="corte_vinco_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_adicionar" id="corte_vinco_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar" id="corte_vinco_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="corte_vinco_cobrar_faca_cliche" id="corte_vinco_cobrar_faca_cliche" class="form-control input-sm" value="1">
-											</td>
-										</tr-->
-										<!--Almofada-->
-										<!--tr>
-											<td><?=$dados['papel_acabamento']['almofada']?></td>
-											<td>
-												<div class="form-group">
-													<input type="number" name="almofada_quantidade" id="almofada_quantidade" class="form-control input-sm" value="" step="1" min="1" required placeholder="Quantidade" title="Quantidade">
-													<span class="help-block"></span>
-												</div>
-											</td>
-											<td>N / A</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_adicionar" id="almofada_adicionar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_cobrar" id="almofada_cobrar" class="form-control input-sm" value="1">
-											</td>
-											<td>
-												<input type="checkbox" data-group-cls="btn-group-sm" name="almofada_cobrar_faca_cliche" id="almofada_cobrar_faca_cliche" class="form-control input-sm" value="1">
-											</td>
-										</tr-->
-									</tbody>
-								</table>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<!--Descrição-->
+									<span class="glyphicon glyphicon-pencil"></span>
+									<label for="form_descricao_papel" class="control-label">Descrição:</label>
+									<textarea name="descricao" id="form_descricao_papel" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -235,34 +172,40 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-4">
-								<!-- Lista de Impressão -->
-								<span class="glyphicon glyphicon-print"></span>
-								<label for="form_select_impressao" class="control-label">Impressão</label>
-								<select name="impressao" id="form_select_impressao" class="form-control selectpicker" autofocus data-live-search="true" required>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<!-- Lista de Impressão -->
+									<label for="form_select_impressao" class="control-label"><i class="glyphicon glyphicon-print"></i> Impressão</label>
+									<select name="impressao" id="form_select_impressao" class="form-control selectpicker" autofocus data-live-search="true" required>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="dimensao" class="control-label">Dimensão:</label>
-								<select name="dimensao" id="form_select_impressao_dimensao" class="form-control" required>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="dimensao" class="control-label"><i class="glyphicon glyphicon-retweet"></i> Dimensão:</label>
+									<select name="dimensao" id="form_select_impressao_dimensao" class="form-control" required>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="form_qtd_impressao" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_impressao" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_qtd_impressao" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_impressao" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
-								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_impressao" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_impressao" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<!--Descrição-->
+									<label for="form_descricao_impressao" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_impressao" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -287,28 +230,32 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-6">
+							<div class="col-sm-6">
 								<!-- Lista de acabamento -->
-								<span class="glyphicon glyphicon-scissors"></span>
-								<label for="form_select_acabamento" class="control-label">Acabamento</label>
-								<select name="acabamento" id="form_select_acabamento" class="form-control selectpicker" autofocus data-live-search="true" required>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+								<div class="form-group">
+									<label for="form_select_acabamento" class="control-label"><i class="glyphicon glyphicon-scissors"></i> Acabamento</label>
+									<select name="acabamento" id="form_select_acabamento" class="form-control selectpicker" autofocus data-live-search="true" required>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-6">
-								<label for="form_qtd_acabamento" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_acabamento" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-								<span class="help-block"></span>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="form_qtd_acabamento" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_acabamento" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
+							<div class="col-sm-12">
 								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_acabamento" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_acabamento" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+								<div class="form-group">
+									<label for="form_descricao_acabamento" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_acabamento" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -333,28 +280,32 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-6">
-								<!-- Lista de acessorio -->
-								<i class="fa fa-diamond" aria-hidden="true"></i>
-								<label for="form_select_acessorio" class="control-label">Acessório:</label>
-								<select name="acessorio" id="form_select_acessorio" class="form-control selectpicker" data-live-search="true" required autofocus>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<!-- Lista de acessorio -->
+									<label for="form_select_acessorio" class="control-label"><i class="fa fa-diamond" aria-hidden="true"></i> Acessório:</label>
+									<select name="acessorio" id="form_select_acessorio" class="form-control selectpicker" data-live-search="true" required autofocus>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-6">
-								<label for="form_qtd_acessorio" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_acessorio" class="form-control" value="" min="1" step="1" placeholder="Quantidade" required>
-								<span class="help-block"></span>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="form_qtd_acessorio" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_acessorio" class="form-control" value="" min="1" step="1" placeholder="Quantidade" required>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
-								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_acessorio" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_acessorio" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<!--Descrição-->
+									<label for="form_descricao_acessorio" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_acessorio" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					<fieldset>
@@ -390,8 +341,7 @@ $controller = $this->router->class;
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<i class="glyphicon glyphicon-tag"></i>
-									<label for="form_select_fita" class="control-label">Fita:</label>
+									<label for="form_select_fita" class="control-label"><i class="glyphicon glyphicon-tag"></i> Fita:</label>
 									<select name="fita" id="form_select_fita" class="form-control selectpicker show-tick" data-live-search="true" required>
 										<option value="" selected>Selecione</option>
 									</select>
@@ -402,7 +352,7 @@ $controller = $this->router->class;
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="espessura" class="control-label">Espessura:</label>
+									<label for="espessura" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Espessura:</label>
 									<select name="espessura" id="form_select_espessura" class="form-control" required>
 										<!-- configurados no controller do convite -->
 										<option value="" selected="selected">Selecione</option>
@@ -429,6 +379,7 @@ $controller = $this->router->class;
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
+									<span class="glyphicon glyphicon-pencil"></span>
 									<label for="form_descricao_fita" class="control-label">Descrição:</label>
 		                            <textarea name="descricao" id="form_descricao_fita" class="form-control" rows="3" placeholder="Descrição"></textarea>
 									<span class="help-block"></span>
@@ -457,47 +408,57 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-4">
-								<!-- Lista de Clichê -->
-								<span class="glyphicon glyphicon-registration-mark"></span>
-								<label for="form_select_cliche" class="control-label">Clichê</label>
-								<select name="cliche" id="form_select_cliche" class="form-control selectpicker" autofocus data-live-search="true" required>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<!-- Lista de Clichê -->
+									<span class="glyphicon glyphicon-registration-mark"></span>
+									<label for="form_select_cliche" class="control-label">Clichê</label>
+									<select name="cliche" id="form_select_cliche" class="form-control selectpicker" autofocus data-live-search="true" required>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="dimensao" class="control-label">Dimensão:</label>
-								<select name="dimensao" id="form_select_cliche_dimensao" class="form-control" required>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="dimensao" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Dimensão:</label>
+									<select name="dimensao" id="form_select_cliche_dimensao" class="form-control" required>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="form_qtd_cliche" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_cliche" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-								<span class="help-block"></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label for="cobrar_servicoCliche" class="control-label col-sm-12">Cobrar serviço:</label>
-								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoCliche" id="cobrar_servicoCliche" class="form-control input-sm" value="1">
-								<span class="help-block"></span>
-							</div>
-
-							<div class="form-group col-sm-6">
-								<label for="cobrar_cliche" class="control-label col-sm-12">Cobrar clichê:</label>
-								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_cliche" id="cobrar_cliche" class="form-control input-sm" value="1">
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_qtd_cliche" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_cliche" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
-								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_cliche" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_cliche" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="cobrar_servicoCliche" class="control-label"><i class="glyphicon glyphicon-usd"></i> Cobrar serviço:</label>
+									<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoCliche" id="cobrar_servicoCliche" class="form-control input-sm" value="1">
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="cobrar_cliche" class="control-label"><i class="glyphicon glyphicon-usd"></i> Cobrar clichê:</label>
+									<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_cliche" id="cobrar_cliche" class="form-control input-sm" value="1">
+									<span class="help-block"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<!--Descrição-->
+									<label for="form_descricao_cliche" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_cliche" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -522,47 +483,56 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-4">
-								<!-- Lista de Faca -->
-								<i class="fa fa-map-o" aria-hidden="true"></i>
-								<label for="form_select_faca" class="control-label">Faca</label>
-								<select name="faca" id="form_select_faca" class="form-control selectpicker" autofocus data-live-search="true" required>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<!-- Lista de Faca -->
+									<label for="form_select_faca" class="control-label"><i class="fa fa-map-o" aria-hidden="true"></i> Faca</label>
+									<select name="faca" id="form_select_faca" class="form-control selectpicker" autofocus data-live-search="true" required>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="dimensao" class="control-label">Dimensão:</label>
-								<select name="dimensao" id="form_select_faca_dimensao" class="form-control" required>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="dimensao" class="control-label"><i class="glyphicon glyphicon-resize-vertical"></i> Dimensão:</label>
+									<select name="dimensao" id="form_select_faca_dimensao" class="form-control" required>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="form_qtd_faca" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_faca" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-								<span class="help-block"></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label for="cobrar_servicoFaca" class="control-label col-sm-12">Cobrar serviço:</label>
-								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoFaca" id="cobrar_servicoFaca" class="form-control input-sm" value="1">
-								<span class="help-block"></span>
-							</div>
-
-							<div class="form-group col-sm-6">
-								<label for="cobrar_faca" class="control-label col-sm-12">Cobrar faca:</label>
-								<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_faca" id="cobrar_faca" class="form-control input-sm" value="1">
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_qtd_faca" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_faca" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
-								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_faca" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="cobrar_servicoFaca" class="control-label"><i class="glyphicon glyphicon-usd"></i> Cobrar serviço:</label>
+									<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_servicoFaca" id="cobrar_servicoFaca" class="form-control input-sm" value="1">
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="cobrar_faca" class="control-label"><i class="glyphicon glyphicon-usd"></i> Cobrar faca:</label>
+									<input type="checkbox" data-group-cls="btn-group-sm" name="cobrar_faca" id="cobrar_faca" class="form-control input-sm" value="1">
+									<span class="help-block"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<!--Descrição-->
+									<label for="form_descricao_faca" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_faca" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -587,33 +557,39 @@ $controller = $this->router->class;
 				<div class="modal-body">
 					<fieldset>
 						<div class="row">
-							<div class="form-group col-sm-4">
-								<!-- Lista de laser -->
-								<span class="glyphicon glyphicon-flash"></span>
-								<label for="form_select_laser" class="control-label">Laser</label>
-								<select name="laser" id="form_select_laser" class="form-control selectpicker" autofocus data-live-search="true" required>
-									<option value="" selected="selected">Selecione</option>
-								</select>
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<!-- Lista de laser -->
+									<label for="form_select_laser" class="control-label"><span class="glyphicon glyphicon-flash"></span> Laser</label>
+									<select name="laser" id="form_select_laser" class="form-control selectpicker" autofocus data-live-search="true" required>
+										<option value="" selected="selected">Selecione</option>
+									</select>
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="form_qtd_laser" class="control-label">Quantidade:</label>
-								<input type="number" name="quantidade" id="form_qtd_laser" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_qtd_laser" class="control-label">Quantidade:</label>
+									<input type="number" name="quantidade" id="form_qtd_laser" class="form-control" value="" min="1" step="1" required placeholder="Quantidade">
+									<span class="help-block"></span>
+								</div>
 							</div>
-							<div class="form-group col-sm-4">
-								<label for="form_qtdMinutos_laser" class="control-label">Qtd em Minutos:</label>
-								<input type="number" name="qtd_minutos" id="form_qtdMinutos_laser" class="form-control" value="" min="1" step="1" required placeholder="Qtd em Minutos" title="Qtd em Minutos">
-								<span class="help-block"></span>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="form_qtdMinutos_laser" class="control-label">Qtd em Minutos:</label>
+									<input type="number" name="qtd_minutos" id="form_qtdMinutos_laser" class="form-control" value="" min="1" step="1" required placeholder="Qtd em Minutos" title="Qtd em Minutos">
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-sm-12">
+							<div class="col-sm-12">
 								<!--Descrição-->
-								<span class="glyphicon glyphicon-pencil"></span>
-								<label for="form_descricao_laser" class="control-label">Descrição:</label>
-								<textarea name="descricao" id="form_descricao_laser" class="form-control" rows="3" placeholder="Descrição"></textarea>
-								<span class="help-block"></span>
+								<div class="form-group">
+									<label for="form_descricao_laser" class="control-label"><i class="glyphicon glyphicon-pencil"></i> Descrição:</label>
+									<textarea name="descricao" id="form_descricao_laser" class="form-control" rows="3" placeholder="Descrição"></textarea>
+									<span class="help-block"></span>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -637,17 +613,21 @@ $controller = $this->router->class;
 				</div>			
 				<div class="modal-body">
 					<fieldset>
-						<div class="form-group col-sm-8">
-							<label for="convite_modelo" class="control-label">Modelo:</label>
-							<select id="convite_modelo" autofocus name="convite_modelo" class="form-control selectpicker" data-live-search="true" required>
-								<option value="" disabled selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="convite_modelo" class="control-label">Modelo:</label>
+								<select id="convite_modelo" autofocus name="convite_modelo" class="form-control selectpicker" data-live-search="true" required>
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-4">
-							<label for="quantidade" class="control-label">Quantidade:</label>
-							<input type="number" name="quantidade" id="quantidade_convite" step="1" min="1" class="form-control" value="" placeholder="Quantidade de convites" required>
-							<span class="help-block"></span>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="quantidade" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="quantidade_convite" step="1" min="1" class="form-control" value="" placeholder="Quantidade de convites" required>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>
@@ -670,24 +650,30 @@ $controller = $this->router->class;
 				</div>			
 				<div class="modal-body">
 					<fieldset>
-						<div class="form-group col-sm-4">
-							<label for="personalizado_categoria" class="control-label">Categoria</label>
-							<select id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" autofocus required>
-								<option value="" disabled selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label for="personalizado_categoria" class="control-label">Categoria</label>
+								<select id="personalizado_categoria" class="form-control selectpicker" data-live-search="true" autofocus required>
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-4">
-							<label for="personalizado_modelo" class="control-label">Modelo</label>
-							<select id="personalizado_modelo" name="personalizado_modelo" class="form-control selectpicker" data-live-search="true" required>
-								<option value="" disabled selected>Selecione</option>
-							</select>
-							<span class="help-block"></span>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label for="personalizado_modelo" class="control-label">Modelo</label>
+								<select id="personalizado_modelo" name="personalizado_modelo" class="form-control selectpicker" data-live-search="true" required>
+									<option value="" disabled selected>Selecione</option>
+								</select>
+								<span class="help-block"></span>
+							</div>
 						</div>
-						<div class="form-group col-sm-4">
-							<label for="quantidade" class="control-label">Quantidade:</label>
-							<input type="number" name="quantidade" id="quantidade_personalizado" min="1" step="1" class="form-control" value="" placeholder="Quantidade" required>
-							<span class="help-block"></span>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label for="quantidade" class="control-label">Quantidade:</label>
+								<input type="number" name="quantidade" id="quantidade_personalizado" min="1" step="1" class="form-control" value="" placeholder="Quantidade" required>
+								<span class="help-block"></span>
+							</div>
 						</div>
 					</fieldset>
 				</div>
@@ -736,6 +722,7 @@ $controller = $this->router->class;
 				</div>			
 				<div class="modal-body">
 					<div class="form-group">
+						<span class="glyphicon glyphicon-pencil"></span>
 						<label for="descricao" class="control-label">Descrição:</label>
 						<textarea name="descricao" id="form_descricao_txt" class="form-control" rows="3"><?= ($controller === 'convite')? $this->session->convite->descricao : $this->session->personalizado->descricao?></textarea>
 						<span class="help-block"></span>

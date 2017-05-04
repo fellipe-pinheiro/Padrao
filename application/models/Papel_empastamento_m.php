@@ -2,18 +2,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Papel_acabamento_m extends CI_Model {
+class Papel_empastamento_m extends CI_Model {
 
     var $id;
     var $nome;
-    var $codigo;
     var $qtd_minima;
     var $descricao;
     var $valor;
     // Ajax 
-    var $table = 'papel_acabamento';
-    var $column_order = array('id', 'nome','codigo','qtd_minima', 'descricao', 'valor');
-    var $column_search = array('nome','codigo', 'descricao');
+    var $table = 'papel_empastamento';
+    var $column_order = array('id', 'nome','qtd_minima', 'descricao', 'valor');
+    var $column_search = array('nome','descricao');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -65,26 +64,16 @@ class Papel_acabamento_m extends CI_Model {
     public function get_by_id($id){
         $this->db->where('id', $id);
         $this->db->limit(1);
-        $result = $this->db->get('papel_acabamento');
+        $result = $this->db->get('papel_empastamento');
         if($result->num_rows() > 0){
             return $this->changeToObject($result->result_array());
         }
         return null;
-    }
-
-    public function get_by_codigo($codigo){
-        $this->db->where('codigo', $codigo);
-        $this->db->limit(1);
-        $result = $this->db->get('papel_acabamento');
-        if($result->num_rows() > 0){
-            return  $this->changeToObject($result->result_array());
-        }
-        return null;
-    }    
+    }  
 
     public function inserir($dados) {
         if (empty($dados['id'])) {
-            if ($this->db->insert('papel_acabamento', $dados)) {
+            if ($this->db->insert('papel_empastamento', $dados)) {
                 return $this->db->insert_id();
             }
         }
@@ -94,7 +83,7 @@ class Papel_acabamento_m extends CI_Model {
     public function editar($dados) {
         if (!empty($dados['id'])) {
             $this->db->where('id', $dados['id']);
-            if ($this->db->update('papel_acabamento', $dados)) {
+            if ($this->db->update('papel_empastamento', $dados)) {
                 return true;
             }
         }
@@ -104,7 +93,7 @@ class Papel_acabamento_m extends CI_Model {
     public function deletar($id) {
         if (!empty($id)) {
             $this->db->where('id', $id);
-            if ($this->db->delete('papel_acabamento')) {
+            if ($this->db->delete('papel_empastamento')) {
                 return true;
             }
         }
@@ -113,10 +102,9 @@ class Papel_acabamento_m extends CI_Model {
 
     private function changeToObject($result_db) {
         foreach ($result_db as $key => $value) {
-            $object = new Papel_acabamento_m();
+            $object = new Papel_empastamento_m();
             $object->id = $value['id'];
             $object->nome = $value['nome'];
-            $object->codigo = $value['codigo'];
             $object->qtd_minima = $value['qtd_minima'];
             $object->descricao = $value['descricao'];
             $object->valor = $value['valor'];
@@ -127,18 +115,6 @@ class Papel_acabamento_m extends CI_Model {
     public function get_pesonalizado($colunas){
         $this->db->select($colunas);
         $this->db->order_by("nome", "asc");
-        return $this->db->get("papel_acabamento")->result_array();
-    }
-
-    public function get_codigo_nome($colunas){
-        $this->db->select($colunas);
-        $this->db->order_by("nome", "asc");
-        $papel_acabamento = $this->db->get("papel_acabamento")->result_array();
-        $array_aux = array();
-        foreach ($papel_acabamento as $key => $value) {
-            $array_aux[$value['codigo']] = $value['nome'];
-        }
-        return $array_aux;
-    }    
-
+        return $this->db->get("papel_empastamento")->result_array();
+    } 
 }
