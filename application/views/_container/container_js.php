@@ -198,11 +198,7 @@ $controller = $this->router->class;
 
 	function editar_papel_modal(owner,posicao,id_dimensao,id_papel,id_linha,id_gramatura,id_empastamento,id_papel1,id_linha1,id_gramatura1,id_papel2,id_linha2,id_gramatura2){
 
-		//TODO receber uma variavel depois da id_gramatura2 para setar o empastamento
-		ajax_carregar_empastamento(true,id_empastamento);
-
-
-		
+		ajax_carregar_empastamento(true,id_empastamento);		
 		ajax_carregar_papel_linha(true,id_linha);
 		ajax_carregar_papel_linha1(true,id_linha1);
 		ajax_carregar_papel_linha2(true,id_linha2);
@@ -321,15 +317,16 @@ $controller = $this->router->class;
 		$("#md_papel_container_owner").val(owner);
 		reset_form("#form_md_papel");
 		$("#form_select_gramatura").find('option').remove();
-		$('#form_select_papel').selectpicker('val', '');
 		pre_submit("#form_md_papel","<?=$controller?>/session_papel_inserir/"+owner,"#md_papel",owner);
 		//remove_form_select_option_papel();
 		limpar_select($('#form_select_dimensao'),true);
 		limpar_select($('#form_select_papel'),false);
-
-		//TODO não esta funcionando...=> limpar_select()
 		limpar_select($('#form_select_papel-1'),false);
 		limpar_select($('#form_select_papel-2'),false);
+
+		limpar_select($('#form_select_gramatura'),false);
+		limpar_select($('#form_select_gramatura-1'),false);
+		limpar_select($('#form_select_gramatura-2'),false);
 
 		set_papel_default();
 

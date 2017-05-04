@@ -410,6 +410,7 @@ function close_loadingModal() {
 }
 
 function limpar_select(element_id,atualizar = false) {
+	$(element_id).selectpicker('destroy');
 	if(atualizar){
 		element_id.find('option').remove().end();
 	    element_id.prepend($('<option value=""></option>').html('Atualizando...'));	
