@@ -56,11 +56,11 @@ class Cliche extends CI_Controller {
                 $dimensoes = $this->get_array_dimensoes_objects( $id_cliche );
 
                 foreach ( $dimensoes as $dimensao ) {
-                    if( !empty($dimensao['ADD']) && $dimensao['ADD'] ){
+                    if( !empty($dimensao['ADD']) ){
 
                         $this->Cliche_dimensao_m->inserir( $dimensao['ADD'] );
 
-                    }else if(!empty($dimensao['DEFAULT']) &&  $dimensao['DEFAULT'] ){
+                    }else if(!empty($dimensao['DEFAULT']) ){
                 
                         $this->Cliche_dimensao_m->inserir( $dimensao['DEFAULT'] );
 
@@ -100,19 +100,19 @@ class Cliche extends CI_Controller {
                 $dimensoes = $this->get_array_dimensoes_objects( $this->input->post('id') );
 
                 foreach ($dimensoes as $dimensao) {
-                    if ( !empty($dimensao['ADD']) && $dimensao['ADD'] ) { // INSERT
+                    if ( !empty($dimensao['ADD']) ) { // INSERT
 
                         $this->Cliche_dimensao_m->inserir($dimensao['ADD']);
 
-                    }else if( !empty($dimensao['UPD']) && $dimensao['UPD']){ // UPDATE
+                    }else if( !empty($dimensao['UPD']) ){ // UPDATE
 
                         $this->Cliche_dimensao_m->editar($dimensao['UPD']);
 
-                    }else if( !empty($dimensao['DEFAULT']) && $dimensao['DEFAULT']){ // DEFAULT
+                    }else if( !empty($dimensao['DEFAULT']) ){ // DEFAULT
                         
                         $this->Cliche_dimensao_m->editar($dimensao['DEFAULT']);
 
-                    }else if(!empty($dimensao['DEL']) && $dimensao['DEL'] ){ // DELETE
+                    }else if( !empty($dimensao['DEL']) ){ // DELETE
 
                         $this->Cliche_dimensao_m->deletar($dimensao['DEL']['id']);
                         if($this->db->error()['code'] === 1451){
