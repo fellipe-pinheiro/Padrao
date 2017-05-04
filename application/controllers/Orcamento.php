@@ -52,7 +52,7 @@ class Orcamento extends CI_Controller {
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
         $this->load->model('Papel_dimensao_m');
-        $this->load->model('Papel_acabamento_m');
+        $this->load->model('Papel_empastamento_m');
         $this->load->model('Papel_gramatura_m');
         $this->load->model('Impressao_m');
         $this->load->model('Impressao_dimensao_m');

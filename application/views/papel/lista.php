@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="#tab_linha" aria-controls="tab_linha" role="tab" data-toggle="tab">Linha</a>
                     </li>
                     <li role="presentation">
-                        <a href="#tab_acabamento" aria-controls="tab_acabamento" role="tab" data-toggle="tab">Acabamento</a>
+                        <a href="#tab_empastamento" aria-controls="tab_empastamento" role="tab" data-toggle="tab">Empastamento</a>
                     </li>
                     <li role="presentation">
                         <a href="#tab_dimensao" aria-controls="tab_dimensao" role="tab" data-toggle="tab">Dimensão</a>
@@ -109,15 +109,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_acabamento">
+                    <div role="tabpanel" class="tab-pane" id="tab_empastamento">
                         <div class="row">
                             <div class="col-sm-12 table-responsive">
-                                <table id="tb_acabamento" class="table display compact table-bordered " cellspacing="0" width="100%">
+                                <table id="tb_empastamento" class="table display compact table-bordered " cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Nome</th>
-                                            <th>Código</th>
                                             <th>Qtd Mínima</th>
                                             <th>Descrição</th>
                                             <th>Valor</th>
@@ -333,8 +332,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </form>
 </div>
-<div class="modal fade" id="md_acabamento">
-    <form action="#" method="POST" role="form" class="form-horizontal" id="form_acabamento">
+<div class="modal fade" id="md_empastamento">
+    <form action="#" method="POST" role="form" class="form-horizontal" id="form_empastamento">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -342,7 +341,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Papel Acabamento</h4>
+                    <h4 class="modal-title">Empastamento</h4>
                 </div>
                 <div class="modal-body">
                     <fieldset>
@@ -350,25 +349,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input type="hidden" name="id" class="form-control">
                         <div class="row">
                             <!--nome-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="nome" class="control-label">Nome:</label>
                                     <input type="text" name="nome" id="nome" class="form-control" value="" required="required" placeholder="Nome do acessório" pattern=".{1,50}" title="Máximo de 50 caracteres">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                            <!--codigo-->
-                            <div class="col-sm-6">
-                                <div class="form-group input-padding">
-                                    <label for="codigo" class="control-label">Código:</label>
-                                    <input type="text" name="codigo" id="codigo" class="form-control" value="" required="required" title="Utilize no mínimo 3 e máximo 20 caracteres sendo somente letras minúsculas [a-z], sem acentuação, números [0-9] e sem espaçamento." placeholder="Ex: mod123" pattern="[a-z0-9_]{3,30}$">
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <!--qtd_minima-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="qtd_minima" class="control-label">Quantidade mínima:</label>
                                     <input type="number" name="qtd_minima" id="qtd_minima" step="1" min="1" class="form-control" value="" required="required" title="Quantidade mínima" placeholder="Quantidade mínima">
@@ -376,7 +365,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <!--valor-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group input-padding">
                                     <label for="valor" class="control-label">Valor:</label>
                                     <input type="number" name="valor" step="0.01" min="0" class="form-control" value="" required="required" title="Valor" placeholder="Valor">
@@ -445,73 +434,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </form>
 </div>
-<div class="modal fade" id="md_acabamento_docs">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Documentação</h4>
-            </div>
-            <div class="modal-body">
-                <p>Configurar a tabela conforme a tabela da documentação. Cada item deverá ter o mesmo código desta tabela</p>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Código</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Empastamento</td>
-                            <td>empastamento</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Laminação</td>
-                            <td>laminacao</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Relevo Seco</td>
-                            <td>relevo_seco</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Corte Vinco</td>
-                            <td>corte_vinco</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Almofada / Bandeja</td>
-                            <td>almofada</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Douração</td>
-                            <td>douracao</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Corte Laser</td>
-                            <td>corte_laser</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>Faca</td>
-                            <td>faca</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="md_filtro_papel">
     <form id="form-filter-papel" class="form-horizontal form-filter">
         <div class="modal-dialog">
@@ -524,7 +446,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-acabamento-menu">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-filtro-menu">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
@@ -533,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="navbar-brand"></div>
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse navbar-acabamento-menu">
+                        <div class="collapse navbar-collapse navbar-filtro-menu">
                             <ul class="nav navbar-nav">
                                 <li>
                                     <a href="javascript:void(0)" class="btn-reset" onclick="filtro('reset')"><i class="glyphicon glyphicon-erase"></i> Limpar Filtro</a>
@@ -602,7 +524,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     var tb_papel;
     var tb_linha;
-    var tb_acabamento;
+    var tb_empastamento;
     var tb_dimensao;
     var tab_active;
     var dataTable;
@@ -767,10 +689,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 tb_linha.ajax.reload(null, false);
             }
         });
-        $("a[href='#tab_acabamento']").click(function () {
+        $("a[href='#tab_empastamento']").click(function () {
             $(".nav-filtro-papel").hide();
-            if (!is_datatable_exists("#tb_acabamento")) {
-                tb_acabamento = $("#tb_acabamento").DataTable({
+            if (!is_datatable_exists("#tb_empastamento")) {
+                tb_empastamento = $("#tb_empastamento").DataTable({
                     scrollX: true,
                     scrollY:"500px",
                     scrollCollapse: true,
@@ -812,12 +734,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 },
                             ],
                             fade: true
-                        },
-                        {   
-                            text: 'Documentação',
-                            action: function () {
-                                open_papel_acabamento_docs();
-                            }
                         }
                     ],
                     language: {
@@ -826,20 +742,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "<?= base_url('papel_acabamento/ajax_list') ?>",
+                        url: "<?= base_url('papel_empastamento/ajax_list') ?>",
                         type: "POST"
                     },
                     columns: [
                         {data: "id","visible": false},
                         {data: "nome","visible": true},
-                        {data: "codigo","visible": true},
                         {data: "qtd_minima","visible": true},
                         {data: "descricao","visible": true},
                         {data: "valor","visible": true},
                     ]
                 });
             }else {
-                tb_acabamento.ajax.reload(null, false);
+                tb_empastamento.ajax.reload(null, false);
             }
         });
         $("a[href='#tab_dimensao']").click(function () {
@@ -916,8 +831,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#tb_linha tbody").on("click", "tr", function () {
             row_select(tb_linha,this);            
         });
-        $("#tb_acabamento tbody").on("click", "tr", function () {
-            row_select(tb_acabamento,this);            
+        $("#tb_empastamento tbody").on("click", "tr", function () {
+            row_select(tb_empastamento,this);            
         });
         $("#tb_dimensao tbody").on("click", "tr", function () {
             row_select(tb_dimensao,this);            
@@ -933,9 +848,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $("#add_gramatura").click();
                 ajax_carregar_papel_linha();
                 ajax_carregar_papel_dimensao();
-            }
-            if(tab_active === "#tab_acabamento"){
-                $("#codigo").attr("readonly",false);
             }
             save_method = 'add';
             $("input[name='id']").val("");
@@ -995,9 +907,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         });
                     }else{
                         $.map(data, function (value, index) {
-                            if(tab_active === "#tab_acabamento"){
-                                $("#codigo").attr("readonly",true);
-                            }
                             if($('[name="' + index + '"]').is("input, textarea")){
                                 if($('[name="' + index + '"]').is(':checkbox')){
                                     if(value === "0"){checked = false;}else{ checked = true;}
@@ -1041,16 +950,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var altura = dataTable.row(".selected").data().altura;
                 var largura = dataTable.row(".selected").data().largura;
                 nome = altura + 'x' + largura;
-            }
-            if(tab_active === "#tab_acabamento"){
-                value = dataTable.row(".selected").data().codigo;
-                if($.inArray(value, ["empastamento","laminacao","relevo_seco","corte_vinco","almofada","douracao","corte_laser","faca"]) > -1){
-                    $.alert({
-                        title: "Atenção",
-                        content: "O <strong>"+ nome + " </strong>não pode ser excluido. Este item faz parte de uma variavel do sistema."
-                    });
-                    return false;
-                }
             }
             $.confirm({
                 title: 'Confirmação!',
@@ -1351,6 +1250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('error');
             console.log(jqXHR);
         })
         .always(function() {
@@ -1369,8 +1269,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 md_form = '#md_papel';
                 modal_title = ' Papel';
                 url_edit = "<?= base_url('papel/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('papel/ajax_add') ?>";
-                url_update = "<?php echo site_url('papel/ajax_update') ?>";
+                url_add = "<?= base_url('papel/ajax_add') ?>";
+                url_update = "<?= base_url('papel/ajax_update') ?>";
                 url_delete = "<?= base_url('papel/ajax_delete/') ?>";
                 form = '#form_papel';
                 return true;
@@ -1380,21 +1280,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 md_form = '#md_linha';
                 modal_title = ' Linha';
                 url_edit = "<?= base_url('papel_linha/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('papel_linha/ajax_add') ?>";
-                url_update = "<?php echo site_url('papel_linha/ajax_update') ?>";
+                url_add = "<?= base_url('papel_linha/ajax_add') ?>";
+                url_update = "<?= base_url('papel_linha/ajax_update') ?>";
                 url_delete = "<?= base_url('papel_linha/ajax_delete/') ?>";
                 form = '#form_linha';
                 return true;
                 break;
-            case '#tab_acabamento':
-                dataTable = tb_acabamento;
-                md_form = '#md_acabamento';
-                modal_title = ' Papel Acabamento';
-                url_edit = "<?= base_url('papel_acabamento/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('papel_acabamento/ajax_add') ?>";
-                url_update = "<?php echo site_url('papel_acabamento/ajax_update') ?>";
-                url_delete = "<?= base_url('papel_acabamento/ajax_delete/') ?>";
-                form = '#form_acabamento';
+            case '#tab_empastamento':
+                dataTable = tb_empastamento;
+                md_form = '#md_empastamento';
+                modal_title = ' Papel Empastamento';
+                url_edit = "<?= base_url('papel_empastamento/ajax_edit/') ?>";
+                url_add = "<?= base_url('papel_empastamento/ajax_add') ?>";
+                url_update = "<?= base_url('papel_empastamento/ajax_update') ?>";
+                url_delete = "<?= base_url('papel_empastamento/ajax_delete/') ?>";
+                form = '#form_empastamento';
                 return true;
                 break;
             case '#tab_dimensao':
@@ -1402,8 +1302,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 md_form = '#md_dimensao';
                 modal_title = ' Papel Dimensão';
                 url_edit = "<?= base_url('papel_dimensao/ajax_edit/') ?>";
-                url_add = "<?php echo site_url('papel_dimensao/ajax_add') ?>";
-                url_update = "<?php echo site_url('papel_dimensao/ajax_update') ?>";
+                url_add = "<?= base_url('papel_dimensao/ajax_add') ?>";
+                url_update = "<?= base_url('papel_dimensao/ajax_update') ?>";
                 url_delete = "<?= base_url('papel_dimensao/ajax_delete/') ?>";
                 form = '#form_dimensao';
                 return true;
@@ -1421,8 +1321,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             case '#tab_linha':
                 return data.linha;
                 break;
-            case '#tab_acabamento':
-                return data.papel_acabamento;
+            case '#tab_empastamento':
+                return data.papel_empastamento;
                 break;
             case '#tab_dimensao':
                 return data.papel_dimensao;
@@ -1450,11 +1350,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         reset_errors();
         $('.selectpicker').selectpicker('val', '');
         $("#lista_gramaturas").html("");
-    }
-
-    function open_papel_acabamento_docs() {
-
-        $("#md_acabamento_docs").modal('show');
     }
 
     function filtro(acao) {

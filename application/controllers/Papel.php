@@ -100,15 +100,15 @@ class Papel extends CI_Controller {
                 $gramaturas = $this->get_array_gramaturas_objects( $this->input->post('id') );
                
                 foreach ($gramaturas as $gramatura) {
-                    if ( $gramatura['ADD'] ) { // INSERT
+                    if ( !empty($gramatura['ADD']) ) { // INSERT
 
                         $this->Papel_gramatura_m->inserir($gramatura['ADD']);
 
-                    }else if( $gramatura['UPD'] ){ // UPDATE
+                    }else if( !empty($gramatura['UPD']) ){ // UPDATE
 
                         $this->Papel_gramatura_m->editar($gramatura['UPD']);
 
-                    }else if( $gramatura['DEL'] ){ // DELETE
+                    }else if( !empty($gramatura['DEL']) ){ // DELETE
 
                         $this->Papel_gramatura_m->deletar($gramatura['DEL']['id']);
                         if($this->db->error()['code'] === 1451){

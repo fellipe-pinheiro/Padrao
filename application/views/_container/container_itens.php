@@ -36,68 +36,68 @@ foreach ($arr as $key => $value) {
 	<div id="<?=$session_owner->owner?>" class="row" style="display: none">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-			    <div class="panel-body panel-nav">
-			        <nav class="navbar navbar-default navbar-static-top" role="navigation">
-			            <div class="container">
-			                <!-- Brand and toggle get grouped for better mobile display -->
-			                <div class="navbar-header">
-			                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-item-<?=$tabela_id?>" aria-expanded="false" aria-controls="navbar">
-			                        <span class="sr-only">Toggle navigation</span>
-			                        <span class="icon-bar"></span>
-			                        <span class="icon-bar"></span>
-			                        <span class="icon-bar"></span>
-			                    </button>
-			                    <div class="navbar-brand"><?=$panel_title?></div>
-			                </div>
-			                
-			                <!-- Collect the nav links, forms, and other content for toggling -->
-			                <div class="collapse navbar-collapse navbar-item-<?=$tabela_id?>">
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_papel_modal('<?=$session_owner->owner?>')" data-toggle="modal" data-modelo="" href='#md_papel'><i class="glyphicon glyphicon-file"></i> Papel</a>
-			                        </li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_impressao_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_impressao'><i class="glyphicon glyphicon-print"></i> Impressão</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_acabamento_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_acabamento'><i class="glyphicon glyphicon-scissors"></i> Acabamento</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_acessorio_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_acessorio'><i class="fa fa-diamond" aria-hidden="true"></i> Acessório</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_fita_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_fita'><i class="glyphicon glyphicon-tag"></i> Fita</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_cliche_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_cliche'><i class="glyphicon glyphicon-registration-mark"></i> Clichê</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_faca_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_faca'><i class="fa fa-map-o" aria-hidden="true"></i> Faca</a>
-		                        	</li>
-			                    </ul>
-			                    <ul class="nav navbar-nav">
-			                        <li>
-			                        	<a onclick="abrir_laser_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_laser'><i class="glyphicon glyphicon-flash"></i> Laser</a>
-		                        	</li>
-			                    </ul>
-			                </div>
-			            </div>
-			        </nav>
-			        <div class="row">
-			            <div class="col-md-12">
-			                <div class="table-responsive">
+				<div class="panel-body panel-nav">
+					<nav class="navbar navbar-default navbar-static-top" role="navigation">
+						<div class="container">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-item-<?=$tabela_id?>" aria-expanded="false" aria-controls="navbar">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<div class="navbar-brand"><?=$panel_title?></div>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse navbar-item-<?=$tabela_id?>">
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_papel_modal('<?=$session_owner->owner?>')" data-toggle="modal" data-modelo="" href='#md_papel'><i class="glyphicon glyphicon-file"></i> Papel</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_impressao_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_impressao'><i class="glyphicon glyphicon-print"></i> Impressão</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_acabamento_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_acabamento'><i class="glyphicon glyphicon-scissors"></i> Acabamento</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_acessorio_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_acessorio'><i class="fa fa-diamond" aria-hidden="true"></i> Acessório</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_fita_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_fita'><i class="glyphicon glyphicon-tag"></i> Fita</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_cliche_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_cliche'><i class="glyphicon glyphicon-registration-mark"></i> Clichê</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_faca_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_faca'><i class="fa fa-map-o" aria-hidden="true"></i> Faca</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li>
+										<a onclick="abrir_laser_modal('<?=$session_owner->owner?>')" data-toggle="modal" href='#md_laser'><i class="glyphicon glyphicon-flash"></i> Laser</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
 								<table id="<?=$tabela_id?>" class="table table-hover table-condensed">
 									<tr>
 										<th>#</th>
@@ -116,129 +116,89 @@ foreach ($arr as $key => $value) {
 										$count = 0;
 										if(!empty($session_owner->container_papel)){
 											foreach ($session_owner->container_papel as $key => $container_papel) {
-												if($container_papel->empastamento->adicionar == 1){
-													$glyphicon = 'glyphicon glyphicon-duplicate';
-												}else{
-													$glyphicon = 'glyphicon glyphicon-file';
+												foreach ($container_papel as $key1 => $value) {
+													if($key1 != 'papel-0'){
+														?>
+														<tr>
+															<td></td>
+															<td><span class="glyphicon glyphicon-compressed"></span> <b>Empastamento</b></td>
+															<td><?=$value->empastamento->nome?></td>
+															<td></td>
+															<td>1</td>
+															<td>R$ <?= number_format( $value->calcula_valor_unitario_empastamento($session_container->quantidade), 2, ",", ".") ?></td>
+															<td>R$ <?= number_format( $value->calcula_valor_total_empastamento(1,$value->calcula_valor_unitario_empastamento($session_container->quantidade)), 2, ",", ".") ?></td>
+															<td></td>
+															<td></td>
+														</tr>
+														<?php
+													}
+													?>
+													<tr>
+														<?php
+														if($key1 == 'papel-0'){
+															//se for o papel principal contar
+															?>
+															<td><?= $count = $count + 1 ?></td>
+															<?php
+														}else{
+															?>
+															<td></td>
+															<?php
+														}
+														?>
+														<td><span class="glyphicon glyphicon-file"></span> <b>Papel</b></td>
+														<td><?=$value->dimensao->nome?> : <?=$value->papel->papel_linha->nome?> <?=$value->papel->nome?>, <?=$value->papel->get_selected_papel_gramatura()->gramatura?>g</td>
+														<td></td>
+														<td><?=$value->quantidade?></td>
+														<td>R$ <?= number_format($value->calcula_valor_unitario($session_container->modelo, $value->dimensao,$session_container->quantidade), 2, ",", ".") ?></td>
+														<td>R$ <?= number_format($value->calcula_valor_total($value->quantidade,$value->calcula_valor_unitario($session_container->modelo,$value->dimensao,$session_container->quantidade)), 2, ",", ".") ?>
+														</td>
+														<?php
+														$qtd_papel = count($container_papel);
+														if($key1 == 'papel-0'){
+															//se for o papel principal mostar com os botões
+															if($qtd_papel == 1){ //1 papel (envia somente os parametros necessários)
+																?>
+																<td>
+																	<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel['papel-0']->dimensao->id?>,<?=$container_papel['papel-0']->papel->id?>,<?=$container_papel['papel-0']->papel->papel_linha->id?>,<?=$container_papel['papel-0']->papel->get_selected_papel_gramatura()->id?>,'','','','','','','')" id="" class="btn btn-default btn-sm">
+																		<span class="glyphicon glyphicon-pencil"></span>
+																	</button>
+																</td>
+																<?php
+															}else if($qtd_papel == 2){ //2 papel (envia somente os parametros necessários)
+																?>
+																<td>
+																	<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel['papel-0']->dimensao->id?>,<?=$container_papel['papel-0']->papel->id?>,<?=$container_papel['papel-0']->papel->papel_linha->id?>,<?=$container_papel['papel-0']->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel['papel-1']->empastamento->id?>,<?=$container_papel['papel-1']->papel->id?>,<?=$container_papel['papel-1']->papel->papel_linha->id?>,<?=$container_papel['papel-1']->papel->get_selected_papel_gramatura()->id?>,'','','')" id="" class="btn btn-default btn-sm">
+																		<span class="glyphicon glyphicon-pencil"></span>
+																	</button>
+																</td>
+																<?php
+															}else{ //3 papel (envia somente os parametros necessários)
+																?>
+																<td>
+																	<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel['papel-0']->dimensao->id?>,<?=$container_papel['papel-0']->papel->id?>,<?=$container_papel['papel-0']->papel->papel_linha->id?>,<?=$container_papel['papel-0']->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel['papel-1']->empastamento->id?>,<?=$container_papel['papel-1']->papel->id?>,<?=$container_papel['papel-1']->papel->papel_linha->id?>,<?=$container_papel['papel-1']->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel['papel-2']->papel->id?>,<?=$container_papel['papel-2']->papel->papel_linha->id?>,<?=$container_papel['papel-2']->papel->get_selected_papel_gramatura()->id?>)" id="" class="btn btn-default btn-sm">
+																		<span class="glyphicon glyphicon-pencil"></span>
+																	</button>
+																</td>
+																<?php
+															}
+															?>
+															<td>
+																<button onclick="excluir_papel('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+																	<span class="glyphicon glyphicon-trash"></span>
+																</button>
+															</td>
+															<?php
+														}else{
+															?>
+															<td></td>
+															<td></td>
+															<?php
+														}
+														?>
+													</tr>
+													<?php
 												}
-												?>
-												<tr>
-													<td><?= $count = $count + 1 ?></td>
-													<td><span class="<?=$glyphicon?>"></span> <b>Papel</b></td>
-													<td><?=$container_papel->dimensao->nome?> : <?=$container_papel->papel->papel_linha->nome?> <?=$container_papel->papel->nome?>, <?=$container_papel->papel->get_selected_papel_gramatura()->gramatura?>g</td>
-													<td></td>
-													<td><?=$container_papel->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario($session_container->modelo, $container_papel->dimensao,$session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total($container_papel->quantidade,$container_papel->calcula_valor_unitario($session_container->modelo,$container_papel->dimensao,$session_container->quantidade)), 2, ",", ".") ?>
-													</td>
-													<td>
-														<button onclick="editar_papel_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_papel->papel->id?>,<?=$container_papel->dimensao->id?>,<?=$container_papel->papel->papel_linha->id?>,<?=$container_papel->papel->get_selected_papel_gramatura()->id?>,<?=$container_papel->empastamento->adicionar?>,<?=$container_papel->empastamento->quantidade?>,<?=$container_papel->empastamento->cobrar_servico?>,<?=$container_papel->laminacao->adicionar?>,<?=$container_papel->laminacao->quantidade?>,<?=$container_papel->laminacao->cobrar_servico?>,<?=$container_papel->douracao->adicionar?>,<?=$container_papel->douracao->quantidade?>,<?=$container_papel->douracao->cobrar_servico?>,<?=$container_papel->corte_laser->adicionar?>,<?=$container_papel->corte_laser->quantidade?>,<?=$container_papel->corte_laser->cobrar_servico?>,<?=$container_papel->corte_laser->corte_laser_minutos?>,<?=$container_papel->relevo_seco->adicionar?>,<?=$container_papel->relevo_seco->quantidade?>,<?=$container_papel->relevo_seco->cobrar_servico?>,<?=$container_papel->relevo_seco->cobrar_faca_cliche?>,<?=$container_papel->hot_stamping->adicionar?>,<?=$container_papel->hot_stamping->quantidade?>,<?=$container_papel->hot_stamping->cobrar_servico?>,<?=$container_papel->hot_stamping->cobrar_faca_cliche?>,<?=$container_papel->corte_vinco->adicionar?>,<?=$container_papel->corte_vinco->quantidade?>,<?=$container_papel->corte_vinco->cobrar_servico?>,<?=$container_papel->corte_vinco->cobrar_faca_cliche?>,<?=$container_papel->almofada->adicionar?>,<?=$container_papel->almofada->quantidade?>,<?=$container_papel->almofada->cobrar_servico?>,<?=$container_papel->almofada->cobrar_faca_cliche?>)" id="" class="btn btn-default btn-sm">
-															<span class="glyphicon glyphicon-pencil"></span>
-														</button>
-													</td>
-													<td>
-														<button onclick="excluir_papel('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
-															<span class="glyphicon glyphicon-trash"></span>
-														</button>
-													</td>
-												</tr>
-												<?php ($container_papel->empastamento->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-align-justify"></span> <b><?=$container_papel->empastamento->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->empastamento->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_empastamento($container_papel->calcula_valor_unitario_empastamento($session_container->quantidade),$container_papel->empastamento->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->laminacao->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-open-file"></span> <b><?=$container_papel->laminacao->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->laminacao->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_laminacao($container_papel->calcula_valor_unitario_laminacao($session_container->quantidade),$container_papel->laminacao->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->douracao->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-certificate"></span> <b><?=$container_papel->douracao->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->douracao->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_douracao($session_container->quantidade), 2, ",", ".") ?></span></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_douracao($container_papel->calcula_valor_unitario_douracao($session_container->quantidade),$container_papel->douracao->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->corte_laser->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-flash"></span> <b><?=$container_papel->corte_laser->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->corte_laser->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_corte_laser($container_papel->calcula_valor_unitario_corte_laser($session_container->quantidade),$container_papel->corte_laser->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->relevo_seco->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-object-align-bottom"></span> <b><?=$container_papel->relevo_seco->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->relevo_seco->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_relevo_seco($container_papel->calcula_valor_unitario_relevo_seco($session_container->quantidade),$container_papel->relevo_seco->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->hot_stamping->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-registration-mark"></span> <b><?=$container_papel->hot_stamping->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->hot_stamping->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_hot_stamping($container_papel->calcula_valor_unitario_hot_stamping($session_container->quantidade),$container_papel->hot_stamping->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->corte_vinco->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-th"></span> <b><?=$container_papel->corte_vinco->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->corte_vinco->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_corte_vinco($container_papel->calcula_valor_unitario_corte_vinco($session_container->quantidade),$container_papel->corte_vinco->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php ($container_papel->almofada->quantidade == 0) ? $class = "hidden" : $class = ""?>
-												<tr class="<?=$class?>">
-													<td></td>
-													<td><span class="glyphicon glyphicon-unchecked"></span> <b><?=$container_papel->almofada->papel_acabamento->nome?></b></td>
-													<td></td>
-													<td></td>
-													<td><?=$container_papel->almofada->quantidade?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_unitario_almofada($session_container->quantidade), 2, ",", ".") ?></td>
-													<td>R$ <?= number_format($container_papel->calcula_valor_total_almofada($container_papel->calcula_valor_unitario_almofada($session_container->quantidade),$container_papel->almofada->quantidade), 2, ",", ".") ?></td>
-													<td></td>
-													<td></td>
-												</tr>
-												<?php
 											}
 										}
 										?>
@@ -246,30 +206,30 @@ foreach ($arr as $key => $value) {
 										<!-- INICIO: IMPRESSÃO -->
 										<?php 
 										if(!empty($session_owner->container_impressao)){
-										    foreach ($session_owner->container_impressao as $key => $container_impressao) {
-										        ?>
-										        <tr>
-										            <td><?= $count = $count + 1 ?></td>
-										            <td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
-										            <td><?=$container_impressao->impressao->nome?> / <?=$container_impressao->impressao->get_selected_impressao_dimensao()->nome?>
-										            </td>
-										            <td><?=$container_impressao->descricao?></td>
-										            <td><?=$container_impressao->quantidade?></td>
-										            <td>R$ <?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
-										            <td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
-										            <td>
-										                <button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>',<?=$container_impressao->impressao->get_selected_impressao_dimensao()->id?>)" id="" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-pencil"></span>
-										                </button>
-										            </td>
-										            <td>
-										                <button onclick="excluir_impressao('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-trash"></span>
-										                </button>
-										            </td>
-										        </tr>
-										        <?php
-										    }
+											foreach ($session_owner->container_impressao as $key => $container_impressao) {
+												?>
+												<tr>
+													<td><?= $count = $count + 1 ?></td>
+													<td><span class="glyphicon glyphicon-print"></span> <b>Impressão</b></td>
+													<td><?=$container_impressao->impressao->nome?> / <?=$container_impressao->impressao->get_selected_impressao_dimensao()->nome?>
+													</td>
+													<td><?=$container_impressao->descricao?></td>
+													<td><?=$container_impressao->quantidade?></td>
+													<td>R$ <?= number_format($container_impressao->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_impressao->calcula_valor_total($container_impressao->quantidade,$container_impressao->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+													<td>
+														<button onclick="editar_impressao_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_impressao->impressao->id?>,<?=$container_impressao->quantidade?>,'<?=$container_impressao->descricao?>',<?=$container_impressao->impressao->get_selected_impressao_dimensao()->id?>)" id="" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</button>
+													</td>
+													<td>
+														<button onclick="excluir_impressao('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-trash"></span>
+														</button>
+													</td>
+												</tr>
+												<?php
+											}
 										}
 										?>
 										<!-- FIM: IMPRESSÃO -->
@@ -363,60 +323,60 @@ foreach ($arr as $key => $value) {
 										<!-- INICIO: CLICHÊ -->
 										<?php 
 										if(!empty($session_owner->container_cliche)){
-										    foreach ($session_owner->container_cliche as $key => $container_cliche) {
-										        ?>
-										        <tr>
-										            <td><?= $count = $count + 1 ?></td>
-										            <td><span class="glyphicon glyphicon-registration-mark"></span> <b>Clichê</b></td>
-										            <td><?=$container_cliche->cliche->nome?> / <?=$container_cliche->cliche->get_selected_cliche_dimensao()->nome?>
-										            </td>
-										            <td><?=$container_cliche->descricao?></td>
-										            <td><?=$container_cliche->quantidade?></td>
-										            <td>R$ <?= number_format($container_cliche->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
-										            <td>R$ <?= number_format($container_cliche->calcula_valor_total($container_cliche->quantidade,$container_cliche->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
-										            <td>
-										                <button onclick="editar_cliche_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_cliche->cliche->id?>,<?=$container_cliche->quantidade?>,'<?=$container_cliche->descricao?>',<?=$container_cliche->cliche->get_selected_cliche_dimensao()->id?>,<?=$container_cliche->cobrar_servico?>,<?=$container_cliche->cobrar_cliche?>)" id="" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-pencil"></span>
-										                </button>
-										            </td>
-										            <td>
-										                <button onclick="excluir_cliche('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-trash"></span>
-										                </button>
-										            </td>
-										        </tr>
-										        <?php
-										    }
+											foreach ($session_owner->container_cliche as $key => $container_cliche) {
+												?>
+												<tr>
+													<td><?= $count = $count + 1 ?></td>
+													<td><span class="glyphicon glyphicon-registration-mark"></span> <b>Clichê</b></td>
+													<td><?=$container_cliche->cliche->nome?> / <?=$container_cliche->cliche->get_selected_cliche_dimensao()->nome?>
+													</td>
+													<td><?=$container_cliche->descricao?></td>
+													<td><?=$container_cliche->quantidade?></td>
+													<td>R$ <?= number_format($container_cliche->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_cliche->calcula_valor_total($container_cliche->quantidade,$container_cliche->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+													<td>
+														<button onclick="editar_cliche_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_cliche->cliche->id?>,<?=$container_cliche->quantidade?>,'<?=$container_cliche->descricao?>',<?=$container_cliche->cliche->get_selected_cliche_dimensao()->id?>,<?=$container_cliche->cobrar_servico?>,<?=$container_cliche->cobrar_cliche?>)" id="" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</button>
+													</td>
+													<td>
+														<button onclick="excluir_cliche('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-trash"></span>
+														</button>
+													</td>
+												</tr>
+												<?php
+											}
 										}
 										?>
 										<!-- FIM: CLICHÊ -->
 										<!-- INICIO: FACA -->
 										<?php 
 										if(!empty($session_owner->container_faca)){
-										    foreach ($session_owner->container_faca as $key => $container_faca) {
-										        ?>
-										        <tr>
-										            <td><?= $count = $count + 1 ?></td>
-										            <td><i class="fa fa-map-o" aria-hidden="true"></i> <b>Faca</b></td>
-										            <td><?=$container_faca->faca->nome?> / <?=$container_faca->faca->get_selected_faca_dimensao()->nome?>
-										            </td>
-										            <td><?=$container_faca->descricao?></td>
-										            <td><?=$container_faca->quantidade?></td>
-										            <td>R$ <?= number_format($container_faca->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
-										            <td>R$ <?= number_format($container_faca->calcula_valor_total($container_faca->quantidade,$container_faca->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
-										            <td>
-										                <button onclick="editar_faca_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_faca->faca->id?>,<?=$container_faca->quantidade?>,'<?=$container_faca->descricao?>',<?=$container_faca->faca->get_selected_faca_dimensao()->id?>,<?=$container_faca->cobrar_servico?>,<?=$container_faca->cobrar_faca?>)" id="" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-pencil"></span>
-										                </button>
-										            </td>
-										            <td>
-										                <button onclick="excluir_faca('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
-										                    <span class="glyphicon glyphicon-trash"></span>
-										                </button>
-										            </td>
-										        </tr>
-										        <?php
-										    }
+											foreach ($session_owner->container_faca as $key => $container_faca) {
+												?>
+												<tr>
+													<td><?= $count = $count + 1 ?></td>
+													<td><i class="fa fa-map-o" aria-hidden="true"></i> <b>Faca</b></td>
+													<td><?=$container_faca->faca->nome?> / <?=$container_faca->faca->get_selected_faca_dimensao()->nome?>
+													</td>
+													<td><?=$container_faca->descricao?></td>
+													<td><?=$container_faca->quantidade?></td>
+													<td>R$ <?= number_format($container_faca->calcula_valor_unitario($session_container->quantidade), 2, ",", ".") ?></td>
+													<td>R$ <?= number_format($container_faca->calcula_valor_total($container_faca->quantidade,$container_faca->calcula_valor_unitario($session_container->quantidade)), 2, ",", ".") ?></td>
+													<td>
+														<button onclick="editar_faca_modal('<?=$session_owner->owner?>',<?=$key?>,<?=$container_faca->faca->id?>,<?=$container_faca->quantidade?>,'<?=$container_faca->descricao?>',<?=$container_faca->faca->get_selected_faca_dimensao()->id?>,<?=$container_faca->cobrar_servico?>,<?=$container_faca->cobrar_faca?>)" id="" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-pencil"></span>
+														</button>
+													</td>
+													<td>
+														<button onclick="excluir_faca('<?=$session_owner->owner?>',<?=$key?>)" class="btn btn-default btn-sm">
+															<span class="glyphicon glyphicon-trash"></span>
+														</button>
+													</td>
+												</tr>
+												<?php
+											}
 										}
 										?>
 										<!-- FIM: FACA -->
@@ -465,9 +425,9 @@ foreach ($arr as $key => $value) {
 									</tfoot>
 								</table>
 							</div>
-			            </div>
-			        </div>
-			    </div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -9,19 +9,10 @@ class Container_papel_m extends CI_Model {
     var $dimensao; //Objeto Convite_modelo_dimensao_m()
     var $owner; //string:'cartao','envelope','personalizado' :definido no get_papel() do Container_m.php
     var $quantidade;
-    //var $gramatura; //gramatura em números inteiros escolhida
+    var $empastamento; // Objeto Papel_empastamento_m()
+    var $empastado; //boolean
 
-    var $corte_vinco; //Objeto Container_papel_acabamento_m()
-    var $empastamento; //Objeto Container_papel_acabamento_m()
-    var $laminacao; //Objeto Container_papel_acabamento_m()
-    var $douracao; //Objeto Container_papel_acabamento_m()
-    var $corte_laser; //Objeto Container_papel_acabamento_m()
-    var $relevo_seco; //Objeto Container_papel_acabamento_m()
-    var $hot_stamping; //Objeto Container_papel_acabamento_m()
-    var $almofada; //Objeto Container_papel_acabamento_m()
-    var $faca; //Objeto Container_papel_acabamento_m()
-
-    public function inserir($id) {
+    public function inserir( $id, $posicao_papel_children , $posicao_papel_parent) {
         //Seto a tabela destino
         if ($this->owner == 'cartao') {
             $tabela = 'cartao_papel';
@@ -43,54 +34,15 @@ class Container_papel_m extends CI_Model {
             'quantidade' => $this->quantidade,
             'gramatura' => $this->papel->get_selected_papel_gramatura()->id,
             'valor' => $this->papel->get_selected_papel_gramatura()->valor,
+            'empastamento' => $this->empastamento->id,
+            'empastado' => $this->empastado,
+            'empastamento_valor' => $this->empastamento->valor,
+            'posicao_papel_children' => $posicao_papel_children,
+            'posicao_papel_parent' => $posicao_papel_parent
         );
         if ($this->db->insert($tabela, $dados)) {
             $this->id = $this->db->insert_id();
         } else {
-            return false;
-        }
-        //inserir todos papel_acabamento
-        //O corte e vinco sempre gravar pois há dependentes dele como: [relevo_seco, hot_stamping, almofada]
-        if (!$this->corte_vinco->inserir($this->id, $this->owner)) {
-            return false;
-        }
-        if (!empty($this->empastamento->adicionar)) {
-            if (!$this->empastamento->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->laminacao->adicionar)) {
-            if (!$this->laminacao->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->douracao->adicionar)) {
-            if (!$this->douracao->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->corte_laser->adicionar)) {
-            if (!$this->corte_laser->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->relevo_seco->adicionar)) {
-            if (!$this->relevo_seco->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->hot_stamping->adicionar)) {
-            if (!$this->hot_stamping->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        if (!empty($this->almofada->adicionar)) {
-            if (!$this->almofada->inserir($this->id, $this->owner)) {
-                return false;
-            }
-        }
-        //Faca não é adicionada mas entra para armazenar o valor
-        if (!$this->faca->inserir($this->id, $this->owner)) {
             return false;
         }
         return true;
@@ -113,9 +65,36 @@ class Container_papel_m extends CI_Model {
         $this->db->where($coluna, $id);
         $result = $this->db->get($tabela);
         if (!empty($result->num_rows())) {
-            return $result = $this->changeToObject($result->result_array(), $owner);
+            $containers = $this->get_posicao_papel_parent_grouped($tabela, $coluna, $id);
+            $result_container = array();
+            foreach ($containers as $value) {
+                $result_container[$value['posicao_papel_parent']] = $this->get_container_papel($tabela, $coluna,$id,$value['posicao_papel_parent'], $owner);
+            }
+            return $result_container;
         }
         return array();
+    }
+
+    public function get_container_papel($tabela, $coluna,$id,$posicao_papel_parent, $owner){
+        $this->db->where($coluna, $id);
+        $this->db->where('posicao_papel_parent', $posicao_papel_parent);
+        $result = $this->db->get($tabela);
+        $result_containers = array();
+        $result_containers = $this->changeToObject($result->result_array(),$owner);
+        return $result_containers;
+    }
+
+    public function get_posicao_papel_parent_grouped($tabela, $coluna, $id){
+        $this->db->select('posicao_papel_parent');
+        $this->db->where($coluna, $id);
+        $this->db->group_by('posicao_papel_parent');
+
+        $result = $this->db->get($tabela);
+        if (!empty($result->num_rows())) {
+            return $result->result_array();
+        }else{
+            return array();
+        }
     }
 
     //CALCULA: valor unitário do papel
@@ -135,40 +114,41 @@ class Container_papel_m extends CI_Model {
           2: Verifico quantos papeis são necessários para o pedido. Obs: se der fração, arredondo para CIMA
           3: Verifico o valor total de papeis e divido pela quantidade do pedido e retorno este valor
          */
-        //verifica qual variavel do convite_modelo usar
         $altura = $dimensao->altura;
         $largura = $dimensao->largura;
-        if ($this->empastamento->adicionar == 1) {
+
+        if ($this->empastado) {
             $altura += $modelo->empastamento_borda;
             $largura += $modelo->empastamento_borda;
         }
         //calcula a quantidade total de papeis para o pedido arredondando para cima
         $qtd_papeis = ceil($qtd / $this->calcula_formato($altura, $largura));
-        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
+        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2);
     }
 
     private function calcula_valor_unitario_personalizado($modelo, $dimensao, $qtd) {
         $altura = $dimensao->altura;
         $largura = $dimensao->largura;
-        /*
-        if ($this->empastamento->adicionar == 1) {
-            $altura += $modelo->empastamento_borda;
-            $largura += $modelo->empastamento_borda;
-        }
-        */
+
         //calcula a quantidade total de papeis para o pedido arredondando para cima
         $qtd_papeis = ceil($qtd / $this->calcula_formato($altura, $largura));
-        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
+        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2);
     }
 
-    /*
-    private function calcula_valor_unitario_personalizado($modelo, $qtd) {
-        //calcula a quantidade total de papeis para o pedido arredondando para cima
-        $qtd_papeis = ceil($qtd / $modelo->formato);
+    public function calcula_valor_unitario_empastamento($qtd) {
 
-        return round(($qtd_papeis * $this->papel->get_selected_papel_gramatura()->valor) / $qtd, 2); //Arredonda o valor
+        if ($qtd < $this->empastamento->qtd_minima) {
+            return round($this->empastamento->valor / $qtd, 2);
+        } else {
+            return round($this->empastamento->valor / $this->empastamento->qtd_minima, 2);
+        }
+        return 0;
     }
-    */
+
+    public function calcula_valor_total_empastamento($qtd, $unitario) {
+
+        return $unitario * $qtd;
+    }
 
     public function calcula_valor_total($qtd, $valor_unitario) {
 
@@ -186,194 +166,6 @@ class Container_papel_m extends CI_Model {
         return $formato2;
     }
 
-    /*
-      private function get_valor_gramatura(){
-      //Define o valor do papel pela gramatura escolhida
-      foreach ($this->papel->papel_gramaturas as $value) {
-      if($this->gramatura == $value->id){
-      return $value->valor;
-      }
-      }
-      }
-      //Atribui o valor em que foi realizado o orçamento para a gramatura correspondente
-      private function set_valor_gramatura($papel,$gramatura,$valor){
-
-      foreach ($papel->papel_gramaturas as $value) {
-      if($gramatura === $value->id){
-      return $value->valor = $valor;
-      }
-      }
-      }
-     */
-
-    public function calcula_valor_unitario_empastamento($qtd) {
-        if ($this->empastamento->adicionar == 1 && $this->empastamento->cobrar_servico == 1) {
-            if ($qtd < $this->empastamento->papel_acabamento->qtd_minima) {
-                return round($this->empastamento->papel_acabamento->valor / $qtd, 2);
-            } else {
-                return round($this->empastamento->papel_acabamento->valor / $this->empastamento->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return 0;
-    }
-
-    public function calcula_valor_total_empastamento($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    public function calcula_valor_unitario_laminacao($qtd) {
-        if ($this->laminacao->adicionar == 1 && $this->laminacao->cobrar_servico == 1) {
-            if ($qtd < $this->laminacao->papel_acabamento->qtd_minima) {
-                return round($this->laminacao->papel_acabamento->valor / $qtd, 2);
-            } else {
-                return round($this->laminacao->papel_acabamento->valor / $this->laminacao->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return 0;
-    }
-
-    public function calcula_valor_total_laminacao($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    //O papel tem que ter uma gramatura acima de x ou o papel tem que estar empastado...
-    public function calcula_valor_unitario_douracao($qtd) {
-        if ($this->douracao->adicionar == 1 && $this->douracao->cobrar_servico == 1) {
-            if ($qtd < $this->douracao->papel_acabamento->qtd_minima) {
-                return round($this->douracao->papel_acabamento->valor / $qtd, 2);
-            } else {
-                return round($this->douracao->papel_acabamento->valor / $this->douracao->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return 0;
-    }
-
-    public function calcula_valor_total_douracao($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    public function calcula_valor_unitario_corte_laser($qtd) {
-        if ($this->corte_laser->adicionar == 1 && $this->corte_laser->cobrar_servico == 1) {
-            $valor_hora = $this->corte_laser->papel_acabamento->valor;
-            return round(($valor_hora / 60) * $this->corte_laser->corte_laser_minutos, 2);
-        }
-        return 0;
-    }
-
-    public function calcula_valor_total_corte_laser($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    // Valor mínimo do cento do corte e vinco e taxa mínima de clichê dividido pelo numero de convites
-    public function calcula_valor_unitario_relevo_seco($qtd) {
-        $valor = 0;
-        if ($this->relevo_seco->adicionar == 1 && $this->relevo_seco->cobrar_servico == 1) {
-            //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < $this->relevo_seco->papel_acabamento->qtd_minima) {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->relevo_seco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        if ($this->relevo_seco->adicionar == 1 && $this->relevo_seco->cobrar_faca_cliche == 1) {
-            //Legenda: cobrar_faca_cliche é cobrar relevo_seco (valor do clichê)
-            if ($qtd < $this->relevo_seco->papel_acabamento->qtd_minima) {
-                $valor += round($this->relevo_seco->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor += round($this->relevo_seco->papel_acabamento->valor / $this->relevo_seco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return $valor;
-    }
-
-    public function calcula_valor_total_relevo_seco($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    public function calcula_valor_unitario_hot_stamping($qtd) {
-        $valor = 0;
-        if ($this->hot_stamping->adicionar == 1 && $this->hot_stamping->cobrar_servico == 1) {
-            //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < $this->hot_stamping->papel_acabamento->qtd_minima) {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->hot_stamping->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        if ($this->hot_stamping->adicionar == 1 && $this->hot_stamping->cobrar_faca_cliche == 1) {
-            //Legenda: cobrar_faca_cliche é cobrar hot_stamping (valor do clichê)
-            if ($qtd < $this->hot_stamping->papel_acabamento->qtd_minima) {
-                $valor += round($this->hot_stamping->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor += round($this->hot_stamping->papel_acabamento->valor / $this->hot_stamping->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return $valor;
-    }
-
-    public function calcula_valor_total_hot_stamping($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    public function calcula_valor_unitario_corte_vinco($qtd) {
-        $valor = 0;
-        if ($this->corte_vinco->adicionar == 1 && $this->corte_vinco->cobrar_servico == 1) {
-            //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        if ($this->corte_vinco->adicionar == 1 && $this->corte_vinco->cobrar_faca_cliche == 1) {
-            //Legenda: cobrar_faca_cliche é cobrar faca (valor da faca)
-            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
-                $valor += round($this->faca->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor += round($this->faca->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return $valor;
-    }
-
-    public function calcula_valor_total_corte_vinco($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
-    public function calcula_valor_unitario_almofada($qtd) {
-        $valor = 0;
-        if ($this->almofada->adicionar == 1 && $this->almofada->cobrar_servico == 1) {
-            //Legenda: cobrar_serviço é cobrar corte_vinco (O serviço de corte e vinco)
-            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor = round($this->corte_vinco->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        if ($this->almofada->adicionar == 1 && $this->almofada->cobrar_faca_cliche == 1) {
-            //Legenda: cobrar_faca_cliche é cobrar faca (valor da faca)
-            if ($qtd < $this->corte_vinco->papel_acabamento->qtd_minima) {
-                // TODO O valor aqui pode ser o da faca ou almofada (Verificar qual usar)
-                $valor += round($this->almofada->papel_acabamento->valor / $qtd, 2);
-            } else {
-                $valor += round($this->almofada->papel_acabamento->valor / $this->corte_vinco->papel_acabamento->qtd_minima, 2);
-            }
-        }
-        return $valor;
-    }
-
-    public function calcula_valor_total_almofada($unitario, $qtd) {
-
-        return $unitario * $qtd;
-    }
-
     private function changeToObject($result_db, $owner) {
         $object_lista = array();
         foreach ($result_db as $key => $value) {
@@ -388,17 +180,13 @@ class Container_papel_m extends CI_Model {
             }
             $object->owner = $owner;
             $object->quantidade = $value['quantidade'];
-
-            $object->corte_vinco = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'corte_vinco');
-            $object->empastamento = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'empastamento');
-            $object->laminacao = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'laminacao');
-            $object->douracao = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'douracao');
-            $object->corte_laser = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'corte_laser');
-            $object->relevo_seco = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'relevo_seco');
-            $object->hot_stamping = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'hot_stamping');
-            $object->almofada = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'almofada');
-            $object->faca = $this->Container_papel_acabamento_m->get_by_id($value['id'], $owner, 'faca');
-            $object_lista[] = $object;
+            if( $value['posicao_papel_children'] == 0){  
+                $object->empastamento = new Papel_empastamento_m();
+            }else{
+                $object->empastamento = $this->Papel_empastamento_m->get_by_id($value['empastamento']);
+            }
+            $object->empastado = $value['empastado'];
+            $object_lista['papel-'.$value['posicao_papel_children']] = $object;
         }
         return $object_lista;
     }

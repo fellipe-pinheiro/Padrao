@@ -13,14 +13,6 @@ class Calendario extends CI_Controller {
         $this->load->model('Producao_convite_m');
         $this->load->model('Papel_lista_compra_m');
 
-        $this->load->model('Convite_m');
-        $this->load->model('Container_m');
-        $this->load->model('Container_papel_m');
-        $this->load->model('Container_papel_acabamento_m');
-        $this->load->model('Container_impressao_m');
-        $this->load->model('Container_acabamento_m');
-        $this->load->model('Container_acessorio_m');
-        $this->load->model('Container_fita_m');
         $this->load->model('Convite_modelo_m');
         $this->load->model('Mao_obra_m');
 
@@ -28,15 +20,35 @@ class Calendario extends CI_Controller {
         $this->load->model('Papel_m');
         $this->load->model('Papel_linha_m');
         $this->load->model('Papel_dimensao_m');
-        $this->load->model('Papel_acabamento_m');
+        $this->load->model('Papel_empastamento_m');
+        $this->load->model('Papel_gramatura_m');
         $this->load->model('Impressao_m');
-        $this->load->model('Impressao_area_m');
+        $this->load->model('Impressao_dimensao_m');
         $this->load->model('Acabamento_m');
         $this->load->model('Acessorio_m');
         $this->load->model('Fita_m');
         $this->load->model('Fita_laco_m');
         $this->load->model('Fita_material_m');
         $this->load->model('Fita_espessura_m');
+        $this->load->model('Cliche_m');
+        $this->load->model('Cliche_dimensao_m');
+        $this->load->model('Faca_m');
+        $this->load->model('Faca_dimensao_m');
+        $this->load->model('Laser_m');
+
+        $this->load->model('Convite_m');
+        $this->load->model('Convite_modelo_m');
+        $this->load->model('Convite_modelo_dimensao_m');
+        $this->load->model('Container_m');
+        $this->load->model('Container_papel_m');
+        $this->load->model('Container_papel_acabamento_m');
+        $this->load->model('Container_impressao_m');
+        $this->load->model('Container_acabamento_m');
+        $this->load->model('Container_acessorio_m');
+        $this->load->model('Container_fita_m');
+        $this->load->model('Container_cliche_m');
+        $this->load->model('Container_faca_m');
+        $this->load->model('Container_laser_m');
         set_layout('titulo', 'Sistema|Calendário', true);
         init_layout();
         restrito_logado();
