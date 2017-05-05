@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>Código</th>
                                 <th>Nome</th>
                                 <th>Empastamento Borda</th>
+                                <th>Markup Porcentagem</th>
                                 <th>Descricao</th>
                                 <th>Ativo</th>
                             </tr>
@@ -103,10 +104,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input type="hidden" name="id" id="id" class="form-control">
                         <div class="row">
                             <!--ativo-->
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <label for="ativo-crud" class="control-label">Ativo:</label>
                                 <div class="form-group input-padding">
-                                    <label for="ativo" class="control-label">Ativo:</label>
-                                    <input type="checkbox" value="1" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <input type="checkbox" value="1" id="ativo-crud" class="ativo-crud" name="ativo" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--markup_custom-->
+                            <div class="col-sm-4">
+                                <label for="markup_custom" class="control-label">Markup personalizado:</label>
+                                <div class="form-group input-padding">
+                                    <input type="checkbox" value="1" id="markup_custom" class="ativo-crud" name="markup_custom" data-group-cls="btn-group-sm">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--markup_porcentagem-->
+                            <div class="col-sm-4">
+                                <div class="form-group input-padding">
+                                    <label for="markup_porcentagem" class="control-label">Markup porcentagem:</label>
+                                    <div class="input-group">
+                                        <input type="number" name="markup_porcentagem" id="markup_porcentagem" class="form-control" value="" title="" step="1" min="0" max="100" placeholder="Porcentagem do markup" disabled>
+                                        <div class="input-group-addon">%</div>
+                                    </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -376,6 +396,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 {data: "codigo", "visible": true},
                 {data: "nome", "visible": true},
                 {data: "empastamento_borda", "visible": true},
+                {data: "markup_porcentagem", "visible": true},
                 {data: "descricao", "visible": false},
                 {data: "ativo", "visible": false}
                 ]
@@ -391,7 +412,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         $("#adicionar").click(function (event) {
             reset_form();
-            $(".ativo-crud").prop('checked', true);
+            $("#ativo-crud").prop('checked', true);
             save_method = 'add';
             $("input[name='id']").val("");
 
@@ -423,6 +444,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 if(value === "0"){checked = false;}else{ checked = true;}
                                 $('[name="' + index + '"]').prop('checked', checked);
                             }else{
+                                if( index == 'markup_porcentagem'){
+                                    if(value == null){
+                                        $('[name="markup_custom"]').prop('checked', false);
+                                    }else{
+                                        $('[name="markup_custom"]').prop('checked', true);
+                                    }
+                                }
                                 $('[name="' + index + '"]').val(value);
                             }
                         }else if ($('[name="' + index + '"]').is("select")){
@@ -541,6 +569,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#add_dimensoes").click(function(){
             count_dimensoes++;
             clonar_dimensoes(false,count_dimensoes+"_ADD","","","");
+        });
+        $('#markup_custom').change(function(event) {
+            $("#markup_porcentagem").attr('disabled',!event.currentTarget.checked);
         });
         form_small();
     });

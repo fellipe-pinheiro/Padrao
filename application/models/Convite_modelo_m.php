@@ -9,12 +9,13 @@ class Convite_modelo_m extends CI_Model {
     var $nome;
     var $dimensoes; // Array de Objetos Convite_modelo_dimensao_m
     var $empastamento_borda;
+    var $markup_porcentagem;
     var $descricao;
     var $ativo;
     // Ajax 
     var $table = 'convite_modelo';
-    var $column_order = array('id','codigo','nome','empastamento_borda','descricao','ativo');
-    var $column_search = array('id','codigo','nome','empastamento_borda','descricao','ativo');
+    var $column_order = array('id','codigo','nome','empastamento_borda','markup_porcentagem','descricao','ativo');
+    var $column_search = array('id','codigo','nome','empastamento_borda','markup_porcentagem','descricao','ativo');
     var $order = array('id'=>'asc');
 
     private function get_datatables_query() {
@@ -111,6 +112,7 @@ class Convite_modelo_m extends CI_Model {
             $object->nome = $value['nome'];
             $object->dimensoes = $this->Convite_modelo_dimensao_m->get_by_modelo_id($object->id);
             $object->empastamento_borda = $value['empastamento_borda'];
+            $object->markup_porcentagem = $value['markup_porcentagem'];
             $object->descricao = $value['descricao'];
             $object->ativo = $value['ativo'];
         }

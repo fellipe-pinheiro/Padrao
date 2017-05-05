@@ -828,3 +828,6 @@ CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTE
 
 ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
 CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTER `empastamento_valor`;
+
+ALTER TABLE `cgolin_localhost`.`convite_modelo` 
+ADD COLUMN `markup_porcentagem` INT(3) NULL AFTER `empastamento_borda`;

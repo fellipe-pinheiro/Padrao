@@ -30,6 +30,7 @@ class Convite_modelo extends CI_Controller {
                 'nome' => $item->nome,
                 'codigo' => $item->codigo,
                 'empastamento_borda' => $item->empastamento_borda,
+                'markup_porcentagem' => $item->markup_porcentagem,
                 'descricao' => $item->descricao,
                 'ativo' => $item->ativo,
                 );
@@ -57,11 +58,11 @@ class Convite_modelo extends CI_Controller {
                 $dimensoes = $this->get_array_dimensoes_objects( $id_modelo );
 
                 foreach ( $dimensoes as $dimensao ) {
-                    if( !empty($dimensao['ADD']) && $dimensao['ADD'] ){
+                    if( !empty($dimensao['ADD']) ){
 
                         $this->Convite_modelo_dimensao_m->inserir( $dimensao['ADD'] );
 
-                    }else if(!empty($dimensao['DEFAULT']) &&  $dimensao['DEFAULT'] ){
+                    }else if(!empty($dimensao['DEFAULT']) ){
                 
                         $this->Convite_modelo_dimensao_m->inserir( $dimensao['DEFAULT'] );
 
@@ -101,19 +102,19 @@ class Convite_modelo extends CI_Controller {
                 $dimensoes = $this->get_array_dimensoes_objects( $this->input->post('id') );
 
                 foreach ($dimensoes as $dimensao) {
-                    if ( !empty($dimensao['ADD']) && $dimensao['ADD'] ) { // INSERT
+                    if ( !empty($dimensao['ADD']) ) { // INSERT
 
                         $this->Convite_modelo_dimensao_m->inserir($dimensao['ADD']);
 
-                    }else if( !empty($dimensao['UPD']) && $dimensao['UPD']){ // UPDATE
+                    }else if( !empty($dimensao['UPD']) ){ // UPDATE
 
                         $this->Convite_modelo_dimensao_m->editar($dimensao['UPD']);
 
-                    }else if( !empty($dimensao['DEFAULT']) && $dimensao['DEFAULT']){ // DEFAULT
+                    }else if( !empty($dimensao['DEFAULT']) ){ // DEFAULT
                         
                         $this->Convite_modelo_dimensao_m->editar($dimensao['DEFAULT']);
 
-                    }else if(!empty($dimensao['DEL']) && $dimensao['DEL'] ){ // DELETE
+                    }else if( !empty($dimensao['DEL']) ){ // DELETE
 
                         $this->Convite_modelo_dimensao_m->deletar($dimensao['DEL']['id']);
                         if($this->db->error()['code'] === 1451){
@@ -168,6 +169,7 @@ class Convite_modelo extends CI_Controller {
             'empastamento_borda' => $this->input->post('empastamento_borda'),
             'descricao' => $this->input->post('descricao'),
             'ativo' => empty($this->input->post('ativo')) ? 0 : $this->input->post('ativo'),
+            'markup_porcentagem' => empty($this->input->post('markup_custom')) ? null : $this->input->post('markup_porcentagem'),
             );
         return $dados;
     }
@@ -307,6 +309,10 @@ class Convite_modelo extends CI_Controller {
         }
         foreach ($names_largura as $largura) {
             $this->form_validation->set_rules($largura, 'Largura', 'trim|required|max_length[5]|is_natural');    
+        }
+        if( !empty( $this->input->post("markup_custom") ) ){
+            $this->form_validation->set_rules('markup_porcentagem', 'Markup porcentagem', 'trim|required|max_length[3]|is_natural|regex_match[/^(?:100|\d{1,2})?$/]');
+            $this->form_validation->set_message('regex_match','O valor deve ser entre 0 e 100');   
         }
         $this->form_validation->set_rules('dimensao_altura_final_default', 'Altura final', 'trim|required|max_length[5]|is_natural');
         $this->form_validation->set_rules('dimensao_largura_final_default', 'Largura final', 'trim|required|max_length[5]|is_natural');
