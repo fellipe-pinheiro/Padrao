@@ -401,44 +401,44 @@ CREATE TABLE `cliche_dimensao` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `cgolin_localhost`.`cliche_dimensao` 
+ALTER TABLE `cliche_dimensao` 
 ADD INDEX `fk__idx` (`cliche` ASC);
-ALTER TABLE `cgolin_localhost`.`cliche_dimensao` 
+ALTER TABLE `cliche_dimensao` 
 ADD CONSTRAINT `fk_clicheDimensao_cliche`
   FOREIGN KEY (`cliche`)
-  REFERENCES `cgolin_localhost`.`cliche` (`id`)
+  REFERENCES `cliche` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
 
 --INICIO: Ajustes na tabela do cartao_papel,envelope_papel,personalizado_papel
 --Alterando a coluna da gramatura das tabelas acima descritas para UNSIGNED
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 DROP FOREIGN KEY `fk_cartaoPapel_papelgramatura`;
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+ALTER TABLE `envelope_papel` 
 DROP FOREIGN KEY `fk_envelopePapel_papelgramatura`;
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ALTER TABLE `personalizado_papel` 
 DROP FOREIGN KEY `fk_personalizadoPapel_papelGramatura`;
-ALTER TABLE `cgolin_localhost`.`papel_gramatura` 
+ALTER TABLE `papel_gramatura` 
 CHANGE COLUMN `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ;
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 CHANGE COLUMN `gramatura` `gramatura` INT(11) UNSIGNED NOT NULL ;
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 ADD CONSTRAINT `fk_cartaoPapel_papelgramatura`
   FOREIGN KEY (`gramatura`)
-  REFERENCES `cgolin_localhost`.`papel_gramatura` (`id`);
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+  REFERENCES `papel_gramatura` (`id`);
+ALTER TABLE `envelope_papel` 
 CHANGE COLUMN `gramatura` `gramatura` INT(11) UNSIGNED NOT NULL ;
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+ALTER TABLE `envelope_papel` 
 ADD CONSTRAINT `fk_envelopePapel_papelgramatura`
   FOREIGN KEY (`gramatura`)
-  REFERENCES `cgolin_localhost`.`papel_gramatura` (`id`);
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+  REFERENCES `papel_gramatura` (`id`);
+ALTER TABLE `personalizado_papel` 
 CHANGE COLUMN `gramatura` `gramatura` INT(11) UNSIGNED NOT NULL ;
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ALTER TABLE `personalizado_papel` 
 ADD CONSTRAINT `fk_personalizadoPapel_papelGramatura`
   FOREIGN KEY (`gramatura`)
-  REFERENCES `cgolin_localhost`.`papel_gramatura` (`id`)
+  REFERENCES `papel_gramatura` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 --FIM :Ajustes na tabela do cartao_papel,envelope_papel,personalizado_papel
@@ -458,24 +458,24 @@ CREATE TABLE `cartao_cliche` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `cgolin_localhost`.`cartao_cliche` 
+ALTER TABLE `cartao_cliche` 
 ADD INDEX `fk_cartaoCliche_cartao_idx` (`cartao` ASC),
 ADD INDEX `fk_cartaoCliche_cliche_idx` (`cliche` ASC),
 ADD INDEX `fk_cartaoCliche_clicheDimensao_idx` (`cliche_dimensao` ASC);
-ALTER TABLE `cgolin_localhost`.`cartao_cliche` 
+ALTER TABLE `cartao_cliche` 
 ADD CONSTRAINT `fk_cartaoCliche_cartao`
   FOREIGN KEY (`cartao`)
-  REFERENCES `cgolin_localhost`.`cartao` (`id`)
+  REFERENCES `cartao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_cartaoCliche_cliche`
   FOREIGN KEY (`cliche`)
-  REFERENCES `cgolin_localhost`.`cliche` (`id`)
+  REFERENCES `cliche` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_cartaoCliche_clicheDimensao`
   FOREIGN KEY (`cliche_dimensao`)
-  REFERENCES `cgolin_localhost`.`cliche_dimensao` (`id`)
+  REFERENCES `cliche_dimensao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
@@ -494,24 +494,24 @@ CREATE TABLE `envelope_cliche` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `cgolin_localhost`.`envelope_cliche` 
+ALTER TABLE `envelope_cliche` 
 ADD INDEX `fk_envelopeCliche_envelope_idx` (`envelope` ASC),
 ADD INDEX `fk_envelopeCliche_cliche_idx` (`cliche` ASC),
 ADD INDEX `fk_envelopeCliche_clicheDimensao_idx` (`cliche_dimensao` ASC);
-ALTER TABLE `cgolin_localhost`.`envelope_cliche` 
+ALTER TABLE `envelope_cliche` 
 ADD CONSTRAINT `fk_envelopeCliche_envelope`
   FOREIGN KEY (`envelope`)
-  REFERENCES `cgolin_localhost`.`envelope` (`id`)
+  REFERENCES `envelope` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_envelopeCliche_cliche`
   FOREIGN KEY (`cliche`)
-  REFERENCES `cgolin_localhost`.`cliche` (`id`)
+  REFERENCES `cliche` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_envelopeCliche_clicheDimensao`
   FOREIGN KEY (`cliche_dimensao`)
-  REFERENCES `cgolin_localhost`.`cliche_dimensao` (`id`)
+  REFERENCES `cliche_dimensao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
@@ -530,24 +530,24 @@ ADD CONSTRAINT `fk_envelopeCliche_clicheDimensao`
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `cgolin_localhost`.`personalizado_cliche` 
+ALTER TABLE `personalizado_cliche` 
 ADD INDEX `fk_personalizadoCliche_personalizado_idx` (`personalizado` ASC),
 ADD INDEX `fk_personalizadoCliche_cliche_idx` (`cliche` ASC),
 ADD INDEX `fk_personalizadoCliche_clicheDimensao_idx` (`cliche_dimensao` ASC);
-ALTER TABLE `cgolin_localhost`.`personalizado_cliche` 
+ALTER TABLE `personalizado_cliche` 
 ADD CONSTRAINT `fk_personalizadoCliche_personalizado`
   FOREIGN KEY (`personalizado`)
-  REFERENCES `cgolin_localhost`.`personalizado` (`id`)
+  REFERENCES `personalizado` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_personalizadoCliche_cliche`
   FOREIGN KEY (`cliche`)
-  REFERENCES `cgolin_localhost`.`cliche` (`id`)
+  REFERENCES `cliche` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT,
 ADD CONSTRAINT `fk_personalizadoCliche_clicheDimensao`
   FOREIGN KEY (`cliche_dimensao`)
-  REFERENCES `cgolin_localhost`.`cliche_dimensao` (`id`)
+  REFERENCES `cliche_dimensao` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
@@ -771,63 +771,64 @@ CREATE TABLE `personalizado_laser` (
   CONSTRAINT `fk_personalizadoLaser_personalizado` FOREIGN KEY (`personalizado`) REFERENCES `personalizado` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-ALTER TABLE `cgolin_localhost`.`papel_acabamento` 
-RENAME TO  `cgolin_localhost`.`papel_empastamento` ;
+ALTER TABLE `papel_acabamento` 
+RENAME TO  `papel_empastamento` ;
 
-ALTER TABLE `cgolin_localhost`.`papel_acabamento` 
+ALTER TABLE `papel_acabamento` 
 DROP COLUMN `codigo`,
 DROP INDEX `uc_papel_acabamento_codigo` ;
 
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 ADD COLUMN `empastamento` INT(11) UNSIGNED NULL AFTER `dimensao`,
 ADD COLUMN `empastado` TINYINT(1) NOT NULL AFTER `empastamento`,
 ADD COLUMN `empastamento_valor` DECIMAL(10,2) NULL AFTER `empastado`,
 ADD COLUMN `posicao_papel_children` INT(1) NOT NULL AFTER `empastamento_valor`,
 ADD COLUMN `posicao_papel_parent` INT(1) NOT NULL AFTER `posicao_papel_children`,
 ADD INDEX `fk_cartaoPapel_papelEmpastamento_idx` (`empastamento` ASC);
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 ADD CONSTRAINT `fk_cartaoPapel_papelEmpastamento`
   FOREIGN KEY (`empastamento`)
-  REFERENCES `cgolin_localhost`.`papel_empastamento` (`id`)
+  REFERENCES `papel_empastamento` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+ALTER TABLE `envelope_papel` 
 ADD COLUMN `empastamento` INT(11) UNSIGNED NULL AFTER `dimensao`,
 ADD COLUMN `empastado` TINYINT(1) NOT NULL AFTER `empastamento`,
 ADD COLUMN `empastamento_valor` DECIMAL(10,2) NULL AFTER `empastado`,
 ADD COLUMN `posicao_papel_children` INT(1) NOT NULL AFTER `empastamento_valor`,
 ADD COLUMN `posicao_papel_parent` INT(1) NOT NULL AFTER `posicao_papel_children`,
 ADD INDEX `fk_envelopePapel_papelEmpastamento_idx` (`empastamento` ASC);
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+ALTER TABLE `envelope_papel` 
 ADD CONSTRAINT `fk_envelopePapel_papelEmpastamento`
   FOREIGN KEY (`empastamento`)
-  REFERENCES `cgolin_localhost`.`papel_empastamento` (`id`)
+  REFERENCES `papel_empastamento` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ALTER TABLE `personalizado_papel` 
 ADD COLUMN `empastamento` INT(11) UNSIGNED NULL AFTER `dimensao`,
 ADD COLUMN `empastado` TINYINT(1) NOT NULL AFTER `empastamento`,
 ADD COLUMN `empastamento_valor` DECIMAL(10,2) NULL AFTER `empastado`,
 ADD COLUMN `posicao_papel_children` INT(1) NOT NULL AFTER `empastamento_valor`,
 ADD COLUMN `posicao_papel_parent` INT(1) NOT NULL AFTER `posicao_papel_children`,
 ADD INDEX `fk_personalizadoPapel_papelEmpastamento_idx` (`empastamento` ASC);
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ALTER TABLE `personalizado_papel` 
 ADD CONSTRAINT `fk_personalizadoPapel_papelEmpastamento`
   FOREIGN KEY (`empastamento`)
-  REFERENCES `cgolin_localhost`.`papel_empastamento` (`id`)
+  REFERENCES `papel_empastamento` (`id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 
-ALTER TABLE `cgolin_localhost`.`cartao_papel` 
+ALTER TABLE `cartao_papel` 
 CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTER `empastamento_valor`;
 
-ALTER TABLE `cgolin_localhost`.`envelope_papel` 
+ALTER TABLE `envelope_papel` 
 CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTER `empastamento_valor`;
 
-ALTER TABLE `cgolin_localhost`.`personalizado_papel` 
+ALTER TABLE `personalizado_papel` 
 CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTER `empastamento_valor`;
 
-ALTER TABLE `cgolin_localhost`.`convite_modelo` 
+ALTER TABLE `convite_modelo` 
 ADD COLUMN `markup_porcentagem` INT(3) NULL AFTER `empastamento_borda`;
+

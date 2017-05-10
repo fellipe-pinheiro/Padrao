@@ -28,6 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="javascript:void(0)" id="editar"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a><span class="label label-info" id="info-markup-padrao"></span></a>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-trash"></i><b class="caret"></b></a>
@@ -42,6 +47,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </nav>
         <div class="row">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </button>
+            <span id="info-markup-padrao_"></span><hr>
+        </div>
             <div class="col-md-12">
                 <div class="col-sm-12 table-responsive">
                     <table id="tabela_convite_modelo" class="table display compact table-bordered " cellspacing="0" width="100%">
@@ -330,6 +341,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </form>    
 </div>
+
 <?php $this->load->view('_include/dataTable'); ?>
 <script type="text/javascript">
     var count_dimensoes = 0;
@@ -342,44 +354,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dom: 'lBfrtip',
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "todas"]],
             buttons: [
-            {
-                extend: 'colvis',
-                text: 'Visualizar colunas'
-            },
-            {
-                extend: 'collection',
-                text: 'Exportar',
-                autoClose: true,
-                buttons: [
                 {
-                    extend: 'print',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'colvis',
+                    text: 'Visualizar colunas'
                 },
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                ],
-                fade: true
-            }
+                    extend: 'collection',
+                    text: 'Exportar',
+                    autoClose: true,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    fade: true
+                }
             ],
             language: {
                 url: "<?= base_url("assets/idioma/dataTable-pt.json") ?>"
@@ -571,10 +583,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             clonar_dimensoes(false,count_dimensoes+"_ADD","","","");
         });
         $('#markup_custom').change(function(event) {
+
             $("#markup_porcentagem").attr('disabled',!event.currentTarget.checked);
         });
+
         form_small();
+        show_value_padrao();
     });
+
+    function show_value_padrao() {
+        $.ajax({
+            url: '<?=base_url("sistema/get_value_by_name/markup_porcentagem_padrao")?>',
+            dataType: 'json'
+        })
+        .done(function(data) {
+            $("#info-markup-padrao").html("Markup padrão "+data+"%");
+        })
+        .fail(function(jqXHR) {
+            console.error(jqXHR);
+        });
+        
+    }
 
     function clonar_dimensoes(editar,id,nome,altura,largura){//ID = 1_ADD
         var clone = $("#default_dimensao_div").clone().prop("id","dimensao_"+id).removeClass('hidden').addClass('dimensao_group');

@@ -6,7 +6,7 @@
 		<form action="" id="form_configuracao_sistema" method="POST" role="form">
 			<fieldset>
 				<div class="col-sm-8">
-					<legend>Validade</legend>
+					<legend>Orçamento</legend>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="prazo_validade_orcamento" class="control-label">Validade do orçamento</label>
@@ -17,6 +17,19 @@
 							<span class="help-block"></span>
 						</div>
 					</div>
+
+					<legend>Convite</legend>
+					<!--markup_porcentagem_padrao-->
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="markup_porcentagem_padrao" class="control-label">Markup porcentagem padrão:</label>
+                            <div class="input-group">
+                                <input type="number" name="markup_porcentagem_padrao" id="markup_porcentagem_padrao" class="form-control" value="" title="" step="1" min="0" max="100" placeholder="Markup padrão">
+                                <div class="input-group-addon">%</div>
+                            </div>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
 				</div>
 				<div class="col-sm-12">
 					<div class="col-sm-12">
