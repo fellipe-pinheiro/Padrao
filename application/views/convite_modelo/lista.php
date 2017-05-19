@@ -47,12 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </nav>
         <div class="row">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-default" aria-label="Left Align">
-              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            </button>
-            <span id="info-markup-padrao_"></span><hr>
-        </div>
             <div class="col-md-12">
                 <div class="col-sm-12 table-responsive">
                     <table id="tabela_convite_modelo" class="table display compact table-bordered " cellspacing="0" width="100%">

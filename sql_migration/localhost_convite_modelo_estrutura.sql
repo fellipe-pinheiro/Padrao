@@ -325,8 +325,6 @@ ADD COLUMN `qtd_minima` INT(5) NOT NULL DEFAULT 20 AFTER `ativo`;
 ALTER TABLE `orcas394_db_dev`.`produto` 
 CHANGE COLUMN `qtd_minima` `qtd_minima` INT(5) NOT NULL ;
 
-*/
-
 CREATE TABLE `cartao_papel_hot_stamping` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `papel_acabamento` int(11) unsigned NOT NULL,
@@ -831,4 +829,6 @@ CHANGE COLUMN `posicao_papel_parent` `posicao_papel_parent` INT(1) NOT NULL AFTE
 
 ALTER TABLE `convite_modelo` 
 ADD COLUMN `markup_porcentagem` INT(3) NULL AFTER `empastamento_borda`;
+
+*/
 
