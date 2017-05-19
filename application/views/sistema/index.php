@@ -24,7 +24,7 @@
                         <div class="form-group">
                             <label for="markup_porcentagem_padrao" class="control-label">Markup porcentagem padrão:</label>
                             <div class="input-group">
-                                <input type="number" name="markup_porcentagem_padrao" id="markup_porcentagem_padrao" class="form-control" value="" title="" step="1" min="0" max="100" placeholder="Markup padrão">
+                                <input type="number" name="markup_porcentagem_padrao" id="markup_porcentagem_padrao" class="form-control" value="<?=$dados['markup_porcentagem_padrao']?>" title="" step="1" min="0" max="100" placeholder="Markup padrão">
                                 <div class="input-group-addon">%</div>
                             </div>
                             <span class="help-block"></span>
